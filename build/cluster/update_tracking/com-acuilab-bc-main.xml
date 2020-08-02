@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><module codename="com.acuilab.bc.main">
+    <module_version install_time="1596293019404" last="true" origin="installer" specification_version="1.0">
+        <file crc="209260030" name="config/Modules/com-acuilab-bc-main.xml"/>
+        <file crc="3116516369" name="modules/com-acuilab-bc-main.jar"/>
+    </module_version>
+</module>

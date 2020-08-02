@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.apisupport.project</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
+            <code-name-base>net.java.balloontip</code-name-base>
+            <suite-component/>
+            <module-dependencies/>
+            <public-packages>
+                <package>net.java.balloontip</package>
+                <package>net.java.balloontip.examples.complete</package>
+                <package>net.java.balloontip.examples.complete.panels</package>
+                <package>net.java.balloontip.examples.list</package>
+                <package>net.java.balloontip.examples.positioner</package>
+                <package>net.java.balloontip.examples.simple</package>
+                <package>net.java.balloontip.examples.table</package>
+                <package>net.java.balloontip.positioners</package>
+                <package>net.java.balloontip.styles</package>
+                <package>net.java.balloontip.utils</package>
+            </public-packages>
+            <class-path-extension>
+                <runtime-relative-path>ext/balloontip-1.2.4.1.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/balloontip-1.2.4.1.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/balloontip-examples-1.2.4.1.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/balloontip-examples-1.2.4.1.jar</binary-origin>
+            </class-path-extension>
+        </data>
+    </configuration>
+</project>

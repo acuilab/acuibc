@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><module codename="org.javatuples">
+    <module_version install_time="1596293017811" last="true" origin="installer" specification_version="1.0">
+        <file crc="116696388" name="config/Modules/org-javatuples.xml"/>
+        <file crc="2093458266" name="modules/ext/javatuples-1.2.jar"/>
+        <file crc="2602585602" name="modules/org-javatuples.jar"/>
+    </module_version>
+</module>

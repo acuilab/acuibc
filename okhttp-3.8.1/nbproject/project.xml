@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.apisupport.project</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
+            <code-name-base>com.squareup.okhttp3</code-name-base>
+            <suite-component/>
+            <module-dependencies>
+                <dependency>
+                    <code-name-base>com.squareup.okio</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.0</specification-version>
+                    </run-dependency>
+                </dependency>
+            </module-dependencies>
+            <public-packages>
+                <package>okhttp3</package>
+                <package>okhttp3.internal</package>
+                <package>okhttp3.internal.cache</package>
+                <package>okhttp3.internal.cache2</package>
+                <package>okhttp3.internal.connection</package>
+                <package>okhttp3.internal.http</package>
+                <package>okhttp3.internal.http1</package>
+                <package>okhttp3.internal.http2</package>
+                <package>okhttp3.internal.io</package>
+                <package>okhttp3.internal.platform</package>
+                <package>okhttp3.internal.publicsuffix</package>
+                <package>okhttp3.internal.tls</package>
+                <package>okhttp3.internal.ws</package>
+            </public-packages>
+            <class-path-extension>
+                <runtime-relative-path>ext/okhttp-3.8.1.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/okhttp-3.8.1.jar</binary-origin>
+            </class-path-extension>
+        </data>
+    </configuration>
+</project>

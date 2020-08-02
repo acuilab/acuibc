@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><module codename="io.reactivex.rxjava2">
+    <module_version install_time="1596293018099" last="true" origin="installer" specification_version="1.0">
+        <file crc="3675783527" name="config/Modules/io-reactivex-rxjava2.xml"/>
+        <file crc="1283771365" name="modules/ext/rxjava-2.2.2.jar"/>
+        <file crc="2158635378" name="modules/io-reactivex-rxjava2.jar"/>
+    </module_version>
+</module>

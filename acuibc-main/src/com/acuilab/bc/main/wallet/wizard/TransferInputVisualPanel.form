@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+-->
+
+<Form version="1.4" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jXLabel4" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jXLabel1" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jXLabel2" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jXLabel3" alignment="1" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="jXLabel5" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="gasLbl" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jXLabel6" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="recvAddressFld" alignment="0" max="32767" attributes="0"/>
+                  <Component id="valueFld" alignment="0" max="32767" attributes="0"/>
+                  <Component id="sendAddressFld" alignment="0" max="32767" attributes="0"/>
+                  <Component id="gasSlider" alignment="0" pref="393" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jXLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="recvAddressFld" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jXLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="valueFld" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jXLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="sendAddressFld" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="jXLabel4" min="-2" max="-2" attributes="0"/>
+                  <Component id="gasSlider" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jXLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jXLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="gasLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="281" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="TransferInputVisualPanel.jXLabel1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel2">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="TransferInputVisualPanel.jXLabel2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXTextField" name="recvAddressFld">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="TransferInputVisualPanel.recvAddressFld.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXTextField" name="valueFld">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="TransferInputVisualPanel.valueFld.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel3">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="TransferInputVisualPanel.jXLabel3.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXTextField" name="sendAddressFld">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="TransferInputVisualPanel.sendAddressFld.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel4">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="TransferInputVisualPanel.jXLabel4.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JSlider" name="gasSlider">
+      <Properties>
+        <Property name="minimum" type="int" value="1"/>
+        <Property name="value" type="int" value="20"/>
+      </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="gasSliderStateChanged"/>
+      </Events>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel5">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="TransferInputVisualPanel.jXLabel5.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel6">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="TransferInputVisualPanel.jXLabel6.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXLabel" name="gasLbl">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="0" red="0" type="rgb"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="TransferInputVisualPanel.gasLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+  </SubComponents>
+</Form>

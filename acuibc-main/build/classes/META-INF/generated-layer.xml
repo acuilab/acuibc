@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN"
+                            "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <folder name="xml">
+        <folder name="entities">
+            <folder name="com_acuilab_bc_main_wallet">
+                <file name="WalletList" url="nbres:/org/netbeans/modules/settings/resources/properties-1_0.dtd">
+                    <!--com.acuilab.bc.main.wallet.WalletListTopComponent-->
+                    <attr name="hint.originalPublicID" stringvalue="-//com.acuilab.bc.main.wallet//WalletList//EN"/>
+                </file>
+            </folder>
+        </folder>
+        <folder name="memory">
+            <folder name="com">
+                <folder name="acuilab">
+                    <folder name="bc">
+                        <folder name="main">
+                            <folder name="wallet">
+                                <file name="WalletListTopComponent">
+                                    <!--com.acuilab.bc.main.wallet.WalletListTopComponent-->
+                                    <attr name="settings.providerPath" stringvalue="xml/lookups//com_acuilab_bc_main_wallet/WalletList.instance"/>
+                                </file>
+                            </folder>
+                        </folder>
+                    </folder>
+                </folder>
+            </folder>
+        </folder>
+        <folder name="lookups">
+            <folder name="com_acuilab_bc_main_wallet">
+                <file name="WalletList.instance">
+                    <!--com.acuilab.bc.main.wallet.WalletListTopComponent-->
+                    <attr
+                        methodvalue="org.netbeans.api.settings.Factory.create" name="instanceCreate"/>
+                    <attr
+                        methodvalue="org.netbeans.api.settings.Factory.properties" name="settings.convertor"/>
+                    <attr name="settings.instanceClass" stringvalue="com.acuilab.bc.main.wallet.WalletListTopComponent"/>
+                    <attr name="settings.instanceOf" stringvalue="com.acuilab.bc.main.wallet.WalletListTopComponent"/>
+                    <attr boolvalue="true" name="xmlproperties.preventStoring"/>
+                </file>
+            </folder>
+        </folder>
+    </folder>
+    <folder name="Menu">
+        <folder name="Window">
+            <file name="com-acuilab-bc-main-wallet-WalletListTopComponent.shadow">
+                <!--com.acuilab.bc.main.wallet.WalletListTopComponent-->
+                <attr name="originalFile" stringvalue="Actions/Window/com-acuilab-bc-main-wallet-WalletListTopComponent.instance"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Windows2">
+        <folder name="Components">
+            <file name="WalletListTopComponent.settings">
+                <!--com.acuilab.bc.main.wallet.WalletListTopComponent--><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE settings PUBLIC "-//NetBeans//DTD Session settings 1.0//EN" "http://www.netbeans.org/dtds/sessionsettings-1_0.dtd">
+<settings version="1.0">
+  <instance class="com.acuilab.bc.main.wallet.WalletListTopComponent"/>
+</settings>
+]]></file>
+        </folder>
+        <folder name="Modes">
+            <folder name="explorer">
+                <file name="WalletListTopComponent.wstcref">
+                    <!--com.acuilab.bc.main.wallet.WalletListTopComponent--><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tc-ref PUBLIC "-//NetBeans//DTD Top Component in Mode Properties 2.0//EN" "http://www.netbeans.org/dtds/tc-ref2_0.dtd">
+<tc-ref version="2.0">
+  <tc-id id="WalletListTopComponent"/>
+  <state opened="true"/>
+</tc-ref>
+]]></file>
+            </folder>
+        </folder>
+    </folder>
+    <folder name="Actions">
+        <folder name="Window">
+            <file name="com-acuilab-bc-main-wallet-WalletListTopComponent.instance">
+                <!--com.acuilab.bc.main.wallet.WalletListTopComponent-->
+                <attr
+                    methodvalue="org.openide.windows.TopComponent.openAction" name="instanceCreate"/>
+                <attr name="component" newvalue="com.acuilab.bc.main.wallet.WalletListTopComponent"/>
+                <attr name="preferredID" stringvalue="WalletListTopComponent"/>
+                <attr
+                    bundlevalue="com.acuilab.bc.main.wallet.Bundle#CTL_WalletListAction" name="displayName"/>
+            </file>
+        </folder>
+    </folder>
+</filesystem>

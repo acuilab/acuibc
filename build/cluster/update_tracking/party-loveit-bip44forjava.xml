@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><module codename="party.loveit.bip44forjava">
+    <module_version install_time="1596293019181" last="true" origin="installer" specification_version="1.0">
+        <file crc="207682971" name="config/Modules/party-loveit-bip44forjava.xml"/>
+        <file crc="2825054744" name="modules/ext/Bip44ForJava-1.0.0.jar"/>
+        <file crc="424474467" name="modules/ext/bcprov-jdk15on-1.60.jar"/>
+        <file crc="1541357955" name="modules/ext/guava-24.0-android.jar"/>
+        <file crc="125126822" name="modules/party-loveit-bip44forjava.jar"/>
+    </module_version>
+</module>

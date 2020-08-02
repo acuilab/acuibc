@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><module codename="com.fasterxml.jackson.databind">
+    <module_version install_time="1596293016739" last="true" origin="installer" specification_version="1.0">
+        <file crc="664373183" name="config/Modules/com-fasterxml-jackson-databind.xml"/>
+        <file crc="4084841210" name="modules/com-fasterxml-jackson-databind.jar"/>
+        <file crc="4266644469" name="modules/ext/jackson-databind-2.8.5.jar"/>
+    </module_version>
+</module>

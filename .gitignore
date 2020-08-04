@@ -21,3 +21,10 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+/guava-29.0-jre/build/
+/spring-core-5.2.8.RELEASE/build/
+/javatuples-1.2/build/
+/balloontip-1.2.4.1/build/
+/acuibc-cfx/build/
+/acuibc-main/build/
+/build/

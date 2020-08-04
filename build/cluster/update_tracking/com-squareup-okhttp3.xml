@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="com.squareup.okhttp3">
-    <module_version install_time="1596293017165" last="true" origin="installer" specification_version="1.0">
+    <module_version install_time="1596554800307" last="true" origin="installer" specification_version="1.0">
         <file crc="1038198471" name="config/Modules/com-squareup-okhttp3.xml"/>
-        <file crc="4022199093" name="modules/com-squareup-okhttp3.jar"/>
+        <file crc="1281529423" name="modules/com-squareup-okhttp3.jar"/>
         <file crc="1176889011" name="modules/ext/okhttp-3.8.1.jar"/>
     </module_version>
 </module>

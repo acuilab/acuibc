@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="org.slf4j">
-    <module_version install_time="1596293018349" last="true" origin="installer" specification_version="1.0">
+    <module_version install_time="1596554801303" last="true" origin="installer" specification_version="1.0">
         <file crc="911582527" name="config/Modules/org-slf4j.xml"/>
         <file crc="172552281" name="modules/ext/slf4j-api-1.7.25.jar"/>
-        <file crc="2729917667" name="modules/org-slf4j.jar"/>
+        <file crc="3538400986" name="modules/org-slf4j.jar"/>
     </module_version>
 </module>

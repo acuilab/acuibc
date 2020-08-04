@@ -30,7 +30,7 @@ import org.openide.windows.WindowManager;
 public class ImportAction extends AbstractAction {
     
     public ImportAction() {
-        putValue(NAME, "创建");
+        putValue(NAME, "导入");
         putValue(SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/resource/cfx32.png")));
     }
     

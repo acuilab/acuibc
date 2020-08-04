@@ -5,7 +5,7 @@
         <attr name="WinSys-TCRef-Order" stringvalue=""/>
     </fileobject>
     <fileobject name="editor">
-        <attr name="WinSys-TCRef-Order" stringvalue=""/>
+        <attr name="WinSys-TCRef-Order" stringvalue="WalletTopComponent"/>
     </fileobject>
     <fileobject name="explorer">
         <attr name="WinSys-TCRef-Order" stringvalue="WalletListTopComponent"/>

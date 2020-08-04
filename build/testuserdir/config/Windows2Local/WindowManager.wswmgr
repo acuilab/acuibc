@@ -33,7 +33,7 @@
   </main-window>
     <editor-area state="joined" frame-state="0">
   <constraints>
-  <path orientation="horizontal" number="60" weight="0.8332028191072827" />
+  <path orientation="horizontal" number="60" weight="0.754894283476899" />
   <path orientation="vertical" number="40" weight="0.7" />
   <path orientation="horizontal" number="40" weight="0.7" />
   <path orientation="vertical" number="40" weight="0.5" />
@@ -41,7 +41,7 @@
   <bounds x="844" y="369" width="1075" height="677" />
     </editor-area>
     <screen width="2560" height="1600"/>
-    <active-mode name="explorer"/>
+    <active-mode name="editor"/>
     <toolbar configuration="Standard" preferred-icon-size="24"/>
     <tc-list>
   <tc-id id="WalletListTopComponent"/>

@@ -98,7 +98,7 @@ public class TransferInputWizardPanel implements WizardDescriptor.ValidatingPane
            throw new WizardValidationException(null, "转账数量不能为空", null);
        }
        
-       if(RegExpValidatorUtils.IsIntNumber(value)) {
+       if(!RegExpValidatorUtils.IsIntNumber(value)) {
            component.getValueFld().requestFocus();
            throw new WizardValidationException(null, "转账数量格式错误", null);
        }

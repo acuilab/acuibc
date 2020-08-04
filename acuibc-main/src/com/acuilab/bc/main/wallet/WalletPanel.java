@@ -4,18 +4,25 @@ import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.coin.Coin;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
+import com.acuilab.bc.main.util.AESUtil;
 import com.acuilab.bc.main.wallet.wizard.TransferInputWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.PasswordInputWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.TransferConfirmWizardPanel;
+import conflux.web3j.CfxUnit;
 import java.awt.Component;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
+import org.apache.commons.lang3.StringUtils;
 import org.jdesktop.swingx.JXPanel;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
+import org.openide.util.Exceptions;
+import org.openide.windows.TopComponent;
+import org.openide.windows.WindowManager;
 
 /**
  *
@@ -24,6 +31,7 @@ import org.openide.WizardDescriptor;
 public class WalletPanel extends JXPanel {
     
     private final Wallet wallet;
+    private String walletTopComponentId;
     
     /**
      * Creates new form WalletPanel
@@ -42,12 +50,21 @@ public class WalletPanel extends JXPanel {
         Coin coin = CoinManager.getDefault().getBaseCoin(wallet.getSymbol());
         if(coin != null) {
             BigInteger balance = coin.balanceOf(wallet.getAddress());
-            balanceFld.setText(balance.toString());
+            balanceFld.setText(CfxUnit.drip2Cfx(balance).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit());
         }
         
         this.wallet = wallet;
+        this.walletTopComponentId = null;
     }
 
+    public String getWalletTopComponentId() {
+        return walletTopComponentId;
+    }
+
+    public void setWalletTopComponentId(String walletTopComponentId) {
+        this.walletTopComponentId = walletTopComponentId;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -64,6 +81,7 @@ public class WalletPanel extends JXPanel {
         receivingBtn = new org.jdesktop.swingx.JXButton();
         transferBtn = new org.jdesktop.swingx.JXButton();
         refreshBtn = new org.jdesktop.swingx.JXButton();
+        openBtn = new org.jdesktop.swingx.JXButton();
 
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         setMinimumSize(new java.awt.Dimension(360, 123));
@@ -72,8 +90,10 @@ public class WalletPanel extends JXPanel {
         org.openide.awt.Mnemonics.setLocalizedText(walletIconFld, org.openide.util.NbBundle.getMessage(WalletPanel.class, "WalletPanel.walletIconFld.text")); // NOI18N
         walletIconFld.setPreferredSize(new java.awt.Dimension(64, 64));
 
+        balanceFld.setForeground(new java.awt.Color(0, 0, 255));
         balanceFld.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         org.openide.awt.Mnemonics.setLocalizedText(balanceFld, org.openide.util.NbBundle.getMessage(WalletPanel.class, "WalletPanel.balanceFld.text")); // NOI18N
+        balanceFld.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
 
         walletAddressFld.setEditable(false);
         walletAddressFld.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -99,6 +119,13 @@ public class WalletPanel extends JXPanel {
             }
         });
 
+        org.openide.awt.Mnemonics.setLocalizedText(openBtn, org.openide.util.NbBundle.getMessage(WalletPanel.class, "WalletPanel.openBtn.text")); // NOI18N
+        openBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -113,7 +140,9 @@ public class WalletPanel extends JXPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(balanceFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(balanceFld, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(walletIconFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -137,24 +166,17 @@ public class WalletPanel extends JXPanel {
                     .addComponent(balanceFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(receivingBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(transferBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void transferBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transferBtnActionPerformed
-//        PasswordDialog dlg = new PasswordDialog(null, wallet.getPwdMD5());
-//        dlg.setVisible(true);
-//        if(dlg.getReturnStatus() == PasswordDialog.RET_OK) {
-//            String pwd = dlg.getPwd();
-//            
-//            Coin coin = CoinManager.getDefault().getBaseCoin(wallet.getSymbol());
-//            coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), TOOL_TIP_TEXT_KEY, BigInteger.ONE, BigInteger.ONE);
-//        }
         List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<>();
         panels.add(new TransferInputWizardPanel(wallet));
-        panels.add(new PasswordInputWizardPanel());
-        panels.add(new TransferConfirmWizardPanel());
+        panels.add(new PasswordInputWizardPanel(wallet));
+        panels.add(new TransferConfirmWizardPanel(wallet));
         String[] steps = new String[panels.size()];
         for (int i = 0; i < panels.size(); i++) {
             Component c = panels.get(i).getComponent();
@@ -175,6 +197,22 @@ public class WalletPanel extends JXPanel {
         wiz.setTitle("转账");
         if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
             // do something
+            String recvAddress = (String)wiz.getProperty("recvAddress");
+            String value = (String)wiz.getProperty("value");
+            int gas = (int)wiz.getProperty("gas");
+            String pwd = (String)wiz.getProperty("password");
+            
+            Coin coin = CoinManager.getDefault().getBaseCoin(wallet.getSymbol());
+            try {
+                System.out.println("privateKey=" + AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd));
+                System.out.println("recvAddress=" + recvAddress);
+                System.out.println("value=" + value);
+                System.out.println("gas=" + gas);
+                String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), recvAddress, new BigInteger(value), BigInteger.valueOf(gas));
+                System.out.println("hash=====================" + hash);
+            } catch (Exception ex) {
+                Exceptions.printStackTrace(ex);
+            }
         }
     }//GEN-LAST:event_transferBtnActionPerformed
 
@@ -182,13 +220,32 @@ public class WalletPanel extends JXPanel {
         Coin coin = CoinManager.getDefault().getBaseCoin(wallet.getSymbol());
         if(coin != null) {
             BigInteger balance = coin.balanceOf(wallet.getAddress());
-            balanceFld.setText(balance.toString());
+            balanceFld.setText(CfxUnit.drip2Cfx(balance).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit());
         }
     }//GEN-LAST:event_refreshBtnActionPerformed
+
+    private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
+        
+        if(StringUtils.isNotEmpty(walletTopComponentId)) {
+            TopComponent tc = WindowManager.getDefault().findTopComponent(walletTopComponentId);
+            if(tc != null && tc.isOpened()) {
+                tc.requestActive();
+                return;
+            }
+        }
+        
+        // 1 未打开过
+        // 2 若打开过，但已被关闭
+        WalletTopComponent tc = new WalletTopComponent(wallet);
+        tc.open();
+        tc.requestActive();
+        walletTopComponentId = tc.preferredID();
+    }//GEN-LAST:event_openBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXLabel balanceFld;
+    private org.jdesktop.swingx.JXButton openBtn;
     private org.jdesktop.swingx.JXButton receivingBtn;
     private org.jdesktop.swingx.JXButton refreshBtn;
     private org.jdesktop.swingx.JXButton transferBtn;

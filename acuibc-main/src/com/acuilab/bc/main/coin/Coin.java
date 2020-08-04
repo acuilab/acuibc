@@ -13,6 +13,30 @@ public interface Coin {
     // 简称
     public String getSymbol();
     
+    /**
+     * 主单位；例如CFX
+     * @return 
+     */
+    String getMainUnit();
+    
+    /**
+     * 获得最小单位：例如drip
+     * @return 
+     */
+    String getMinUnit();
+    
+    /**
+     * 主单位小数位数，超出则四舍五入
+     * @return 
+     */
+    int getMainUnitScale();
+    
+    /**
+     * 小数精度，例如FC的小数精度是18
+     * @return 
+     */
+    int getScale();
+    
     // 类型: BASE、TOKEN、...
     public Type getType();
     
@@ -25,6 +49,7 @@ public interface Coin {
      * @param to        接收地址
      * @param value     转账数量
      * @param gas       矿工费
+     * @throws java.lang.Exception
      */
     public String transfer(String privateKey, String to, BigInteger value, BigInteger gas) throws Exception;
     

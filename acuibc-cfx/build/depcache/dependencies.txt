@@ -8,10 +8,15 @@ com.acuilab.bc.main.wallet.Wallet
 org.openide.util.ImageUtilities
 org.apache.commons.lang3.StringUtils
 java.util.logging.Level
+conflux.web3j.CfxUnit
 com.acuilab.bc.main.BlockChain
+java.math.BigDecimal
+conflux.web3j.Request
+conflux.web3j.response.Status
+java.math.BigInteger
 java.lang.String
-conflux.web3j.Cfx
 java.io.PrintStream
+conflux.web3j.Cfx
 org.web3j.crypto.ECKeyPair
 com.acuilab.bc.main.util.AESUtil
 conflux.web3j.types.AddressException

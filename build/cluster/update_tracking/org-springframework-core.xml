@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="org.springframework.core">
-    <module_version install_time="1596293018463" last="true" origin="installer" specification_version="1.0">
+    <module_version install_time="1596554801399" last="true" origin="installer" specification_version="1.0">
         <file crc="59103375" name="config/Modules/org-springframework-core.xml"/>
         <file crc="1820714433" name="modules/ext/spring-core-5.2.8.RELEASE.jar"/>
-        <file crc="2799233255" name="modules/org-springframework-core.jar"/>
+        <file crc="654726009" name="modules/org-springframework-core.jar"/>
     </module_version>
 </module>

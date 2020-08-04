@@ -39,7 +39,6 @@ public class CFXCoin implements Coin {
         return req.sendAndGet();
     }
 
-
     @Override
     public void transferRecord() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -49,7 +48,7 @@ public class CFXCoin implements Coin {
      * 转账
      * @param to        接收地址
      * @param value     转账数量
-     * @param gas       矿工费
+     * @param gas       矿工费: 21000~100000000drip
      */
     @Override
     public String transfer(String privateKey, String to, BigInteger value, BigInteger gas) throws Exception {
@@ -59,7 +58,28 @@ public class CFXCoin implements Coin {
         Account account = Account.create(cfx, privateKey);
         BigInteger currentEpoch = cfx.getEpochNumber().sendAndGet();
         
+        RawTransaction.setDefaultChainId(bc.getChainId());  // CfxUnit.gdrip2Drip(210000)
         return account.mustSend(RawTransaction.create(account.getNonce(), gas, to, value, BigInteger.ZERO, currentEpoch, null));
+    }
+
+    @Override
+    public String getMainUnit() {
+        return "CFX";
+    }
+
+    @Override
+    public int getMainUnitScale() {
+        return 6;
+    }
+
+    @Override
+    public int getScale() {
+        return 18;
+    }
+
+    @Override
+    public String getMinUnit() {
+        return "drip";
     }
     
 }

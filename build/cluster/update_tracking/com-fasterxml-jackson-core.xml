@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="com.fasterxml.jackson.core">
-    <module_version install_time="1596293016578" last="true" origin="installer" specification_version="1.0">
+    <module_version install_time="1596554799761" last="true" origin="installer" specification_version="1.0">
         <file crc="2531597009" name="config/Modules/com-fasterxml-jackson-core.xml"/>
-        <file crc="990401007" name="modules/com-fasterxml-jackson-core.jar"/>
+        <file crc="1590465034" name="modules/com-fasterxml-jackson-core.jar"/>
         <file crc="2676229418" name="modules/ext/jackson-core-2.8.5.jar"/>
     </module_version>
 </module>

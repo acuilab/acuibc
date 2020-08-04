@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="org.apache.derby">
-    <module_version install_time="1596293017556" last="true" origin="installer" specification_version="1.0">
+    <module_version install_time="1596554800628" last="true" origin="installer" specification_version="1.0">
         <file crc="1277778884" name="config/Modules/org-apache-derby.xml"/>
         <file crc="577640115" name="modules/ext/derby.jar"/>
         <file crc="3078013242" name="modules/ext/derbyLocale_zh_CN.jar"/>
-        <file crc="1190899216" name="modules/org-apache-derby.jar"/>
+        <file crc="2898512045" name="modules/org-apache-derby.jar"/>
     </module_version>
 </module>

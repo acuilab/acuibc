@@ -1,6 +1,7 @@
 package com.acuilab.bc.main.wallet.wizard;
 
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public final class PasswordInputVisualPanel extends JPanel {
 
@@ -15,6 +16,10 @@ public final class PasswordInputVisualPanel extends JPanel {
     public String getName() {
         return "输入钱包密码";
     }
+    
+    public JTextField getPasswordFld() {
+        return passwordFld;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -24,18 +29,37 @@ public final class PasswordInputVisualPanel extends JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jXLabel1 = new org.jdesktop.swingx.JXLabel();
+        passwordFld = new javax.swing.JPasswordField();
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(PasswordInputVisualPanel.class, "PasswordInputVisualPanel.jXLabel1.text")); // NOI18N
+
+        passwordFld.setText(org.openide.util.NbBundle.getMessage(PasswordInputVisualPanel.class, "PasswordInputVisualPanel.passwordFld.text")); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(passwordFld, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(258, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXLabel jXLabel1;
+    private javax.swing.JPasswordField passwordFld;
     // End of variables declaration//GEN-END:variables
 }

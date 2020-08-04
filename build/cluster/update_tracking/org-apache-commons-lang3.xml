@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="org.apache.commons.lang3">
-    <module_version install_time="1596293017438" last="true" origin="installer" specification_version="1.0">
+    <module_version install_time="1596554800529" last="true" origin="installer" specification_version="1.0">
         <file crc="4176494706" name="config/Modules/org-apache-commons-lang3.xml"/>
         <file crc="1498776195" name="modules/ext/commons-lang3-3.10.jar"/>
-        <file crc="1659207146" name="modules/org-apache-commons-lang3.jar"/>
+        <file crc="2612927039" name="modules/org-apache-commons-lang3.jar"/>
     </module_version>
 </module>

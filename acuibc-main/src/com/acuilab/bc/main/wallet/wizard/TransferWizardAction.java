@@ -21,8 +21,8 @@ public final class TransferWizardAction implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<>();
 //        panels.add(new TransferInputWizardPanel());
-        panels.add(new PasswordInputWizardPanel());
-        panels.add(new TransferConfirmWizardPanel());
+//        panels.add(new PasswordInputWizardPanel());
+//        panels.add(new TransferConfirmWizardPanel());
         String[] steps = new String[panels.size()];
         for (int i = 0; i < panels.size(); i++) {
             Component c = panels.get(i).getComponent();

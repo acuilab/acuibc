@@ -39,7 +39,9 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="refreshBtn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="balanceFld" max="32767" attributes="0"/>
+                      <Component id="openBtn" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="balanceFld" pref="308" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="walletIconFld" min="-2" max="-2" attributes="0"/>
@@ -72,6 +74,7 @@
                   <Component id="receivingBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="transferBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="refreshBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="openBtn" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -91,9 +94,15 @@
     </Component>
     <Component class="org.jdesktop.swingx.JXLabel" name="balanceFld">
       <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="0" red="0" type="rgb"/>
+        </Property>
         <Property name="horizontalAlignment" type="int" value="4"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="WalletPanel.balanceFld.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
         </Property>
       </Properties>
     </Component>
@@ -148,6 +157,16 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="refreshBtnActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXButton" name="openBtn">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="WalletPanel.openBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="openBtnActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

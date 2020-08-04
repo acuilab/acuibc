@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="com.fasterxml.jackson.annotation">
-    <module_version install_time="1596293016453" last="true" origin="installer" specification_version="1.0">
+    <module_version install_time="1596554799632" last="true" origin="installer" specification_version="1.0">
         <file crc="4115071374" name="config/Modules/com-fasterxml-jackson-annotation.xml"/>
-        <file crc="3517567024" name="modules/com-fasterxml-jackson-annotation.jar"/>
+        <file crc="1402902094" name="modules/com-fasterxml-jackson-annotation.jar"/>
         <file crc="2387307251" name="modules/ext/jackson-annotations-2.8.0.jar"/>
     </module_version>
 </module>

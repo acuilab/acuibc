@@ -1,10 +1,20 @@
 package com.acuilab.bc.main.wallet.wizard;
 
+import com.acuilab.bc.main.wallet.Wallet;
 import javax.swing.event.ChangeListener;
+import org.apache.commons.lang3.StringUtils;
 import org.openide.WizardDescriptor;
+import org.openide.WizardValidationException;
 import org.openide.util.HelpCtx;
+import org.springframework.util.DigestUtils;
 
-public class PasswordInputWizardPanel implements WizardDescriptor.Panel<WizardDescriptor> {
+public class PasswordInputWizardPanel implements WizardDescriptor.ValidatingPanel<WizardDescriptor> {
+    
+    private final Wallet wallet;
+    
+    public PasswordInputWizardPanel(Wallet wallet) {
+        this.wallet = wallet;
+    }
 
     /**
      * The visual component that displays this panel. If you need to access the
@@ -58,6 +68,24 @@ public class PasswordInputWizardPanel implements WizardDescriptor.Panel<WizardDe
     @Override
     public void storeSettings(WizardDescriptor wiz) {
         // use wiz.putProperty to remember current panel state
+        wiz.putProperty("password", component.getPasswordFld().getText());
+    }
+
+    @Override
+    public void validate() throws WizardValidationException {
+        // 密码不能为空
+        String pwd = component.getPasswordFld().getText();
+        if(StringUtils.isBlank(pwd)) {
+            component.getPasswordFld().requestFocus();
+            throw new WizardValidationException(null, "请填写密码", null);
+        }
+        
+        // 密码要一致
+        String pwdMD5 = DigestUtils.md5DigestAsHex(pwd.getBytes()); 
+        if(!StringUtils.equals(wallet.getPwdMD5(), pwdMD5)) {
+            component.getPasswordFld().requestFocus();
+            throw new WizardValidationException(null, "密码错误", null);
+        }
     }
 
 }

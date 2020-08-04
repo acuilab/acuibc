@@ -18,8 +18,11 @@ import party.loveit.bip44forjava.utils.Bip44Utils;
 import javax.swing.Icon;
 import org.openide.util.ImageUtilities;
 import com.acuilab.bc.main.BlockChain;
+import conflux.web3j.CfxUnit;
+import conflux.web3j.response.Status;
 import conflux.web3j.types.Address;
 import conflux.web3j.types.AddressException;
+import java.awt.Image;
 import java.util.Arrays;
 
 /**
@@ -34,6 +37,7 @@ public class CFXBlockChain implements BlockChain {
     private static final String SYMBOL = "CFX";
     
     private Cfx cfx;
+    private BigInteger chainId;
     
     // 下面两种写法都会导致BlockChainManager无法找到CFXBlockChain
     // 所以不能声明构造函数，即使是无参构造函数
@@ -44,6 +48,11 @@ public class CFXBlockChain implements BlockChain {
     
     public Cfx getCfx() {
         return cfx;
+    }
+    
+    public BigInteger getChainId() {
+        System.out.println("chainId=================================================" + chainId);
+        return chainId;
     }
     
     @Override
@@ -59,6 +68,12 @@ public class CFXBlockChain implements BlockChain {
     @Override
     public Icon getIcon(int size) {
         return ImageUtilities.loadImageIcon("/resource/cfx" + size + ".png", true);
+    }
+    
+
+    @Override
+    public Image getIconImage(int size) {
+        return ImageUtilities.loadImage("/resource/cfx" + size + ".png", true);
     }
     
     @Override
@@ -86,6 +101,8 @@ public class CFXBlockChain implements BlockChain {
             LOG.log(Level.WARNING, null, ex);
         }
         cfx = Cfx.create(DEFAULT_NODE);
+        Status status = cfx.getStatus().sendAndGet();
+        chainId = status.getChainId();
     }
     
 
@@ -109,7 +126,7 @@ public class CFXBlockChain implements BlockChain {
         ECKeyPair ecKeyPair = ECKeyPair.create(pathPrivateKey);
 //        String publicKey = Numeric.toHexStringWithPrefix(ecKeyPair.getPublicKey());
         String privateKey = Numeric.toHexStringWithPrefix(ecKeyPair.getPrivateKey());
-        
+        System.out.println("privateKey==========================" + privateKey);
         Account account = Account.create(cfx, privateKey);
 
         // 2 密码取md5并保存
@@ -125,7 +142,7 @@ public class CFXBlockChain implements BlockChain {
     @Override
     public Wallet importWalletByPrivateKey(String name, String pwd, String privateKey) {
         Account account = Account.create(cfx, privateKey);
-
+        
         // 2 密码取md5并保存
         String pwdMD5 = DigestUtils.md5DigestAsHex(pwd.getBytes()); 
 
@@ -153,4 +170,23 @@ public class CFXBlockChain implements BlockChain {
         
     }
 
+    @Override
+    public int gasMin() {
+        return CfxUnit.DEFAULT_GAS_LIMIT.intValue();
+    }
+
+    @Override
+    public int gasMax() {
+        return 100000000;
+    }
+
+    @Override
+    public int gasDefaultValue() {
+        return CfxUnit.DEFAULT_GAS_LIMIT.intValue();
+    }
+
+    @Override
+    public String gasDesc(int value) {
+        return value + " drip/" + CfxUnit.drip2Cfx(BigInteger.valueOf(value)).toPlainString() + " CFX";
+    }
 }

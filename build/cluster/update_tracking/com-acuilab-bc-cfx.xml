@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="com.acuilab.bc.cfx">
-    <module_version install_time="1596293020027" last="true" origin="installer" specification_version="1.0">
+    <module_version install_time="1596554803448" last="true" origin="installer" specification_version="1.0">
         <file crc="1937575338" name="config/Modules/com-acuilab-bc-cfx.xml"/>
-        <file crc="2317423415" name="modules/com-acuilab-bc-cfx.jar"/>
+        <file crc="3784626745" name="modules/com-acuilab-bc-cfx.jar"/>
     </module_version>
 </module>

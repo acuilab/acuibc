@@ -1,6 +1,7 @@
 package com.acuilab.bc.main;
 
 import com.acuilab.bc.main.wallet.Wallet;
+import java.awt.Image;
 import java.util.List;
 import javax.swing.Icon;
 
@@ -61,6 +62,8 @@ public interface BlockChain {
      */
     Icon getIcon(int size);
     
+    Image getIconImage(int size);
+    
     /**
      * 创建钱包
      * @param name
@@ -94,4 +97,29 @@ public interface BlockChain {
      * @return 
      */
     boolean isValidAddress(String address);
+    
+    /**
+     * 矿工费最小值
+     * @return 
+     */
+    int gasMin();
+    
+    /**
+     * 矿工费最大值
+     * @return 
+     */
+    int gasMax();
+    
+    /**
+     * 矿工费初值
+     * @return 
+     */
+    int gasDefaultValue();
+    
+    /**
+     * 矿工费描述：例如20 Gdrip/0.002 CFX
+     * @param value 矿工费
+     * @return 
+     */
+    String gasDesc(int value);
 }

@@ -149,10 +149,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JSlider" name="gasSlider">
-      <Properties>
-        <Property name="minimum" type="int" value="1"/>
-        <Property name="value" type="int" value="20"/>
-      </Properties>
       <Events>
         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="gasSliderStateChanged"/>
       </Events>

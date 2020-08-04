@@ -1,5 +1,9 @@
 package com.acuilab.bc.main.wallet.wizard;
 
+import com.acuilab.bc.main.BlockChain;
+import com.acuilab.bc.main.coin.Coin;
+import com.acuilab.bc.main.manager.BlockChainManager;
+import com.acuilab.bc.main.manager.CoinManager;
 import com.acuilab.bc.main.wallet.Wallet;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -16,6 +20,15 @@ public final class TransferInputVisualPanel extends JPanel {
         initComponents();
         
         this.wallet = wallet;
+        
+        BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getSymbol());
+        gasSlider.setMinimum(bc.gasMin());
+        gasSlider.setMaximum(bc.gasMax());
+        gasSlider.setValue(bc.gasDefaultValue());
+        gasLbl.setText(bc.gasDesc(bc.gasDefaultValue()));
+        
+        Coin coin = CoinManager.getDefault().getBaseCoin(wallet.getSymbol());
+        valueFld.setPrompt(coin.getName());
         
         sendAddressFld.setText(wallet.getAddress());
     }
@@ -72,8 +85,6 @@ public final class TransferInputVisualPanel extends JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel4, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.jXLabel4.text")); // NOI18N
 
-        gasSlider.setMinimum(1);
-        gasSlider.setValue(20);
         gasSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 gasSliderStateChanged(evt);
@@ -142,7 +153,8 @@ public final class TransferInputVisualPanel extends JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void gasSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_gasSliderStateChanged
-        gasLbl.setText(((JSlider) evt.getSource()).getValue() + " Gdrip");
+        BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getSymbol());
+        gasLbl.setText(bc.gasDesc(((JSlider) evt.getSource()).getValue()));
     }//GEN-LAST:event_gasSliderStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

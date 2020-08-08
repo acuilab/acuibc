@@ -19,6 +19,10 @@ import javax.swing.Icon;
 import org.openide.util.ImageUtilities;
 import com.acuilab.bc.main.BlockChain;
 import conflux.web3j.CfxUnit;
+import conflux.web3j.Request;
+import conflux.web3j.request.Epoch;
+import conflux.web3j.request.LogFilter;
+import conflux.web3j.response.Log;
 import conflux.web3j.response.Status;
 import conflux.web3j.types.Address;
 import conflux.web3j.types.AddressException;
@@ -103,6 +107,7 @@ public class CFXBlockChain implements BlockChain {
         cfx = Cfx.create(DEFAULT_NODE);
         Status status = cfx.getStatus().sendAndGet();
         chainId = status.getChainId();
+        
     }
     
 

@@ -1,6 +1,7 @@
 package com.acuilab.bc.main.coin;
 
 import com.acuilab.bc.main.wallet.TransferRecord;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -26,6 +27,27 @@ public interface Coin {
      * @return 
      */
     String getMinUnit();
+    
+    /**
+     * 最小单位转换为主单位
+     * @param minUnitValue
+     * @return 
+     */
+    BigDecimal minUnit2MainUint(BigInteger minUnitValue);
+    
+    /**
+     * 主单位转换为最小单位
+     * @param mainUnitValue
+     * @return 
+     */
+    BigInteger mainUint2MinUint(double mainUnitValue);
+    
+    /**
+     * 主单位转换为最小单位
+     * @param mainUnitValue
+     * @return 
+     */
+    BigInteger mainUint2MinUint(long mainUnitValue);
     
     /**
      * 主单位小数位数，超出则四舍五入

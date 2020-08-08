@@ -4,17 +4,11 @@ import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.coin.Coin;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
-import conflux.web3j.CfxUnit;
-import java.awt.event.ActionListener;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.lang3.StringUtils;
-import org.openide.DialogDescriptor;
-import static org.openide.DialogDescriptor.DEFAULT_ALIGN;
-import org.openide.DialogDisplayer;
-import static org.openide.NotifyDescriptor.OK_OPTION;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 
@@ -57,7 +51,7 @@ public final class WalletTopComponent extends TopComponent {
         Coin coin = CoinManager.getDefault().getBaseCoin(wallet.getSymbol());
         if(coin != null) {
             BigInteger balance = coin.balanceOf(wallet.getAddress());
-            balanceFld.setText(CfxUnit.drip2Cfx(balance).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit() + "【" + balance.toString() + " " + coin.getMinUnit() + "】");
+            balanceFld.setText(coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit() + "【" + balance.toString() + " " + coin.getMinUnit() + "】");
         }
         
         // 遍历coin

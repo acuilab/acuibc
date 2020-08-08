@@ -4,25 +4,8 @@
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
             <code-name-base>com.fasterxml.jackson.databind</code-name-base>
-            <suite-component/>
-            <module-dependencies>
-                <dependency>
-                    <code-name-base>com.fasterxml.jackson.annotation</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <specification-version>1.0</specification-version>
-                    </run-dependency>
-                </dependency>
-                <dependency>
-                    <code-name-base>com.fasterxml.jackson.core</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <specification-version>1.0</specification-version>
-                    </run-dependency>
-                </dependency>
-            </module-dependencies>
+            <standalone/>
+            <module-dependencies/>
             <public-packages>
                 <package>com.fasterxml.jackson.databind</package>
                 <package>com.fasterxml.jackson.databind.annotation</package>

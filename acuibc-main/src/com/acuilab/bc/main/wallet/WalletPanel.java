@@ -8,7 +8,6 @@ import com.acuilab.bc.main.util.AESUtil;
 import com.acuilab.bc.main.wallet.wizard.TransferInputWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.PasswordInputWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.TransferConfirmWizardPanel;
-import conflux.web3j.CfxUnit;
 import java.awt.Component;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -51,7 +50,7 @@ public class WalletPanel extends JXPanel {
         Coin coin = CoinManager.getDefault().getBaseCoin(wallet.getSymbol());
         if(coin != null) {
             BigInteger balance = coin.balanceOf(wallet.getAddress());
-            balanceFld.setText(CfxUnit.drip2Cfx(balance).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit());
+            balanceFld.setText(coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit());
         }
         
         this.wallet = wallet;
@@ -213,7 +212,7 @@ public class WalletPanel extends JXPanel {
                 System.out.println("recvAddress=" + recvAddress);
                 System.out.println("value=" + value);
                 System.out.println("gas=" + gas);
-                String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), recvAddress, CfxUnit.cfx2Drip(NumberUtils.toDouble(value)), BigInteger.valueOf(gas));
+                String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), recvAddress, coin.mainUint2MinUint(NumberUtils.toDouble(value)), BigInteger.valueOf(gas));
                 System.out.println("hash=====================" + hash);
             } catch (Exception ex) {
                 Exceptions.printStackTrace(ex);
@@ -225,7 +224,7 @@ public class WalletPanel extends JXPanel {
         Coin coin = CoinManager.getDefault().getBaseCoin(wallet.getSymbol());
         if(coin != null) {
             BigInteger balance = coin.balanceOf(wallet.getAddress());
-            balanceFld.setText(CfxUnit.drip2Cfx(balance).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit());
+            balanceFld.setText(coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit());
         }
     }//GEN-LAST:event_refreshBtnActionPerformed
 

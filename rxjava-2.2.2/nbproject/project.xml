@@ -4,17 +4,8 @@
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
             <code-name-base>io.reactivex.rxjava2</code-name-base>
-            <suite-component/>
-            <module-dependencies>
-                <dependency>
-                    <code-name-base>org.reactivestreams</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <specification-version>1.0</specification-version>
-                    </run-dependency>
-                </dependency>
-            </module-dependencies>
+            <standalone/>
+            <module-dependencies/>
             <public-packages>
                 <package>io.reactivex</package>
                 <package>io.reactivex.annotations</package>

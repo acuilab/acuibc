@@ -1,9 +1,0 @@
-D:\netbeans-12.0-bin\netbeans\platform=1594223060638
-cluster.D:/GitHub/acuibc/build/cluster=1596554803483
-cluster.D:/netbeans-12.0-bin/netbeans/platform=1594223060638
-user=1596554803483
-crc=7
-locale=zh_CN
-branding=acuibc
-java.version=1.8.0_161
-java.vm.version=25.161-b12

@@ -1,6 +1,8 @@
 package com.acuilab.bc.main.coin;
 
+import com.acuilab.bc.main.wallet.TransferRecord;
 import java.math.BigInteger;
+import java.util.List;
 
 /**
  *
@@ -49,12 +51,17 @@ public interface Coin {
      * @param to        接收地址
      * @param value     转账数量
      * @param gas       矿工费
+     * @return 
      * @throws java.lang.Exception
      */
     public String transfer(String privateKey, String to, BigInteger value, BigInteger gas) throws Exception;
     
-    // 交易记录
-    public void transferRecord(/* address _owner    */);
+    /**
+     * 交易记录
+     * @param address
+     * @return 
+     */
+    public List<TransferRecord> transferRecord(String address);
     
     public static enum Type {
         // 主网币、代币

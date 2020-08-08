@@ -83,51 +83,51 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
         jXPanel1.setLayout(new java.awt.GridLayout(4, 3, 10, 10));
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl1, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl1.text")); // NOI18N
-        mnemonicLbl1.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicLbl1.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl1);
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl2, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl2.text")); // NOI18N
-        mnemonicLbl2.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicLbl2.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl2);
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl3, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl3.text")); // NOI18N
-        mnemonicLbl3.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicLbl3.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl3);
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl4, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl4.text")); // NOI18N
-        mnemonicLbl4.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicLbl4.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl4);
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl5, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl5.text")); // NOI18N
-        mnemonicLbl5.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicLbl5.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl5);
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl6, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl6.text")); // NOI18N
-        mnemonicLbl6.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicLbl6.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl6);
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl7, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl7.text")); // NOI18N
-        mnemonicLbl7.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicLbl7.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl7);
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl8, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl8.text")); // NOI18N
-        mnemonicLbl8.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicLbl8.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl8);
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl9, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl9.text")); // NOI18N
-        mnemonicLbl9.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicLbl9.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl9);
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl10, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl10.text")); // NOI18N
-        mnemonicLbl10.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicLbl10.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl10);
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl11, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl11.text")); // NOI18N
-        mnemonicLbl11.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicLbl11.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl11);
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl12, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl12.text")); // NOI18N
-        mnemonicLbl12.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicLbl12.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl12);
 
         org.openide.awt.Mnemonics.setLocalizedText(copyBtn, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.copyBtn.text")); // NOI18N
@@ -151,7 +151,7 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
                         .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 54, Short.MAX_VALUE)))
+                        .addGap(0, 109, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

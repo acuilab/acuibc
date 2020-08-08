@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><module codename="com.squareup.okio">
-    <module_version install_time="1596554800125" last="true" origin="installer" specification_version="1.0">
-        <file crc="1115249825" name="config/Modules/com-squareup-okio.xml"/>
-        <file crc="2235011876" name="modules/com-squareup-okio.jar"/>
-        <file crc="165722061" name="modules/ext/okio-1.13.0.jar"/>
-    </module_version>
-</module>

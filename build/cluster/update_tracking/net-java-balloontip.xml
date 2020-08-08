@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><module codename="net.java.balloontip">
-    <module_version install_time="1596554800423" last="true" origin="installer" specification_version="1.0">
-        <file crc="3117867836" name="config/Modules/net-java-balloontip.xml"/>
-        <file crc="1326389377" name="modules/ext/balloontip-1.2.4.1.jar"/>
-        <file crc="2621548545" name="modules/ext/balloontip-examples-1.2.4.1.jar"/>
-        <file crc="3150364327" name="modules/net-java-balloontip.jar"/>
-    </module_version>
-</module>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><module codename="org.reactivestreams">
-    <module_version install_time="1596554800998" last="true" origin="installer" specification_version="1.0">
-        <file crc="1923283130" name="config/Modules/org-reactivestreams.xml"/>
-        <file crc="3842392576" name="modules/ext/reactive-streams-1.0.2.jar"/>
-        <file crc="4212309825" name="modules/org-reactivestreams.jar"/>
-    </module_version>
-</module>

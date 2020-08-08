@@ -5,11 +5,16 @@ import com.acuilab.bc.main.coin.Coin;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
 import conflux.web3j.CfxUnit;
+import java.awt.event.ActionListener;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.lang3.StringUtils;
+import org.openide.DialogDescriptor;
+import static org.openide.DialogDescriptor.DEFAULT_ALIGN;
+import org.openide.DialogDisplayer;
+import static org.openide.NotifyDescriptor.OK_OPTION;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 
@@ -58,7 +63,7 @@ public final class WalletTopComponent extends TopComponent {
         // 遍历coin
         List<Coin> list = CoinManager.getDefault().getCoinList(wallet.getSymbol());
         for(int i=0; i<list.size(); i++) {
-            jTabbedPane1.add(list.get(i).getName(), new CoinPanel(list.get(i)));
+            jTabbedPane1.add(list.get(i).getName(), new CoinPanel(wallet, list.get(i)));
         }
         
         // 这是一个新打开的窗口，生成新的窗口id并保存
@@ -84,6 +89,7 @@ public final class WalletTopComponent extends TopComponent {
         balanceFld = new org.jdesktop.swingx.JXTextField();
         mnemonicExportBtn = new org.jdesktop.swingx.JXButton();
         jXButton2 = new org.jdesktop.swingx.JXButton();
+        recvBtn = new org.jdesktop.swingx.JXButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.jXLabel1.text")); // NOI18N
@@ -108,8 +114,20 @@ public final class WalletTopComponent extends TopComponent {
         balanceFld.setText(org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.balanceFld.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicExportBtn, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.mnemonicExportBtn.text")); // NOI18N
+        mnemonicExportBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnemonicExportBtnActionPerformed(evt);
+            }
+        });
 
         org.openide.awt.Mnemonics.setLocalizedText(jXButton2, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.jXButton2.text")); // NOI18N
+        jXButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXButton2ActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(recvBtn, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.recvBtn.text")); // NOI18N
 
         javax.swing.GroupLayout jXPanel1Layout = new javax.swing.GroupLayout(jXPanel1);
         jXPanel1.setLayout(jXPanel1Layout);
@@ -131,10 +149,12 @@ public final class WalletTopComponent extends TopComponent {
                             .addComponent(walletAddressFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(walletNameFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jXPanel1Layout.createSequentialGroup()
+                        .addComponent(recvBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(mnemonicExportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jXButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 465, Short.MAX_VALUE)))
+                        .addGap(0, 386, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jXPanel1Layout.setVerticalGroup(
@@ -157,7 +177,8 @@ public final class WalletTopComponent extends TopComponent {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(mnemonicExportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jXButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jXButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(recvBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -184,6 +205,24 @@ public final class WalletTopComponent extends TopComponent {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void mnemonicExportBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnemonicExportBtnActionPerformed
+        PasswordVerifyDialog passwordVerifyDialog = new PasswordVerifyDialog(null, wallet);
+        passwordVerifyDialog.setVisible(true);
+        if(passwordVerifyDialog.getReturnStatus() == PasswordVerifyDialog.RET_OK) {
+            ExportMnemonicDialog exportMnemonicDialog = new ExportMnemonicDialog(null, wallet, passwordVerifyDialog.getPassword());
+            exportMnemonicDialog.setVisible(true);
+        }
+    }//GEN-LAST:event_mnemonicExportBtnActionPerformed
+
+    private void jXButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXButton2ActionPerformed
+        PasswordVerifyDialog passwordVerifyDialog = new PasswordVerifyDialog(null, wallet);
+        passwordVerifyDialog.setVisible(true);
+        if(passwordVerifyDialog.getReturnStatus() == PasswordVerifyDialog.RET_OK) {
+            ExportPrivateKeyDialog exportPrivateKeyDialog = new ExportPrivateKeyDialog(null, wallet, passwordVerifyDialog.getPassword());
+            exportPrivateKeyDialog.setVisible(true);
+        }
+    }//GEN-LAST:event_jXButton2ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXTextField balanceFld;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -194,6 +233,7 @@ public final class WalletTopComponent extends TopComponent {
     private org.jdesktop.swingx.JXLabel jXLabel4;
     private org.jdesktop.swingx.JXPanel jXPanel1;
     private org.jdesktop.swingx.JXButton mnemonicExportBtn;
+    private org.jdesktop.swingx.JXButton recvBtn;
     private org.jdesktop.swingx.JXTextField walletAddressFld;
     private org.jdesktop.swingx.JXTextField walletNameFld;
     // End of variables declaration//GEN-END:variables

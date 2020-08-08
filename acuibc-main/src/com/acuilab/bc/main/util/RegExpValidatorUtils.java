@@ -178,6 +178,16 @@ public final class RegExpValidatorUtils {
         String regex = "^\\+?[1-9][0-9]*$";
         return match(regex, str);
     }
+    
+    /**
+     * 验证正数
+     * @param str
+     * @return 
+     */
+    public static boolean isPositive(String str) {
+        String regex = "^(0|[1-9][0-9]*)(\\.\\d+)?$";
+        return match(regex, str);
+    }
 
     /**
      * 验证大写字母

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><module codename="conflux.web3j">
-    <module_version install_time="1596554801860" last="true" origin="installer" specification_version="1.0">
-        <file crc="2179106769" name="config/Modules/conflux-web3j.xml"/>
-        <file crc="2498121958" name="modules/conflux-web3j.jar"/>
-        <file crc="2947890276" name="modules/ext/conflux-web3j-0.8.1.jar"/>
-    </module_version>
-</module>

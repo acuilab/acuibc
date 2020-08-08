@@ -84,10 +84,12 @@
                           </Group>
                       </Group>
                       <Group type="102" attributes="0">
+                          <Component id="recvBtn" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="mnemonicExportBtn" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jXButton2" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="465" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="386" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -118,6 +120,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="mnemonicExportBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jXButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="recvBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jXLabel1" min="-2" max="-2" attributes="0"/>
@@ -204,11 +207,24 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="WalletTopComponent.mnemonicExportBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnemonicExportBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="org.jdesktop.swingx.JXButton" name="jXButton2">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="WalletTopComponent.jXButton2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jXButton2ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="org.jdesktop.swingx.JXButton" name="recvBtn">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="WalletTopComponent.recvBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>

@@ -28,3 +28,6 @@ hs_err_pid*
 /acuibc-cfx/build/
 /acuibc-main/build/
 /build/
+/commons-lang3-3.10/build/
+/Bip44ForJava-1.0.0/build/
+/db-derby-10.14.2.0/build/

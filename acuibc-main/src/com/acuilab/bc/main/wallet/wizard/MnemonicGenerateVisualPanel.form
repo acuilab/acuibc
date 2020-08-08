@@ -53,7 +53,7 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jXLabel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="54" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="109" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -115,7 +115,7 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
         </Component>
@@ -125,7 +125,7 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
         </Component>
@@ -135,7 +135,7 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl3.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
         </Component>
@@ -145,7 +145,7 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl4.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
         </Component>
@@ -155,7 +155,7 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl5.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
         </Component>
@@ -165,7 +165,7 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl6.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
         </Component>
@@ -175,7 +175,7 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl7.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
         </Component>
@@ -185,7 +185,7 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl8.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
         </Component>
@@ -195,7 +195,7 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl9.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
         </Component>
@@ -205,7 +205,7 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl10.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
         </Component>
@@ -215,7 +215,7 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl11.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
         </Component>
@@ -225,7 +225,7 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl12.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
         </Component>

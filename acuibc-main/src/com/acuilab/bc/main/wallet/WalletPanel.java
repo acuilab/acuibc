@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.jdesktop.swingx.JXPanel;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
@@ -97,11 +98,15 @@ public class WalletPanel extends JXPanel {
 
         walletAddressFld.setEditable(false);
         walletAddressFld.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        walletAddressFld.setForeground(new java.awt.Color(0, 0, 255));
         walletAddressFld.setText(org.openide.util.NbBundle.getMessage(WalletPanel.class, "WalletPanel.walletAddressFld.text")); // NOI18N
+        walletAddressFld.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
 
         walletNameFld.setEditable(false);
         walletNameFld.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        walletNameFld.setForeground(new java.awt.Color(0, 0, 255));
         walletNameFld.setText(org.openide.util.NbBundle.getMessage(WalletPanel.class, "WalletPanel.walletNameFld.text")); // NOI18N
+        walletNameFld.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(receivingBtn, org.openide.util.NbBundle.getMessage(WalletPanel.class, "WalletPanel.receivingBtn.text")); // NOI18N
 
@@ -208,7 +213,7 @@ public class WalletPanel extends JXPanel {
                 System.out.println("recvAddress=" + recvAddress);
                 System.out.println("value=" + value);
                 System.out.println("gas=" + gas);
-                String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), recvAddress, new BigInteger(value), BigInteger.valueOf(gas));
+                String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), recvAddress, CfxUnit.cfx2Drip(NumberUtils.toDouble(value)), BigInteger.valueOf(gas));
                 System.out.println("hash=====================" + hash);
             } catch (Exception ex) {
                 Exceptions.printStackTrace(ex);

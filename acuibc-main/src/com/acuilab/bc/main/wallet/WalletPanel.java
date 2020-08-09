@@ -1,6 +1,7 @@
 package com.acuilab.bc.main.wallet;
 
 import com.acuilab.bc.main.BlockChain;
+import com.acuilab.bc.main.dao.WalletDAO;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
 import com.acuilab.bc.main.util.AESUtil;
@@ -10,6 +11,7 @@ import com.acuilab.bc.main.wallet.wizard.TransferConfirmWizardPanel;
 import java.awt.Component;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +83,7 @@ public class WalletPanel extends JXPanel {
         transferBtn = new org.jdesktop.swingx.JXButton();
         refreshBtn = new org.jdesktop.swingx.JXButton();
         openBtn = new org.jdesktop.swingx.JXButton();
+        deleteBtn = new org.jdesktop.swingx.JXButton();
 
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         setMinimumSize(new java.awt.Dimension(360, 123));
@@ -134,6 +137,13 @@ public class WalletPanel extends JXPanel {
             }
         });
 
+        org.openide.awt.Mnemonics.setLocalizedText(deleteBtn, org.openide.util.NbBundle.getMessage(WalletPanel.class, "WalletPanel.deleteBtn.text")); // NOI18N
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -145,6 +155,8 @@ public class WalletPanel extends JXPanel {
                         .addComponent(transferBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(receivingBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -175,7 +187,8 @@ public class WalletPanel extends JXPanel {
                     .addComponent(receivingBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(transferBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -254,9 +267,37 @@ public class WalletPanel extends JXPanel {
         dlg.setVisible(true);
     }//GEN-LAST:event_receivingBtnActionPerformed
 
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        PasswordVerifyDialog passwordVerifyDialog = new PasswordVerifyDialog(null, wallet);
+        passwordVerifyDialog.setVisible(true);
+        if(passwordVerifyDialog.getReturnStatus() == PasswordVerifyDialog.RET_OK) {
+            try {
+                // 先删除数据库记录
+                WalletDAO.delete(wallet.getName());
+                
+                // 从面板中删除
+                WalletListTopComponent walletListTC = (WalletListTopComponent)WindowManager.getDefault().findTopComponent("WalletListTopComponent");
+                walletListTC.deleteWallet(wallet);
+
+                // 关闭对应的WalletTopComponent
+                if(StringUtils.isNotEmpty(walletTopComponentId)) {
+                    TopComponent walletTC = WindowManager.getDefault().findTopComponent(walletTopComponentId);
+                    if(walletTC != null && walletTC.isOpened()) {
+                        walletTC.close();
+                        return;
+                    }
+                }
+            } catch (SQLException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+            
+        }
+    }//GEN-LAST:event_deleteBtnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXLabel balanceFld;
+    private org.jdesktop.swingx.JXButton deleteBtn;
     private org.jdesktop.swingx.JXButton openBtn;
     private org.jdesktop.swingx.JXButton receivingBtn;
     private org.jdesktop.swingx.JXButton refreshBtn;

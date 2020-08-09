@@ -2,6 +2,17 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/dao/TransferRecordDAO.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/dao/WalletDAO.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/RecvDialog.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/action/CreateAction.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/BlockChain.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/WalletTopComponent.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/CoinPanel.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/WalletPanel.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/manager/BlockChainManager.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/WalletListTopComponent.java</file>
+        </group>
     </open-files>
 </project-private>

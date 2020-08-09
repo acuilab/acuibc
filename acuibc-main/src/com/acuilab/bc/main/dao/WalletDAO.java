@@ -58,6 +58,10 @@ public class WalletDAO {
         return exist != null;
     }
     
+    public static void delete(String name) throws SQLException {
+        JDBCUtil.executeUpdate("delete from wallet where wname=?", new Object[] {name}, Installer.getConnection());
+    }
+    
 //    public static boolean isPwdMatch(String name, String pwdMD5) throws SQLException {
 //        Integer exist = JDBCUtil.executeQuery("select 1 from wallet where wname=? and pwdMd5=? OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY", new Object[] {name, pwdMD5}, Installer.getConnection(), new MapperUnique<Integer>() {
 //	    @Override

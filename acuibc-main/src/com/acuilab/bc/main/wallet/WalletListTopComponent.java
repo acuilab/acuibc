@@ -4,6 +4,7 @@ import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.dao.WalletDAO;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.google.common.collect.Maps;
+import java.awt.Component;
 import java.sql.SQLException;
 import java.util.List;
 import org.netbeans.api.settings.ConvertAsProperties;
@@ -44,7 +45,9 @@ import org.jdesktop.swingx.JXTaskPane;
 })
 public final class WalletListTopComponent extends TopComponent {
     
-    private final Map<String, JXTaskPane> taskPaneMap = Maps.newHashMap();
+    private final Map<String, JXTaskPane> taskPaneMap = Maps.newHashMap();  // blockChainSysbol
+    private final Map<String, WalletPanel> walletPanelMap = Maps.newHashMap();  // name, WalletPanel
+    private final Map<String, Component> strutMap = Maps.newHashMap();          // name, strut
 
     public WalletListTopComponent() {
         initComponents();
@@ -78,9 +81,13 @@ public final class WalletListTopComponent extends TopComponent {
                 
                 for(int i=0; i<wallets.size(); i++) {
                     if(i > 0) {
-                        taskPane.getContentPane().add(Box.createVerticalStrut(10));
+                        Component strut = Box.createVerticalStrut(10);
+                        taskPane.getContentPane().add(strut);
+                        strutMap.put(wallets.get(i).getName(), strut);
                     }
-                    taskPane.add(new WalletPanel(wallets.get(i)));
+                    WalletPanel walletPanel = new WalletPanel(wallets.get(i));
+                    taskPane.add(walletPanel);
+                    walletPanelMap.put(wallets.get(i).getName(), walletPanel);
                 }
                 
                 jXTaskPaneContainer1.add(taskPane);
@@ -94,19 +101,43 @@ public final class WalletListTopComponent extends TopComponent {
     
     public void addWallet(Wallet wallet) {
         JXTaskPane taskPane = taskPaneMap.get(wallet.getBlockChainSymbol());
+        WalletPanel walletPanel = new WalletPanel(wallet);
         if(taskPane != null) {
             // 在该任务面板尾部插入钱包面板
-            taskPane.getContentPane().add(Box.createVerticalStrut(10));
-            taskPane.add(new WalletPanel(wallet));
+            Component strut = Box.createVerticalStrut(10);
+            taskPane.getContentPane().add(strut);
+            strutMap.put(wallet.getName(), strut);
+            taskPane.add(walletPanel);
         } else {
             // 新建任务面板并插入钱包面板
             BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
             taskPane = new JXTaskPane(bc.getSymbol(), bc.getIcon(16));
             taskPane.setLayout(new BoxLayout(taskPane.getContentPane(), BoxLayout.Y_AXIS));
-            taskPane.add(new WalletPanel(wallet));
+            taskPane.add(walletPanel);
                 
             jXTaskPaneContainer1.add(taskPane);
             taskPaneMap.put(bc.getSymbol(), taskPane);
+        }
+        walletPanelMap.put(wallet.getName(), walletPanel);
+    }
+    
+    public void deleteWallet(Wallet wallet) {
+        
+        JXTaskPane taskPane = taskPaneMap.get(wallet.getBlockChainSymbol());
+        if(taskPane != null) {
+            WalletPanel walletPanel = walletPanelMap.get(wallet.getName());
+            taskPane.remove(walletPanel);
+            // 移除相应的strut
+            Component strut = strutMap.get(wallet.getName());
+            if(strut != null) {
+                taskPane.remove(strut);
+            }
+            walletPanelMap.remove(wallet.getName());
+            strutMap.remove(wallet.getName());
+            if(walletPanelMap.isEmpty()) {
+                jXTaskPaneContainer1.remove(taskPane);
+                taskPaneMap.remove(wallet.getBlockChainSymbol());
+            }
         }
     }
 

@@ -18,10 +18,10 @@ public class WalletDAO {
     private WalletDAO() {}
     
     public static void insert(Wallet wallet) throws SQLException {
-        try (PreparedStatement ps = Installer.getConnection().prepareStatement("insert into wallet (wname, pwdMd5, symbol, waddress, privateKeyAES, mnemonicAES, created) values (?, ?, ?, ?, ?, ?, ?)")) {
+        try (PreparedStatement ps = Installer.getConnection().prepareStatement("insert into wallet (wname, pwdMd5, blockChainSymbol, waddress, privateKeyAES, mnemonicAES, created) values (?, ?, ?, ?, ?, ?, ?)")) {
             ps.setString(1, wallet.getName());
             ps.setString(2, wallet.getPwdMD5());
-            ps.setString(3, wallet.getSymbol());
+            ps.setString(3, wallet.getBlockChainSymbol());
             ps.setString(4, wallet.getAddress());
             ps.setString(5, wallet.getPrivateKeyAES());
 	    ps.setString(6, wallet.getMnemonicAES());
@@ -32,10 +32,10 @@ public class WalletDAO {
     }
     
     public static Wallet getByName(String name) throws SQLException {
-	List<Wallet> list =  JDBCUtil.executeQuery("select wname, pwdMd5, symbol, waddress, privateKeyAES, mnemonicAES, created from wallet where wname=?", new Object[] {name}, Installer.getConnection(), new Mapper<Wallet>() {
+	List<Wallet> list =  JDBCUtil.executeQuery("select wname, pwdMd5, blockChainSymbol, waddress, privateKeyAES, mnemonicAES, created from wallet where wname=?", new Object[] {name}, Installer.getConnection(), new Mapper<Wallet>() {
 	    @Override
 	    protected Wallet next(ResultSet rs) throws SQLException {
-		return new Wallet(rs.getString("wname"), rs.getString("pwdMd5"), rs.getString("symbol"), rs.getString("waddress"), rs.getString("privateKeyAES"), rs.getString("mnemonicAES"), rs.getDate("created"));
+		return new Wallet(rs.getString("wname"), rs.getString("pwdMd5"), rs.getString("blockChainSymbol"), rs.getString("waddress"), rs.getString("privateKeyAES"), rs.getString("mnemonicAES"), rs.getDate("created"));
 	    }
 	});
         
@@ -70,11 +70,11 @@ public class WalletDAO {
 //    }
     
     public static List<Wallet> getList() throws SQLException {
-        // 按symbol及钱包名称排序
-	return JDBCUtil.executeQuery("select wname, pwdMd5, symbol, waddress, privateKeyAES, mnemonicAES, created from wallet order by symbol, wname", new Object[] {}, Installer.getConnection(), new Mapper<Wallet>() {
+        // 按blockChainSymbol及钱包名称排序
+	return JDBCUtil.executeQuery("select wname, pwdMd5, blockChainSymbol, waddress, privateKeyAES, mnemonicAES, created from wallet order by blockChainSymbol, wname", new Object[] {}, Installer.getConnection(), new Mapper<Wallet>() {
 	    @Override
 	    protected Wallet next(ResultSet rs) throws SQLException {
-		return new Wallet(rs.getString("wname"), rs.getString("pwdMd5"), rs.getString("symbol"), rs.getString("waddress"), rs.getString("privateKeyAES"), rs.getString("mnemonicAES"), rs.getDate("created"));
+		return new Wallet(rs.getString("wname"), rs.getString("pwdMd5"), rs.getString("blockChainSymbol"), rs.getString("waddress"), rs.getString("privateKeyAES"), rs.getString("mnemonicAES"), rs.getDate("created"));
 	    }
 	    
 	});

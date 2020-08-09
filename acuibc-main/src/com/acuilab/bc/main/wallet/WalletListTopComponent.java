@@ -3,6 +3,7 @@ package com.acuilab.bc.main.wallet;
 import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.dao.WalletDAO;
 import com.acuilab.bc.main.manager.BlockChainManager;
+import com.google.common.collect.Maps;
 import java.sql.SQLException;
 import java.util.List;
 import org.netbeans.api.settings.ConvertAsProperties;
@@ -42,6 +43,8 @@ import org.jdesktop.swingx.JXTaskPane;
     "HINT_WalletListTopComponent=我的钱包们"
 })
 public final class WalletListTopComponent extends TopComponent {
+    
+    private final Map<String, JXTaskPane> taskPaneMap = Maps.newHashMap();
 
     public WalletListTopComponent() {
         initComponents();
@@ -65,7 +68,7 @@ public final class WalletListTopComponent extends TopComponent {
         try {
             // 从数据库加载所有钱包
             List<Wallet> list = WalletDAO.getList();
-            Map<String,List<Wallet>> walletGroupMap = list.stream().collect(Collectors.groupingBy(Wallet::getSymbol));
+            Map<String,List<Wallet>> walletGroupMap = list.stream().collect(Collectors.groupingBy(Wallet::getBlockChainSymbol));
             walletGroupMap.entrySet().forEach(entry -> {
                 BlockChain bc = BlockChainManager.getDefault().getBlockChain(entry.getKey());
                 JXTaskPane taskPane = new JXTaskPane(bc.getSymbol(), bc.getIcon(16));
@@ -81,10 +84,29 @@ public final class WalletListTopComponent extends TopComponent {
                 }
                 
                 jXTaskPaneContainer1.add(taskPane);
+                taskPaneMap.put(bc.getSymbol(), taskPane);
             });
 
         } catch (SQLException ex) {
             Exceptions.printStackTrace(ex);
+        }
+    }
+    
+    public void addWallet(Wallet wallet) {
+        JXTaskPane taskPane = taskPaneMap.get(wallet.getBlockChainSymbol());
+        if(taskPane != null) {
+            // 在该任务面板尾部插入钱包面板
+            taskPane.getContentPane().add(Box.createVerticalStrut(10));
+            taskPane.add(new WalletPanel(wallet));
+        } else {
+            // 新建任务面板并插入钱包面板
+            BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
+            taskPane = new JXTaskPane(bc.getSymbol(), bc.getIcon(16));
+            taskPane.setLayout(new BoxLayout(taskPane.getContentPane(), BoxLayout.Y_AXIS));
+            taskPane.add(new WalletPanel(wallet));
+                
+            jXTaskPaneContainer1.add(taskPane);
+            taskPaneMap.put(bc.getSymbol(), taskPane);
         }
     }
 

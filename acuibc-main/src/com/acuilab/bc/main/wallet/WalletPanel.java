@@ -1,7 +1,6 @@
 package com.acuilab.bc.main.wallet;
 
 import com.acuilab.bc.main.BlockChain;
-import com.acuilab.bc.main.coin.Coin;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
 import com.acuilab.bc.main.util.AESUtil;
@@ -31,6 +30,8 @@ import org.openide.windows.WindowManager;
 public class WalletPanel extends JXPanel {
     
     private final Wallet wallet;
+    private final Coin baseCoin;
+    
     private String walletTopComponentId;
     
     /**
@@ -40,18 +41,16 @@ public class WalletPanel extends JXPanel {
     public WalletPanel(Wallet wallet) {
         initComponents();
         
-        BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getSymbol());
+        BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
         walletIconFld.setIcon(bc.getIcon(64));
         
         walletNameFld.setText(wallet.getName());
         walletAddressFld.setText(wallet.getAddress());
         
         // 获得余额
-        Coin coin = CoinManager.getDefault().getBaseCoin(wallet.getSymbol());
-        if(coin != null) {
-            BigInteger balance = coin.balanceOf(wallet.getAddress());
-            balanceFld.setText(coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit());
-        }
+        baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
+        BigInteger balance = baseCoin.balanceOf(wallet.getAddress());
+        balanceFld.setText(baseCoin.minUnit2MainUint(balance).setScale(baseCoin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + baseCoin.getMainUnit());
         
         this.wallet = wallet;
         this.walletTopComponentId = null;
@@ -108,6 +107,11 @@ public class WalletPanel extends JXPanel {
         walletNameFld.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(receivingBtn, org.openide.util.NbBundle.getMessage(WalletPanel.class, "WalletPanel.receivingBtn.text")); // NOI18N
+        receivingBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                receivingBtnActionPerformed(evt);
+            }
+        });
 
         org.openide.awt.Mnemonics.setLocalizedText(transferBtn, org.openide.util.NbBundle.getMessage(WalletPanel.class, "WalletPanel.transferBtn.text")); // NOI18N
         transferBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -146,7 +150,7 @@ public class WalletPanel extends JXPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(balanceFld, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE))
+                        .addComponent(balanceFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(walletIconFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -178,7 +182,7 @@ public class WalletPanel extends JXPanel {
 
     private void transferBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transferBtnActionPerformed
         List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<>();
-        panels.add(new TransferInputWizardPanel(wallet));
+        panels.add(new TransferInputWizardPanel(wallet, baseCoin));
         panels.add(new PasswordInputWizardPanel(wallet));
         panels.add(new TransferConfirmWizardPanel(wallet));
         String[] steps = new String[panels.size()];
@@ -206,13 +210,15 @@ public class WalletPanel extends JXPanel {
             int gas = (int)wiz.getProperty("gas");
             String pwd = (String)wiz.getProperty("password");
             
-            Coin coin = CoinManager.getDefault().getBaseCoin(wallet.getSymbol());
             try {
                 System.out.println("privateKey=" + AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd));
                 System.out.println("recvAddress=" + recvAddress);
                 System.out.println("value=" + value);
                 System.out.println("gas=" + gas);
-                String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), recvAddress, coin.mainUint2MinUint(NumberUtils.toDouble(value)), BigInteger.valueOf(gas));
+                String hash = baseCoin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), 
+                        recvAddress, 
+                        baseCoin.mainUint2MinUint(NumberUtils.toDouble(value)), 
+                        BigInteger.valueOf(gas));
                 System.out.println("hash=====================" + hash);
             } catch (Exception ex) {
                 Exceptions.printStackTrace(ex);
@@ -221,11 +227,8 @@ public class WalletPanel extends JXPanel {
     }//GEN-LAST:event_transferBtnActionPerformed
 
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
-        Coin coin = CoinManager.getDefault().getBaseCoin(wallet.getSymbol());
-        if(coin != null) {
-            BigInteger balance = coin.balanceOf(wallet.getAddress());
-            balanceFld.setText(coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit());
-        }
+        BigInteger balance = baseCoin.balanceOf(wallet.getAddress());
+        balanceFld.setText(baseCoin.minUnit2MainUint(balance).setScale(baseCoin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + baseCoin.getMainUnit());
     }//GEN-LAST:event_refreshBtnActionPerformed
 
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
@@ -245,6 +248,11 @@ public class WalletPanel extends JXPanel {
         tc.requestActive();
         walletTopComponentId = tc.preferredID();
     }//GEN-LAST:event_openBtnActionPerformed
+
+    private void receivingBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receivingBtnActionPerformed
+        RecvDialog dlg = new RecvDialog(null, wallet.getAddress());
+        dlg.setVisible(true);
+    }//GEN-LAST:event_receivingBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

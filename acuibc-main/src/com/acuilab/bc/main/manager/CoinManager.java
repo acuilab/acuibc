@@ -1,7 +1,7 @@
 package com.acuilab.bc.main.manager;
 
-import com.acuilab.bc.main.coin.Coin;
-import com.acuilab.bc.main.coin.Coin.Type;
+import com.acuilab.bc.main.wallet.Coin;
+import com.acuilab.bc.main.wallet.Coin.Type;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import java.util.Collection;
@@ -51,11 +51,11 @@ public class CoinManager {
         return map.get(key);
     }
     
-    public Coin getBaseCoin(String symbol) {
+    public Coin getBaseCoin(String blockChainSymbol) {
         Iterator<String> it = map.keySet().iterator();
         while (it.hasNext()) {
             Coin coin = map.get(it.next());
-            if(StringUtils.equals(coin.getSymbol(), symbol)) {
+            if(StringUtils.equals(coin.getBlockChainSymbol(), blockChainSymbol)) {
                 if(coin.getType() == Type.BASE) {
                     return coin;
                 }
@@ -67,16 +67,16 @@ public class CoinManager {
     
     /**
      * 获得某个区块链的币列表，且主网币排在第一位
-     * @param symbol
+     * @param blockChainSymbol
      * @return 
      */
-    public List<Coin> getCoinList(String symbol) {
+    public List<Coin> getCoinList(String blockChainSymbol) {
         List<Coin> list = Lists.newArrayList();
         Iterator<String> it = map.keySet().iterator();
         Coin baseCoin = null;
         while (it.hasNext()) {
             Coin coin = map.get(it.next());
-            if(StringUtils.equals(coin.getSymbol(), symbol)) {
+            if(StringUtils.equals(coin.getBlockChainSymbol(), blockChainSymbol)) {
                 if(coin.getType() == Type.TOKEN) {
                     list.add(coin);
                 } else {

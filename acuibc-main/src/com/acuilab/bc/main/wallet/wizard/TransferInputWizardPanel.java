@@ -1,6 +1,7 @@
 package com.acuilab.bc.main.wallet.wizard;
 
 import com.acuilab.bc.main.BlockChain;
+import com.acuilab.bc.main.wallet.Coin;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.util.RegExpValidatorUtils;
 import com.acuilab.bc.main.wallet.Wallet;
@@ -13,9 +14,11 @@ import org.openide.util.HelpCtx;
 public class TransferInputWizardPanel implements WizardDescriptor.ValidatingPanel<WizardDescriptor> {
 
     private final Wallet wallet;
+    private final Coin coin;
     
-    public TransferInputWizardPanel(Wallet wallet) {
+    public TransferInputWizardPanel(Wallet wallet, Coin coin) {
         this.wallet = wallet;
+        this.coin = coin;
     }
     
     /**
@@ -31,7 +34,7 @@ public class TransferInputWizardPanel implements WizardDescriptor.ValidatingPane
     @Override
     public TransferInputVisualPanel getComponent() {
         if (component == null) {
-            component = new TransferInputVisualPanel(wallet);
+            component = new TransferInputVisualPanel(wallet, coin);
         }
         return component;
     }
@@ -77,7 +80,7 @@ public class TransferInputWizardPanel implements WizardDescriptor.ValidatingPane
 
     @Override
     public void validate() throws WizardValidationException {
-        BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getSymbol());
+        BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
         // 转账地址是有效的
         String recvAddress = component.getRecvAddressFld().getText();
         if(!bc.isValidAddress(recvAddress)) {

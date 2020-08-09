@@ -74,11 +74,10 @@ public class CreateAction extends AbstractAction {
                         Wallet wallet = blockChain.createWalletByMnemonic(walletName, pwd, mnemonicWords);
                         WalletDAO.insert(wallet);
 
+                        
                         // 重新加载钱包列表
                         WalletListTopComponent tc = (WalletListTopComponent)WindowManager.getDefault().findTopComponent("WalletListTopComponent");
-                        if(tc != null) {
-                            tc.myInit();
-                        }
+                        tc.addWallet(wallet);
                     }
                 } catch (SQLException ex) {
                     Exceptions.printStackTrace(ex);

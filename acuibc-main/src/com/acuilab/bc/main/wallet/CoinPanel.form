@@ -25,7 +25,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jXLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jXTextField1" pref="493" max="32767" attributes="0"/>
+                      <Component id="balanceFld" pref="493" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -39,7 +39,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jXButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jXLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jXTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="balanceFld" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" pref="577" max="32767" attributes="0"/>
@@ -62,8 +62,11 @@
           <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="CoinPanel.jXButton1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jXButton1ActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="org.jdesktop.swingx.JXTextField" name="jXTextField1">
+    <Component class="org.jdesktop.swingx.JXTextField" name="balanceFld">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -72,7 +75,7 @@
           </Border>
         </Property>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="CoinPanel.jXTextField1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="CoinPanel.balanceFld.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>

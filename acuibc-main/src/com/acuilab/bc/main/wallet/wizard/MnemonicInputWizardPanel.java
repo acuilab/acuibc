@@ -67,9 +67,10 @@ public class MnemonicInputWizardPanel implements WizardDescriptor.ValidatingPane
     @Override
     public void validate() throws WizardValidationException {
         String mnemonic = component.getMnemonicArea().getText();
+        String mnemonicGroup = (String)component.getMnemonicGroup().getSelectedValue();
         if(StringUtils.isBlank(mnemonic)) {
             component.getMnemonicArea().requestFocus();
-            String mnemonicGroup = (String)component.getMnemonicGroup().getSelectedValue();
+            
             if(StringUtils.equals(mnemonicGroup, "助记词")) {
                 throw new WizardValidationException(null, "请输入您的助记词", null);
             } else {
@@ -78,6 +79,14 @@ public class MnemonicInputWizardPanel implements WizardDescriptor.ValidatingPane
         }
         
         // TODO: 12个单词，空格分隔
+        if(StringUtils.equals(mnemonicGroup, "助记词")) {
+            String[] mnemonicArray = StringUtils.split(mnemonic, " ");
+            if(mnemonicArray.length != 12) {
+                component.getMnemonicArea().requestFocus();
+                throw new WizardValidationException(null, "您输入的助记词不满足以空格分隔的12个英文单词", null);
+            } 
+        }
+
     }
 
 }

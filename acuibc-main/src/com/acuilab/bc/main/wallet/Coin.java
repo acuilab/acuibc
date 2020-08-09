@@ -1,9 +1,8 @@
-package com.acuilab.bc.main.coin;
+package com.acuilab.bc.main.wallet;
 
 import com.acuilab.bc.main.wallet.TransferRecord;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.List;
 
 /**
  *
@@ -13,8 +12,14 @@ public interface Coin {
     // 名称
     public String getName();
     
-    // 简称
+    // 简称（外键）
     public String getSymbol();
+    
+    /**
+     * 获得区块链简称
+     * @return 
+     */
+    public String getBlockChainSymbol();
     
     /**
      * 主单位；例如CFX
@@ -77,13 +82,13 @@ public interface Coin {
      * @throws java.lang.Exception
      */
     public String transfer(String privateKey, String to, BigInteger value, BigInteger gas) throws Exception;
-    
+
     /**
-     * 交易记录
-     * @param address
+     * 根据交易哈希获得交易记录
+     * @param hash
      * @return 
      */
-    public List<TransferRecord> transferRecord(String address);
+    public TransferRecord getTransferRecordByHash(String hash);
     
     public static enum Type {
         // 主网币、代币

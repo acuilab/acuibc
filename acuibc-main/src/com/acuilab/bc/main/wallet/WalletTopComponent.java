@@ -1,7 +1,6 @@
 package com.acuilab.bc.main.wallet;
 
 import com.acuilab.bc.main.BlockChain;
-import com.acuilab.bc.main.coin.Coin;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
 import java.math.BigInteger;
@@ -31,7 +30,7 @@ public final class WalletTopComponent extends TopComponent {
         initComponents();
         setName(wallet.getName());
         setToolTipText(wallet.getName());
-        BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getSymbol());
+        BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
         this.setIcon(bc.getIconImage(16));
         putClientProperty(TopComponent.PROP_CLOSING_DISABLED, Boolean.FALSE);
         putClientProperty(TopComponent.PROP_DRAGGING_DISABLED, Boolean.FALSE);
@@ -48,14 +47,14 @@ public final class WalletTopComponent extends TopComponent {
             mnemonicExportBtn.setToolTipText("私钥导入，无助记词");
         }
         
-        Coin coin = CoinManager.getDefault().getBaseCoin(wallet.getSymbol());
+        Coin coin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
         if(coin != null) {
             BigInteger balance = coin.balanceOf(wallet.getAddress());
             balanceFld.setText(coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit() + "【" + balance.toString() + " " + coin.getMinUnit() + "】");
         }
         
         // 遍历coin
-        List<Coin> list = CoinManager.getDefault().getCoinList(wallet.getSymbol());
+        List<Coin> list = CoinManager.getDefault().getCoinList(wallet.getBlockChainSymbol());
         for(int i=0; i<list.size(); i++) {
             jTabbedPane1.add(list.get(i).getName(), new CoinPanel(wallet, list.get(i)));
         }
@@ -122,6 +121,11 @@ public final class WalletTopComponent extends TopComponent {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(recvBtn, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.recvBtn.text")); // NOI18N
+        recvBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recvBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jXPanel1Layout = new javax.swing.GroupLayout(jXPanel1);
         jXPanel1.setLayout(jXPanel1Layout);
@@ -216,6 +220,11 @@ public final class WalletTopComponent extends TopComponent {
             exportPrivateKeyDialog.setVisible(true);
         }
     }//GEN-LAST:event_jXButton2ActionPerformed
+
+    private void recvBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recvBtnActionPerformed
+        RecvDialog dlg = new RecvDialog(null, wallet.getAddress());
+        dlg.setVisible(true);
+    }//GEN-LAST:event_recvBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXTextField balanceFld;

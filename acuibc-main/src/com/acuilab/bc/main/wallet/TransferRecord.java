@@ -8,12 +8,21 @@ import java.util.Date;
  */
 public class TransferRecord {
     
-    private String status;
-    private String SendAddress;
-    private String recvAddress;
-    private String remark;
-    private String hash;
-    private Date created;
+    private String coinName;        // 代币名称
+    private String status;          // 交易状态
+    private String SendAddress;     // 发送地址
+    private String recvAddress;     // 接收地址
+    private String remark;          // 备注
+    private String hash;            // 交易哈希(主键)
+    private Date created;           // 创建时间
+
+    public String getCoinName() {
+        return coinName;
+    }
+
+    public void setCoinName(String coinName) {
+        this.coinName = coinName;
+    }
 
     public String getStatus() {
         return status;

@@ -19,10 +19,6 @@ import javax.swing.Icon;
 import org.openide.util.ImageUtilities;
 import com.acuilab.bc.main.BlockChain;
 import conflux.web3j.CfxUnit;
-import conflux.web3j.Request;
-import conflux.web3j.request.Epoch;
-import conflux.web3j.request.LogFilter;
-import conflux.web3j.response.Log;
 import conflux.web3j.response.Status;
 import conflux.web3j.types.Address;
 import conflux.web3j.types.AddressException;
@@ -36,9 +32,10 @@ import java.util.Arrays;
 public class CFXBlockChain implements BlockChain {
     
     private static final Logger LOG = Logger.getLogger(CFXBlockChain.class.getName());
-    private static final String DEFAULT_NODE = "http://mainnet-jsonrpc.conflux-chain.org:12537";
-    private static final String BIP44PATH = "m/44'/503'/0'/0/0";
-    private static final String SYMBOL = "CFX";
+    
+    public static final String DEFAULT_NODE = "http://mainnet-jsonrpc.conflux-chain.org:12537"; // 默认结点地址
+    public static final String BIP44PATH = "m/44'/503'/0'/0/0";
+    public static final String SYMBOL = "CFX";
     
     private Cfx cfx;
     private BigInteger chainId;

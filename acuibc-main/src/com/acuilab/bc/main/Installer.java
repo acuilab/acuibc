@@ -50,7 +50,7 @@ public class Installer extends ModuleInstall {
     }
 
     private void initTables() {
-	// 若user表没有建立，则重建所有表
+	// 
 	try {
 	    try (Statement stmt = getConnection().createStatement()) {
 		stmt.execute("SELECT 1 FROM wallet");
@@ -58,8 +58,22 @@ public class Installer extends ModuleInstall {
 	} catch(SQLException e) {
 	    try {
 		try (Statement stmt = getConnection().createStatement()) {
-		    stmt.execute("CREATE TABLE wallet (wname VARCHAR(255), pwdMd5 VARCHAR(255), symbol VARCHAR(255), waddress VARCHAR(255), privateKeyAES VARCHAR(255), mnemonicAES VARCHAR(255), created TIMESTAMP, PRIMARY KEY(wname))");
-		}
+		    stmt.execute("CREATE TABLE wallet (wname VARCHAR(255), pwdMd5 VARCHAR(255), blockChainSymbol VARCHAR(255), waddress VARCHAR(255), privateKeyAES VARCHAR(255), mnemonicAES VARCHAR(255), created TIMESTAMP, PRIMARY KEY(wname))");
+                }
+	    } catch(SQLException ex) {
+		Exceptions.printStackTrace(ex);
+	    }
+	}
+        
+	try {
+	    try (Statement stmt = getConnection().createStatement()) {
+		stmt.execute("SELECT 1 FROM transferRecord");
+	    }
+	} catch(SQLException e) {
+	    try {
+		try (Statement stmt = getConnection().createStatement()) {
+                    stmt.execute("CREATE TABLE transferRecord (coinName VARCHAR(255), status VARCHAR(255), sendAddress VARCHAR(255), recvAddress VARCHAR(255), remark VARCHAR(255), hash VARCHAR(255), created TIMESTAMP, PRIMARY KEY(hash))");
+                }
 	    } catch(SQLException ex) {
 		Exceptions.printStackTrace(ex);
 	    }

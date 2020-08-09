@@ -1,27 +1,15 @@
 package com.acuilab.bc.cfx;
 
-import com.acuilab.bc.main.coin.Coin;
+import com.acuilab.bc.main.wallet.Coin;
 import com.acuilab.bc.main.wallet.TransferRecord;
-import com.google.common.collect.Lists;
 import conflux.web3j.Account;
 import conflux.web3j.Cfx;
 import conflux.web3j.CfxUnit;
 import conflux.web3j.Request;
-import conflux.web3j.request.Epoch;
-import conflux.web3j.request.LogFilter;
 import conflux.web3j.response.BigIntResponse;
-import conflux.web3j.response.Block;
-import conflux.web3j.response.Log;
-import conflux.web3j.response.Transaction;
 import conflux.web3j.types.RawTransaction;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.List;
-import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.apache.commons.lang3.StringUtils;
 import org.openide.util.Lookup;
 
 /**
@@ -29,15 +17,25 @@ import org.openide.util.Lookup;
  * @author admin
  */
 public class CFXCoin implements Coin {
+    
+    public static final String NAME = "CFX";
+    public static final String SYMBOL = "CFX";
+    // http://47.102.164.229:8885/api/transaction/list?page=1&pageSize=10&txType=all&accountAddress=0x18549f607b2023585d04cbb72eb7d05b4c980355
+    public static final String TRANSACTION_LIST_URL = "http://47.102.164.229:8885/api/transaction/list";
 
     @Override
     public String getName() {
-        return "CFX";
+        return NAME;
     }
 
     @Override
     public String getSymbol() {
-        return "CFX";
+        return SYMBOL;
+    }
+    
+    @Override
+    public String getBlockChainSymbol() {
+        return CFXBlockChain.SYMBOL;
     }
 
     @Override
@@ -53,72 +51,7 @@ public class CFXCoin implements Coin {
         
         return req.sendAndGet();
     }
-
-    @Override
-    public List<TransferRecord> transferRecord(String address) {
-        List<TransferRecord> list = Lists.newArrayList();
-        
-        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
-        Cfx cfx = bc.getCfx();
-        
-//        LogFilter filter = new LogFilter();
-////        filter.setAddress(Arrays.asList(address));
-//        filter.setFromEpoch(Epoch.numberOf(2025454));
-//        filter.setToEpoch(Epoch.numberOf(2025658));
-////        filter.setLimit(20000l);
-//        Request<List<Log>, Log.Response> req = cfx.getLogs(filter);
-//        List<Log> logs = req.sendAndGet();
-//        System.out.println("logs.size=" + logs.size());
-//        for(Log log : logs) {
-//            if(StringUtils.equals(log.getAddress(), address)) {
-//                System.out.println("address=" + log.getAddress());
-//                System.out.println("data=" + log.getData());
-//                List<String> topics = log.getTopics();
-//                for(String topic : topics) {
-//                    System.out.println("topic=" + topic);
-//                }
-//                System.out.println("transactionHash=" + log.getTransactionHash());
-//                System.out.println("————————————————————————————————————————————————————");
-//            }
-//        }
-//        Request<BigInteger, BigIntResponse>  req = cfx.getEpochNumber(Epoch.latestMined());
-//        BigInteger end = req.sendAndGet();
-        getTransactionsByAddr(address, 2025456, 2025656);
-        
-        return list;
-    }
     
-    private void getTransactionsByAddr(String address, long startBlockNumber, long endBlockNumber) {
-        long ts = System.currentTimeMillis();
-        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
-        Cfx cfx = bc.getCfx();
-        for(long i=startBlockNumber; i<=endBlockNumber; i++) {
-            Request<Optional<Block>, Block.Response> req = cfx.getBlockByEpoch(Epoch.numberOf(i));
-            Optional<Block> block = req.sendAndGet(3, 100000);
-            List<Transaction> transactions = block.get().getTransactions();
-            for(Transaction trans : transactions) {
-//                System.out.println(trans.getFrom());
-                if(StringUtils.equalsAnyIgnoreCase(address, trans.getFrom(), trans.getTo().get())) {
-                    System.out.println("tx hash=" + trans.getHash());
-                    System.out.println("nonce =" + trans.getNonce());
-                    System.out.println("blockHash =" + trans.getBlockHash());
-                    System.out.println("transactionIndex=" + trans.getTransactionIndex().get());
-                    System.out.println("from  =" + trans.getFrom());
-                    System.out.println("to  =" + trans.getTo().get());
-                    System.out.println("value   =" + trans.getValue());
-                    System.out.println("time   =" + trans.getContractCreated().orElse("无"));
-                    System.out.println("gasPrice   =" + trans.getGasPrice());
-                    System.out.println("gas   =" + trans.getGas());
-                    System.out.println("epoch height   =" + trans.getEpochHeight());
-                    System.out.println("————————————————————————————————————————————————————");
-                }
-                
-            }
-        }
-        
-        System.out.println("ts=" + (System.currentTimeMillis() - ts));
-    }
-
     /**
      * 转账
      * @param to        接收地址
@@ -170,6 +103,26 @@ public class CFXCoin implements Coin {
     @Override
     public BigInteger mainUint2MinUint(long mainUnitValue) {
         return CfxUnit.cfx2Drip(mainUnitValue);
+    }
+
+    @Override
+    public TransferRecord getTransferRecordByHash(String hash) {
+//        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
+//        Cfx cfx = bc.getCfx();
+//        
+//        Request<Optional<Transaction>, Transaction.Response>  req = cfx.getTransactionByHash(hash);
+//        Transaction transaction = req.sendAndGet().orElse(null);
+//        if(transaction != null) {
+//            TransferRecord tr = new TransferRecord();
+//            tr.setCoinName(NAME);
+//        }
+//        
+//        Request<Optional<Receipt>, Receipt.Response> req2 = cfx.getTransactionReceipt(hash);
+//        Receipt receipt = req2.sendAndGet().orElse(null);
+//        if(receipt != null) {
+//        }
+        
+        return null;
     }
     
 }

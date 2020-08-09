@@ -11,9 +11,9 @@ import javax.swing.Icon;
  */
 public class Wallet {
 
-    private String name;          // 钱包名称
+    private String name;          // 钱包名称(主键)
     private String pwdMD5;        // 钱包密码
-    private final String symbol;        // 区块链简称
+    private final String blockChainSymbol;        // 区块链简称
     private final String address;       // 钱包地址
     private final String privateKeyAES;    // 私钥
     private final String mnemonicAES;      // 助记词
@@ -23,11 +23,11 @@ public class Wallet {
         this(name, pwdMD5, symbol, address, privateKeyAES, "", created);
     }
     
-    public Wallet(String name, String pwdMD5, String symbol, String address, String privateKeyAES, String mnemonicAES, Date created) {
+    public Wallet(String name, String pwdMD5, String blockChainSymbol, String address, String privateKeyAES, String mnemonicAES, Date created) {
         this.name = name;
         this.pwdMD5 = pwdMD5;
         
-        this.symbol = symbol;
+        this.blockChainSymbol = blockChainSymbol;
         this.address = address;
         this.privateKeyAES = privateKeyAES;
         this.mnemonicAES = mnemonicAES;
@@ -50,8 +50,8 @@ public class Wallet {
         this.pwdMD5 = pwdMD5;
     }
     
-    public String getSymbol() {
-        return symbol;
+    public String getBlockChainSymbol() {
+        return blockChainSymbol;
     }
 
     public String getAddress() {

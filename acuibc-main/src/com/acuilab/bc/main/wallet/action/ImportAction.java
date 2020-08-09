@@ -36,57 +36,55 @@ public class ImportAction extends AbstractAction {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-                try {
-                    List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<>();
-                    panels.add(new NameCoinWizardPanel());
-                    panels.add(new PasswordWizardPanel());
-                    panels.add(new MnemonicInputWizardPanel());
-                    String[] steps = new String[panels.size()];
-                    for (int i = 0; i < panels.size(); i++) {
-                        Component c = panels.get(i).getComponent();
-                        // Default step name to component name of panel.
-                        steps[i] = c.getName();
-                        if (c instanceof JComponent) { // assume Swing components
-                            JComponent jc = (JComponent) c;
-                            jc.putClientProperty(WizardDescriptor.PROP_CONTENT_SELECTED_INDEX, i);
-                            jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DATA, steps);
-                            jc.putClientProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE, true);
-                            jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, true);
-                            jc.putClientProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, true);
-                        }
-                    }
-                    WizardDescriptor wiz = new WizardDescriptor(new WizardDescriptor.ArrayIterator<>(panels));
-                    // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
-                    wiz.setTitleFormat(new MessageFormat("{0}"));
-                    wiz.setTitle("导入钱包");
-                    if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
-                        // TODO: 
-                        String pwd = (String)wiz.getProperty("password");
-                        String walletName = (String)wiz.getProperty("walletName");
-                        String coinSymbal = (String)wiz.getProperty("coinSymbal");
-                        String mnemonicGroup = (String)wiz.getProperty("mnemonicGroup");
-                        String mnemonicOrPrivate = (String)wiz.getProperty("mnemonicOrPrivate");    // 助记词或私钥
-
-                        BlockChain blockChain = BlockChainManager.getDefault().getBlockChain(coinSymbal);
-                        if(StringUtils.equals(mnemonicGroup, "助记词")) {
-                            // 保存钱包到数据库
-                            Wallet wallet = blockChain.importWalletByMnemonic(walletName, pwd, mnemonicOrPrivate);
-                            WalletDAO.insert(wallet);
-                        } else {
-                            Wallet wallet = blockChain.importWalletByPrivateKey(walletName, pwd, mnemonicOrPrivate);
-                            WalletDAO.insert(wallet);
-                        }
-
-                        // 重新加载钱包列表
-                        WalletListTopComponent tc = (WalletListTopComponent)WindowManager.getDefault().findTopComponent("WalletListTopComponent");
-                        System.out.println("tc=======================================================" + tc);
-                        if(tc != null) {
-                            tc.myInit();
-                        }
-                        
-                    }
-                } catch (SQLException ex) {
-                    Exceptions.printStackTrace(ex);
+        try {
+            List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<>();
+            panels.add(new NameCoinWizardPanel());
+            panels.add(new PasswordWizardPanel());
+            panels.add(new MnemonicInputWizardPanel());
+            String[] steps = new String[panels.size()];
+            for (int i = 0; i < panels.size(); i++) {
+                Component c = panels.get(i).getComponent();
+                // Default step name to component name of panel.
+                steps[i] = c.getName();
+                if (c instanceof JComponent) { // assume Swing components
+                    JComponent jc = (JComponent) c;
+                    jc.putClientProperty(WizardDescriptor.PROP_CONTENT_SELECTED_INDEX, i);
+                    jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DATA, steps);
+                    jc.putClientProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE, true);
+                    jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, true);
+                    jc.putClientProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, true);
                 }
+            }
+            WizardDescriptor wiz = new WizardDescriptor(new WizardDescriptor.ArrayIterator<>(panels));
+            // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
+            wiz.setTitleFormat(new MessageFormat("{0}"));
+            wiz.setTitle("导入钱包");
+            if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
+                // TODO: 
+                String pwd = (String)wiz.getProperty("password");
+                String walletName = (String)wiz.getProperty("walletName");
+                String coinSymbal = (String)wiz.getProperty("coinSymbal");
+                String mnemonicGroup = (String)wiz.getProperty("mnemonicGroup");
+                String mnemonicOrPrivate = StringUtils.trim((String)wiz.getProperty("mnemonicOrPrivate"));    // 助记词或私钥
+
+                WalletListTopComponent tc = (WalletListTopComponent)WindowManager.getDefault().findTopComponent("WalletListTopComponent");
+                BlockChain blockChain = BlockChainManager.getDefault().getBlockChain(coinSymbal);
+                if(StringUtils.equals(mnemonicGroup, "助记词")) {
+                    // 保存钱包到数据库
+                    Wallet wallet = blockChain.importWalletByMnemonic(walletName, pwd, mnemonicOrPrivate);
+                    WalletDAO.insert(wallet);
+                    
+                    tc.addWallet(wallet);
+                } else {
+                    Wallet wallet = blockChain.importWalletByPrivateKey(walletName, pwd, mnemonicOrPrivate);
+                    WalletDAO.insert(wallet);
+                
+                    tc.addWallet(wallet);
+                }
+
+            }
+        } catch (SQLException ex) {
+            Exceptions.printStackTrace(ex);
+        }
     }
 }

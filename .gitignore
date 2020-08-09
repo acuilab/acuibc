@@ -47,3 +47,5 @@ hs_err_pid*
 /reactive-streams-1.0.2/nbproject/private/
 /rxjava-2.2.2/nbproject/private/
 /slf4j-api-1.7.25/nbproject/private/
+/acuibc-eth/build/
+/zxing-3.4.0/build/

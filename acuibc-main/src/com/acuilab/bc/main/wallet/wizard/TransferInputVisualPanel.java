@@ -1,9 +1,8 @@
 package com.acuilab.bc.main.wallet.wizard;
 
 import com.acuilab.bc.main.BlockChain;
-import com.acuilab.bc.main.coin.Coin;
+import com.acuilab.bc.main.wallet.Coin;
 import com.acuilab.bc.main.manager.BlockChainManager;
-import com.acuilab.bc.main.manager.CoinManager;
 import com.acuilab.bc.main.wallet.Wallet;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -12,23 +11,24 @@ import javax.swing.JTextField;
 public final class TransferInputVisualPanel extends JPanel {
     
     private final Wallet wallet;
+    private final Coin coin;
     
     /**
      * Creates new form TransferVisualPanel1
      */
-    public TransferInputVisualPanel(Wallet wallet) {
+    public TransferInputVisualPanel(Wallet wallet, Coin coin) {
         initComponents();
         
         this.wallet = wallet;
+        this.coin = coin;
         
-        BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getSymbol());
+        BlockChain bc = BlockChainManager.getDefault().getBlockChain(coin.getBlockChainSymbol());
         gasSlider.setMinimum(bc.gasMin());
         gasSlider.setMaximum(bc.gasMax());
         gasSlider.setValue(bc.gasDefaultValue());
         gasLbl.setText(bc.gasDesc(bc.gasDefaultValue()));
         
-        Coin coin = CoinManager.getDefault().getBaseCoin(wallet.getSymbol());
-        valueFld.setPrompt(coin.getName());
+        valueFld.setPrompt(coin.getMainUnit());
         
         sendAddressFld.setText(wallet.getAddress());
     }
@@ -153,7 +153,7 @@ public final class TransferInputVisualPanel extends JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void gasSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_gasSliderStateChanged
-        BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getSymbol());
+        BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
         gasLbl.setText(bc.gasDesc(((JSlider) evt.getSource()).getValue()));
     }//GEN-LAST:event_gasSliderStateChanged
 

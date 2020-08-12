@@ -16,9 +16,9 @@ public class TransferRecordTableModel extends AbstractTableModel {
     public static final int STATUS_COLUMN = 1;
     public static final int SENDADDRESS_COLUMN = 2;
     public static final int RECVADDRESS_COLUMN = 3;
-    public static final int REMARK_COLUMN = 4;
-    public static final int HASH_COLUMN = 5;
-    public static final int CREATED_COLUMN = 6;
+    public static final int HASH_COLUMN = 4;
+    public static final int CREATED_COLUMN = 5;
+    public static final int REMARK_COLUMN = 6;
     public static final int COLUMN_COUNT = 7;
     
     private final List<TransferRecord> list = new ArrayList<>();
@@ -29,9 +29,9 @@ public class TransferRecordTableModel extends AbstractTableModel {
         "交易状态",
         "发送方",
         "接收方",
-        "备注",
         "交易哈希",
-        "时间"
+        "时间",
+        "备注"
     };
     
     public TransferRecordTableModel(JTable table) {

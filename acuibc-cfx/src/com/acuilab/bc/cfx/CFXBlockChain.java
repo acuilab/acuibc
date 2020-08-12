@@ -22,6 +22,7 @@ import conflux.web3j.CfxUnit;
 import conflux.web3j.response.Status;
 import conflux.web3j.types.Address;
 import conflux.web3j.types.AddressException;
+import conflux.web3j.types.AddressType;
 import java.awt.Image;
 import java.util.Arrays;
 
@@ -163,6 +164,7 @@ public class CFXBlockChain implements BlockChain {
     @Override
     public boolean isValidAddress(String address) {
         try {
+            // 合约地址也可以转账
             Address.validate(address);
             return true;
         } catch(AddressException e) {

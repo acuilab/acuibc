@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
+import org.openide.windows.WindowManager;
 
 /**
  * Top component which displays something.
@@ -56,7 +57,7 @@ public final class WalletTopComponent extends TopComponent {
         // 遍历coin
         List<Coin> list = CoinManager.getDefault().getCoinList(wallet.getBlockChainSymbol());
         for(int i=0; i<list.size(); i++) {
-            jTabbedPane1.add(list.get(i).getName(), new CoinPanel(wallet, list.get(i)));
+            tabbedPane1.add(list.get(i).getName(), new CoinPanel(wallet, list.get(i)));
         }
         
         // 这是一个新打开的窗口，生成新的窗口id并保存
@@ -83,30 +84,40 @@ public final class WalletTopComponent extends TopComponent {
         mnemonicExportBtn = new org.jdesktop.swingx.JXButton();
         jXButton2 = new org.jdesktop.swingx.JXButton();
         recvBtn = new org.jdesktop.swingx.JXButton();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabbedPane1 = new javax.swing.JTabbedPane();
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.jXLabel1.text")); // NOI18N
         jXLabel1.setPreferredSize(new java.awt.Dimension(128, 128));
 
         walletNameFld.setEditable(false);
         walletNameFld.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        walletNameFld.setForeground(new java.awt.Color(0, 0, 255));
         walletNameFld.setText(org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.walletNameFld.text")); // NOI18N
+        walletNameFld.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
 
         walletAddressFld.setEditable(false);
         walletAddressFld.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        walletAddressFld.setForeground(new java.awt.Color(0, 0, 255));
         walletAddressFld.setText(org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.walletAddressFld.text")); // NOI18N
+        walletAddressFld.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel2, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.jXLabel2.text")); // NOI18N
+        jXLabel2.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel3, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.jXLabel3.text")); // NOI18N
+        jXLabel3.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel4, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.jXLabel4.text")); // NOI18N
+        jXLabel4.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         balanceFld.setEditable(false);
         balanceFld.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        balanceFld.setForeground(java.awt.Color.magenta);
         balanceFld.setText(org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.balanceFld.text")); // NOI18N
+        balanceFld.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicExportBtn, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.mnemonicExportBtn.text")); // NOI18N
+        mnemonicExportBtn.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         mnemonicExportBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnemonicExportBtnActionPerformed(evt);
@@ -114,6 +125,7 @@ public final class WalletTopComponent extends TopComponent {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(jXButton2, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.jXButton2.text")); // NOI18N
+        jXButton2.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         jXButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jXButton2ActionPerformed(evt);
@@ -121,6 +133,7 @@ public final class WalletTopComponent extends TopComponent {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(recvBtn, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.recvBtn.text")); // NOI18N
+        recvBtn.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         recvBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 recvBtnActionPerformed(evt);
@@ -152,7 +165,7 @@ public final class WalletTopComponent extends TopComponent {
                         .addComponent(mnemonicExportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jXButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 386, Short.MAX_VALUE)))
+                        .addGap(0, 364, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jXPanel1Layout.setVerticalGroup(
@@ -181,6 +194,8 @@ public final class WalletTopComponent extends TopComponent {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        tabbedPane1.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -188,7 +203,7 @@ public final class WalletTopComponent extends TopComponent {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTabbedPane1)
+                    .addComponent(tabbedPane1)
                     .addComponent(jXPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -198,7 +213,7 @@ public final class WalletTopComponent extends TopComponent {
                 .addContainerGap()
                 .addComponent(jXPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
+                .addComponent(tabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -228,7 +243,6 @@ public final class WalletTopComponent extends TopComponent {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXTextField balanceFld;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private org.jdesktop.swingx.JXButton jXButton2;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel2;
@@ -237,6 +251,7 @@ public final class WalletTopComponent extends TopComponent {
     private org.jdesktop.swingx.JXPanel jXPanel1;
     private org.jdesktop.swingx.JXButton mnemonicExportBtn;
     private org.jdesktop.swingx.JXButton recvBtn;
+    private javax.swing.JTabbedPane tabbedPane1;
     private org.jdesktop.swingx.JXTextField walletAddressFld;
     private org.jdesktop.swingx.JXTextField walletNameFld;
     // End of variables declaration//GEN-END:variables

@@ -2,14 +2,20 @@ package com.acuilab.bc.cfx;
 
 import com.acuilab.bc.main.wallet.Coin;
 import com.acuilab.bc.main.wallet.TransferRecord;
+import com.google.common.collect.Lists;
 import conflux.web3j.Account;
 import conflux.web3j.Cfx;
 import conflux.web3j.CfxUnit;
 import conflux.web3j.Request;
 import conflux.web3j.response.BigIntResponse;
 import conflux.web3j.types.RawTransaction;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
 import org.openide.util.Lookup;
 
 /**
@@ -105,24 +111,24 @@ public class CFXCoin implements Coin {
         return CfxUnit.cfx2Drip(mainUnitValue);
     }
 
+    /**
+     * 使用OkHttp同步请求交易记录
+     * @param address
+     * @param limit
+     * @return 
+     */
     @Override
-    public TransferRecord getTransferRecordByHash(String hash) {
-//        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
-//        Cfx cfx = bc.getCfx();
-//        
-//        Request<Optional<Transaction>, Transaction.Response>  req = cfx.getTransactionByHash(hash);
-//        Transaction transaction = req.sendAndGet().orElse(null);
-//        if(transaction != null) {
-//            TransferRecord tr = new TransferRecord();
-//            tr.setCoinName(NAME);
-//        }
-//        
-//        Request<Optional<Receipt>, Receipt.Response> req2 = cfx.getTransactionReceipt(hash);
-//        Receipt receipt = req2.sendAndGet().orElse(null);
-//        if(receipt != null) {
-//        }
-        
-        return null;
+    public List<TransferRecord> getTransferRecords(String address, int limit) throws Exception {
+        String url = TRANSACTION_LIST_URL + "?page=1&pageSize=" + limit + "&txType=all&accountAddress=" + address;
+        OkHttpClient okHttpClient = new OkHttpClient();
+        final okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .build();
+        final Call call = okHttpClient.newCall(request);
+        okhttp3.Response response = call.execute();
+        System.out.println(response.body().string());
+
+        return Lists.newArrayList();
     }
-    
+
 }

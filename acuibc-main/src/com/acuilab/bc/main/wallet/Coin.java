@@ -1,11 +1,11 @@
 package com.acuilab.bc.main.wallet;
 
-import com.acuilab.bc.main.wallet.TransferRecord;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 
 /**
- *
+ *oo
  * @author admin
  */
 public interface Coin {
@@ -84,11 +84,13 @@ public interface Coin {
     public String transfer(String privateKey, String to, BigInteger value, BigInteger gas) throws Exception;
 
     /**
-     * 根据交易哈希获得交易记录
-     * @param hash
+     * 根据某个地址获得交易记录
+     * @param address
+     * @param limit     最多同步记录数
      * @return 
+     * @throws java.lang.Exception 
      */
-    public TransferRecord getTransferRecordByHash(String hash);
+    public List<TransferRecord> getTransferRecords(String address, int limit) throws Exception;
     
     public static enum Type {
         // 主网币、代币

@@ -5,6 +5,7 @@ import com.acuilab.bc.main.wallet.TransferRecord;
 import conflux.web3j.CfxUnit;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 
 /**
  *
@@ -81,8 +82,8 @@ public class FCCoin implements Coin {
     }
 
     @Override
-    public TransferRecord getTransferRecordByHash(String hash) {
+    public List<TransferRecord> getTransferRecords(String address, int limit) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

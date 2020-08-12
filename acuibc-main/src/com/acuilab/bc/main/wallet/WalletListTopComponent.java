@@ -3,8 +3,11 @@ package com.acuilab.bc.main.wallet;
 import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.dao.WalletDAO;
 import com.acuilab.bc.main.manager.BlockChainManager;
+import com.acuilab.bc.main.manager.CoinManager;
 import com.google.common.collect.Maps;
 import java.awt.Component;
+import java.awt.Font;
+import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.List;
 import org.netbeans.api.settings.ConvertAsProperties;
@@ -17,6 +20,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.SwingWorker;
+import org.javatuples.Pair;
 import org.jdesktop.swingx.JXTaskPane;
 
 /**
@@ -64,9 +69,6 @@ public final class WalletListTopComponent extends TopComponent {
     }
     
     public void myInit() {
-        // 清空
-        jXTaskPaneContainer1.removeAll();
-        
         // 加载钱包
         try {
             // 从数据库加载所有钱包
@@ -75,6 +77,7 @@ public final class WalletListTopComponent extends TopComponent {
             walletGroupMap.entrySet().forEach(entry -> {
                 BlockChain bc = BlockChainManager.getDefault().getBlockChain(entry.getKey());
                 JXTaskPane taskPane = new JXTaskPane(bc.getSymbol(), bc.getIcon(16));
+                taskPane.setFont(new java.awt.Font("宋体", Font.BOLD, 24));
                 taskPane.setLayout(new BoxLayout(taskPane.getContentPane(), BoxLayout.Y_AXIS));
                 
                 List<Wallet> wallets = entry.getValue();
@@ -93,6 +96,29 @@ public final class WalletListTopComponent extends TopComponent {
                 jXTaskPaneContainer1.add(taskPane);
                 taskPaneMap.put(bc.getSymbol(), taskPane);
             });
+            
+            // 获得余额
+            SwingWorker<Void, Pair<String, BigInteger>> worker = new SwingWorker<Void, Pair<String, BigInteger>>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    walletPanelMap.values().stream().map(walletPanel -> walletPanel.getWallet()).forEachOrdered(wallet -> {
+                        Coin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
+                        BigInteger balance = baseCoin.balanceOf(wallet.getAddress());
+                        publish(new Pair<String, BigInteger>(wallet.getName(), balance));
+                    });
+                    
+                    return null;
+                }
+
+                @Override
+                protected void process(List<Pair<String, BigInteger>> chunks) {
+                    chunks.forEach(pair -> {
+                        WalletPanel walletPanel = walletPanelMap.get(pair.getValue0());
+                        walletPanel.setBalance(pair.getValue1());
+                    });
+                }
+            };
+            worker.execute();
 
         } catch (SQLException ex) {
             Exceptions.printStackTrace(ex);
@@ -112,6 +138,7 @@ public final class WalletListTopComponent extends TopComponent {
             // 新建任务面板并插入钱包面板
             BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
             taskPane = new JXTaskPane(bc.getSymbol(), bc.getIcon(16));
+            taskPane.setFont(new java.awt.Font("宋体", Font.BOLD, 24));
             taskPane.setLayout(new BoxLayout(taskPane.getContentPane(), BoxLayout.Y_AXIS));
             taskPane.add(walletPanel);
                 
@@ -151,6 +178,8 @@ public final class WalletListTopComponent extends TopComponent {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jXTaskPaneContainer1 = new org.jdesktop.swingx.JXTaskPaneContainer();
+
+        setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         org.jdesktop.swingx.VerticalLayout verticalLayout1 = new org.jdesktop.swingx.VerticalLayout();
         verticalLayout1.setGap(14);

@@ -2,6 +2,7 @@ package com.acuilab.bc.main.wallet.wizard;
 
 import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.manager.BlockChainManager;
+import com.acuilab.bc.main.wallet.Coin;
 import com.acuilab.bc.main.wallet.Wallet;
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
@@ -10,9 +11,11 @@ import org.openide.util.HelpCtx;
 public class TransferConfirmWizardPanel implements WizardDescriptor.Panel<WizardDescriptor> {
     
     private final Wallet wallet;
+    private final Coin coin;
     
-    public TransferConfirmWizardPanel(Wallet wallet) {
+    public TransferConfirmWizardPanel(Wallet wallet, Coin coin) {
         this.wallet = wallet;
+        this.coin = coin;
     }
 
     /**
@@ -28,7 +31,7 @@ public class TransferConfirmWizardPanel implements WizardDescriptor.Panel<Wizard
     @Override
     public TransferConfirmVisualPanel getComponent() {
         if (component == null) {
-            component = new TransferConfirmVisualPanel();
+            component = new TransferConfirmVisualPanel(wallet, coin);
         }
         return component;
     }

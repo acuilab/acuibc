@@ -2,6 +2,8 @@ package com.acuilab.bc.cfx;
 
 import com.acuilab.bc.main.wallet.Coin;
 import com.acuilab.bc.main.wallet.TransferRecord;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import conflux.web3j.Account;
 import conflux.web3j.Cfx;
@@ -9,13 +11,17 @@ import conflux.web3j.CfxUnit;
 import conflux.web3j.Request;
 import conflux.web3j.response.BigIntResponse;
 import conflux.web3j.types.RawTransaction;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
-import okhttp3.Response;
+import okhttp3.ResponseBody;
+import org.apache.commons.lang3.StringUtils;
 import org.openide.util.Lookup;
 
 /**
@@ -23,6 +29,8 @@ import org.openide.util.Lookup;
  * @author admin
  */
 public class CFXCoin implements Coin {
+    
+    private static final Logger LOG = Logger.getLogger(CFXCoin.class.getName());
     
     public static final String NAME = "CFX";
     public static final String SYMBOL = "CFX";
@@ -119,16 +127,57 @@ public class CFXCoin implements Coin {
      */
     @Override
     public List<TransferRecord> getTransferRecords(String address, int limit) throws Exception {
+        List<TransferRecord> transferRecords = Lists.newArrayList();
         String url = TRANSACTION_LIST_URL + "?page=1&pageSize=" + limit + "&txType=all&accountAddress=" + address;
-        OkHttpClient okHttpClient = new OkHttpClient();
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .build();
         final okhttp3.Request request = new okhttp3.Request.Builder()
                 .url(url)
                 .build();
         final Call call = okHttpClient.newCall(request);
-        okhttp3.Response response = call.execute();
-        System.out.println(response.body().string());
+        okhttp3.Response response = call.execute();             // java.net.SocketTimeoutException
+        ResponseBody body = response.body();
+        if(body != null) {
+            // 解析json
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(body.string());
+            
+            //获取code字段值
+            JsonNode code = root.get("code");
+            if(StringUtils.equals("0", code.asText())) {
+                JsonNode result = root.get("result");
+                JsonNode total = result.get("total");
+                JsonNode list = result.get("list");
+                for (final JsonNode objNode : list) {
+                    TransferRecord transferRecord = new TransferRecord();
+                    JsonNode value = objNode.get("value");
+                    transferRecord.setValue(value.asText());
+                    JsonNode gasPrice = objNode.get("gasPrice");
+                    transferRecord.setGasPrice(gasPrice.asText());
+                    JsonNode gas = objNode.get("gas");
+                    transferRecord.setGas(gas.asText());
+                    JsonNode status = objNode.get("status");
+                    transferRecord.setStatus("" + status.asInt());
+                    JsonNode blockHash = objNode.get("blockHash");
+                    transferRecord.setBlockHash(blockHash.asText());
+                    JsonNode from = objNode.get("from");
+                    transferRecord.setSendAddress(from.asText());
+                    JsonNode to = objNode.get("to");
+                    transferRecord.setRecvAddress(to.asText());
+                    JsonNode hash = objNode.get("hash");
+                    transferRecord.setHash(hash.asText());
+                    JsonNode timestamp = objNode.get("timestamp");
+                    transferRecord.setTimestamp(new Date(timestamp.asLong()));
+                }
+            } else {
+                JsonNode message = root.get("message");
+                LOG.log(Level.WARNING, message.asText());
+            }
+        }
 
-        return Lists.newArrayList();
+        return transferRecords;
     }
 
 }

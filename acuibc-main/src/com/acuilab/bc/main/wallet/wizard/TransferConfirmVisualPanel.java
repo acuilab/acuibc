@@ -1,14 +1,22 @@
 package com.acuilab.bc.main.wallet.wizard;
 
+import com.acuilab.bc.main.wallet.Coin;
+import com.acuilab.bc.main.wallet.Wallet;
 import javax.swing.JPanel;
 
 public final class TransferConfirmVisualPanel extends JPanel {
-
+    
+    private final Wallet wallet;
+    private final Coin coin;
+    
     /**
      * Creates new form TransferVisualPanel3
      */
-    public TransferConfirmVisualPanel() {
+    public TransferConfirmVisualPanel(Wallet wallet, Coin coin) {
         initComponents();
+        
+        this.wallet = wallet;
+        this.coin = coin;
     }
 
     @Override
@@ -18,7 +26,7 @@ public final class TransferConfirmVisualPanel extends JPanel {
     
     public void init(String recvAddress, String value, String sendAddress, String gasDesc) {
         recvAddressFld.setText(recvAddress);
-        valueFld.setText(value);
+        valueFld.setText(value + " " + coin.getMainUnit());
         sendAddressFld.setText(sendAddress);
         gasFld.setText(gasDesc);
     }

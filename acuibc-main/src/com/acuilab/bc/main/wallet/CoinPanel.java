@@ -170,7 +170,7 @@ public class CoinPanel extends JXPanel {
         List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<>();
         panels.add(new TransferInputWizardPanel(wallet, coin));
         panels.add(new PasswordInputWizardPanel(wallet));
-        panels.add(new TransferConfirmWizardPanel(wallet));
+        panels.add(new TransferConfirmWizardPanel(wallet, coin));
         String[] steps = new String[panels.size()];
         for (int i = 0; i < panels.size(); i++) {
             Component c = panels.get(i).getComponent();
@@ -205,6 +205,11 @@ public class CoinPanel extends JXPanel {
     }//GEN-LAST:event_jXButton1ActionPerformed
 
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
+        // TODO: 启动线程
+        
+        
+        
+        
         try {
             coin.getTransferRecords(wallet.getAddress(), 100);
         } catch (Exception ex) {

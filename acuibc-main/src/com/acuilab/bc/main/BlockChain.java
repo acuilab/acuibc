@@ -121,5 +121,5 @@ public interface BlockChain {
      * @param value 矿工费
      * @return 
      */
-    String gasDesc(int value);
+    String gasDesc(int gas);
 }

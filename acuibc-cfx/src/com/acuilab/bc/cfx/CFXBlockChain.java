@@ -22,7 +22,6 @@ import conflux.web3j.CfxUnit;
 import conflux.web3j.response.Status;
 import conflux.web3j.types.Address;
 import conflux.web3j.types.AddressException;
-import conflux.web3j.types.AddressType;
 import java.awt.Image;
 import java.util.Arrays;
 
@@ -40,6 +39,7 @@ public class CFXBlockChain implements BlockChain {
     
     private Cfx cfx;
     private BigInteger chainId;
+    private BigInteger gasPrice;
     
     // 下面两种写法都会导致BlockChainManager无法找到CFXBlockChain
     // 所以不能声明构造函数，即使是无参构造函数
@@ -53,7 +53,6 @@ public class CFXBlockChain implements BlockChain {
     }
     
     public BigInteger getChainId() {
-        System.out.println("chainId=================================================" + chainId);
         return chainId;
     }
     
@@ -103,9 +102,12 @@ public class CFXBlockChain implements BlockChain {
             LOG.log(Level.WARNING, null, ex);
         }
         cfx = Cfx.create(DEFAULT_NODE);
+        // 获得chainId
         Status status = cfx.getStatus().sendAndGet();
         chainId = status.getChainId();
         
+        // 获得gasPrice
+        gasPrice = cfx.getGasPrice().sendAndGet();
     }
     
 
@@ -124,12 +126,10 @@ public class CFXBlockChain implements BlockChain {
     public Wallet createWalletByMnemonic(String name, String pwd, List<String> mnemonicWords) {
         // 1 根据助记词生成私钥
         BigInteger pathPrivateKey = Bip44Utils.getPathPrivateKey(mnemonicWords, BIP44PATH);
-        System.out.println("pathPrivateKey=" + pathPrivateKey);
         
         ECKeyPair ecKeyPair = ECKeyPair.create(pathPrivateKey);
 //        String publicKey = Numeric.toHexStringWithPrefix(ecKeyPair.getPublicKey());
         String privateKey = Numeric.toHexStringWithPrefix(ecKeyPair.getPrivateKey());
-        System.out.println("privateKey==========================" + privateKey);
         Account account = Account.create(cfx, privateKey);
 
         // 2 密码取md5并保存
@@ -181,7 +181,8 @@ public class CFXBlockChain implements BlockChain {
 
     @Override
     public int gasMax() {
-        return 100000000;
+        // @see http://acuilab.com:8080/articles/2020/08/12/1597238136717.html
+        return (int)(CfxUnit.DEFAULT_GAS_LIMIT.intValue() * 1.3);  // 向下取整
     }
 
     @Override
@@ -190,7 +191,8 @@ public class CFXBlockChain implements BlockChain {
     }
 
     @Override
-    public String gasDesc(int value) {
-        return value + " drip/" + CfxUnit.drip2Cfx(BigInteger.valueOf(value)).toPlainString() + " CFX";
+    public String gasDesc(int gas) {
+        BigInteger gasValue = gasPrice.multiply(BigInteger.valueOf(gas));
+        return gasValue + " drip/" + CfxUnit.drip2Cfx(gasValue).toPlainString() + " CFX";
     }
 }

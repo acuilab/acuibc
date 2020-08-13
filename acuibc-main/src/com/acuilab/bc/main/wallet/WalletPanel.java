@@ -216,7 +216,7 @@ public class WalletPanel extends JXPanel {
         List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<>();
         panels.add(new TransferInputWizardPanel(wallet, baseCoin));
         panels.add(new PasswordInputWizardPanel(wallet));
-        panels.add(new TransferConfirmWizardPanel(wallet));
+        panels.add(new TransferConfirmWizardPanel(wallet, baseCoin));
         String[] steps = new String[panels.size()];
         for (int i = 0; i < panels.size(); i++) {
             Component c = panels.get(i).getComponent();

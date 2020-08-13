@@ -1,6 +1,7 @@
 package com.acuilab.bc.main.wallet;
 
 import com.acuilab.bc.main.util.DateUtil;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTable;
@@ -16,10 +17,13 @@ public class TransferRecordTableModel extends AbstractTableModel {
     public static final int STATUS_COLUMN = 1;
     public static final int SENDADDRESS_COLUMN = 2;
     public static final int RECVADDRESS_COLUMN = 3;
-    public static final int HASH_COLUMN = 4;
-    public static final int CREATED_COLUMN = 5;
-    public static final int REMARK_COLUMN = 6;
-    public static final int COLUMN_COUNT = 7;
+    public static final int VALUE_COLUMN = 4;
+    public static final int GASFEE_COLUMN = 5;
+    public static final int HASH_COLUMN = 6;
+    public static final int BLOCKHASH_COLUMN = 7;
+    public static final int CREATED_COLUMN = 8;
+    public static final int REMARK_COLUMN = 9;
+    public static final int COLUMN_COUNT = 10;
     
     private final List<TransferRecord> list = new ArrayList<>();
     private final JTable table;
@@ -29,8 +33,11 @@ public class TransferRecordTableModel extends AbstractTableModel {
         "交易状态",
         "发送方",
         "接收方",
+        "交易额",
+        "矿工费",
         "交易哈希",
-        "时间",
+        "区块哈希",
+        "时间戳",
         "备注"
     };
     
@@ -90,12 +97,18 @@ public class TransferRecordTableModel extends AbstractTableModel {
                 return tr.getSendAddress();
             case RECVADDRESS_COLUMN:
                 return tr.getRecvAddress();
-            case REMARK_COLUMN:
-                return tr.getRemark();
+            case VALUE_COLUMN:
+                return tr.getValue();
+            case GASFEE_COLUMN:
+                return new BigInteger(tr.getGas()).multiply(new BigInteger(tr.getGasPrice()));
             case HASH_COLUMN:
                 return tr.getHash();
+            case BLOCKHASH_COLUMN:
+                return tr.getBlockHash();
+            case REMARK_COLUMN:
+                return tr.getRemark();
             case CREATED_COLUMN:
-                return DateUtil.commonDateFormat(tr.getCreated(), "yyyy-MM-dd HH:mm:ss");
+                return DateUtil.commonDateFormat(tr.getTimestamp(), "yyyy-MM-dd HH:mm:ss");
         }
         return null;
     }

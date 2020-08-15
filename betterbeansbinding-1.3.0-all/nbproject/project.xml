@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.apisupport.project</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
+            <code-name-base>org.jdesktop.beansbinding</code-name-base>
+            <suite-component/>
+            <module-dependencies/>
+            <public-packages>
+                <package>org.jdesktop.beansbinding</package>
+                <package>org.jdesktop.beansbinding.ext</package>
+                <package>org.jdesktop.beansbinding.util</package>
+                <package>org.jdesktop.beansbinding.util.logging</package>
+                <package>org.jdesktop.el</package>
+                <package>org.jdesktop.el.impl</package>
+                <package>org.jdesktop.el.impl.lang</package>
+                <package>org.jdesktop.el.impl.parser</package>
+                <package>org.jdesktop.el.impl.util</package>
+                <package>org.jdesktop.observablecollections</package>
+                <package>org.jdesktop.swingbinding</package>
+                <package>org.jdesktop.swingbinding.adapters</package>
+                <package>org.jdesktop.swingbinding.impl</package>
+            </public-packages>
+            <class-path-extension>
+                <runtime-relative-path>ext/betterbeansbinding-1.3.0-all.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/betterbeansbinding-1.3.0-all.jar</binary-origin>
+            </class-path-extension>
+        </data>
+    </configuration>
+</project>

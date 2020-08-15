@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  *
@@ -15,37 +17,32 @@ public class TransferRecordTableModel extends AbstractTableModel {
     
     public static final int INDEX_COLUMN = 0;
     public static final int STATUS_COLUMN = 1;
-    public static final int SENDADDRESS_COLUMN = 2;
-    public static final int RECVADDRESS_COLUMN = 3;
-    public static final int VALUE_COLUMN = 4;
-    public static final int GASFEE_COLUMN = 5;
+    public static final int CREATED_COLUMN = 2;
+    public static final int VALUE_COLUMN = 3;
+    public static final int SENDADDRESS_COLUMN = 4;
+    public static final int RECVADDRESS_COLUMN = 5;
     public static final int HASH_COLUMN = 6;
-    public static final int BLOCKHASH_COLUMN = 7;
-    public static final int CREATED_COLUMN = 8;
-    public static final int REMARK_COLUMN = 9;
-    public static final int COLUMN_COUNT = 10;
+    public static final int COLUMN_COUNT = 7;
     
     private final List<TransferRecord> list = new ArrayList<>();
     private final JTable table;
     
     public static final String[] COLUMNIDS = {
         "序号",
-        "交易状态",
+        "#",
+        "交易时间",
+        "交易额",
         "发送方",
         "接收方",
-        "交易额",
-        "矿工费",
         "交易哈希",
-        "区块哈希",
-        "时间戳",
-        "备注"
     };
     
-    public TransferRecordTableModel(JTable table) {
+    public TransferRecordTableModel(JTable table, Coin coin) {
 	this.table = table;
     }
 
     public void add(List<TransferRecord> newList) {
+        
         int first = list.size();
         int last = first + newList.size() - 1;
         if(last > -1) {
@@ -93,22 +90,16 @@ public class TransferRecordTableModel extends AbstractTableModel {
                 return String.valueOf(table.convertRowIndexToView(row)+1);
             case STATUS_COLUMN:
                 return tr.getStatus();
+            case CREATED_COLUMN:
+                return DateUtil.commonDateFormat(tr.getTimestamp(), "yyyy-MM-dd HH:mm:ss");
+            case VALUE_COLUMN:
+                return NumberUtils.toDouble(tr.getValue());
             case SENDADDRESS_COLUMN:
                 return tr.getSendAddress();
             case RECVADDRESS_COLUMN:
                 return tr.getRecvAddress();
-            case VALUE_COLUMN:
-                return tr.getValue();
-            case GASFEE_COLUMN:
-                return new BigInteger(tr.getGas()).multiply(new BigInteger(tr.getGasPrice()));
             case HASH_COLUMN:
                 return tr.getHash();
-            case BLOCKHASH_COLUMN:
-                return tr.getBlockHash();
-            case REMARK_COLUMN:
-                return tr.getRemark();
-            case CREATED_COLUMN:
-                return DateUtil.commonDateFormat(tr.getTimestamp(), "yyyy-MM-dd HH:mm:ss");
         }
         return null;
     }

@@ -2,6 +2,8 @@ package com.acuilab.bc.cfx;
 
 import com.acuilab.bc.main.wallet.Coin;
 import com.acuilab.bc.main.wallet.TransferRecord;
+import com.acuilab.bc.main.wallet.Wallet;
+import com.google.common.collect.Lists;
 import conflux.web3j.CfxUnit;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -78,12 +80,12 @@ public class FCCoin implements Coin {
 
     @Override
     public String transfer(String privateKey, String to, BigInteger value, BigInteger gas) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "";
     }
 
     @Override
-    public List<TransferRecord> getTransferRecords(String address, int limit) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<TransferRecord> getTransferRecords(Wallet wallet, Coin coin, String address, int limit) throws Exception {
+        return Lists.newArrayList();
     }
 
 }

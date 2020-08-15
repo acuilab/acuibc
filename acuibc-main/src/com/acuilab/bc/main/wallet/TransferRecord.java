@@ -9,6 +9,7 @@ import java.util.Date;
 public class TransferRecord {
     
     private String walletName;      // 钱包名称
+    private String walletAddress;   // 钱包地址
     private String coinName;        // 代币名称
     private String status;          // 交易状态(0 代表成功，1 代表发生错误，当交易被跳过或未打包时为null)
     private String SendAddress;     // 发送地址
@@ -31,6 +32,14 @@ public class TransferRecord {
         this.walletName = walletName;
     }
 
+    public String getWalletAddress() {
+        return walletAddress;
+    }
+
+    public void setWalletAddress(String walletAddress) {
+        this.walletAddress = walletAddress;
+    }
+    
     public String getCoinName() {
         return coinName;
     }

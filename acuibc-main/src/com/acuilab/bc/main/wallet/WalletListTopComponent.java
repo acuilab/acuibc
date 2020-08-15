@@ -17,12 +17,14 @@ import org.openide.util.Exceptions;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.SwingWorker;
-import org.javatuples.Pair;
+import org.javatuples.Triplet;
 import org.jdesktop.swingx.JXTaskPane;
+import org.netbeans.api.progress.ProgressHandle;
 
 /**
  * Top component which displays something.
@@ -98,24 +100,35 @@ public final class WalletListTopComponent extends TopComponent {
             });
             
             // 获得余额
-            SwingWorker<Void, Pair<String, BigInteger>> worker = new SwingWorker<Void, Pair<String, BigInteger>>() {
+            final ProgressHandle ph = ProgressHandle.createHandle("正在请求余额，请稍候");
+            SwingWorker<Void, Triplet<Integer, WalletPanel, BigInteger>> worker = new SwingWorker<Void, Triplet<Integer, WalletPanel, BigInteger>>() {
                 @Override
                 protected Void doInBackground() throws Exception {
-                    walletPanelMap.values().stream().map(walletPanel -> walletPanel.getWallet()).forEachOrdered(wallet -> {
+                    ph.start(walletPanelMap.size());
+                    int i=0;
+                    for(WalletPanel walletPanel : walletPanelMap.values()) {
+                        Wallet wallet = walletPanel.getWallet();
                         Coin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
                         BigInteger balance = baseCoin.balanceOf(wallet.getAddress());
-                        publish(new Pair<String, BigInteger>(wallet.getName(), balance));
-                    });
+                        publish(new Triplet<>(i, walletPanel, balance));
+                        
+                        i++;
+                    }
                     
                     return null;
                 }
 
                 @Override
-                protected void process(List<Pair<String, BigInteger>> chunks) {
-                    chunks.forEach(pair -> {
-                        WalletPanel walletPanel = walletPanelMap.get(pair.getValue0());
-                        walletPanel.setBalance(pair.getValue1());
+                protected void process(List<Triplet<Integer, WalletPanel, BigInteger>> chunks) {
+                    chunks.forEach((Triplet<Integer, WalletPanel, BigInteger> triplet) -> {
+                        triplet.getValue1().setBalance(triplet.getValue2());
+                        ph.progress(triplet.getValue0()+1);
                     });
+                }
+
+                @Override
+                protected void done() {
+                    ph.finish();
                 }
             };
             worker.execute();

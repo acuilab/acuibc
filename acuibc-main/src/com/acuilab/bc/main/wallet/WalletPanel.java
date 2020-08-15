@@ -20,8 +20,8 @@ import javax.swing.JComponent;
 import javax.swing.SwingWorker;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.javatuples.Pair;
 import org.jdesktop.swingx.JXPanel;
+import org.netbeans.api.progress.ProgressHandle;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
 import org.openide.util.Exceptions;
@@ -50,8 +50,6 @@ public class WalletPanel extends JXPanel {
         
         walletNameFld.setText(wallet.getName());
         walletAddressFld.setText(wallet.getAddress());
-        
-        // 初始获得余额由WalletListTopComponent统一处理
         
         this.wallet = wallet;
         this.walletTopComponentId = null;
@@ -174,11 +172,11 @@ public class WalletPanel extends JXPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(balanceFld, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE))
+                        .addComponent(balanceFld, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(walletIconFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -202,9 +200,9 @@ public class WalletPanel extends JXPanel {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(receivingBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(transferBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(refreshBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(balanceFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -260,11 +258,15 @@ public class WalletPanel extends JXPanel {
 
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
             // 获得余额
-            final Coin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
+            // 这里没有禁用refreshBtn，因为禁用会导致焦点转移给下一个打开按钮openBtn，界面闪烁，用户体验不好；暂时没有更好的解决办法
+            // 好吧，想到一个折中的办法，将refreshBtn放到最后
             refreshBtn.setEnabled(false);
+            final Coin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
+            final ProgressHandle ph = ProgressHandle.createHandle("正在请求余额，请稍候");
             SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
                 @Override
                 protected BigInteger doInBackground() throws Exception {
+                    ph.start();
                     return baseCoin.balanceOf(wallet.getAddress());
                 }
 
@@ -276,13 +278,12 @@ public class WalletPanel extends JXPanel {
                         Exceptions.printStackTrace(ex);
                     }
                     
+                    ph.finish();
                     refreshBtn.setEnabled(true);
+                    refreshBtn.requestFocusInWindow();
                 }
             };
             worker.execute();
-
-//        BigInteger balance = baseCoin.balanceOf(wallet.getAddress());
-//        balanceFld.setText(baseCoin.minUnit2MainUint(balance).setScale(baseCoin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + baseCoin.getMainUnit());
     }//GEN-LAST:event_refreshBtnActionPerformed
 
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed

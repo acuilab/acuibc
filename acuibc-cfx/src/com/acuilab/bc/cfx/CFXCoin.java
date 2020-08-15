@@ -2,6 +2,7 @@ package com.acuilab.bc.cfx;
 
 import com.acuilab.bc.main.wallet.Coin;
 import com.acuilab.bc.main.wallet.TransferRecord;
+import com.acuilab.bc.main.wallet.Wallet;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
@@ -13,6 +14,7 @@ import conflux.web3j.response.BigIntResponse;
 import conflux.web3j.types.RawTransaction;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -126,8 +128,12 @@ public class CFXCoin implements Coin {
      * @return 
      */
     @Override
-    public List<TransferRecord> getTransferRecords(String address, int limit) throws Exception {
+    public List<TransferRecord> getTransferRecords(Wallet wallet, Coin coin, String address, int limit) throws Exception {
         List<TransferRecord> transferRecords = Lists.newArrayList();
+        if(limit > 100) {
+            // "query.pageSize" do not match condition "<=100", got: 140
+            limit = 100;
+        }
         String url = TRANSACTION_LIST_URL + "?page=1&pageSize=" + limit + "&txType=all&accountAddress=" + address;
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
@@ -141,8 +147,11 @@ public class CFXCoin implements Coin {
         ResponseBody body = response.body();
         if(body != null) {
             // 解析json
+            String bodyStr = body.string();
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode root = mapper.readTree(body.string());
+            JsonNode root = mapper.readTree(bodyStr);
+            
+            System.out.println("===============================================" + bodyStr);
             
             //获取code字段值
             JsonNode code = root.get("code");
@@ -152,8 +161,11 @@ public class CFXCoin implements Coin {
                 JsonNode list = result.get("list");
                 for (final JsonNode objNode : list) {
                     TransferRecord transferRecord = new TransferRecord();
+                    transferRecord.setWalletName(wallet.getName());
+                    transferRecord.setWalletAddress(wallet.getAddress());
+                    transferRecord.setCoinName(coin.getName());
                     JsonNode value = objNode.get("value");
-                    transferRecord.setValue(value.asText());
+                    transferRecord.setValue(coin.minUnit2MainUint(new BigInteger(value.asText("0"))).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString());
                     JsonNode gasPrice = objNode.get("gasPrice");
                     transferRecord.setGasPrice(gasPrice.asText());
                     JsonNode gas = objNode.get("gas");
@@ -169,7 +181,9 @@ public class CFXCoin implements Coin {
                     JsonNode hash = objNode.get("hash");
                     transferRecord.setHash(hash.asText());
                     JsonNode timestamp = objNode.get("timestamp");
-                    transferRecord.setTimestamp(new Date(timestamp.asLong()));
+                    transferRecord.setTimestamp(new Date(timestamp.asLong()*1000));
+                    
+                    transferRecords.add(transferRecord);
                 }
             } else {
                 JsonNode message = root.get("message");

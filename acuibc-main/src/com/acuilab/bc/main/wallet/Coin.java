@@ -85,12 +85,14 @@ public interface Coin {
 
     /**
      * 根据某个地址获得交易记录
+     * @param wallet
+     * @param coin
      * @param address
      * @param limit     最多同步记录数
      * @return 
      * @throws java.lang.Exception 
      */
-    public List<TransferRecord> getTransferRecords(String address, int limit) throws Exception;
+    public List<TransferRecord> getTransferRecords(Wallet wallet, Coin coin, String address, int limit) throws Exception;
     
     public static enum Type {
         // 主网币、代币

@@ -108,6 +108,7 @@ public class CFXBlockChain implements BlockChain {
         
         // 获得gasPrice
         gasPrice = cfx.getGasPrice().sendAndGet();
+        System.out.println("gasPrice=================================" + gasPrice.toString());
     }
     
 

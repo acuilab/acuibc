@@ -104,6 +104,7 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
         setPreferredSize(new java.awt.Dimension(400, 500));
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(MnemonicConfirmVisualPanel.class, "MnemonicConfirmVisualPanel.jXLabel1.text")); // NOI18N
+        jXLabel1.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         jXPanel1.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         jXPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -237,6 +238,7 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
         msgLbl.setForeground(new java.awt.Color(255, 0, 0));
         msgLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         org.openide.awt.Mnemonics.setLocalizedText(msgLbl, org.openide.util.NbBundle.getMessage(MnemonicConfirmVisualPanel.class, "MnemonicConfirmVisualPanel.msgLbl.text")); // NOI18N
+        msgLbl.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -248,7 +250,7 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
                     .addComponent(jXPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 213, Short.MAX_VALUE))
                     .addComponent(msgLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jXPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -263,7 +265,7 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(msgLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                .addComponent(jXPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents

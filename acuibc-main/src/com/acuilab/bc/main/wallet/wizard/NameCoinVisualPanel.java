@@ -47,16 +47,20 @@ public final class NameCoinVisualPanel extends JPanel {
         setPreferredSize(new java.awt.Dimension(400, 500));
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(NameCoinVisualPanel.class, "NameCoinVisualPanel.jXLabel1.text")); // NOI18N
+        jXLabel1.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         walletNameFld.setText(org.openide.util.NbBundle.getMessage(NameCoinVisualPanel.class, "NameCoinVisualPanel.walletNameFld.text")); // NOI18N
+        walletNameFld.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel2, org.openide.util.NbBundle.getMessage(NameCoinVisualPanel.class, "NameCoinVisualPanel.jXLabel2.text")); // NOI18N
+        jXLabel2.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         coinList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        coinList.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         jScrollPane1.setViewportView(coinList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -72,7 +76,7 @@ public final class NameCoinVisualPanel extends JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 318, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

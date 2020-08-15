@@ -43,7 +43,7 @@ public class Installer extends ModuleInstall {
             @Override
             public void run() {
 		// 设置标题
-                WindowManager.getDefault().getMainWindow().setTitle(Constants.TITLE);
+                WindowManager.getDefault().getMainWindow().setTitle(Constants.TITLE + System.getProperty("derby.system.home"));
 		// 最大化显示
 		WindowManager.getDefault().getMainWindow().setExtendedState(JFrame.MAXIMIZED_BOTH);
             }

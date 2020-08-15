@@ -75,8 +75,10 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
         setPreferredSize(new java.awt.Dimension(400, 500));
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.jXLabel1.text")); // NOI18N
+        jXLabel1.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel2, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.jXLabel2.text")); // NOI18N
+        jXLabel2.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         jXPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jXPanel1.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
@@ -131,6 +133,7 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
         jXPanel1.add(mnemonicLbl12);
 
         org.openide.awt.Mnemonics.setLocalizedText(copyBtn, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.copyBtn.text")); // NOI18N
+        copyBtn.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         copyBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 copyBtnActionPerformed(evt);
@@ -151,7 +154,7 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
                         .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 109, Short.MAX_VALUE)))
+                        .addGap(0, 47, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

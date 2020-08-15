@@ -35,7 +35,7 @@ import org.netbeans.api.progress.ProgressHandle;
 )
 @TopComponent.Description(
         preferredID = "WalletListTopComponent",
-        //iconBase="SET/PATH/TO/ICON/HERE",
+        iconBase="resource/wallet32.png",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
 @TopComponent.Registration(mode = "explorer", openAtStartup = true)

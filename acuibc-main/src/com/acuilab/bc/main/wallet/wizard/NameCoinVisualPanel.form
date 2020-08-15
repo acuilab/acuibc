@@ -52,7 +52,7 @@
                           <Component id="jXLabel1" min="-2" max="-2" attributes="0"/>
                           <Component id="jXLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="318" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -81,6 +81,9 @@
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="NameCoinVisualPanel.jXLabel1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="&#x5b8b;&#x4f53;" size="24" style="0"/>
+        </Property>
       </Properties>
     </Component>
     <Component class="org.jdesktop.swingx.JXTextField" name="walletNameFld">
@@ -88,12 +91,18 @@
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="NameCoinVisualPanel.walletNameFld.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="&#x5b8b;&#x4f53;" size="24" style="0"/>
+        </Property>
       </Properties>
     </Component>
     <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel2">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="NameCoinVisualPanel.jXLabel2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="&#x5b8b;&#x4f53;" size="24" style="0"/>
         </Property>
       </Properties>
     </Component>
@@ -114,6 +123,9 @@
                 <StringItem index="3" value="Item 4"/>
                 <StringItem index="4" value="Item 5"/>
               </StringArray>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="0"/>
             </Property>
           </Properties>
           <AuxValues>

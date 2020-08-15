@@ -30,8 +30,8 @@ import org.openide.windows.WindowManager;
 public class ImportAction extends AbstractAction {
     
     public ImportAction() {
-        putValue(NAME, "导入");
-        putValue(SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/resource/cfx32.png")));
+        putValue(NAME, "导入钱包");
+        putValue(SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/resource/import_wallet32.png")));
     }
     
     @Override

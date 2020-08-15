@@ -30,8 +30,8 @@ import org.openide.windows.WindowManager;
 public class CreateAction extends AbstractAction {
     
     public CreateAction() {
-        putValue(NAME, "创建");
-        putValue(SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/resource/cfx32.png")));
+        putValue(NAME, "创建钱包");
+        putValue(SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/resource/create_wallet32.png")));
     }
     
     @Override

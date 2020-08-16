@@ -305,12 +305,12 @@
                 <binary-origin>release/modules/ext/rxjava-2.2.2.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/conflux-web3j.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/conflux-web3j.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
                 <runtime-relative-path>ext/abi-4.5.5.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/abi-4.5.5.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/conflux-web3j.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/conflux-web3j.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/okhttp-3.8.1.jar</runtime-relative-path>

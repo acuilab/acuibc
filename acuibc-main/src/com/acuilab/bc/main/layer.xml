@@ -11,6 +11,12 @@
                 <attr intvalue="3020" name="position"/>
             </file>
         </folder>
+        <folder name="Help">
+            <file name="org-netbeans-core-actions-AboutAction.shadow_hidden"/>
+            <file name="com.acuilab.bc.main.action.AboutAction.instance">
+                <attr intvalue="2000" name="position"/>
+            </file>
+        </folder>
     </folder>
     
     <folder name="Toolbars">

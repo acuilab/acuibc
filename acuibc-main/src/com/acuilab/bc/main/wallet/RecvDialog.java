@@ -23,7 +23,8 @@ import javax.swing.KeyStroke;
 import org.openide.util.Exceptions;
 
 /**
- *
+ *  RecvDialog dlg = new RecvDialog(null, wallet.getAddress());
+ *  dlg.setVisible(true);
  * @author admin
  */
 public class RecvDialog extends javax.swing.JDialog {

@@ -3,13 +3,33 @@ package com.acuilab.bc.main.wallet;
 import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
+import com.google.common.collect.Maps;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.SwingWorker;
+import net.java.balloontip.BalloonTip;
+import net.java.balloontip.examples.complete.Utils;
+import net.java.balloontip.utils.TimingUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.javatuples.Quartet;
 import org.netbeans.api.progress.ProgressHandle;
+import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 
@@ -41,6 +61,17 @@ public final class WalletTopComponent extends TopComponent {
 
         this.wallet = wallet;
         
+        // 收款二维码图像
+        try {  
+            Map hints = Maps.newHashMap();  
+            hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");  
+            hints.put(EncodeHintType.MARGIN, 0);  
+            BitMatrix byteMatrix = new MultiFormatWriter().encode(wallet.getAddress(), BarcodeFormat.QR_CODE, 128, 128, hints);
+            barcodeLbl.setIcon(new ImageIcon(MatrixToImageWriter.toBufferedImage(byteMatrix)));
+        } catch (WriterException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        
         jXLabel1.setIcon(bc.getIcon(128));
         walletNameFld.setText(wallet.getName());
         walletAddressFld.setText(wallet.getAddress());
@@ -58,7 +89,6 @@ public final class WalletTopComponent extends TopComponent {
                 ph.start(list.size());
                 for(int i=0; i<list.size(); i++) {
                     Coin coin = list.get(i);
-                    System.out.println("coin name ==================================================== " + coin.getName());
                     // 请求余额
                     BigInteger balance = coin.balanceOf(wallet.getAddress());
                 
@@ -74,7 +104,6 @@ public final class WalletTopComponent extends TopComponent {
             @Override
             protected void process(List<Quartet<Integer, Coin, BigInteger, List<TransferRecord>>> chunks) {
                 for(Quartet<Integer, Coin, BigInteger, List<TransferRecord>> chunk : chunks) {
-                    System.out.println("chunk name ==================================================== " + chunk.toString());
                     tabbedPane1.add(chunk.getValue1().getName(), new CoinPanel(wallet, chunk.getValue1(), chunk.getValue2(), chunk.getValue3()));
                     ph.progress(chunk.getValue0()+1);
                 }
@@ -82,7 +111,6 @@ public final class WalletTopComponent extends TopComponent {
 
             @Override
             protected void done() {
-                System.out.println("done ==================================================== ");
                 ph.finish();
             }
             
@@ -111,6 +139,9 @@ public final class WalletTopComponent extends TopComponent {
         jXLabel3 = new org.jdesktop.swingx.JXLabel();
         mnemonicExportBtn = new org.jdesktop.swingx.JXButton();
         jXButton2 = new org.jdesktop.swingx.JXButton();
+        barcodeLbl = new org.jdesktop.swingx.JXLabel();
+        pwdEditBtn = new org.jdesktop.swingx.JXButton();
+        nameEditBtn = new org.jdesktop.swingx.JXButton();
         tabbedPane1 = new javax.swing.JTabbedPane();
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.jXLabel1.text")); // NOI18N
@@ -155,6 +186,30 @@ public final class WalletTopComponent extends TopComponent {
             }
         });
 
+        org.openide.awt.Mnemonics.setLocalizedText(barcodeLbl, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.barcodeLbl.text")); // NOI18N
+        barcodeLbl.setToolTipText(org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.barcodeLbl.toolTipText")); // NOI18N
+        barcodeLbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                barcodeLblMouseClicked(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(pwdEditBtn, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.pwdEditBtn.text")); // NOI18N
+        pwdEditBtn.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
+        pwdEditBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pwdEditBtnActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(nameEditBtn, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.nameEditBtn.text")); // NOI18N
+        nameEditBtn.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
+        nameEditBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nameEditBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jXPanel1Layout = new javax.swing.GroupLayout(jXPanel1);
         jXPanel1.setLayout(jXPanel1Layout);
         jXPanel1Layout.setHorizontalGroup(
@@ -164,40 +219,50 @@ public final class WalletTopComponent extends TopComponent {
                 .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jXPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nameEditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pwdEditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(mnemonicExportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jXButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jXPanel1Layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(walletAddressFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(walletNameFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())
-                    .addGroup(jXPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(mnemonicExportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jXButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(walletNameFld, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
+                            .addComponent(walletAddressFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(barcodeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jXPanel1Layout.setVerticalGroup(
             jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jXPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jXPanel1Layout.createSequentialGroup()
-                        .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(walletNameFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(walletAddressFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(mnemonicExportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jXButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(barcodeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jXPanel1Layout.createSequentialGroup()
+                            .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(walletNameFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(walletAddressFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(2, 2, 2)
+                            .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(mnemonicExportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jXButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(pwdEditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(nameEditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         tabbedPane1.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
@@ -218,7 +283,7 @@ public final class WalletTopComponent extends TopComponent {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jXPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
+                .addComponent(tabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -245,13 +310,64 @@ public final class WalletTopComponent extends TopComponent {
         // TODO add your handling code here:
     }//GEN-LAST:event_walletNameFldActionPerformed
 
+    private void barcodeLblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barcodeLblMouseClicked
+        if(evt.getClickCount() == 2){   
+            Transferable trans = new Transferable() {
+                @Override
+                public DataFlavor[] getTransferDataFlavors() {
+                    return new DataFlavor[]{DataFlavor.imageFlavor};
+                }
+
+                @Override
+                public boolean isDataFlavorSupported(DataFlavor flavor) {
+                    return DataFlavor.imageFlavor.equals(flavor);
+                }
+
+                @Override
+                public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+                    if (isDataFlavorSupported(flavor)) {
+                        return ((ImageIcon)barcodeLbl.getIcon()).getImage();
+                    }
+                    throw new UnsupportedFlavorException(flavor);
+                }
+
+            };
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(trans, null);
+            
+            // 气泡提示
+	    try {
+                JLabel lbl = new JLabel("二维码图像已复制到剪贴板");
+                lbl.setFont(new java.awt.Font("宋体", 0, 24));
+		BalloonTip balloonTip = new BalloonTip(barcodeLbl, 
+				lbl,
+				Utils.createBalloonTipStyle(),
+				Utils.createBalloonTipPositioner(), 
+				null);
+		TimingUtils.showTimedBalloon(balloonTip, 1000);
+	    } catch (Exception ex) {
+		Exceptions.printStackTrace(ex);
+	    }
+        }
+    }//GEN-LAST:event_barcodeLblMouseClicked
+
+    private void nameEditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameEditBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nameEditBtnActionPerformed
+
+    private void pwdEditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pwdEditBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pwdEditBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXLabel barcodeLbl;
     private org.jdesktop.swingx.JXButton jXButton2;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXLabel jXLabel3;
     private org.jdesktop.swingx.JXPanel jXPanel1;
     private org.jdesktop.swingx.JXButton mnemonicExportBtn;
+    private org.jdesktop.swingx.JXButton nameEditBtn;
+    private org.jdesktop.swingx.JXButton pwdEditBtn;
     private javax.swing.JTabbedPane tabbedPane1;
     private org.jdesktop.swingx.JXTextField walletAddressFld;
     private org.jdesktop.swingx.JXTextField walletNameFld;

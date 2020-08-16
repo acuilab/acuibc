@@ -69,8 +69,9 @@ public class TransferConfirmWizardPanel implements WizardDescriptor.Panel<Wizard
         String value = (String)wiz.getProperty("value");
         int gas = (int)wiz.getProperty("gas");
         
-        BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
-        getComponent().init(recvAddress, value, wallet.getAddress(), bc.gasDesc(gas));
+//        BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
+//        getComponent().init(recvAddress, value, wallet.getAddress(), bc.gasDesc(gas));
+        getComponent().init(recvAddress, value, wallet.getAddress(), "sdk估算");
     }
 
     @Override

@@ -94,8 +94,35 @@ public interface Coin {
      */
     public List<TransferRecord> getTransferRecords(Wallet wallet, Coin coin, String address, int limit) throws Exception;
     
+    
+    /**
+     * 矿工费最小值
+     * @return 
+     */
+    int gasMin();
+    
+    /**
+     * 矿工费最大值
+     * @return 
+     */
+    int gasMax();
+    
+    /**
+     * 矿工费初值
+     * @return 
+     */
+    int gasDefaultValue();
+    
+    /**
+     * 矿工费描述：例如20 Gdrip/0.002 CFX
+     * @param gas
+     * @return 
+     */
+    String gasDesc(int gas);
+    
     public static enum Type {
         // 主网币、代币
         BASE, TOKEN
     }
+    
 }

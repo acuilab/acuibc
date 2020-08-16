@@ -22,6 +22,7 @@ import conflux.web3j.CfxUnit;
 import conflux.web3j.response.Status;
 import conflux.web3j.types.Address;
 import conflux.web3j.types.AddressException;
+import conflux.web3j.types.RawTransaction;
 import java.awt.Image;
 import java.util.Arrays;
 
@@ -54,6 +55,10 @@ public class CFXBlockChain implements BlockChain {
     
     public BigInteger getChainId() {
         return chainId;
+    }
+    
+    public BigInteger getGasPrice() {
+        return gasPrice;
     }
     
     @Override
@@ -105,6 +110,7 @@ public class CFXBlockChain implements BlockChain {
         // 获得chainId
         Status status = cfx.getStatus().sendAndGet();
         chainId = status.getChainId();
+        RawTransaction.setDefaultChainId(chainId);
         
         // 获得gasPrice
         gasPrice = cfx.getGasPrice().sendAndGet();
@@ -173,27 +179,5 @@ public class CFXBlockChain implements BlockChain {
             return false;
         }
         
-    }
-
-    @Override
-    public int gasMin() {
-        return CfxUnit.DEFAULT_GAS_LIMIT.intValue();
-    }
-
-    @Override
-    public int gasMax() {
-        // @see http://acuilab.com:8080/articles/2020/08/12/1597238136717.html
-        return (int)(CfxUnit.DEFAULT_GAS_LIMIT.intValue() * 1.3);  // 向下取整
-    }
-
-    @Override
-    public int gasDefaultValue() {
-        return CfxUnit.DEFAULT_GAS_LIMIT.intValue();
-    }
-
-    @Override
-    public String gasDesc(int gas) {
-        BigInteger gasValue = gasPrice.multiply(BigInteger.valueOf(gas));
-        return gasValue + " drip/" + CfxUnit.drip2Cfx(gasValue).toPlainString() + " CFX";
     }
 }

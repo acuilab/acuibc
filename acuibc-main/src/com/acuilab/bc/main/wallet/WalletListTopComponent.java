@@ -129,6 +129,11 @@ public final class WalletListTopComponent extends TopComponent {
                 @Override
                 protected void done() {
                     ph.finish();
+                    
+                    // 不管成功与否，将refreshBtn启用
+                    for(WalletPanel walletPanel : walletPanelMap.values()) {
+                        walletPanel.setRefreshBtnEnabled();
+                    }
                 }
             };
             worker.execute();

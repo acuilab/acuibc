@@ -9,6 +9,7 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import org.apache.commons.lang3.StringUtils;
 import org.jdesktop.swingx.prompt.PromptSupport;
+import org.openide.util.ImageUtilities;
 import org.springframework.util.DigestUtils;
 
 /**
@@ -78,6 +79,7 @@ public class PasswordVerifyDialog extends javax.swing.JDialog {
         passwordFld = new javax.swing.JPasswordField();
 
         setTitle(org.openide.util.NbBundle.getMessage(PasswordVerifyDialog.class, "PasswordVerifyDialog.title")); // NOI18N
+        setIconImage(ImageUtilities.loadImage("/resource/gourd32.png"));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 closeDialog(evt);

@@ -63,9 +63,7 @@ public class CFXCoin implements Coin {
     public BigInteger balanceOf(String address) {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
-        Request<BigInteger, BigIntResponse> req = cfx.getBalance(address);
-        
-        return req.sendAndGet();
+        return cfx.getBalance(address).sendAndGet();
     }
     
     /**
@@ -80,10 +78,10 @@ public class CFXCoin implements Coin {
         Cfx cfx = bc.getCfx();
         
         Account account = Account.create(cfx, privateKey);
-        BigInteger currentEpoch = cfx.getEpochNumber().sendAndGet();
-        
-        RawTransaction.setDefaultChainId(bc.getChainId());
-        return account.mustSend(RawTransaction.create(account.getNonce(), gas, to, value, BigInteger.ZERO, currentEpoch, null));
+        // 忽略gas参数，让sdk自己估算吧
+//        BigInteger currentEpoch = cfx.getEpochNumber().sendAndGet();
+//        return account.mustSend(RawTransaction.create(account.getNonce(), gas, to, value, BigInteger.ZERO, currentEpoch, null));
+        return account.transfer(to, value);
     }
 
     @Override
@@ -194,4 +192,26 @@ public class CFXCoin implements Coin {
         return transferRecords;
     }
 
+    @Override
+    public int gasMin() {
+        return CfxUnit.DEFAULT_GAS_LIMIT.intValue();
+    }
+
+    @Override
+    public int gasMax() {
+        // @see http://acuilab.com:8080/articles/2020/08/12/1597238136717.html
+        return (int)(CfxUnit.DEFAULT_GAS_LIMIT.intValue() * 1.3);  // 向下取整
+    }
+
+    @Override
+    public int gasDefaultValue() {
+        return CfxUnit.DEFAULT_GAS_LIMIT.intValue();
+    }
+
+    @Override
+    public String gasDesc(int gas) {
+        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
+        BigInteger gasValue = bc.getGasPrice().multiply(BigInteger.valueOf(gas));
+        return gasValue + " drip/" + CfxUnit.drip2Cfx(gasValue).toPlainString() + " CFX";
+    }
 }

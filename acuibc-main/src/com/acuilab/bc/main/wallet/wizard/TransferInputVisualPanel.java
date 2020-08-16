@@ -22,11 +22,12 @@ public final class TransferInputVisualPanel extends JPanel {
         this.wallet = wallet;
         this.coin = coin;
         
-        BlockChain bc = BlockChainManager.getDefault().getBlockChain(coin.getBlockChainSymbol());
-        gasSlider.setMinimum(bc.gasMin());
-        gasSlider.setMaximum(bc.gasMax());
-        gasSlider.setValue(bc.gasDefaultValue());
-        gasLbl.setText(bc.gasDesc(bc.gasDefaultValue()));
+        // sdk估算
+//        BlockChain bc = BlockChainManager.getDefault().getBlockChain(coin.getBlockChainSymbol());
+//        gasSlider.setMinimum(bc.gasMin());
+//        gasSlider.setMaximum(bc.gasMax());
+//        gasSlider.setValue(bc.gasDefaultValue());
+//        gasLbl.setText(bc.gasDesc(bc.gasDefaultValue()));
         
         valueFld.setPrompt(coin.getMainUnit());
         
@@ -165,7 +166,8 @@ public final class TransferInputVisualPanel extends JPanel {
 
     private void gasSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_gasSliderStateChanged
         BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
-        gasLbl.setText(bc.gasDesc(((JSlider) evt.getSource()).getValue()));
+//        gasLbl.setText(bc.gasDesc(((JSlider) evt.getSource()).getValue()));
+        gasLbl.setText("sdk估算");
     }//GEN-LAST:event_gasSliderStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

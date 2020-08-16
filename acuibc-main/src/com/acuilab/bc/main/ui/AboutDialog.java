@@ -1,5 +1,9 @@
 package com.acuilab.bc.main.ui;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 
 /**
@@ -99,9 +103,17 @@ public class AboutDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void githubLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_githubLinkActionPerformed
-        // TODO: 打开默认浏览器
-        
-        
+        if(Desktop.isDesktopSupported()) {
+            try {
+                if(Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                    // 打开默认浏览器
+                    Desktop.getDesktop().browse(URI.create(githubLink.getText()));
+                }
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+
     }//GEN-LAST:event_githubLinkActionPerformed
 
 

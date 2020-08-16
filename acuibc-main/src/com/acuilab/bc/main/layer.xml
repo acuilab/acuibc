@@ -19,6 +19,17 @@
         </folder>
     </folder>
     
+    <folder name="Services">
+        <folder name="AutoupdateType">
+            <file name="com_acuilab_bc_main_update_center.instance">
+                <attr name="displayName" bundlevalue="com.acuilab.bc.main.Bundle#Services/AutoupdateType/com_acuilab_bc_main_update_center.instance"/>
+                <attr name="enabled" boolvalue="true"/>
+                <attr name="instanceCreate" methodvalue="org.netbeans.modules.autoupdate.updateprovider.AutoupdateCatalogFactory.createUpdateProvider"/>
+                <attr name="instanceOf" stringvalue="org.netbeans.spi.autoupdate.UpdateProvider"/>
+                <attr name="url" bundlevalue="com.acuilab.bc.main.Bundle#com_acuilab_bc_main_update_center"/>
+            </file>
+        </folder>
+    </folder>
     <folder name="Toolbars">
         <folder name="钱包">
             <attr intvalue="30" name="position"/>
@@ -29,5 +40,9 @@
                 <attr intvalue="3020" name="position"/>
             </file>
         </folder>
+    </folder>
+    
+    <folder name="WarmUp">
+        <file name="com-acuilab-bc-main-AutoInstaller.instance" />
     </folder>
 </filesystem>

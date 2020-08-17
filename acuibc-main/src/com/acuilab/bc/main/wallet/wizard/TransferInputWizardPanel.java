@@ -5,8 +5,11 @@ import com.acuilab.bc.main.wallet.Coin;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.util.RegExpValidatorUtils;
 import com.acuilab.bc.main.wallet.Wallet;
+import java.math.BigInteger;
+import java.math.RoundingMode;
 import javax.swing.event.ChangeListener;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.openide.WizardDescriptor;
 import org.openide.WizardValidationException;
 import org.openide.util.HelpCtx;
@@ -104,6 +107,20 @@ public class TransferInputWizardPanel implements WizardDescriptor.ValidatingPane
        if(!RegExpValidatorUtils.isPositive(value)) {
            component.getValueFld().requestFocus();
            throw new WizardValidationException(null, "转账数量格式错误", null);
+       }
+       
+       // 数量不能超过余额（暂未考虑矿工费）
+       // 矿工费有两种方式，一种是sdk估算，一种是用户指定
+       if(!component.balanceAvailable()) {
+           throw new WizardValidationException(null, "正在请求余额，请稍候...", null);
+       }
+       BigInteger balance = component.getBalance();
+       System.out.println("balance=" + balance.toString());
+       System.out.println("value=" + value);
+       BigInteger valueDrip = coin.mainUint2MinUint(NumberUtils.toDouble(component.getValueFld().getText()));
+       if(balance.compareTo(valueDrip) < 0) {
+           component.getValueFld().requestFocus();
+           throw new WizardValidationException(null, "余额不足【" + "可用：" + coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit() + "】", null);
        }
        
     }

@@ -7,11 +7,16 @@ import com.google.common.collect.Lists;
 import conflux.web3j.Account;
 import conflux.web3j.Cfx;
 import conflux.web3j.CfxUnit;
+import conflux.web3j.Request;
 import conflux.web3j.contract.ERC20Call;
 import conflux.web3j.contract.ERC20Executor;
+import conflux.web3j.request.LogFilter;
+import conflux.web3j.response.Log;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.openide.util.Lookup;
 
 /**
@@ -19,9 +24,9 @@ import org.openide.util.Lookup;
  * @author admin
  */
 public class FCCoin implements Coin {
-    
+
     public static final String CONTRACT_ADDRESS = "0x87010faf5964d67ed070bc4b8dcafa1e1adc0997";
-    
+
     public static final String NAME = "Fans Coin";
     public static final String SYMBOL = "FC";
 
@@ -34,7 +39,7 @@ public class FCCoin implements Coin {
     public String getSymbol() {
         return SYMBOL;
     }
-    
+
     @Override
     public String getBlockChainSymbol() {
         return CFXBlockChain.SYMBOL;
@@ -100,6 +105,26 @@ public class FCCoin implements Coin {
 
     @Override
     public List<TransferRecord> getTransferRecords(Wallet wallet, Coin coin, String address, int limit) throws Exception {
+//        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
+//        Cfx cfx = bc.getCfx();
+//        LogFilter filter = new LogFilter();
+//        filter.setAddress(Arrays.asList(CONTRACT_ADDRESS));
+//        filter.setLimit((long)limit);
+//        Request<List<Log>, Log.Response> req = cfx.getLogs(filter);
+//        List<Log> logs = req.sendAndGet();
+//        System.out.println("logs.size=" + logs.size());
+//
+//        for (Log log : logs) {
+//            System.out.println("address=" + log.getAddress());
+//            System.out.println("data=" + log.getData());
+//            List<String> topics = log.getTopics();
+//            for (String topic : topics) {
+//                System.out.println("topic=" + topic);
+//            }
+//            System.out.println("transactionHash=" + log.getTransactionHash());
+//            System.out.println("————————————————————————————————————————————————————");
+//        }
+        
         return Lists.newArrayList();
     }
 
@@ -111,7 +136,7 @@ public class FCCoin implements Coin {
     @Override
     public int gasMax() {
         // @see http://acuilab.com:8080/articles/2020/08/12/1597238136717.html
-        return (int)(CfxUnit.DEFAULT_GAS_LIMIT.intValue() * 1.3);  // 向下取整
+        return (int) (CfxUnit.DEFAULT_GAS_LIMIT.intValue() * 1.3);  // 向下取整
     }
 
     @Override

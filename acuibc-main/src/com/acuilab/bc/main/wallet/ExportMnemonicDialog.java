@@ -12,6 +12,7 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import org.apache.commons.lang3.StringUtils;
+import org.openide.util.ImageUtilities;
 
 /**
  *
@@ -103,6 +104,7 @@ public class ExportMnemonicDialog extends javax.swing.JDialog {
         copyBtn = new org.jdesktop.swingx.JXButton();
 
         setTitle(org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.title")); // NOI18N
+        setIconImage(ImageUtilities.loadImage("/resource/gourd32.png"));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 closeDialog(evt);

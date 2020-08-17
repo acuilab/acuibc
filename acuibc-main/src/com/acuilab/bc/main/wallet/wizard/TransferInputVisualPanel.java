@@ -4,14 +4,19 @@ import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.wallet.Coin;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.wallet.Wallet;
+import java.math.BigInteger;
+import java.math.RoundingMode;
+import java.util.concurrent.ExecutionException;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
+import org.openide.util.Exceptions;
 
 public final class TransferInputVisualPanel extends JPanel {
     
     private final Wallet wallet;
-    private final Coin coin;
+    private BigInteger balance;
     
     /**
      * Creates new form TransferVisualPanel1
@@ -20,7 +25,6 @@ public final class TransferInputVisualPanel extends JPanel {
         initComponents();
         
         this.wallet = wallet;
-        this.coin = coin;
         
         // sdk估算
 //        BlockChain bc = BlockChainManager.getDefault().getBlockChain(coin.getBlockChainSymbol());
@@ -28,8 +32,26 @@ public final class TransferInputVisualPanel extends JPanel {
 //        gasSlider.setMaximum(bc.gasMax());
 //        gasSlider.setValue(bc.gasDefaultValue());
 //        gasLbl.setText(bc.gasDesc(bc.gasDefaultValue()));
-        
-        valueFld.setPrompt(coin.getMainUnit());
+
+        // 求余额
+        valueFld.setPrompt("正在请求余额，请稍候...");
+        SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
+            @Override
+            protected BigInteger doInBackground() throws Exception {
+                return coin.balanceOf(wallet.getAddress());
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    balance = get();
+                    valueFld.setPrompt("可用：" + coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit());
+                } catch (InterruptedException | ExecutionException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+            }
+        };
+        worker.execute();
         
         sendAddressFld.setText(wallet.getAddress());
     }
@@ -49,6 +71,14 @@ public final class TransferInputVisualPanel extends JPanel {
     
     public JSlider getGasSlider() {
         return gasSlider;
+    }
+    
+    public BigInteger getBalance() {
+        return balance;
+    }
+    
+    public boolean balanceAvailable() {
+        return balance != null;
     }
 
     /**

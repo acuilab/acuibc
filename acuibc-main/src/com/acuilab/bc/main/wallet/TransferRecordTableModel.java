@@ -89,7 +89,7 @@ public class TransferRecordTableModel extends AbstractTableModel {
             case INDEX_COLUMN:
                 return String.valueOf(table.convertRowIndexToView(row)+1);
             case STATUS_COLUMN:
-                return tr.getStatus();
+                return StringUtils.trimToEmpty(tr.getStatus());
             case CREATED_COLUMN:
                 return DateUtil.commonDateFormat(tr.getTimestamp(), "yyyy-MM-dd HH:mm:ss");
             case VALUE_COLUMN:

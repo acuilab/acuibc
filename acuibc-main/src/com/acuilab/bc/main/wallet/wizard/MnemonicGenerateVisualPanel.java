@@ -72,7 +72,8 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
         mnemonicLbl12 = new org.jdesktop.swingx.JXLabel();
         copyBtn = new org.jdesktop.swingx.JXButton();
 
-        setPreferredSize(new java.awt.Dimension(400, 500));
+        setMinimumSize(new java.awt.Dimension(760, 540));
+        setPreferredSize(new java.awt.Dimension(760, 540));
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.jXLabel1.text")); // NOI18N
         jXLabel1.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
@@ -154,7 +155,7 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
                         .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 47, Short.MAX_VALUE)))
+                        .addGap(0, 26, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -163,7 +164,7 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
                 .addContainerGap()
                 .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jXPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

@@ -36,8 +36,8 @@ public class CFXCoin implements Coin {
     
     public static final String NAME = "CFX";
     public static final String SYMBOL = "CFX";
-    // http://47.102.164.229:8885/api/transaction/list?page=1&pageSize=10&txType=all&accountAddress=0x18549f607b2023585d04cbb72eb7d05b4c980355
-    public static final String TRANSACTION_LIST_URL = "http://47.102.164.229:8885/api/transaction/list";
+    // http://scan-dev-service.conflux-chain.org:8885/api/transaction/list?pageSize=10&page=1&accountAddress=0x176c45928d7c26b0175dec8bf6051108563c62c5
+    public static final String TRANSACTION_LIST_URL = "http://scan-dev-service.conflux-chain.org:8885/api/transaction/list";
 
     @Override
     public String getName() {
@@ -132,7 +132,7 @@ public class CFXCoin implements Coin {
             // "query.pageSize" do not match condition "<=100", got: 140
             limit = 100;
         }
-        String url = TRANSACTION_LIST_URL + "?page=1&pageSize=" + limit + "&txType=all&accountAddress=" + address;
+        String url = TRANSACTION_LIST_URL + "?page=1&pageSize=" + limit + "&accountAddress=" + address;
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)
@@ -148,8 +148,6 @@ public class CFXCoin implements Coin {
             String bodyStr = body.string();
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(bodyStr);
-            
-            System.out.println("===============================================" + bodyStr);
             
             //获取code字段值
             JsonNode code = root.get("code");

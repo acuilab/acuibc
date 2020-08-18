@@ -44,7 +44,8 @@ public final class NameCoinVisualPanel extends JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         coinList = new org.jdesktop.swingx.JXList();
 
-        setPreferredSize(new java.awt.Dimension(400, 500));
+        setMinimumSize(new java.awt.Dimension(760, 540));
+        setPreferredSize(new java.awt.Dimension(760, 540));
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(NameCoinVisualPanel.class, "NameCoinVisualPanel.jXLabel1.text")); // NOI18N
         jXLabel1.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
@@ -76,7 +77,7 @@ public final class NameCoinVisualPanel extends JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 318, Short.MAX_VALUE)))
+                        .addGap(0, 602, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

@@ -23,11 +23,12 @@ public class StatusTableCellRenderer extends DefaultTableCellRenderer {
 	if(column == TransferRecordTableModel.STATUS_COLUMN){
 	    label.setText(null);
 	    TransferRecordTableModel tableModel = (TransferRecordTableModel)table.getModel();
-	    TransferRecord rransferRecord = tableModel.getTransferRecord(table.convertRowIndexToModel(row));
-	    if(StringUtils.equals(rransferRecord.getStatus(), "0")) {
-		label.setIcon(okIcon);
-	    } else {
+	    TransferRecord transferRecord = tableModel.getTransferRecord(table.convertRowIndexToModel(row));
+            // 1表示失败,其余表示成功
+	    if(StringUtils.equals(transferRecord.getStatus(), "1")) {
 		label.setIcon(errorIcon);
+	    } else {
+		label.setIcon(okIcon);
 	    }
 	}
 	

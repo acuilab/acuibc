@@ -52,14 +52,17 @@ public class AutoInstaller implements Runnable {
             OperationContainer<InstallSupport> installContainer = addToContainer(OperationContainer.createForInstall(), install);
             installModules(installContainer);
 
-            OperationContainer<InstallSupport> updateContainer = addToContainer(OperationContainer.createForInstall(), update);
+            OperationContainer<InstallSupport> updateContainer = addToContainer(OperationContainer.createForUpdate(), update);
             installModules(updateContainer);
         }
 
         public OperationContainer<InstallSupport> addToContainer(OperationContainer<InstallSupport> container, List<UpdateElement> modules) {
             for (UpdateElement e : modules) {
+                System.out.println("UpdateElement e=" + e.toString());
+                System.out.println("container.canBeAdded(e.getUpdateUnit(), e)=" + container.canBeAdded(e.getUpdateUnit(), e));
                 if (container.canBeAdded(e.getUpdateUnit(), e)) {
                     OperationInfo<InstallSupport> operationInfo = container.add(e);
+                    System.out.println("operationInfo=" + operationInfo);
                     if (operationInfo != null) {
                         container.add(operationInfo.getRequiredElements());
                     }
@@ -72,20 +75,20 @@ public class AutoInstaller implements Runnable {
         public void installModules(OperationContainer<InstallSupport> container) {
             try {
                 InstallSupport support = container.getSupport();
-
+                System.out.println("support=" + support);
                 if (support != null) {
 
                     Validator vali = support.doDownload(null, true, true);
                     InstallSupport.Installer inst = support.doValidate(vali, null);
                     Restarter restarter = support.doInstall(inst, null);
-
+                    System.out.println("restarter=" + restarter);
                     if (restarter != null) {
                         support.doRestartLater(restarter);
                         if (!isRestartRequested) {
                             NotificationDisplayer.getDefault().notify(
-                                    "Die Anwendung wurde aktualisiert",
+                                    "该应用程序已更新",
                                     ImageUtilities.loadImageIcon("resource/gourd32.png", false),
-                                    "Click here to restart",
+                                    "点击此处重新启动",
                                     new RestartAction(support, restarter)
                             );
                             isRestartRequested = true;
@@ -115,6 +118,8 @@ public class AutoInstaller implements Runnable {
                     }
                 }
             }
+            System.out.println("install=" + install.size());
+            System.out.println("update=" + update.size());
         }
 
         // Searching Modules in a Special Update Center

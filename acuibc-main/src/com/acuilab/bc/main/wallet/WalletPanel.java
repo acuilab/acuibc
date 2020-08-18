@@ -51,6 +51,9 @@ public class WalletPanel extends JXPanel {
         walletNameFld.setText(wallet.getName());
         walletAddressFld.setText(wallet.getAddress());
         
+        Coin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
+        balanceFld.setText("0.000000 " + baseCoin.getMainUnit());
+        
         this.wallet = wallet;
         this.walletTopComponentId = null;
     }
@@ -168,7 +171,7 @@ public class WalletPanel extends JXPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(balanceFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(balanceFld, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()

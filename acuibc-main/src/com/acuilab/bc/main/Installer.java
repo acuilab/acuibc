@@ -43,7 +43,7 @@ public class Installer extends ModuleInstall {
             @Override
             public void run() {
 		// 设置标题
-                WindowManager.getDefault().getMainWindow().setTitle(Constants.TITLE);
+                WindowManager.getDefault().getMainWindow().setTitle(Constants.NAME);
 		// 最大化显示
 		WindowManager.getDefault().getMainWindow().setExtendedState(JFrame.MAXIMIZED_BOTH);
             }
@@ -89,8 +89,8 @@ public class Installer extends ModuleInstall {
     @Override
     public boolean closing() {
         NotifyDescriptor descriptor = new NotifyDescriptor.Confirmation(
-                "Do you really want to exit the application?",
-                "Exit",
+                "您真的要退出该应用程序吗？",
+                "退出",
                 NotifyDescriptor.YES_NO_OPTION);
         Object retval = DialogDisplayer.getDefault().notify(descriptor);
         return retval.equals(NotifyDescriptor.YES_OPTION);

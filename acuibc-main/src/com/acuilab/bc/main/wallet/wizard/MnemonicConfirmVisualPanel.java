@@ -118,7 +118,7 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicBtn1, org.openide.util.NbBundle.getMessage(MnemonicConfirmVisualPanel.class, "MnemonicConfirmVisualPanel.mnemonicBtn1.text")); // NOI18N
         mnemonicBtn1.setFocusable(false);
-        mnemonicBtn1.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicBtn1.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         mnemonicBtn1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnemonicBtn1ActionPerformed(evt);
@@ -128,7 +128,7 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicBtn2, org.openide.util.NbBundle.getMessage(MnemonicConfirmVisualPanel.class, "MnemonicConfirmVisualPanel.mnemonicBtn2.text")); // NOI18N
         mnemonicBtn2.setFocusable(false);
-        mnemonicBtn2.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicBtn2.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         mnemonicBtn2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnemonicBtn2ActionPerformed(evt);
@@ -138,7 +138,7 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicBtn3, org.openide.util.NbBundle.getMessage(MnemonicConfirmVisualPanel.class, "MnemonicConfirmVisualPanel.mnemonicBtn3.text")); // NOI18N
         mnemonicBtn3.setFocusable(false);
-        mnemonicBtn3.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicBtn3.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         mnemonicBtn3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnemonicBtn3ActionPerformed(evt);
@@ -148,7 +148,7 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicBtn4, org.openide.util.NbBundle.getMessage(MnemonicConfirmVisualPanel.class, "MnemonicConfirmVisualPanel.mnemonicBtn4.text")); // NOI18N
         mnemonicBtn4.setFocusable(false);
-        mnemonicBtn4.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicBtn4.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         mnemonicBtn4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnemonicBtn4ActionPerformed(evt);
@@ -158,7 +158,7 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicBtn5, org.openide.util.NbBundle.getMessage(MnemonicConfirmVisualPanel.class, "MnemonicConfirmVisualPanel.mnemonicBtn5.text")); // NOI18N
         mnemonicBtn5.setFocusable(false);
-        mnemonicBtn5.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicBtn5.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         mnemonicBtn5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnemonicBtn5ActionPerformed(evt);
@@ -168,7 +168,7 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicBtn6, org.openide.util.NbBundle.getMessage(MnemonicConfirmVisualPanel.class, "MnemonicConfirmVisualPanel.mnemonicBtn6.text")); // NOI18N
         mnemonicBtn6.setFocusable(false);
-        mnemonicBtn6.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicBtn6.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         mnemonicBtn6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnemonicBtn6ActionPerformed(evt);
@@ -178,7 +178,7 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicBtn7, org.openide.util.NbBundle.getMessage(MnemonicConfirmVisualPanel.class, "MnemonicConfirmVisualPanel.mnemonicBtn7.text")); // NOI18N
         mnemonicBtn7.setFocusable(false);
-        mnemonicBtn7.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicBtn7.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         mnemonicBtn7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnemonicBtn7ActionPerformed(evt);
@@ -188,7 +188,7 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicBtn8, org.openide.util.NbBundle.getMessage(MnemonicConfirmVisualPanel.class, "MnemonicConfirmVisualPanel.mnemonicBtn8.text")); // NOI18N
         mnemonicBtn8.setFocusable(false);
-        mnemonicBtn8.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicBtn8.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         mnemonicBtn8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnemonicBtn8ActionPerformed(evt);
@@ -198,7 +198,7 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicBtn9, org.openide.util.NbBundle.getMessage(MnemonicConfirmVisualPanel.class, "MnemonicConfirmVisualPanel.mnemonicBtn9.text")); // NOI18N
         mnemonicBtn9.setFocusable(false);
-        mnemonicBtn9.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicBtn9.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         mnemonicBtn9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnemonicBtn9ActionPerformed(evt);
@@ -208,7 +208,7 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicBtn10, org.openide.util.NbBundle.getMessage(MnemonicConfirmVisualPanel.class, "MnemonicConfirmVisualPanel.mnemonicBtn10.text")); // NOI18N
         mnemonicBtn10.setFocusable(false);
-        mnemonicBtn10.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicBtn10.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         mnemonicBtn10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnemonicBtn10ActionPerformed(evt);
@@ -218,7 +218,7 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicBtn11, org.openide.util.NbBundle.getMessage(MnemonicConfirmVisualPanel.class, "MnemonicConfirmVisualPanel.mnemonicBtn11.text")); // NOI18N
         mnemonicBtn11.setFocusable(false);
-        mnemonicBtn11.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicBtn11.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         mnemonicBtn11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnemonicBtn11ActionPerformed(evt);
@@ -228,7 +228,7 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicBtn12, org.openide.util.NbBundle.getMessage(MnemonicConfirmVisualPanel.class, "MnemonicConfirmVisualPanel.mnemonicBtn12.text")); // NOI18N
         mnemonicBtn12.setFocusable(false);
-        mnemonicBtn12.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        mnemonicBtn12.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         mnemonicBtn12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnemonicBtn12ActionPerformed(evt);
@@ -321,7 +321,7 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
 
     private void mnemonicBtnClicked(final JButton source) {
         final JXLabel lbl = new JXLabel(source.getText());
-        lbl.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        lbl.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         lbl.setFocusable(false);
         lbl.addMouseListener(new MouseAdapter() {
             @Override

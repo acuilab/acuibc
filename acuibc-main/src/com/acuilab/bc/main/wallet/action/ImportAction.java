@@ -64,12 +64,12 @@ public class ImportAction extends AbstractAction {
                 String pwd = (String)wiz.getProperty("password");
                 String walletName = (String)wiz.getProperty("walletName");
                 String coinSymbal = (String)wiz.getProperty("coinSymbal");
-                String mnemonicGroup = (String)wiz.getProperty("mnemonicGroup");
+                String importType = (String)wiz.getProperty("importType");
                 String mnemonicOrPrivate = StringUtils.trim((String)wiz.getProperty("mnemonicOrPrivate"));    // 助记词或私钥
 
                 WalletListTopComponent tc = (WalletListTopComponent)WindowManager.getDefault().findTopComponent("WalletListTopComponent");
                 BlockChain blockChain = BlockChainManager.getDefault().getBlockChain(coinSymbal);
-                if(StringUtils.equals(mnemonicGroup, "助记词")) {
+                if(StringUtils.equals(importType, "助记词")) {
                     // 保存钱包到数据库
                     Wallet wallet = blockChain.importWalletByMnemonic(walletName, pwd, mnemonicOrPrivate);
                     WalletDAO.insert(wallet);

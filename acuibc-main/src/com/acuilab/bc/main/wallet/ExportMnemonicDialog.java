@@ -112,6 +112,7 @@ public class ExportMnemonicDialog extends javax.swing.JDialog {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel2, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.jXLabel2.text")); // NOI18N
+        jXLabel2.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         jXPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jXPanel1.setLayout(new java.awt.GridLayout(4, 3, 10, 10));
@@ -165,8 +166,10 @@ public class ExportMnemonicDialog extends javax.swing.JDialog {
         jXPanel1.add(mnemonicLbl12);
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel3, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.jXLabel3.text")); // NOI18N
+        jXLabel3.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(copyBtn, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.copyBtn.text")); // NOI18N
+        copyBtn.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         copyBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 copyBtnActionPerformed(evt);
@@ -181,7 +184,7 @@ public class ExportMnemonicDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jXPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jXLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 694, Short.MAX_VALUE)
+                    .addComponent(jXLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

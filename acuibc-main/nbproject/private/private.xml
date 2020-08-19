@@ -6,9 +6,18 @@
             <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/util/Constants.java</file>
             <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/AutoInstaller.java</file>
             <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/wizard/TransferInputVisualPanel.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/wizard/PasswordInputVisualPanel.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/wizard/MnemonicGenerateVisualPanel.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/wizard/PasswordVisualPanel.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/wizard/MnemonicConfirmVisualPanel.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/wizard/NameCoinVisualPanel.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/wizard/MnemonicInputPanel.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/CoinPanel.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/TransferRecordTableModel.java</file>
             <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/wizard/TransferInputWizardPanel.java</file>
             <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/Installer.java</file>
             <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/ui/AboutDialog.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/StatusTableCellRenderer.java</file>
             <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/WalletPanel.java</file>
         </group>
     </open-files>

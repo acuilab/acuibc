@@ -60,18 +60,18 @@ public class MnemonicInputWizardPanel implements WizardDescriptor.ValidatingPane
     @Override
     public void storeSettings(WizardDescriptor wiz) {
         // use wiz.putProperty to remember current panel state
-        wiz.putProperty("mnemonicGroup", (String)component.getMnemonicGroup().getSelectedValue());
+        wiz.putProperty("importType", (String)component.getImportType());
         wiz.putProperty("mnemonicOrPrivate", component.getMnemonicArea().getText());
     }
 
     @Override
     public void validate() throws WizardValidationException {
         String mnemonic = component.getMnemonicArea().getText();
-        String mnemonicGroup = (String)component.getMnemonicGroup().getSelectedValue();
+        String ipmportType = (String)component.getImportType();
         if(StringUtils.isBlank(mnemonic)) {
             component.getMnemonicArea().requestFocus();
             
-            if(StringUtils.equals(mnemonicGroup, "助记词")) {
+            if(StringUtils.equals(ipmportType, "助记词")) {
                 throw new WizardValidationException(null, "请输入您的助记词", null);
             } else {
                 throw new WizardValidationException(null, "请输入您的私钥", null);
@@ -79,7 +79,7 @@ public class MnemonicInputWizardPanel implements WizardDescriptor.ValidatingPane
         }
         
         // TODO: 12个单词，空格分隔
-        if(StringUtils.equals(mnemonicGroup, "助记词")) {
+        if(StringUtils.equals(ipmportType, "助记词")) {
             String[] mnemonicArray = StringUtils.split(mnemonic, " ");
             if(mnemonicArray.length != 12) {
                 component.getMnemonicArea().requestFocus();

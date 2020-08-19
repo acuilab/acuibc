@@ -85,13 +85,16 @@ public class ExportPrivateKeyDialog extends javax.swing.JDialog {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(ExportPrivateKeyDialog.class, "ExportPrivateKeyDialog.jXLabel1.text")); // NOI18N
+        jXLabel1.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         privateKeyArea.setEditable(false);
         privateKeyArea.setColumns(20);
         privateKeyArea.setRows(5);
+        privateKeyArea.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         jScrollPane1.setViewportView(privateKeyArea);
 
         org.openide.awt.Mnemonics.setLocalizedText(copyBtn, org.openide.util.NbBundle.getMessage(ExportPrivateKeyDialog.class, "ExportPrivateKeyDialog.copyBtn.text")); // NOI18N
+        copyBtn.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         copyBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 copyBtnActionPerformed(evt);
@@ -109,7 +112,7 @@ public class ExportPrivateKeyDialog extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1)
-                    .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 694, Short.MAX_VALUE))
+                    .addComponent(jXLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 955, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -118,7 +121,7 @@ public class ExportPrivateKeyDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())

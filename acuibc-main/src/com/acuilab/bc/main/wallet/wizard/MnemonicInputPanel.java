@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.acuilab.bc.main.wallet.wizard;
 
 import java.awt.Toolkit;
@@ -12,7 +7,6 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import javax.swing.JPanel;
-import org.apache.commons.lang3.StringUtils;
 import org.jdesktop.swingx.JXTextArea;
 import org.openide.util.Exceptions;
 
@@ -24,8 +18,8 @@ public final class MnemonicInputPanel extends JPanel {
     public MnemonicInputPanel() {
         initComponents();
         
-        mnemonicGroup.setValues(new String[] {"助记词", "私钥"});
-        mnemonicGroup.setSelectedValue("助记词");
+        buttonGroup1.add(mnemonicRadio);
+        buttonGroup1.add(privateKeyRadio);
         mnemonicLbl.setText("请输入您的助记词");
         mnemonicArea.setPrompt("请依次填写助记词，以空格隔开");
     }
@@ -39,8 +33,12 @@ public final class MnemonicInputPanel extends JPanel {
         return mnemonicArea;
     }
     
-    public org.jdesktop.swingx.JXRadioGroup getMnemonicGroup() {
-        return mnemonicGroup;
+    public String getImportType() {
+        if(mnemonicRadio.isSelected()) {
+            return mnemonicRadio.getText();
+        } else {
+            return privateKeyRadio.getText();
+        }
     }
 
     /**
@@ -51,11 +49,13 @@ public final class MnemonicInputPanel extends JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         mnemonicArea = new org.jdesktop.swingx.JXTextArea();
         pasteBtn = new org.jdesktop.swingx.JXButton();
-        mnemonicGroup = new org.jdesktop.swingx.JXRadioGroup();
         mnemonicLbl = new org.jdesktop.swingx.JXLabel();
+        mnemonicRadio = new javax.swing.JRadioButton();
+        privateKeyRadio = new javax.swing.JRadioButton();
 
         setMinimumSize(new java.awt.Dimension(760, 540));
         setPreferredSize(new java.awt.Dimension(760, 540));
@@ -75,17 +75,15 @@ public final class MnemonicInputPanel extends JPanel {
             }
         });
 
-        mnemonicGroup.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
-        mnemonicGroup.setPreferredSize(new java.awt.Dimension(100, 27));
-        mnemonicGroup.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnemonicGroupActionPerformed(evt);
-            }
-        });
-        mnemonicGroup.setLayout(new javax.swing.BoxLayout(mnemonicGroup, javax.swing.BoxLayout.LINE_AXIS));
-
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl, org.openide.util.NbBundle.getMessage(MnemonicInputPanel.class, "MnemonicInputPanel.mnemonicLbl.text")); // NOI18N
         mnemonicLbl.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
+
+        mnemonicRadio.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
+        mnemonicRadio.setSelected(true);
+        org.openide.awt.Mnemonics.setLocalizedText(mnemonicRadio, org.openide.util.NbBundle.getMessage(MnemonicInputPanel.class, "MnemonicInputPanel.mnemonicRadio.text")); // NOI18N
+
+        privateKeyRadio.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(privateKeyRadio, org.openide.util.NbBundle.getMessage(MnemonicInputPanel.class, "MnemonicInputPanel.privateKeyRadio.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -94,11 +92,15 @@ public final class MnemonicInputPanel extends JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(mnemonicRadio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(privateKeyRadio)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(pasteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(mnemonicGroup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(mnemonicLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -106,27 +108,18 @@ public final class MnemonicInputPanel extends JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mnemonicGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(mnemonicRadio)
+                    .addComponent(privateKeyRadio))
+                .addGap(8, 8, 8)
                 .addComponent(mnemonicLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pasteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void mnemonicGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnemonicGroupActionPerformed
-        String selectedValue = (String)mnemonicGroup.getSelectedValue();
-        if(StringUtils.equals(selectedValue, "助记词")) {
-            mnemonicLbl.setText("请输入您的助记词");
-            mnemonicArea.setPrompt("请依次填写助记词，以空格隔开");
-        } else {
-            mnemonicLbl.setText("请输入您的私钥");
-            mnemonicArea.setPrompt("请输入私钥地址");
-        }
-    }//GEN-LAST:event_mnemonicGroupActionPerformed
 
     private void pasteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pasteBtnActionPerformed
         // 获取系统剪贴板
@@ -150,10 +143,12 @@ public final class MnemonicInputPanel extends JPanel {
     }//GEN-LAST:event_pasteBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXTextArea mnemonicArea;
-    private org.jdesktop.swingx.JXRadioGroup mnemonicGroup;
     private org.jdesktop.swingx.JXLabel mnemonicLbl;
+    private javax.swing.JRadioButton mnemonicRadio;
     private org.jdesktop.swingx.JXButton pasteBtn;
+    private javax.swing.JRadioButton privateKeyRadio;
     // End of variables declaration//GEN-END:variables
 }

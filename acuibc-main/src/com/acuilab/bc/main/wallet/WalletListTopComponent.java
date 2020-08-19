@@ -8,6 +8,7 @@ import com.google.common.collect.Maps;
 import java.awt.Component;
 import java.awt.Font;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.util.List;
 import org.netbeans.api.settings.ConvertAsProperties;
@@ -17,6 +18,7 @@ import org.openide.util.Exceptions;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import javax.swing.Box;
@@ -146,6 +148,30 @@ public final class WalletListTopComponent extends TopComponent {
     public void addWallet(Wallet wallet) {
         JXTaskPane taskPane = taskPaneMap.get(wallet.getBlockChainSymbol());
         WalletPanel walletPanel = new WalletPanel(wallet);
+        // 获得余额
+        final Coin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
+        final ProgressHandle ph = ProgressHandle.createHandle("正在请求余额，请稍候");
+        SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
+            @Override
+            protected BigInteger doInBackground() throws Exception {
+                ph.start();
+                return baseCoin.balanceOf(wallet.getAddress());
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    walletPanel.setBalance(get());
+                } catch (InterruptedException | ExecutionException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+
+                ph.finish();
+                walletPanel.setRefreshBtnEnabled();
+            }
+        };
+        worker.execute();
+        
         if(taskPane != null) {
             // 在该任务面板尾部插入钱包面板
             Component strut = Box.createVerticalStrut(10);

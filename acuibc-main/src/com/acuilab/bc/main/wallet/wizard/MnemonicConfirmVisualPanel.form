@@ -131,7 +131,7 @@
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
           <Events>
@@ -145,7 +145,7 @@
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
           <Events>
@@ -159,7 +159,7 @@
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
           <Events>
@@ -173,7 +173,7 @@
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
           <Events>
@@ -187,7 +187,7 @@
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
           <Events>
@@ -201,7 +201,7 @@
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
           <Events>
@@ -215,7 +215,7 @@
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
           <Events>
@@ -229,7 +229,7 @@
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
           <Events>
@@ -243,7 +243,7 @@
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
           <Events>
@@ -257,7 +257,7 @@
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
           <Events>
@@ -271,7 +271,7 @@
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
           <Events>
@@ -285,7 +285,7 @@
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="18" style="1"/>
+              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
             </Property>
           </Properties>
           <Events>

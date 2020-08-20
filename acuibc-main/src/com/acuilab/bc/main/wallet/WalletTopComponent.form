@@ -103,7 +103,7 @@
                   <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="barcodeLbl" min="-2" pref="128" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="walletNameFld" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -114,12 +114,12 @@
                                   <Component id="walletAddressFld" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jXLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="nameEditBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="pwdEditBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="mnemonicExportBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jXButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="pwdEditBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="nameEditBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Component id="jXLabel1" min="-2" max="-2" attributes="0"/>

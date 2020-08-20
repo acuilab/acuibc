@@ -60,14 +60,14 @@ public class MnemonicInputWizardPanel implements WizardDescriptor.ValidatingPane
     @Override
     public void storeSettings(WizardDescriptor wiz) {
         // use wiz.putProperty to remember current panel state
-        wiz.putProperty("importType", (String)component.getImportType());
+        wiz.putProperty("importType", component.getImportType());
         wiz.putProperty("mnemonicOrPrivate", component.getMnemonicArea().getText());
     }
 
     @Override
     public void validate() throws WizardValidationException {
         String mnemonic = component.getMnemonicArea().getText();
-        String ipmportType = (String)component.getImportType();
+        String ipmportType = component.getImportType();
         if(StringUtils.isBlank(mnemonic)) {
             component.getMnemonicArea().requestFocus();
             

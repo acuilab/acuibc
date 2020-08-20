@@ -1,7 +1,8 @@
 package com.acuilab.bc.main.wallet;
 
 import java.util.Date;
-import javax.swing.Icon;
+import java.util.Observable;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 钱包
@@ -9,14 +10,14 @@ import javax.swing.Icon;
  *
  * @author admin
  */
-public class Wallet {
-
+public class Wallet extends Observable {
+    
     private String name;          // 钱包名称(主键)
     private String pwdMD5;        // 钱包密码
     private final String blockChainSymbol;        // 区块链简称
     private final String address;       // 钱包地址
-    private final String privateKeyAES;    // 私钥
-    private final String mnemonicAES;      // 助记词
+    private String privateKeyAES;    // 私钥
+    private String mnemonicAES;      // 助记词
     private final Date created;             // 创建事件
     
     public Wallet(String name, String pwdMD5, String symbol, String address, String privateKeyAES, Date created) {
@@ -39,7 +40,12 @@ public class Wallet {
     }
     
     public void setName(String name) {
-        this.name = name;
+        if(!StringUtils.equals(this.name, name)) {
+            this.name = name;
+            setChanged();
+        }
+        
+        notifyObservers();
     }
 
     public String getPwdMD5() {
@@ -70,4 +76,11 @@ public class Wallet {
         return created;
     }
 
+    public void setPrivateKeyAES(String privateKeyAES) {
+        this.privateKeyAES = privateKeyAES;
+    }
+
+    public void setMnemonicAES(String mnemonicAES) {
+        this.mnemonicAES = mnemonicAES;
+    }
 }

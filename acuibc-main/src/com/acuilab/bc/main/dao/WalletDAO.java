@@ -83,4 +83,12 @@ public class WalletDAO {
 	    
 	});
     }
+    
+    public static void updatePwd(String name, String pwdMD5, String mnemonicAES, String privateKeyAES) throws SQLException {
+        JDBCUtil.executeUpdate("update wallet set pwdMd5=?, mnemonicAES=?, privateKeyAES=? where wname=?", new Object[] {name, pwdMD5, mnemonicAES, privateKeyAES}, Installer.getConnection());
+    }
+    
+    public static void updateName(String name, String newName) throws SQLException {
+        JDBCUtil.executeUpdate("update wallet set wname=? where wname=?", new Object[] {newName, name}, Installer.getConnection());
+    }
 }

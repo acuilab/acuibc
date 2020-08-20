@@ -1,8 +1,10 @@
 package com.acuilab.bc.main.wallet;
 
 import com.acuilab.bc.main.BlockChain;
+import com.acuilab.bc.main.dao.WalletDAO;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
+import com.acuilab.bc.main.util.AESUtil;
 import com.google.common.collect.Maps;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -10,15 +12,17 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
-import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -32,6 +36,7 @@ import org.netbeans.api.progress.ProgressHandle;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
+import org.springframework.util.DigestUtils;
 
 /**
  * Top component which displays something.
@@ -42,7 +47,7 @@ import org.openide.windows.TopComponent;
         persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
-public final class WalletTopComponent extends TopComponent {
+public final class WalletTopComponent extends TopComponent implements Observer {
     
     private static final AtomicInteger ID = new AtomicInteger();
     private final String PREFERRED_ID;  // 20200802
@@ -246,7 +251,7 @@ public final class WalletTopComponent extends TopComponent {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(barcodeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(jXPanel1Layout.createSequentialGroup()
                             .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(walletNameFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -255,12 +260,12 @@ public final class WalletTopComponent extends TopComponent {
                             .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(walletAddressFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(2, 2, 2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(mnemonicExportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jXButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(nameEditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(pwdEditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(nameEditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(mnemonicExportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jXButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -351,11 +356,51 @@ public final class WalletTopComponent extends TopComponent {
     }//GEN-LAST:event_barcodeLblMouseClicked
 
     private void nameEditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameEditBtnActionPerformed
-        // TODO add your handling code here:
+        PasswordVerifyDialog passwordVerifyDialog = new PasswordVerifyDialog(null, wallet);
+        passwordVerifyDialog.setVisible(true);
+        if(passwordVerifyDialog.getReturnStatus() == PasswordVerifyDialog.RET_OK) {
+            try {
+                WalletNameModifyDialog dlg = new WalletNameModifyDialog(null, wallet.getName());
+                dlg.setVisible(true);
+                if(dlg.getReturnStatus() == WalletNameModifyDialog.RET_OK) {
+                    WalletDAO.updateName(wallet.getName(), dlg.getNewName());
+                }
+                
+                // 更新Wallet(同时通过观察者模式更新相关UI)
+                wallet.setName(dlg.getNewName());
+            } catch (SQLException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+            
+        }
     }//GEN-LAST:event_nameEditBtnActionPerformed
 
     private void pwdEditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pwdEditBtnActionPerformed
-        // TODO add your handling code here:
+        PasswordModifyDialog dlg = new PasswordModifyDialog(null, wallet);
+        dlg.setVisible(true);
+        if(dlg.getReturnStatus() == PasswordModifyDialog.RET_OK) {
+            // 先根据旧密码获得助记词及私钥
+            String oldPwd = dlg.getOldPwd();
+            String mnemonicWords = AESUtil.decrypt(wallet.getMnemonicAES(), oldPwd);
+            String privateKey = AESUtil.decrypt(wallet.getPrivateKeyAES(), oldPwd);
+
+            // 根据新密码加密
+            String newPwd = dlg.getNewPwd();
+            String pwdMD5 = DigestUtils.md5DigestAsHex(newPwd.getBytes()); 
+            String mnemonicAES = AESUtil.encrypt(StringUtils.join(mnemonicWords, " "), newPwd);
+            String privateKeyAES = AESUtil.encrypt(privateKey, newPwd);
+
+            try {
+                WalletDAO.updatePwd(wallet.getName(), pwdMD5, mnemonicAES, privateKeyAES);
+                
+                // 更新wallet相关值
+                wallet.setPwdMD5(pwdMD5);
+                wallet.setMnemonicAES(mnemonicAES);
+                wallet.setPrivateKeyAES(privateKeyAES);
+            } catch (SQLException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
     }//GEN-LAST:event_pwdEditBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -374,12 +419,14 @@ public final class WalletTopComponent extends TopComponent {
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
-        // TODO add custom code on component opening
+        System.out.println("componentOpened==========================================");
+        wallet.addObserver(this);
     }
 
     @Override
     public void componentClosed() {
-        // TODO add custom code on component closing
+        System.out.println("componentClosed==========================================");
+        wallet.addObserver(this);
     }
     
     // 覆盖此方法，为TopComponent设置preferredID
@@ -402,5 +449,10 @@ public final class WalletTopComponent extends TopComponent {
     void readProperties(java.util.Properties p) {
         String version = p.getProperty("version");
         // TODO read your settings according to their version
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        walletNameFld.setText(((Wallet)o).getName());
     }
 }

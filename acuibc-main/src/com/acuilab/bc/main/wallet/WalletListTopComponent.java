@@ -209,6 +209,9 @@ public final class WalletListTopComponent extends TopComponent {
                 jXTaskPaneContainer1.remove(taskPane);
                 taskPaneMap.remove(wallet.getBlockChainSymbol());
             }
+            
+            // 移除监听器(在wallet的构造函数中增加监听器)
+            wallet.deleteObserver(walletPanel);
         }
     }
 

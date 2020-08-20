@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.concurrent.ExecutionException;
 import javax.swing.JComponent;
 import javax.swing.SwingWorker;
@@ -32,7 +34,7 @@ import org.openide.windows.WindowManager;
  *
  * @author admin
  */
-public class WalletPanel extends JXPanel {
+public class WalletPanel extends JXPanel implements Observer {
     
     private final Wallet wallet;
     
@@ -56,6 +58,8 @@ public class WalletPanel extends JXPanel {
         
         this.wallet = wallet;
         this.walletTopComponentId = null;
+        
+        wallet.addObserver(this);
     }
     
     public Wallet getWallet() {
@@ -70,7 +74,7 @@ public class WalletPanel extends JXPanel {
     public void setRefreshBtnEnabled() {
         refreshBtn.setEnabled(true);
     }
-
+    
     public String getWalletTopComponentId() {
         return walletTopComponentId;
     }
@@ -336,4 +340,10 @@ public class WalletPanel extends JXPanel {
     private org.jdesktop.swingx.JXLabel walletIconFld;
     private org.jdesktop.swingx.JXTextField walletNameFld;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Observable o, Object arg) {
+        System.out.println("arg=" + arg);
+        walletNameFld.setText(((Wallet)o).getName());
+    }
 }

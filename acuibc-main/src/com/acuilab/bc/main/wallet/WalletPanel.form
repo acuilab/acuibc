@@ -7,9 +7,6 @@
         <LineBorder roundedCorners="true"/>
       </Border>
     </Property>
-    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[400, 160]"/>
-    </Property>
   </Properties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="1"/>
@@ -36,7 +33,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="openBtn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="balanceFld" pref="157" max="32767" attributes="0"/>
+                      <Component id="balanceFld" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="refreshBtn" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -75,7 +72,7 @@
                   <Component id="refreshBtn" max="32767" attributes="0"/>
                   <Component id="balanceFld" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="33" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

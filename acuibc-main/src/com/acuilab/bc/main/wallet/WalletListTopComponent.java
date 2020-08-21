@@ -81,7 +81,7 @@ public final class WalletListTopComponent extends TopComponent {
             walletGroupMap.entrySet().forEach(entry -> {
                 BlockChain bc = BlockChainManager.getDefault().getBlockChain(entry.getKey());
                 JXTaskPane taskPane = new JXTaskPane(bc.getSymbol(), bc.getIcon(16));
-                taskPane.setFont(new java.awt.Font("宋体", Font.BOLD, 24));
+//                taskPane.setFont(new java.awt.Font("宋体", Font.BOLD, 24));
                 taskPane.setLayout(new BoxLayout(taskPane.getContentPane(), BoxLayout.Y_AXIS));
                 
                 List<Wallet> wallets = entry.getValue();
@@ -182,7 +182,7 @@ public final class WalletListTopComponent extends TopComponent {
             // 新建任务面板并插入钱包面板
             BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
             taskPane = new JXTaskPane(bc.getSymbol(), bc.getIcon(16));
-            taskPane.setFont(new java.awt.Font("宋体", Font.BOLD, 24));
+//            taskPane.setFont(new java.awt.Font("宋体", Font.BOLD, 24));
             taskPane.setLayout(new BoxLayout(taskPane.getContentPane(), BoxLayout.Y_AXIS));
             taskPane.add(walletPanel);
                 
@@ -225,8 +225,6 @@ public final class WalletListTopComponent extends TopComponent {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jXTaskPaneContainer1 = new org.jdesktop.swingx.JXTaskPaneContainer();
-
-        setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         org.jdesktop.swingx.VerticalLayout verticalLayout1 = new org.jdesktop.swingx.VerticalLayout();
         verticalLayout1.setGap(14);

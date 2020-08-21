@@ -262,8 +262,6 @@ public final class WalletTopComponent extends TopComponent implements Observer {
                 .addContainerGap())
         );
 
-        tabbedPane1.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(

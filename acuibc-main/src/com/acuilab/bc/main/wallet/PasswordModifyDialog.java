@@ -102,7 +102,6 @@ public class PasswordModifyDialog extends javax.swing.JDialog {
             }
         });
 
-        okButton.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(okButton, org.openide.util.NbBundle.getMessage(PasswordModifyDialog.class, "PasswordModifyDialog.okButton.text")); // NOI18N
         okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -110,7 +109,6 @@ public class PasswordModifyDialog extends javax.swing.JDialog {
             }
         });
 
-        cancelButton.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(cancelButton, org.openide.util.NbBundle.getMessage(PasswordModifyDialog.class, "PasswordModifyDialog.cancelButton.text")); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,38 +117,27 @@ public class PasswordModifyDialog extends javax.swing.JDialog {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(PasswordModifyDialog.class, "PasswordModifyDialog.jXLabel1.text")); // NOI18N
-        jXLabel1.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
-        oldPwdFld.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         oldPwdFld.setText(org.openide.util.NbBundle.getMessage(PasswordModifyDialog.class, "PasswordModifyDialog.oldPwdFld.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel2, org.openide.util.NbBundle.getMessage(PasswordModifyDialog.class, "PasswordModifyDialog.jXLabel2.text")); // NOI18N
-        jXLabel2.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
-        newPwdFld.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         newPwdFld.setText(org.openide.util.NbBundle.getMessage(PasswordModifyDialog.class, "PasswordModifyDialog.newPwdFld.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel3, org.openide.util.NbBundle.getMessage(PasswordModifyDialog.class, "PasswordModifyDialog.jXLabel3.text")); // NOI18N
-        jXLabel3.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel4, org.openide.util.NbBundle.getMessage(PasswordModifyDialog.class, "PasswordModifyDialog.jXLabel4.text")); // NOI18N
-        jXLabel4.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel5, org.openide.util.NbBundle.getMessage(PasswordModifyDialog.class, "PasswordModifyDialog.jXLabel5.text")); // NOI18N
-        jXLabel5.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel6, org.openide.util.NbBundle.getMessage(PasswordModifyDialog.class, "PasswordModifyDialog.jXLabel6.text")); // NOI18N
-        jXLabel6.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel7, org.openide.util.NbBundle.getMessage(PasswordModifyDialog.class, "PasswordModifyDialog.jXLabel7.text")); // NOI18N
-        jXLabel7.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
-        confirmPwdFld.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         confirmPwdFld.setText(org.openide.util.NbBundle.getMessage(PasswordModifyDialog.class, "PasswordModifyDialog.confirmPwdFld.text")); // NOI18N
 
         infoLbl.setForeground(new java.awt.Color(255, 0, 0));
         org.openide.awt.Mnemonics.setLocalizedText(infoLbl, org.openide.util.NbBundle.getMessage(PasswordModifyDialog.class, "PasswordModifyDialog.infoLbl.text")); // NOI18N
-        infoLbl.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -217,7 +204,7 @@ public class PasswordModifyDialog extends javax.swing.JDialog {
                 .addComponent(jXLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(infoLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
                     .addComponent(okButton))

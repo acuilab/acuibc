@@ -70,7 +70,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="msgLbl" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jXPanel2" pref="214" max="32767" attributes="0"/>
+              <Component id="jXPanel2" pref="222" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -81,9 +81,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicConfirmVisualPanel.jXLabel1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="&#x5b8b;&#x4f53;" size="24" style="0"/>
         </Property>
       </Properties>
     </Component>
@@ -130,9 +127,6 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicConfirmVisualPanel.mnemonicBtn1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
-            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnemonicBtn1ActionPerformed"/>
@@ -144,9 +138,6 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicConfirmVisualPanel.mnemonicBtn2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
-            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnemonicBtn2ActionPerformed"/>
@@ -158,9 +149,6 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicConfirmVisualPanel.mnemonicBtn3.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
-            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnemonicBtn3ActionPerformed"/>
@@ -172,9 +160,6 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicConfirmVisualPanel.mnemonicBtn4.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
-            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnemonicBtn4ActionPerformed"/>
@@ -186,9 +171,6 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicConfirmVisualPanel.mnemonicBtn5.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
-            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnemonicBtn5ActionPerformed"/>
@@ -200,9 +182,6 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicConfirmVisualPanel.mnemonicBtn6.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
-            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnemonicBtn6ActionPerformed"/>
@@ -214,9 +193,6 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicConfirmVisualPanel.mnemonicBtn7.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
-            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnemonicBtn7ActionPerformed"/>
@@ -228,9 +204,6 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicConfirmVisualPanel.mnemonicBtn8.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
-            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnemonicBtn8ActionPerformed"/>
@@ -242,9 +215,6 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicConfirmVisualPanel.mnemonicBtn9.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
-            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnemonicBtn9ActionPerformed"/>
@@ -256,9 +226,6 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicConfirmVisualPanel.mnemonicBtn10.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
-            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnemonicBtn10ActionPerformed"/>
@@ -270,9 +237,6 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicConfirmVisualPanel.mnemonicBtn11.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
-            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnemonicBtn11ActionPerformed"/>
@@ -284,9 +248,6 @@
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicConfirmVisualPanel.mnemonicBtn12.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="&#x5b8b;&#x4f53;" size="24" style="1"/>
-            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnemonicBtn12ActionPerformed"/>
@@ -302,9 +263,6 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicConfirmVisualPanel.msgLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="&#x5b8b;&#x4f53;" size="24" style="0"/>
         </Property>
       </Properties>
     </Component>

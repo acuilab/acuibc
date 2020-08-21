@@ -86,7 +86,6 @@ public class PasswordVerifyDialog extends javax.swing.JDialog {
             }
         });
 
-        okButton.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(okButton, org.openide.util.NbBundle.getMessage(PasswordVerifyDialog.class, "PasswordVerifyDialog.okButton.text")); // NOI18N
         okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,7 +93,6 @@ public class PasswordVerifyDialog extends javax.swing.JDialog {
             }
         });
 
-        cancelButton.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(cancelButton, org.openide.util.NbBundle.getMessage(PasswordVerifyDialog.class, "PasswordVerifyDialog.cancelButton.text")); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,13 +101,10 @@ public class PasswordVerifyDialog extends javax.swing.JDialog {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(PasswordVerifyDialog.class, "PasswordVerifyDialog.jXLabel1.text")); // NOI18N
-        jXLabel1.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         infoLbl.setForeground(new java.awt.Color(255, 0, 0));
         org.openide.awt.Mnemonics.setLocalizedText(infoLbl, org.openide.util.NbBundle.getMessage(PasswordVerifyDialog.class, "PasswordVerifyDialog.infoLbl.text")); // NOI18N
-        infoLbl.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
-        passwordFld.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         passwordFld.setText(org.openide.util.NbBundle.getMessage(PasswordVerifyDialog.class, "PasswordVerifyDialog.passwordFld.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -121,7 +116,7 @@ public class PasswordVerifyDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(infoLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 348, Short.MAX_VALUE)
+                        .addGap(0, 360, Short.MAX_VALUE)
                         .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cancelButton))

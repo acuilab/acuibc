@@ -95,10 +95,10 @@ public class ExportMnemonicDialog extends javax.swing.JDialog {
         mnemonicLbl5 = new org.jdesktop.swingx.JXLabel();
         mnemonicLbl6 = new org.jdesktop.swingx.JXLabel();
         mnemonicLbl7 = new org.jdesktop.swingx.JXLabel();
-        mnemonicLbl8 = new org.jdesktop.swingx.JXLabel();
         mnemonicLbl9 = new org.jdesktop.swingx.JXLabel();
         mnemonicLbl10 = new org.jdesktop.swingx.JXLabel();
         mnemonicLbl11 = new org.jdesktop.swingx.JXLabel();
+        mnemonicLbl8 = new org.jdesktop.swingx.JXLabel();
         mnemonicLbl12 = new org.jdesktop.swingx.JXLabel();
         jXLabel3 = new org.jdesktop.swingx.JXLabel();
         copyBtn = new org.jdesktop.swingx.JXButton();
@@ -112,64 +112,49 @@ public class ExportMnemonicDialog extends javax.swing.JDialog {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel2, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.jXLabel2.text")); // NOI18N
-        jXLabel2.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         jXPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jXPanel1.setLayout(new java.awt.GridLayout(4, 3, 10, 10));
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl1, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl1.text")); // NOI18N
-        mnemonicLbl1.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl1);
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl2, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl2.text")); // NOI18N
-        mnemonicLbl2.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl2);
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl3, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl3.text")); // NOI18N
-        mnemonicLbl3.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl3);
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl4, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl4.text")); // NOI18N
-        mnemonicLbl4.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl4);
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl5, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl5.text")); // NOI18N
-        mnemonicLbl5.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl5);
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl6, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl6.text")); // NOI18N
-        mnemonicLbl6.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl6);
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl7, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl7.text")); // NOI18N
-        mnemonicLbl7.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl7);
 
-        org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl8, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl8.text")); // NOI18N
-        mnemonicLbl8.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
-        jXPanel1.add(mnemonicLbl8);
-
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl9, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl9.text")); // NOI18N
-        mnemonicLbl9.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl9);
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl10, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl10.text")); // NOI18N
-        mnemonicLbl10.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl10);
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl11, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl11.text")); // NOI18N
-        mnemonicLbl11.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl11);
 
+        org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl8, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl8.text")); // NOI18N
+        jXPanel1.add(mnemonicLbl8);
+
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl12, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl12.text")); // NOI18N
-        mnemonicLbl12.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         jXPanel1.add(mnemonicLbl12);
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel3, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.jXLabel3.text")); // NOI18N
-        jXLabel3.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(copyBtn, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.copyBtn.text")); // NOI18N
-        copyBtn.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         copyBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 copyBtnActionPerformed(evt);
@@ -180,29 +165,26 @@ public class ExportMnemonicDialog extends javax.swing.JDialog {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jXPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jXLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jXLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
+                    .addComponent(jXPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jXLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jXPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

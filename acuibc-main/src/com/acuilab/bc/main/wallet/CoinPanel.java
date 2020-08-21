@@ -131,8 +131,8 @@ public class CoinPanel extends JXPanel {
         table.setColumnControlVisible(true);
         table.setColumnSelectionAllowed(true);		       // 禁止列选择
         table.getTableHeader().setReorderingAllowed(false);     // 表头不可拖动
-	table.getTableHeader().setFont(new Font("宋体", Font.BOLD, 24));    // 设置表头字体
-	table.setFont(new Font("宋体", Font.PLAIN, 24));		    // 设置表内容字体
+//	table.getTableHeader().setFont(new Font("宋体", Font.BOLD, 24));    // 设置表头字体
+//	table.setFont(new Font("宋体", Font.PLAIN, 24));		    // 设置表内容字体
         table.setRowHeight(42);
 	// 禁止序号列排序
 	TableSortController rowSorter = (TableSortController)table.getRowSorter();
@@ -216,10 +216,8 @@ public class CoinPanel extends JXPanel {
         resetBtn = new org.jdesktop.swingx.JXButton();
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.jXLabel1.text")); // NOI18N
-        jXLabel1.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXButton1, org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.jXButton1.text")); // NOI18N
-        jXButton1.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         jXButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jXButton1ActionPerformed(evt);
@@ -230,7 +228,6 @@ public class CoinPanel extends JXPanel {
         balanceFld.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         balanceFld.setForeground(java.awt.Color.magenta);
         balanceFld.setText(org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.balanceFld.text")); // NOI18N
-        balanceFld.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -247,39 +244,31 @@ public class CoinPanel extends JXPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(refreshBtn, org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.refreshBtn.text")); // NOI18N
         refreshBtn.setToolTipText(org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.refreshBtn.toolTipText")); // NOI18N
-        refreshBtn.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         refreshBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 refreshBtnActionPerformed(evt);
             }
         });
 
-        limitSpinner.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         limitSpinner.setModel(new javax.swing.SpinnerNumberModel(100, 0, 1000, 10));
 
-        sendRadio.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(sendRadio, org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.sendRadio.text")); // NOI18N
 
-        recvRadio.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(recvRadio, org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.recvRadio.text")); // NOI18N
 
-        allRadio.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         allRadio.setSelected(true);
         org.openide.awt.Mnemonics.setLocalizedText(allRadio, org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.allRadio.text")); // NOI18N
 
         filterFld.setText(org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.filterFld.text")); // NOI18N
         filterFld.setToolTipText(org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.filterFld.toolTipText")); // NOI18N
-        filterFld.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         filterFld.setPrompt(org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.filterFld.prompt")); // NOI18N
 
         tableRowsLbl.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         org.openide.awt.Mnemonics.setLocalizedText(tableRowsLbl, org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.tableRowsLbl.text")); // NOI18N
-        tableRowsLbl.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         org.openide.awt.Mnemonics.setLocalizedText(resetBtn, org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.resetBtn.text")); // NOI18N
-        resetBtn.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         resetBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 resetBtnActionPerformed(evt);

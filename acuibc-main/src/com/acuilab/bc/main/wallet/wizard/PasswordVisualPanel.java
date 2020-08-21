@@ -47,33 +47,25 @@ public final class PasswordVisualPanel extends JPanel {
         setPreferredSize(new java.awt.Dimension(760, 540));
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.jXLabel1.text")); // NOI18N
-        jXLabel1.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         jXLabel2.setBackground(new java.awt.Color(255, 0, 0));
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel2, org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.jXLabel2.text")); // NOI18N
-        jXLabel2.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         jXLabel3.setBackground(new java.awt.Color(255, 0, 0));
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel3, org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.jXLabel3.text")); // NOI18N
-        jXLabel3.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         jXLabel4.setBackground(new java.awt.Color(255, 0, 0));
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel4, org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.jXLabel4.text")); // NOI18N
-        jXLabel4.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         jXLabel5.setBackground(new java.awt.Color(255, 0, 0));
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel5, org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.jXLabel5.text")); // NOI18N
-        jXLabel5.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel6, org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.jXLabel6.text")); // NOI18N
-        jXLabel6.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         PromptSupport.init("8-16位字符(包含大小写字符与数字)", null, null, pwdFld);
-        pwdFld.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         pwdFld.setText(org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.pwdFld.text")); // NOI18N
 
         PromptSupport.init("请再次输入钱包密码", null, null, pwdConfirmFld);
-        pwdConfirmFld.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         pwdConfirmFld.setText(org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.pwdConfirmFld.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

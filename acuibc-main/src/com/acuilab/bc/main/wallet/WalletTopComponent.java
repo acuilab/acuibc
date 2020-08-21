@@ -156,7 +156,6 @@ public final class WalletTopComponent extends TopComponent implements Observer {
         walletNameFld.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         walletNameFld.setForeground(new java.awt.Color(0, 0, 255));
         walletNameFld.setText(org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.walletNameFld.text")); // NOI18N
-        walletNameFld.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         walletNameFld.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 walletNameFldActionPerformed(evt);
@@ -167,16 +166,12 @@ public final class WalletTopComponent extends TopComponent implements Observer {
         walletAddressFld.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         walletAddressFld.setForeground(new java.awt.Color(0, 0, 255));
         walletAddressFld.setText(org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.walletAddressFld.text")); // NOI18N
-        walletAddressFld.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel2, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.jXLabel2.text")); // NOI18N
-        jXLabel2.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel3, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.jXLabel3.text")); // NOI18N
-        jXLabel3.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicExportBtn, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.mnemonicExportBtn.text")); // NOI18N
-        mnemonicExportBtn.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         mnemonicExportBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnemonicExportBtnActionPerformed(evt);
@@ -184,7 +179,6 @@ public final class WalletTopComponent extends TopComponent implements Observer {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(jXButton2, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.jXButton2.text")); // NOI18N
-        jXButton2.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         jXButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jXButton2ActionPerformed(evt);
@@ -200,7 +194,6 @@ public final class WalletTopComponent extends TopComponent implements Observer {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(pwdEditBtn, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.pwdEditBtn.text")); // NOI18N
-        pwdEditBtn.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         pwdEditBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pwdEditBtnActionPerformed(evt);
@@ -208,7 +201,6 @@ public final class WalletTopComponent extends TopComponent implements Observer {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(nameEditBtn, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.nameEditBtn.text")); // NOI18N
-        nameEditBtn.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         nameEditBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nameEditBtnActionPerformed(evt);

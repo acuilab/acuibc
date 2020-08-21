@@ -52,16 +52,12 @@ public class AboutDialog extends javax.swing.JDialog {
         databaseFld.setEditable(false);
         databaseFld.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         databaseFld.setText(org.openide.util.NbBundle.getMessage(AboutDialog.class, "AboutDialog.databaseFld.text")); // NOI18N
-        databaseFld.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel2, org.openide.util.NbBundle.getMessage(AboutDialog.class, "AboutDialog.jXLabel2.text")); // NOI18N
-        jXLabel2.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel3, org.openide.util.NbBundle.getMessage(AboutDialog.class, "AboutDialog.jXLabel3.text")); // NOI18N
-        jXLabel3.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(githubLink, org.openide.util.NbBundle.getMessage(AboutDialog.class, "AboutDialog.githubLink.text")); // NOI18N
-        githubLink.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         githubLink.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 githubLinkActionPerformed(evt);
@@ -112,7 +108,7 @@ public class AboutDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(versionFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
 
         pack();

@@ -64,11 +64,9 @@ public final class MnemonicInputPanel extends JPanel {
         mnemonicArea.setLineWrap(true);
         mnemonicArea.setRows(5);
         mnemonicArea.setWrapStyleWord(true);
-        mnemonicArea.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         jScrollPane1.setViewportView(mnemonicArea);
 
         org.openide.awt.Mnemonics.setLocalizedText(pasteBtn, org.openide.util.NbBundle.getMessage(MnemonicInputPanel.class, "MnemonicInputPanel.pasteBtn.text")); // NOI18N
-        pasteBtn.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         pasteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pasteBtnActionPerformed(evt);
@@ -76,13 +74,10 @@ public final class MnemonicInputPanel extends JPanel {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl, org.openide.util.NbBundle.getMessage(MnemonicInputPanel.class, "MnemonicInputPanel.mnemonicLbl.text")); // NOI18N
-        mnemonicLbl.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
 
-        mnemonicRadio.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         mnemonicRadio.setSelected(true);
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicRadio, org.openide.util.NbBundle.getMessage(MnemonicInputPanel.class, "MnemonicInputPanel.mnemonicRadio.text")); // NOI18N
 
-        privateKeyRadio.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(privateKeyRadio, org.openide.util.NbBundle.getMessage(MnemonicInputPanel.class, "MnemonicInputPanel.privateKeyRadio.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -114,7 +109,7 @@ public final class MnemonicInputPanel extends JPanel {
                 .addGap(8, 8, 8)
                 .addComponent(mnemonicLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pasteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())

@@ -113,16 +113,13 @@ public class WalletPanel extends JXPanel implements Observer {
         walletAddressFld.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         walletAddressFld.setForeground(new java.awt.Color(0, 0, 255));
         walletAddressFld.setText(org.openide.util.NbBundle.getMessage(WalletPanel.class, "WalletPanel.walletAddressFld.text")); // NOI18N
-        walletAddressFld.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
 
         walletNameFld.setEditable(false);
         walletNameFld.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         walletNameFld.setForeground(new java.awt.Color(0, 0, 255));
         walletNameFld.setText(org.openide.util.NbBundle.getMessage(WalletPanel.class, "WalletPanel.walletNameFld.text")); // NOI18N
-        walletNameFld.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(transferBtn, org.openide.util.NbBundle.getMessage(WalletPanel.class, "WalletPanel.transferBtn.text")); // NOI18N
-        transferBtn.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         transferBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 transferBtnActionPerformed(evt);
@@ -131,7 +128,6 @@ public class WalletPanel extends JXPanel implements Observer {
 
         org.openide.awt.Mnemonics.setLocalizedText(refreshBtn, org.openide.util.NbBundle.getMessage(WalletPanel.class, "WalletPanel.refreshBtn.text")); // NOI18N
         refreshBtn.setEnabled(false);
-        refreshBtn.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         refreshBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 refreshBtnActionPerformed(evt);
@@ -139,7 +135,6 @@ public class WalletPanel extends JXPanel implements Observer {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(openBtn, org.openide.util.NbBundle.getMessage(WalletPanel.class, "WalletPanel.openBtn.text")); // NOI18N
-        openBtn.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         openBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 openBtnActionPerformed(evt);
@@ -147,7 +142,6 @@ public class WalletPanel extends JXPanel implements Observer {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(deleteBtn, org.openide.util.NbBundle.getMessage(WalletPanel.class, "WalletPanel.deleteBtn.text")); // NOI18N
-        deleteBtn.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         deleteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteBtnActionPerformed(evt);
@@ -159,7 +153,6 @@ public class WalletPanel extends JXPanel implements Observer {
         balanceFld.setForeground(java.awt.Color.magenta);
         balanceFld.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         balanceFld.setText(org.openide.util.NbBundle.getMessage(WalletPanel.class, "WalletPanel.balanceFld.text")); // NOI18N
-        balanceFld.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -175,7 +168,7 @@ public class WalletPanel extends JXPanel implements Observer {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(balanceFld, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+                        .addComponent(balanceFld, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -204,7 +197,7 @@ public class WalletPanel extends JXPanel implements Observer {
                         .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(refreshBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(balanceFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

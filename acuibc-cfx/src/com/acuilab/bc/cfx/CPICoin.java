@@ -10,14 +10,14 @@ import org.openide.util.Lookup;
  *
  * @author admin
  */
-public class FCCoin extends ERC20Coin {
+public class CPICoin extends ERC20Coin {
     
-    private static final Logger LOG = Logger.getLogger(FCCoin.class.getName());
+    private static final Logger LOG = Logger.getLogger(CPICoin.class.getName());
 
-    public static final String CONTRACT_ADDRESS = "0x87010faf5964d67ed070bc4b8dcafa1e1adc0997";
+    public static final String CONTRACT_ADDRESS = "0x8f50e31a4e3201b2f7aa720b3754dfa585b4dbfa";
 
-    public static final String NAME = "Fans Coin";
-    public static final String SYMBOL = "FC";
+    public static final String NAME = "CPI Coin";
+    public static final String SYMBOL = "CPI";
 
     @Override
     public String getName() {
@@ -36,37 +36,37 @@ public class FCCoin extends ERC20Coin {
 
     @Override
     public String getMainUnit() {
-        return "FC";
+        return "CPI";
     }
 
     @Override
     public String getMinUnit() {
-        return "";  // 没有最小单位
+        return "CPI";  // 没有最小单位
     }
 
     @Override
     public BigDecimal minUnit2MainUint(BigInteger minUnitValue) {
-        return CfxUnit.drip2Cfx(minUnitValue);
+        return new BigDecimal(minUnitValue);
     }
 
     @Override
     public BigInteger mainUint2MinUint(double mainUnitValue) {
-        return CfxUnit.cfx2Drip(mainUnitValue);
+        return BigDecimal.valueOf(mainUnitValue).toBigIntegerExact();
     }
 
     @Override
     public BigInteger mainUint2MinUint(long mainUnitValue) {
-        return CfxUnit.cfx2Drip(mainUnitValue);
+        return BigInteger.valueOf(mainUnitValue);
     }
 
     @Override
     public int getMainUnitScale() {
-        return 6;
+        return 0;
     }
 
     @Override
     public int getScale() {
-        return 18;
+        return 0;
     }
 
     @Override

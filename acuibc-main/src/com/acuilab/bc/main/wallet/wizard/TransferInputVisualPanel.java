@@ -7,15 +7,23 @@ import com.acuilab.bc.main.wallet.Wallet;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.concurrent.ExecutionException;
+import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
+import javax.swing.text.DefaultFormatter;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 import org.openide.util.Exceptions;
 
 public final class TransferInputVisualPanel extends JPanel {
     
     private final Wallet wallet;
+    private final Coin coin;
     private BigInteger balance;
     
     /**
@@ -25,13 +33,26 @@ public final class TransferInputVisualPanel extends JPanel {
         initComponents();
         
         this.wallet = wallet;
+        this.coin = coin;
+
+        BlockChain bc = BlockChainManager.getDefault().getBlockChain(coin.getBlockChainSymbol());
+        int min = coin.gasMin(wallet.getAddress());
+        int max = coin.gasMax(wallet.getAddress());
+        int defaultValue = coin.gasDefaultValue(wallet.getAddress());
+        gasSlider.setMinimum(min);
+        gasSlider.setMaximum(max);
+        gasSlider.setValue(defaultValue);
+        gasSpinner.setModel(new SpinnerNumberModel(defaultValue, min, max, 1));
+        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(gasSpinner, "#");
+        final JFormattedTextField textField = editor.getTextField();
+        final DefaultFormatterFactory factory = (DefaultFormatterFactory)textField.getFormatterFactory();
+        final NumberFormatter formatter = (NumberFormatter)factory.getDefaultFormatter();
+        formatter.setCommitsOnValidEdit(true);
+        gasSpinner.setEditor(editor);
         
-        // sdk估算
-//        BlockChain bc = BlockChainManager.getDefault().getBlockChain(coin.getBlockChainSymbol());
-//        gasSlider.setMinimum(bc.gasMin());
-//        gasSlider.setMaximum(bc.gasMax());
-//        gasSlider.setValue(bc.gasDefaultValue());
-//        gasLbl.setText(bc.gasDesc(bc.gasDefaultValue()));
+        slowLbl.setText("慢(" + min + ")");
+        gasLbl.setText(coin.gasDesc(coin.gasDefaultValue(wallet.getAddress())));
+        fastLbl.setText("(" + max + ")快");
 
         // 求余额
         valueFld.setPrompt("正在请求余额，请稍候...");
@@ -80,6 +101,10 @@ public final class TransferInputVisualPanel extends JPanel {
     public boolean balanceAvailable() {
         return balance != null;
     }
+    
+    public boolean isGasDefault() {
+        return gasDefaultCheckBox.isSelected();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -97,9 +122,11 @@ public final class TransferInputVisualPanel extends JPanel {
         sendAddressFld = new org.jdesktop.swingx.JXTextField();
         jXLabel4 = new org.jdesktop.swingx.JXLabel();
         gasSlider = new javax.swing.JSlider();
-        jXLabel5 = new org.jdesktop.swingx.JXLabel();
-        jXLabel6 = new org.jdesktop.swingx.JXLabel();
+        slowLbl = new org.jdesktop.swingx.JXLabel();
+        fastLbl = new org.jdesktop.swingx.JXLabel();
         gasLbl = new org.jdesktop.swingx.JXLabel();
+        gasDefaultCheckBox = new javax.swing.JCheckBox();
+        gasSpinner = new javax.swing.JSpinner();
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.jXLabel1.text")); // NOI18N
 
@@ -116,19 +143,38 @@ public final class TransferInputVisualPanel extends JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel4, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.jXLabel4.text")); // NOI18N
 
+        gasSlider.setPaintTicks(true);
+        gasSlider.setSnapToTicks(true);
+        gasSlider.setEnabled(false);
         gasSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 gasSliderStateChanged(evt);
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(jXLabel5, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.jXLabel5.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(slowLbl, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.slowLbl.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(jXLabel6, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.jXLabel6.text")); // NOI18N
+        fastLbl.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        org.openide.awt.Mnemonics.setLocalizedText(fastLbl, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.fastLbl.text")); // NOI18N
 
         gasLbl.setForeground(new java.awt.Color(0, 0, 255));
         gasLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         org.openide.awt.Mnemonics.setLocalizedText(gasLbl, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.gasLbl.text")); // NOI18N
+
+        gasDefaultCheckBox.setSelected(true);
+        org.openide.awt.Mnemonics.setLocalizedText(gasDefaultCheckBox, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.gasDefaultCheckBox.text")); // NOI18N
+        gasDefaultCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gasDefaultCheckBoxActionPerformed(evt);
+            }
+        });
+
+        gasSpinner.setEnabled(false);
+        gasSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                gasSpinnerStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -143,16 +189,23 @@ public final class TransferInputVisualPanel extends JPanel {
                     .addComponent(jXLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jXLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(gasLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jXLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(recvAddressFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(valueFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(sendAddressFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(gasSlider, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(gasDefaultCheckBox)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(slowLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(gasLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE))
+                            .addComponent(gasSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(gasSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                            .addComponent(fastLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -170,36 +223,53 @@ public final class TransferInputVisualPanel extends JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sendAddressFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(gasSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(gasDefaultCheckBox))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(gasSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(gasSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jXLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(slowLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fastLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(gasLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(281, Short.MAX_VALUE))
+                .addContainerGap(239, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void gasSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_gasSliderStateChanged
-        BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
-//        gasLbl.setText(bc.gasDesc(((JSlider) evt.getSource()).getValue()));
-        gasLbl.setText("sdk估算");
+        int value = ((JSlider) evt.getSource()).getValue();
+        gasLbl.setText(coin.gasDesc(value));
+        gasSpinner.setValue(value);
     }//GEN-LAST:event_gasSliderStateChanged
 
+    private void gasDefaultCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gasDefaultCheckBoxActionPerformed
+        gasSlider.setEnabled(!gasDefaultCheckBox.isSelected());
+        gasSpinner.setEnabled(!gasDefaultCheckBox.isSelected());
+    }//GEN-LAST:event_gasDefaultCheckBoxActionPerformed
+
+    private void gasSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_gasSpinnerStateChanged
+        int value = (Integer)((JSpinner) evt.getSource()).getValue();
+        gasLbl.setText(coin.gasDesc(value));
+        gasSlider.setValue(value);
+    }//GEN-LAST:event_gasSpinnerStateChanged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXLabel fastLbl;
+    private javax.swing.JCheckBox gasDefaultCheckBox;
     private org.jdesktop.swingx.JXLabel gasLbl;
     private javax.swing.JSlider gasSlider;
+    private javax.swing.JSpinner gasSpinner;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXLabel jXLabel3;
     private org.jdesktop.swingx.JXLabel jXLabel4;
-    private org.jdesktop.swingx.JXLabel jXLabel5;
-    private org.jdesktop.swingx.JXLabel jXLabel6;
     private org.jdesktop.swingx.JXTextField recvAddressFld;
     private org.jdesktop.swingx.JXTextField sendAddressFld;
+    private org.jdesktop.swingx.JXLabel slowLbl;
     private org.jdesktop.swingx.JXTextField valueFld;
     // End of variables declaration//GEN-END:variables
 }

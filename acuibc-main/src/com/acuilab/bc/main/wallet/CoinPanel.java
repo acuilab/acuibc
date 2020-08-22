@@ -6,7 +6,6 @@ import com.acuilab.bc.main.wallet.wizard.TransferConfirmWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.TransferInputWizardPanel;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigInteger;
@@ -16,11 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.TableColumn;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.javatuples.Pair;
@@ -251,6 +253,12 @@ public class CoinPanel extends JXPanel {
         });
 
         limitSpinner.setModel(new javax.swing.SpinnerNumberModel(100, 0, 1000, 10));
+        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(limitSpinner, "#");
+        final JFormattedTextField textField = editor.getTextField();
+        final DefaultFormatterFactory factory = (DefaultFormatterFactory)textField.getFormatterFactory();
+        final NumberFormatter formatter = (NumberFormatter)factory.getDefaultFormatter();
+        formatter.setCommitsOnValidEdit(true);
+        limitSpinner.setEditor(editor);
 
         org.openide.awt.Mnemonics.setLocalizedText(sendRadio, org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.sendRadio.text")); // NOI18N
 
@@ -319,10 +327,10 @@ public class CoinPanel extends JXPanel {
                         .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(balanceFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(limitSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(limitSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)

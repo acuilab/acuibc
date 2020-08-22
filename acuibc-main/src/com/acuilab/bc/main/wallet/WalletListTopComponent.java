@@ -48,9 +48,9 @@ import org.netbeans.api.progress.ProgressHandle;
         preferredID = "WalletListTopComponent"
 )
 @Messages({
-    "CTL_WalletListAction=我的钱包们",
-    "CTL_WalletListTopComponent=我的钱包们",
-    "HINT_WalletListTopComponent=我的钱包们"
+    "CTL_WalletListAction=钱包列表",
+    "CTL_WalletListTopComponent=钱包列表",
+    "HINT_WalletListTopComponent=钱包列表"
 })
 public final class WalletListTopComponent extends TopComponent {
     
@@ -77,6 +77,9 @@ public final class WalletListTopComponent extends TopComponent {
         try {
             // 从数据库加载所有钱包
             List<Wallet> list = WalletDAO.getList();
+            for(Wallet wallet : list) {
+                System.out.println("wname=" + wallet.getName());
+            }
             Map<String,List<Wallet>> walletGroupMap = list.stream().collect(Collectors.groupingBy(Wallet::getBlockChainSymbol));
             walletGroupMap.entrySet().forEach(entry -> {
                 BlockChain bc = BlockChainManager.getDefault().getBlockChain(entry.getKey());

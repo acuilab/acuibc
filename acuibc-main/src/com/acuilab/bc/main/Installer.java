@@ -1,6 +1,7 @@
 package com.acuilab.bc.main;
 
 import com.acuilab.bc.main.manager.BlockChainManager;
+import com.acuilab.bc.main.manager.CoinManager;
 import com.acuilab.bc.main.util.Constants;
 import java.io.File;
 import java.sql.Connection;
@@ -37,6 +38,7 @@ public class Installer extends ModuleInstall {
         
         // init
         BlockChainManager.getDefault();
+        CoinManager.getDefault();
         
         // 设置主窗口标题
         WindowManager.getDefault().invokeWhenUIReady(new Runnable() {

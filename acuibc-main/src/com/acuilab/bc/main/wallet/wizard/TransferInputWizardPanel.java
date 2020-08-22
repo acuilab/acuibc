@@ -78,6 +78,7 @@ public class TransferInputWizardPanel implements WizardDescriptor.ValidatingPane
         // use wiz.putProperty to remember current panel state
         wiz.putProperty("recvAddress", component.getRecvAddressFld().getText());
         wiz.putProperty("value", component.getValueFld().getText());
+        wiz.putProperty("gasDefault", component.isGasDefault());
         wiz.putProperty("gas", component.getGasSlider().getValue());
     }
 

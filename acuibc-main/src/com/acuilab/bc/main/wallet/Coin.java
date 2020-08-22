@@ -9,6 +9,9 @@ import java.util.List;
  * @author admin
  */
 public interface Coin {
+    
+    public void init();
+    
     // 名称
     public String getName();
     
@@ -97,21 +100,24 @@ public interface Coin {
     
     /**
      * 矿工费最小值
+     * @param address
      * @return 
      */
-    int gasMin();
+    int gasMin(String address);
     
     /**
      * 矿工费最大值
+     * @param address
      * @return 
      */
-    int gasMax();
+    int gasMax(String address);
     
     /**
      * 矿工费初值
+     * @param address
      * @return 
      */
-    int gasDefaultValue();
+    int gasDefaultValue(String address);
     
     /**
      * 矿工费描述：例如20 Gdrip/0.002 CFX

@@ -1,10 +1,13 @@
 package com.acuilab.bc.cfx;
 
 import conflux.web3j.CfxUnit;
+import conflux.web3j.contract.ContractCall;
+import conflux.web3j.response.UsedGasAndCollateral;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.logging.Logger;
 import org.openide.util.Lookup;
+import org.web3j.abi.datatypes.Address;
 
 /**
  *
@@ -67,29 +70,6 @@ public class FCCoin extends ERC20Coin {
     @Override
     public int getScale() {
         return 18;
-    }
-
-    @Override
-    public int gasMin() {
-        return CfxUnit.DEFAULT_GAS_LIMIT.intValue();
-    }
-
-    @Override
-    public int gasMax() {
-        // @see http://acuilab.com:8080/articles/2020/08/12/1597238136717.html
-        return (int) (CfxUnit.DEFAULT_GAS_LIMIT.intValue() * 1.3);  // 向下取整
-    }
-
-    @Override
-    public int gasDefaultValue() {
-        return CfxUnit.DEFAULT_GAS_LIMIT.intValue();
-    }
-
-    @Override
-    public String gasDesc(int gas) {
-        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
-        BigInteger gasValue = bc.getGasPrice().multiply(BigInteger.valueOf(gas));
-        return gasValue + " drip/" + CfxUnit.drip2Cfx(gasValue).toPlainString() + " CFX";
     }
 
     @Override

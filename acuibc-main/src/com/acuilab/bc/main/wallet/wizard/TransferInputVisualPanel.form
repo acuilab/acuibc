@@ -37,7 +37,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jXLabel4" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -47,17 +47,28 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Component id="jXLabel5" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="gasLbl" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jXLabel6" min="-2" max="-2" attributes="0"/>
-                  </Group>
                   <Component id="recvAddressFld" alignment="0" max="32767" attributes="0"/>
                   <Component id="valueFld" alignment="0" max="32767" attributes="0"/>
                   <Component id="sendAddressFld" alignment="0" max="32767" attributes="0"/>
-                  <Component id="gasSlider" alignment="0" pref="393" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="gasDefaultCheckBox" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="slowLbl" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="gasLbl" pref="465" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="gasSlider" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="gasSpinner" pref="100" max="32767" attributes="0"/>
+                          <Component id="fastLbl" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -81,18 +92,23 @@
                   <Component id="jXLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="sendAddressFld" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jXLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="gasDefaultCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jXLabel4" min="-2" max="-2" attributes="0"/>
-                  <Component id="gasSlider" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="gasSlider" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="gasSpinner" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jXLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jXLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="slowLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="fastLbl" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="gasLbl" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="281" max="32767" attributes="0"/>
+              <EmptySpace pref="239" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -149,21 +165,27 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JSlider" name="gasSlider">
+      <Properties>
+        <Property name="paintTicks" type="boolean" value="true"/>
+        <Property name="snapToTicks" type="boolean" value="true"/>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
       <Events>
         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="gasSliderStateChanged"/>
       </Events>
     </Component>
-    <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel5">
+    <Component class="org.jdesktop.swingx.JXLabel" name="slowLbl">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="TransferInputVisualPanel.jXLabel5.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="TransferInputVisualPanel.slowLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
-    <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel6">
+    <Component class="org.jdesktop.swingx.JXLabel" name="fastLbl">
       <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="TransferInputVisualPanel.jXLabel6.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="TransferInputVisualPanel.fastLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
@@ -177,6 +199,25 @@
           <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="TransferInputVisualPanel.gasLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="gasDefaultCheckBox">
+      <Properties>
+        <Property name="selected" type="boolean" value="true"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="TransferInputVisualPanel.gasDefaultCheckBox.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gasDefaultCheckBoxActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="gasSpinner">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="gasSpinnerStateChanged"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

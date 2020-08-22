@@ -31,6 +31,7 @@ public class CoinManager {
         map = Maps.newLinkedHashMap();
         Collection<? extends Coin> list = Lookup.getDefault().lookupAll(Coin.class);
         for (Coin c : list) {
+            c.init();
             map.put(c.getName(), c);
         }
         sort();

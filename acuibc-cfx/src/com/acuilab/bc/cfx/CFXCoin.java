@@ -9,8 +9,6 @@ import com.google.common.collect.Lists;
 import conflux.web3j.Account;
 import conflux.web3j.Cfx;
 import conflux.web3j.CfxUnit;
-import conflux.web3j.Request;
-import conflux.web3j.response.BigIntResponse;
 import conflux.web3j.types.RawTransaction;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -38,6 +36,10 @@ public class CFXCoin implements Coin {
     public static final String SYMBOL = "CFX";
     // http://scan-dev-service.conflux-chain.org:8885/api/transaction/list?pageSize=10&page=1&accountAddress=0x176c45928d7c26b0175dec8bf6051108563c62c5
     public static final String TRANSACTION_LIST_URL = "http://scan-dev-service.conflux-chain.org:8885/api/transaction/list";
+
+    @Override
+    public void init() {
+    }
 
     @Override
     public String getName() {
@@ -78,10 +80,13 @@ public class CFXCoin implements Coin {
         Cfx cfx = bc.getCfx();
         
         Account account = Account.create(cfx, privateKey);
-        // 忽略gas参数，让sdk自己估算吧
-//        BigInteger currentEpoch = cfx.getEpochNumber().sendAndGet();
-//        return account.mustSend(RawTransaction.create(account.getNonce(), gas, to, value, BigInteger.ZERO, currentEpoch, null));
-        return account.transfer(to, value);
+        if(gas == null) {
+            return account.transfer(to, value);
+        }
+        
+        BigInteger currentEpoch = cfx.getEpochNumber().sendAndGet();
+        return account.mustSend(RawTransaction.create(account.getNonce(), gas, to, value, BigInteger.ZERO, currentEpoch, null));
+        
     }
 
     @Override
@@ -191,18 +196,18 @@ public class CFXCoin implements Coin {
     }
 
     @Override
-    public int gasMin() {
+    public int gasMin(String address) {
         return CfxUnit.DEFAULT_GAS_LIMIT.intValue();
     }
 
     @Override
-    public int gasMax() {
+    public int gasMax(String address) {
         // @see http://acuilab.com:8080/articles/2020/08/12/1597238136717.html
         return (int)(CfxUnit.DEFAULT_GAS_LIMIT.intValue() * 1.3);  // 向下取整
     }
 
     @Override
-    public int gasDefaultValue() {
+    public int gasDefaultValue(String address) {
         return CfxUnit.DEFAULT_GAS_LIMIT.intValue();
     }
 

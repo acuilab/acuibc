@@ -229,6 +229,7 @@ public class WalletPanel extends JXPanel implements Observer {
             // do something
             String recvAddress = (String)wiz.getProperty("recvAddress");
             String value = (String)wiz.getProperty("value");
+            boolean gasDefault = (Boolean)wiz.getProperty("gasDefault");
             int gas = (int)wiz.getProperty("gas");
             String pwd = (String)wiz.getProperty("password");
             
@@ -240,7 +241,7 @@ public class WalletPanel extends JXPanel implements Observer {
                 String hash = baseCoin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), 
                         recvAddress, 
                         baseCoin.mainUint2MinUint(NumberUtils.toDouble(value)), 
-                        BigInteger.valueOf(gas));
+                        gasDefault ? null : BigInteger.valueOf(gas));
                 System.out.println("hash=====================" + hash);
             } catch (Exception ex) {
                 Exceptions.printStackTrace(ex);

@@ -8,5 +8,5 @@ public class Constants {
     private Constants() {}
     
     public static final String NAME = "Gourd";
-    public static final String VERSION = "v0.0.3";
+    public static final String VERSION = "v0.0.4";
 }

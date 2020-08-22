@@ -18,7 +18,6 @@ import party.loveit.bip44forjava.utils.Bip44Utils;
 import javax.swing.Icon;
 import org.openide.util.ImageUtilities;
 import com.acuilab.bc.main.BlockChain;
-import conflux.web3j.CfxUnit;
 import conflux.web3j.response.Status;
 import conflux.web3j.types.Address;
 import conflux.web3j.types.AddressException;
@@ -114,6 +113,7 @@ public class CFXBlockChain implements BlockChain {
         
         // 获得gasPrice
         gasPrice = cfx.getGasPrice().sendAndGet();
+        System.out.println("gasPrice================================" + gasPrice.toString());
     }
     
 

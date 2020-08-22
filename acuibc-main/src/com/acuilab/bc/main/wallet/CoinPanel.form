@@ -66,12 +66,12 @@
                       <Component id="balanceFld" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                      <Component id="limitSpinner" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="limitSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="refreshBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="564" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="567" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
@@ -162,6 +162,9 @@
           <Connection code="new javax.swing.SpinnerNumberModel(100, 0, 1000, 10)" type="code"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="JSpinner.NumberEditor editor = new JSpinner.NumberEditor(limitSpinner, &quot;#&quot;);&#xa;final JFormattedTextField textField = editor.getTextField();&#xa;final DefaultFormatterFactory factory = (DefaultFormatterFactory)textField.getFormatterFactory();&#xa;final NumberFormatter formatter = (NumberFormatter)factory.getDefaultFormatter();&#xa;formatter.setCommitsOnValidEdit(true);&#xa;limitSpinner.setEditor(editor);"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JRadioButton" name="sendRadio">
       <Properties>

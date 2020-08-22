@@ -1,5 +1,6 @@
 package com.acuilab.bc.cfx;
 
+import static com.acuilab.bc.cfx.FCCoin.CONTRACT_ADDRESS;
 import com.acuilab.bc.main.wallet.Coin;
 import com.acuilab.bc.main.wallet.TransferRecord;
 import com.acuilab.bc.main.wallet.Wallet;
@@ -9,8 +10,10 @@ import com.google.common.collect.Lists;
 import conflux.web3j.Account;
 import conflux.web3j.Cfx;
 import conflux.web3j.CfxUnit;
+import conflux.web3j.contract.ContractCall;
 import conflux.web3j.contract.ERC20Call;
 import conflux.web3j.contract.ERC20Executor;
+import conflux.web3j.response.UsedGasAndCollateral;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -24,6 +27,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.util.Lookup;
+import org.web3j.abi.datatypes.Address;
 
 /**
  *
@@ -35,7 +39,13 @@ public abstract class ERC20Coin implements Coin {
 
     // http://scan-dev-service.conflux-chain.org:8885/api/transfer/list?pageSize=10&page=1&address=0x87010faf5964d67ed070bc4b8dcafa1e1adc0997&accountAddress=0x1eff4db4696253106ae18ca96e092a0f354ef7c8
     public static final String TRANSFER_LIST_URL = "http://scan-dev-service.conflux-chain.org:8885/api/transfer/list";
-
+    
+    private BigInteger estimateGas;
+    
+    @Override
+    public void init() {
+    }    
+    
     @Override
     public Type getType() {
         return Type.TOKEN;
@@ -43,7 +53,6 @@ public abstract class ERC20Coin implements Coin {
 
     @Override
     public BigInteger balanceOf(String address) {
-        System.out.println("contractAddress====================================" + getContractAddress());
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         ERC20Call call = new ERC20Call(cfx, getContractAddress());
@@ -57,7 +66,11 @@ public abstract class ERC20Coin implements Coin {
         Account account = Account.create(cfx, privateKey);
         ERC20Executor exec = new ERC20Executor(account, getContractAddress());
         // 忽略gas参数，让sdk自己估算吧
-        return exec.transfer(new Account.Option(), to, value);
+        if(gas == null) {
+            return exec.transfer(new Account.Option(), to, value);
+        }
+        
+        return exec.transfer(new Account.Option().withGasLimit(gas), to, value);
     }
 
     @Override
@@ -68,6 +81,7 @@ public abstract class ERC20Coin implements Coin {
             limit = 100;
         }
         String url = TRANSFER_LIST_URL + "?page=1&pageSize=" + limit + "&address=" + getContractAddress() + "&accountAddress=" + address;
+        System.out.println("url=" + url);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)
@@ -115,6 +129,38 @@ public abstract class ERC20Coin implements Coin {
         }
 
         return transferRecords;
+    }
+
+    @Override
+    public int gasMin(String address) {
+        if(estimateGas == null) {
+            CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
+
+            ContractCall call = new ContractCall(bc.getCfx(), CONTRACT_ADDRESS);
+            UsedGasAndCollateral usedGas = call.estimateGasAndCollateral("balanceOf", new Address(address)).sendAndGet();
+            estimateGas = usedGas.getGasUsed();
+        }
+
+        return estimateGas.intValue();
+    }
+
+    @Override
+    public int gasMax(String address) {
+        // @see http://acuilab.com:8080/articles/2020/08/12/1597238136717.html
+        return (int)(gasMin(address) * 1.3);
+    }
+
+    @Override
+    public int gasDefaultValue(String address) {
+        // 为避免多次请求，调用方直接取gasMin
+        return gasMin(address);
+    }
+
+    @Override
+    public String gasDesc(int gas) {
+        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
+        BigInteger gasValue = bc.getGasPrice().multiply(BigInteger.valueOf(gas));
+        return gasValue + " drip/" + CfxUnit.drip2Cfx(gasValue).toPlainString() + " CFX";
     }
 
     public abstract String getContractAddress();

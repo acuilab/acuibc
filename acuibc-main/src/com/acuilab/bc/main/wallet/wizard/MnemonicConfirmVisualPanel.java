@@ -307,7 +307,7 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
 
     private void mnemonicBtnClicked(final JButton source) {
         final JXLabel lbl = new JXLabel(source.getText());
-        lbl.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
+//        lbl.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
         lbl.setFocusable(false);
         lbl.addMouseListener(new MouseAdapter() {
             @Override

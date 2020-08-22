@@ -63,10 +63,10 @@ public final class PasswordVisualPanel extends JPanel {
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel6, org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.jXLabel6.text")); // NOI18N
 
         PromptSupport.init("8-16位字符(包含大小写字符与数字)", null, null, pwdFld);
-        pwdFld.setText(org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.pwdFld.text")); // NOI18N
+        pwdFld.setText(org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.pwdFld.text_1")); // NOI18N
 
         PromptSupport.init("请再次输入钱包密码", null, null, pwdConfirmFld);
-        pwdConfirmFld.setText(org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.pwdConfirmFld.text")); // NOI18N
+        pwdConfirmFld.setText(org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.pwdConfirmFld.text_1")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

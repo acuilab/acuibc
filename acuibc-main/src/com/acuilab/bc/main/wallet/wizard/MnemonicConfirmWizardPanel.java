@@ -52,9 +52,7 @@ public class MnemonicConfirmWizardPanel implements WizardDescriptor.ValidatingPa
     @Override
     public boolean isValid() {
         // If it is always OK to press Next or Finish, then:
-        // TODO: test
-//        return isValid;
-        return true;
+        return isValid;
         // If it depends on some condition (form filled out...) and
         // this condition changes (last form field filled in...) then
         // use ChangeSupport to implement add/removeChangeListener below.

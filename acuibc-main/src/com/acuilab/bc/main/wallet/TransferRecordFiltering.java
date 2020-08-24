@@ -136,7 +136,6 @@ public class TransferRecordFiltering extends AbstractBean {
             table.setRowFilter(null);   // 没有filter时，这里必须设置为Null清除
             return;
         }
-        
         List<RowFilter<Object, Object>> allRecvSendFilters = Lists.newArrayListWithCapacity(3);
         if(allFilter != null) {
             allRecvSendFilters.add(allFilter);
@@ -147,7 +146,6 @@ public class TransferRecordFiltering extends AbstractBean {
         if(sendFilter != null) {
             allRecvSendFilters.add(sendFilter);
         }
-	
         List<RowFilter<Object, Object>> filters = new ArrayList<>();
         if(searchFilter != null) {
             filters.add(searchFilter);
@@ -155,7 +153,6 @@ public class TransferRecordFiltering extends AbstractBean {
         if(!allRecvSendFilters.isEmpty()) {
             filters.add(RowFilter.orFilter(allRecvSendFilters));
         }
-        
         table.setRowFilter(RowFilter.andFilter(filters));
     }
     
@@ -247,7 +244,7 @@ public class TransferRecordFiltering extends AbstractBean {
         return match(p, transferRecord.getRecvAddress()) || 
                 match(p, transferRecord.getSendAddress()) || 
                 match(p, transferRecord.getHash()) ||
-                match(p, transferRecord.getValue()) ||
+//                match(p, transferRecord.getValue()) ||
                 match(p, DateUtil.commonDateFormat(transferRecord.getTimestamp(), "yyyy-MM-dd HH:mm:ss"));
     }
      

@@ -67,6 +67,7 @@ public abstract class ERC20Coin implements TokenCoin {
         Account account = Account.create(cfx, privateKey);
         ERC20Executor exec = new ERC20Executor(account, getContractAddress());
         // 忽略gas参数，让sdk自己估算吧
+        
         if(gas == null) {
             return exec.transfer(new Account.Option(), to, value);
         }

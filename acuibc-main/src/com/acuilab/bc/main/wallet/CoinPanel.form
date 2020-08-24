@@ -25,7 +25,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jScrollPane1" pref="1117" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Component id="jXButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="transferBtn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jXLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -65,7 +65,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jXButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="transferBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jXLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="balanceFld" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="contractAddressFld" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -105,14 +105,14 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="org.jdesktop.swingx.JXButton" name="jXButton1">
+    <Component class="org.jdesktop.swingx.JXButton" name="transferBtn">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="CoinPanel.jXButton1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="CoinPanel.transferBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jXButton1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="transferBtnActionPerformed"/>
       </Events>
     </Component>
     <Component class="org.jdesktop.swingx.JXTextField" name="balanceFld">
@@ -146,9 +146,6 @@
               </Table>
             </Property>
           </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RowHeaderTable()"/>
-          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

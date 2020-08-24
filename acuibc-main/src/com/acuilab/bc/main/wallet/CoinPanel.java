@@ -7,6 +7,9 @@ import com.acuilab.bc.main.wallet.wizard.TransferConfirmWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.TransferInputWizardPanel;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigInteger;
@@ -18,14 +21,20 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
+import net.java.balloontip.BalloonTip;
+import net.java.balloontip.examples.complete.Utils;
+import net.java.balloontip.utils.TimingUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.javatuples.Pair;
@@ -83,8 +92,7 @@ public class CoinPanel extends JXPanel {
             contractAddressFld.setText("");
         }
         
-        
-        tableModel = new TransferRecordTableModel();
+        tableModel = new TransferRecordTableModel(table);
         tableModel.addTableModelListener((TableModelEvent e) -> {
             updateStatusBar();
         });
@@ -150,14 +158,14 @@ public class CoinPanel extends JXPanel {
         table.setColumnControlVisible(true);
         table.setColumnSelectionAllowed(true);		       // 允许列选择
         table.getTableHeader().setReorderingAllowed(false);     // 表头不可拖动
-//	table.getTableHeader().setFont(new Font("宋体", Font.BOLD, 24));    // 设置表头字体
-//	table.setFont(new Font("宋体", Font.PLAIN, 24));		    // 设置表内容字体
-//      table.setRowHeight(42);
-	// 禁止序号列排序
-//	TableSortController rowSorter = (TableSortController)table.getRowSorter();
-//	rowSorter.setSortable(0, false);
-//        
-//        table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+        
+        // 序号
+	TableColumn indexColumn = table.getColumn(TransferRecordTableModel.INDEX_COLUMN);
+	indexColumn.setMinWidth(40);
+	indexColumn.setMaxWidth(40);
+        DefaultTableCellRenderer render = new DefaultTableCellRenderer();
+        render.setHorizontalAlignment(SwingConstants.CENTER);
+        indexColumn.setCellRenderer(render);
         
         // 状态图标
 	TableColumn statusColumn = table.getColumn(TransferRecordTableModel.STATUS_COLUMN);
@@ -165,30 +173,22 @@ public class CoinPanel extends JXPanel {
 	statusColumn.setMaxWidth(24);
 	statusColumn.setCellRenderer(new StatusTableCellRenderer());
         
-        // 交易时间
-//        TableColumn createdColumn = table.getColumn(TransferRecordTableModel.CREATED_COLUMN);
-//        createdColumn.setMinWidth(250);
-//        createdColumn.setMaxWidth(250);
-        
-        // 交易额列
-//        TableColumn valueColumn = table.getColumn(TransferRecordTableModel.VALUE_COLUMN);
-//        valueColumn.setCellRenderer(new ValueTableCellRenderer());
-//        valueColumn.setMinWidth(160);
-//        valueColumn.setMaxWidth(160);
+	TableColumn valueColumn = table.getColumn(TransferRecordTableModel.VALUE_COLUMN);
+	valueColumn.setCellRenderer(new ValueTableCellRenderer());
         
         ColorHighlighter evenHighlighter = new ColorHighlighter(HighlightPredicate.EVEN, Color.WHITE, null);
         ColorHighlighter oddHighlighter = new HighlighterFactory.UIColorHighlighter(HighlightPredicate.ODD);
         table.setHighlighters(evenHighlighter, oddHighlighter);
         
-        // 排序(交易额列按数值排序)
-        TableRowSorter sorter = new TableRowSorter(tableModel);
-        sorter.setComparator(TransferRecordTableModel.VALUE_COLUMN, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return NumberUtils.createDouble(o1).compareTo(NumberUtils.createDouble(o2));
-            }
-        });
-        table.setRowSorter(sorter);
+        // 排序(交易额列按数值排序) ———————— 导致filterController失效
+//        TableRowSorter sorter = new TableRowSorter(tableModel);
+//        sorter.setComparator(TransferRecordTableModel.VALUE_COLUMN, new Comparator<String>() {
+//            @Override
+//            public int compare(String o1, String o2) {
+//                return NumberUtils.createDouble(o1).compareTo(NumberUtils.createDouble(o2));
+//            }
+//        });
+//        table.setRowSorter(sorter);
         
         // 交易记录
         tableModel.add(transferRecords);
@@ -224,10 +224,10 @@ public class CoinPanel extends JXPanel {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jXLabel1 = new org.jdesktop.swingx.JXLabel();
-        jXButton1 = new org.jdesktop.swingx.JXButton();
+        transferBtn = new org.jdesktop.swingx.JXButton();
         balanceFld = new org.jdesktop.swingx.JXTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        table = new RowHeaderTable();
+        table = new org.jdesktop.swingx.JXTable();
         refreshBtn = new org.jdesktop.swingx.JXButton();
         limitSpinner = new javax.swing.JSpinner();
         sendRadio = new javax.swing.JRadioButton();
@@ -242,10 +242,10 @@ public class CoinPanel extends JXPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.jXLabel1.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(jXButton1, org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.jXButton1.text")); // NOI18N
-        jXButton1.addActionListener(new java.awt.event.ActionListener() {
+        org.openide.awt.Mnemonics.setLocalizedText(transferBtn, org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.transferBtn.text")); // NOI18N
+        transferBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jXButton1ActionPerformed(evt);
+                transferBtnActionPerformed(evt);
             }
         });
 
@@ -322,7 +322,7 @@ public class CoinPanel extends JXPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1117, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(transferBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -357,7 +357,7 @@ public class CoinPanel extends JXPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(transferBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(balanceFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(contractAddressFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -382,7 +382,7 @@ public class CoinPanel extends JXPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jXButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXButton1ActionPerformed
+    private void transferBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transferBtnActionPerformed
         List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<>();
         panels.add(new TransferInputWizardPanel(wallet, coin));
         panels.add(new PasswordInputWizardPanel(wallet));
@@ -409,16 +409,32 @@ public class CoinPanel extends JXPanel {
             // do something
             String recvAddress = (String)wiz.getProperty("recvAddress");
             String value = (String)wiz.getProperty("value");
+            boolean isGasDefault = (boolean)wiz.getProperty("isGasDefault");
             int gas = (int)wiz.getProperty("gas");
             String pwd = (String)wiz.getProperty("password");
             
             try {
-                String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), recvAddress, coin.mainUint2MinUint(NumberUtils.toDouble(value)), BigInteger.valueOf(gas));
+                String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), recvAddress, coin.mainUint2MinUint(NumberUtils.toDouble(value)), isGasDefault ? null : BigInteger.valueOf(gas));
+                // 将交易哈希值复制到剪贴板
+                Transferable str = new StringSelection(StringUtils.join(hash, " ")); 
+                Toolkit.getDefaultToolkit().getSystemClipboard().setContents(str, null);
+                // 气泡提示
+                try {
+                    JLabel lbl = new JLabel("交易哈希" + hash + "已复制到剪贴板");
+                    BalloonTip balloonTip = new BalloonTip(transferBtn, 
+                                    lbl,
+                                    Utils.createBalloonTipStyle(),
+                                    Utils.createBalloonTipPositioner(), 
+                                    null);
+                    TimingUtils.showTimedBalloon(balloonTip, 1000);
+                } catch (Exception ex) {
+                    Exceptions.printStackTrace(ex);
+                }
             } catch (Exception ex) {
                 Exceptions.printStackTrace(ex);
             }
         }
-    }//GEN-LAST:event_jXButton1ActionPerformed
+    }//GEN-LAST:event_transferBtnActionPerformed
 
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
         refreshBtn.setEnabled(false);
@@ -472,7 +488,6 @@ public class CoinPanel extends JXPanel {
     private org.jdesktop.swingx.JXTextField filterFld;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private org.jdesktop.swingx.JXButton jXButton1;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private javax.swing.JSpinner limitSpinner;
     private javax.swing.JRadioButton recvRadio;
@@ -481,5 +496,6 @@ public class CoinPanel extends JXPanel {
     private javax.swing.JRadioButton sendRadio;
     private org.jdesktop.swingx.JXTable table;
     private org.jdesktop.swingx.JXLabel tableRowsLbl;
+    private org.jdesktop.swingx.JXButton transferBtn;
     // End of variables declaration//GEN-END:variables
 }

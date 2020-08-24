@@ -333,13 +333,12 @@ public final class WalletTopComponent extends TopComponent implements Observer {
             // 气泡提示
 	    try {
                 JLabel lbl = new JLabel("二维码图像已复制到剪贴板");
-                lbl.setFont(new java.awt.Font("宋体", 0, 24));
 		BalloonTip balloonTip = new BalloonTip(barcodeLbl, 
 				lbl,
 				Utils.createBalloonTipStyle(),
 				Utils.createBalloonTipPositioner(), 
 				null);
-		TimingUtils.showTimedBalloon(balloonTip, 1000);
+		TimingUtils.showTimedBalloon(balloonTip, 6000);
 	    } catch (Exception ex) {
 		Exceptions.printStackTrace(ex);
 	    }

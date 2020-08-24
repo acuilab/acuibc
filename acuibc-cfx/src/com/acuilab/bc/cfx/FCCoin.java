@@ -1,9 +1,12 @@
 package com.acuilab.bc.cfx;
 
 import conflux.web3j.CfxUnit;
+import java.awt.Image;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.logging.Logger;
+import javax.swing.Icon;
+import org.openide.util.ImageUtilities;
 
 /**
  *
@@ -31,6 +34,16 @@ public class FCCoin extends ERC20Coin {
     @Override
     public String getBlockChainSymbol() {
         return CFXBlockChain.SYMBOL;
+    }
+    
+    @Override
+    public Icon getIcon(int size) {
+        return ImageUtilities.loadImageIcon("/resource/fc" + size + ".png", true);
+    }
+
+    @Override
+    public Image getIconImage(int size) {
+        return ImageUtilities.loadImage("/resource/fc" + size + ".png", true);
     }
 
     @Override

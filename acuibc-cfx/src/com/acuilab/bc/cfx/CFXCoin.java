@@ -10,6 +10,7 @@ import conflux.web3j.Account;
 import conflux.web3j.Cfx;
 import conflux.web3j.CfxUnit;
 import conflux.web3j.types.RawTransaction;
+import java.awt.Image;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -18,10 +19,12 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import org.apache.commons.lang3.StringUtils;
+import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 
 /**
@@ -54,6 +57,16 @@ public class CFXCoin implements Coin {
     @Override
     public String getBlockChainSymbol() {
         return CFXBlockChain.SYMBOL;
+    }
+    
+    @Override
+    public Icon getIcon(int size) {
+        return ImageUtilities.loadImageIcon("/resource/cfx" + size + ".png", true);
+    }
+
+    @Override
+    public Image getIconImage(int size) {
+        return ImageUtilities.loadImage("/resource/cfx" + size + ".png", true);
     }
 
 //    @Override

@@ -77,13 +77,10 @@ public final class WalletListTopComponent extends TopComponent {
         try {
             // 从数据库加载所有钱包
             List<Wallet> list = WalletDAO.getList();
-            for(Wallet wallet : list) {
-                System.out.println("wname=" + wallet.getName());
-            }
             Map<String,List<Wallet>> walletGroupMap = list.stream().collect(Collectors.groupingBy(Wallet::getBlockChainSymbol));
             walletGroupMap.entrySet().forEach(entry -> {
                 BlockChain bc = BlockChainManager.getDefault().getBlockChain(entry.getKey());
-                JXTaskPane taskPane = new JXTaskPane(bc.getSymbol(), bc.getIcon(16));
+                JXTaskPane taskPane = new JXTaskPane(bc.getName(), bc.getIcon(16));
 //                taskPane.setFont(new java.awt.Font("宋体", Font.BOLD, 24));
                 taskPane.setLayout(new BoxLayout(taskPane.getContentPane(), BoxLayout.Y_AXIS));
                 

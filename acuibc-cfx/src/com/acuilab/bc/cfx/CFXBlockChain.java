@@ -74,7 +74,6 @@ public class CFXBlockChain implements BlockChain {
     public Icon getIcon(int size) {
         return ImageUtilities.loadImageIcon("/resource/cfx" + size + ".png", true);
     }
-    
 
     @Override
     public Image getIconImage(int size) {

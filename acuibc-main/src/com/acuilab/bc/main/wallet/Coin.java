@@ -1,8 +1,10 @@
 package com.acuilab.bc.main.wallet;
 
+import java.awt.Image;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
+import javax.swing.Icon;
 
 /**
  *oo
@@ -23,6 +25,15 @@ public interface Coin {
      * @return 
      */
     public String getBlockChainSymbol();
+    
+    /**
+     * 获得图标
+     * @param size
+     * @return 
+     */
+    Icon getIcon(int size);
+    
+    Image getIconImage(int size);
     
     /**
      * 主单位；例如CFX

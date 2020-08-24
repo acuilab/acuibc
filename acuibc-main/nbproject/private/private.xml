@@ -5,7 +5,10 @@
         <group>
             <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/dao/WalletDAO.java</file>
             <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/util/Constants.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/WalletTopComponent.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/BlockChain.java</file>
             <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/wizard/TransferInputVisualPanel.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/Coin.java</file>
         </group>
     </open-files>
 </project-private>

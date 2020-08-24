@@ -109,7 +109,8 @@ public final class WalletTopComponent extends TopComponent implements Observer {
             @Override
             protected void process(List<Quartet<Integer, Coin, BigInteger, List<TransferRecord>>> chunks) {
                 for(Quartet<Integer, Coin, BigInteger, List<TransferRecord>> chunk : chunks) {
-                    tabbedPane1.add(chunk.getValue1().getName(), new CoinPanel(wallet, chunk.getValue1(), chunk.getValue2(), chunk.getValue3()));
+                    Coin coin = chunk.getValue1();
+                    tabbedPane1.addTab(coin.getName(), coin.getIcon(16), new CoinPanel(wallet, coin, chunk.getValue2(), chunk.getValue3()), coin.getName());
                     ph.progress(chunk.getValue0()+1);
                 }
             }
@@ -409,13 +410,11 @@ public final class WalletTopComponent extends TopComponent implements Observer {
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
-        System.out.println("componentOpened==========================================");
         wallet.addObserver(this);
     }
 
     @Override
     public void componentClosed() {
-        System.out.println("componentClosed==========================================");
         wallet.addObserver(this);
     }
     

@@ -5,4 +5,30 @@
 <project name="acuibc" basedir=".">
     <description>Builds the module suite acuibc.</description>
     <import file="nbproject/build-impl.xml"/>
+    
+    <condition property="isWindows">
+        <os family="windows" />
+    </condition>
+
+    <target name="build-launchers" depends="suite.build-launchers">
+        <!-- Replace the icon for the Windows launcher exe. -->
+        <antcall target="replaceWindowsLauncherIcon"/>
+        <antcall target="replaceWindowsLauncherIcon64"/>
+    </target>
+
+    <!-- Windows-only target that replaces the icon for the launcher exe with our own icon. -->
+    <target name="replaceWindowsLauncherIcon" if="isWindows" description="Replace the icon for the Windows launcher exe">
+        <echo message="Replacing icon of Windows launcher executable."/>
+        <exec executable="ReplaceVistaIcon.exe" resolveexecutable="true">
+            <arg line="build/launcher/bin/${app.name}.exe ${app.name}32.ico"/>
+        </exec>
+    </target>
+    
+    <!-- Windows-only target that replaces the icon for the launcher exe with our own icon. -->
+    <target name="replaceWindowsLauncherIcon64" if="isWindows" description="Replace the icon for the Windows launcher exe">
+        <echo message="Replacing icon of Windows launcher executable."/>
+        <exec executable="ReplaceVistaIcon.exe" resolveexecutable="true">
+            <arg line="build/launcher/bin/${app.name}64.exe ${app.name}32.ico"/>
+        </exec>
+    </target>
 </project>

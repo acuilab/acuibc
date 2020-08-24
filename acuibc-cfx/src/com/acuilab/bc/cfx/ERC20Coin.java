@@ -2,6 +2,7 @@ package com.acuilab.bc.cfx;
 
 import static com.acuilab.bc.cfx.FCCoin.CONTRACT_ADDRESS;
 import com.acuilab.bc.main.wallet.Coin;
+import com.acuilab.bc.main.wallet.TokenCoin;
 import com.acuilab.bc.main.wallet.TransferRecord;
 import com.acuilab.bc.main.wallet.Wallet;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -33,7 +34,7 @@ import org.web3j.abi.datatypes.Address;
  *
  * @author admin
  */
-public abstract class ERC20Coin implements Coin {
+public abstract class ERC20Coin implements TokenCoin {
     
     private static final Logger LOG = Logger.getLogger(ERC20Coin.class.getName());
 
@@ -46,10 +47,10 @@ public abstract class ERC20Coin implements Coin {
     public void init() {
     }    
     
-    @Override
-    public Type getType() {
-        return Type.TOKEN;
-    }
+//    @Override
+//    public Type getType() {
+//        return Type.TOKEN;
+//    }
 
     @Override
     public BigInteger balanceOf(String address) {
@@ -110,7 +111,7 @@ public abstract class ERC20Coin implements Coin {
                     transferRecord.setWalletAddress(wallet.getAddress());
                     transferRecord.setCoinName(coin.getName());
                     JsonNode value = objNode.get("value");
-                    transferRecord.setValue(coin.minUnit2MainUint(new BigInteger(value.asText("0"))).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString());
+                    transferRecord.setValue(coin.minUnit2MainUint(new BigInteger(value.asText("0"))).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).stripTrailingZeros().toPlainString());
                     JsonNode from = objNode.get("from");
                     transferRecord.setSendAddress(from.asText());
                     JsonNode to = objNode.get("to");
@@ -163,5 +164,4 @@ public abstract class ERC20Coin implements Coin {
         return gasValue + " drip/" + CfxUnit.drip2Cfx(gasValue).toPlainString() + " CFX";
     }
 
-    public abstract String getContractAddress();
 }

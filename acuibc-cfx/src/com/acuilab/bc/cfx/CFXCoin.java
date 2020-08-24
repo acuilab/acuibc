@@ -56,10 +56,10 @@ public class CFXCoin implements Coin {
         return CFXBlockChain.SYMBOL;
     }
 
-    @Override
-    public Type getType() {
-        return Type.BASE;
-    }
+//    @Override
+//    public Type getType() {
+//        return Type.BASE;
+//    }
 
     @Override
     public BigInteger balanceOf(String address) {
@@ -166,7 +166,7 @@ public class CFXCoin implements Coin {
                     transferRecord.setWalletAddress(wallet.getAddress());
                     transferRecord.setCoinName(coin.getName());
                     JsonNode value = objNode.get("value");
-                    transferRecord.setValue(coin.minUnit2MainUint(new BigInteger(value.asText("0"))).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString());
+                    transferRecord.setValue(coin.minUnit2MainUint(new BigInteger(value.asText("0"))).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).stripTrailingZeros().toPlainString());
                     JsonNode gasPrice = objNode.get("gasPrice");
                     transferRecord.setGasPrice(gasPrice.asText());
                     JsonNode gas = objNode.get("gas");

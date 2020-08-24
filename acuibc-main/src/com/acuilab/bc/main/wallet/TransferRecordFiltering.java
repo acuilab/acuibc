@@ -247,6 +247,7 @@ public class TransferRecordFiltering extends AbstractBean {
         return match(p, transferRecord.getRecvAddress()) || 
                 match(p, transferRecord.getSendAddress()) || 
                 match(p, transferRecord.getHash()) ||
+                match(p, transferRecord.getValue()) ||
                 match(p, DateUtil.commonDateFormat(transferRecord.getTimestamp(), "yyyy-MM-dd HH:mm:ss"));
     }
      

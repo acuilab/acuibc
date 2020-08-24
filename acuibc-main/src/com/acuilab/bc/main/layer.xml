@@ -3,30 +3,31 @@
 <filesystem>
     <folder name="Menu">
         <file name="Edit_hidden"/>
-        <folder name="File">
-            <file name="Separator2.instance_hidden"/>
-            <file name="Separator3.instance_hidden"/>
-            <file name="Separator4.instance_hidden"/>
-            <file name="org-netbeans-modules-print-action-PageSetupAction.shadow_hidden"/>
-            <file name="org-netbeans-modules-print-action-PrintAction.shadow_hidden"/>
-            <file name="org-openide-actions-SaveAction.shadow_hidden"/>
-            <file name="org-openide-actions-SaveAllAction.shadow_hidden"/>
-            <file name="org-openide-actions-SaveAsAction.shadow_hidden"/>
-        </folder>
+        <file name="File_hidden"/>
         <file name="GoTo_hidden"/>
+        <file name="Help_hidden"/>
+        <file name="Tools_hidden"/>
+        <file name="View_hidden"/>
+        <file name="Window_hidden"/>
+        <folder name="文件">
+            <attr intvalue="200" name="position"/>
+            <file name="com.acuilab.bc.main.action.ExitAction.instance">
+                <attr intvalue="210" name="position"/>
+            </file>
+        </folder>
         <folder name="钱包">
-            <attr intvalue="800" name="position"/>
+            <attr intvalue="500" name="position"/>
             <file name="com.acuilab.bc.main.wallet.action.CreateAction.instance">
-                <attr intvalue="100" name="position"/>
+                <attr intvalue="510" name="position"/>
             </file>
             <file name="com.acuilab.bc.main.wallet.action.ImportAction.instance">
-                <attr intvalue="200" name="position"/>
+                <attr intvalue="520" name="position"/>
             </file>
         </folder>
-        <folder name="Help">
-            <file name="org-netbeans-core-actions-AboutAction.shadow_hidden"/>
+        <folder name="帮助">
+            <attr intvalue="800" name="position"/>
             <file name="com.acuilab.bc.main.action.AboutAction.instance">
-                <attr intvalue="2000" name="position"/>
+                <attr intvalue="820" name="position"/>
             </file>
         </folder>
     </folder>
@@ -43,19 +44,17 @@
         </folder>
     </folder>
     <folder name="Toolbars">
+        <file name="Clipboard_hidden"/>
         <file name="File_hidden"/>
-        <folder name="Memory">
-            <file name="org-netbeans-modules-masterfs-ui-suspend-PauseAction.shadow_hidden"/>
-            <file name="org-netbeans-modules-profiler-actions-SelfSamplerAction.shadow_hidden"/>
-        </folder>
+        <file name="Memory_hidden"/>
         <file name="UndoRedo_hidden"/>
         <folder name="钱包">
-            <attr intvalue="30" name="position"/>
+            <attr intvalue="500" name="position"/>
             <file name="com.acuilab.bc.main.wallet.action.CreateAction.instance">
-                <attr intvalue="3010" name="position"/>
+                <attr intvalue="510" name="position"/>
             </file>
             <file name="com.acuilab.bc.main.wallet.action.ImportAction.instance">
-                <attr intvalue="3020" name="position"/>
+                <attr intvalue="520" name="position"/>
             </file>
         </folder>
     </folder>

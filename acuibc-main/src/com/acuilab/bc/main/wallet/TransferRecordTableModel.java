@@ -1,13 +1,10 @@
 package com.acuilab.bc.main.wallet;
 
 import com.acuilab.bc.main.util.DateUtil;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  *
@@ -15,21 +12,18 @@ import org.apache.commons.lang3.math.NumberUtils;
  */
 public class TransferRecordTableModel extends AbstractTableModel {
     
-    public static final int INDEX_COLUMN = 0;
-    public static final int STATUS_COLUMN = 1;
-    public static final int CREATED_COLUMN = 2;
-    public static final int VALUE_COLUMN = 3;
-    public static final int SENDADDRESS_COLUMN = 4;
-    public static final int RECVADDRESS_COLUMN = 5;
-    public static final int HASH_COLUMN = 6;
-    public static final int COLUMN_COUNT = 7;
+    public static final int STATUS_COLUMN = 0;
+    public static final int CREATED_COLUMN = 1;
+    public static final int VALUE_COLUMN = 2;
+    public static final int SENDADDRESS_COLUMN = 3;
+    public static final int RECVADDRESS_COLUMN = 4;
+    public static final int HASH_COLUMN = 5;
+    public static final int COLUMN_COUNT = 6;
     
     private final List<TransferRecord> list = new ArrayList<>();
-    private final JTable table;
     
     public static final String[] COLUMNIDS = {
-        "序号",
-        "#",
+        "",
         "交易时间",
         "交易额",
         "发送方",
@@ -37,14 +31,14 @@ public class TransferRecordTableModel extends AbstractTableModel {
         "交易哈希",
     };
     
-    public TransferRecordTableModel(JTable table, Coin coin) {
-	this.table = table;
+    public TransferRecordTableModel() {
     }
 
     public void add(List<TransferRecord> newList) {
         
         int first = list.size();
         int last = first + newList.size() - 1;
+        System.out.println("first=" + first + ", last=" + last);
         if(last > -1) {
             list.addAll(newList);
             fireTableRowsInserted(first, last);
@@ -86,14 +80,13 @@ public class TransferRecordTableModel extends AbstractTableModel {
         
         TransferRecord tr = getTransferRecord(row);
         switch (column) {
-            case INDEX_COLUMN:
-                return String.valueOf(table.convertRowIndexToView(row)+1);
             case STATUS_COLUMN:
                 return StringUtils.trimToEmpty(tr.getStatus());
             case CREATED_COLUMN:
                 return DateUtil.commonDateFormat(tr.getTimestamp(), "yyyy-MM-dd HH:mm:ss");
             case VALUE_COLUMN:
-                return NumberUtils.toDouble(tr.getValue());
+//                return NumberUtils.toDouble(tr.getValue());
+                return tr.getValue();
             case SENDADDRESS_COLUMN:
                 return tr.getSendAddress();
             case RECVADDRESS_COLUMN:

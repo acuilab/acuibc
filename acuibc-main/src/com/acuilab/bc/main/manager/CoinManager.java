@@ -1,7 +1,7 @@
 package com.acuilab.bc.main.manager;
 
 import com.acuilab.bc.main.wallet.Coin;
-import com.acuilab.bc.main.wallet.Coin.Type;
+import com.acuilab.bc.main.wallet.TokenCoin;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import java.util.Collection;
@@ -57,7 +57,8 @@ public class CoinManager {
         while (it.hasNext()) {
             Coin coin = map.get(it.next());
             if(StringUtils.equals(coin.getBlockChainSymbol(), blockChainSymbol)) {
-                if(coin.getType() == Type.BASE) {
+                if(!(coin instanceof TokenCoin)) {
+                    // 主网币只能有一个
                     return coin;
                 }
             }
@@ -78,7 +79,7 @@ public class CoinManager {
         while (it.hasNext()) {
             Coin coin = map.get(it.next());
             if(StringUtils.equals(coin.getBlockChainSymbol(), blockChainSymbol)) {
-                if(coin.getType() == Type.TOKEN) {
+                if(coin instanceof TokenCoin) {
                     list.add(coin);
                 } else {
                     baseCoin = coin;

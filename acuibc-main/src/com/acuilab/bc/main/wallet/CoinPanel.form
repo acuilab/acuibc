@@ -23,13 +23,17 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" pref="1558" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="1117" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="jXButton1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jXLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="balanceFld" max="32767" attributes="0"/>
+                      <Component id="balanceFld" min="-2" pref="200" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="contractAddressLbl" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="contractAddressFld" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="limitSpinner" min="-2" pref="80" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -64,6 +68,8 @@
                       <Component id="jXButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jXLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="balanceFld" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="contractAddressFld" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="contractAddressLbl" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" alignment="1" groupAlignment="3" attributes="0">
                       <Component id="limitSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -140,6 +146,9 @@
               </Table>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RowHeaderTable()"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -223,6 +232,29 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="resetBtnActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXTextField" name="contractAddressFld">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+            <EmptyBorder/>
+          </Border>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="0" red="0" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="CoinPanel.contractAddressFld.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXLabel" name="contractAddressLbl">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="CoinPanel.contractAddressLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

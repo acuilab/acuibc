@@ -1,13 +1,9 @@
 package com.acuilab.bc.cfx;
 
 import conflux.web3j.CfxUnit;
-import conflux.web3j.contract.ContractCall;
-import conflux.web3j.response.UsedGasAndCollateral;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.logging.Logger;
-import org.openide.util.Lookup;
-import org.web3j.abi.datatypes.Address;
 
 /**
  *

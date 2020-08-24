@@ -3,6 +3,8 @@ package com.acuilab.bc.main;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
 import com.acuilab.bc.main.util.Constants;
+import java.awt.PopupMenu;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,6 +15,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
+import org.openide.awt.ToolbarPool;
 import org.openide.modules.ModuleInstall;
 import org.openide.util.Exceptions;
 import org.openide.windows.WindowManager;
@@ -45,9 +48,16 @@ public class Installer extends ModuleInstall {
             @Override
             public void run() {
 		// 设置标题
-                WindowManager.getDefault().getMainWindow().setTitle(Constants.NAME);
+                WindowManager.getDefault().getMainWindow().setTitle(Constants.TITLE);
 		// 最大化显示
 		WindowManager.getDefault().getMainWindow().setExtendedState(JFrame.MAXIMIZED_BOTH);
+                
+                MouseListener[] listeners = ToolbarPool.getDefault().getMouseListeners();
+                System.out.println("listeners.size=========================" + listeners.length);
+                for(MouseListener listener : listeners) {
+                    ToolbarPool.getDefault().removeMouseListener(listener);
+                }
+                
             }
         });
     }

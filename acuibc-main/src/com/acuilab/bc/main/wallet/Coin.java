@@ -69,8 +69,8 @@ public interface Coin {
      */
     int getScale();
     
-    // 类型: BASE、TOKEN、...
-    public Type getType();
+//    // 类型: BASE、TOKEN、...
+//    public Type getType();
     
     // 返回某个地址的账户余额
     public BigInteger balanceOf(String address);
@@ -126,9 +126,9 @@ public interface Coin {
      */
     String gasDesc(int gas);
     
-    public static enum Type {
-        // 主网币、代币
-        BASE, TOKEN
-    }
+//    public static enum Type {
+//        // 主网币、代币
+//        BASE, TOKEN
+//    }
     
 }

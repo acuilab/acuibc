@@ -1,6 +1,5 @@
 package com.acuilab.bc.main.wallet;
 
-import com.acuilab.bc.main.ui.RowHeaderTable;
 import com.acuilab.bc.main.util.AESUtil;
 import com.acuilab.bc.main.wallet.wizard.PasswordInputWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.TransferConfirmWizardPanel;
@@ -16,20 +15,17 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
-import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableRowSorter;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 import net.java.balloontip.BalloonTip;
@@ -46,7 +42,7 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
-import org.jdesktop.swingx.sort.TableSortController;
+import org.jdesktop.swingx.table.TableColumnExt;
 import org.netbeans.api.progress.ProgressHandle;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
@@ -160,12 +156,15 @@ public class CoinPanel extends JXPanel {
         table.getTableHeader().setReorderingAllowed(false);     // 表头不可拖动
         
         // 序号
-	TableColumn indexColumn = table.getColumn(TransferRecordTableModel.INDEX_COLUMN);
+	TableColumnExt indexColumn = table.getColumnExt(TransferRecordTableModel.INDEX_COLUMN);
 	indexColumn.setMinWidth(40);
 	indexColumn.setMaxWidth(40);
         DefaultTableCellRenderer render = new DefaultTableCellRenderer();
         render.setHorizontalAlignment(SwingConstants.CENTER);
+        // 不起作用，可能被下面的ColorHighlighter覆盖掉了, 使用下面的indexHighlighter实现同样的效果
+//        render.setBackground(table.getTableHeader().getBackground()); 
         indexColumn.setCellRenderer(render);
+        indexColumn.setSortable(false);
         
         // 状态图标
 	TableColumn statusColumn = table.getColumn(TransferRecordTableModel.STATUS_COLUMN);
@@ -178,7 +177,8 @@ public class CoinPanel extends JXPanel {
         
         ColorHighlighter evenHighlighter = new ColorHighlighter(HighlightPredicate.EVEN, Color.WHITE, null);
         ColorHighlighter oddHighlighter = new HighlighterFactory.UIColorHighlighter(HighlightPredicate.ODD);
-        table.setHighlighters(evenHighlighter, oddHighlighter);
+        ColorHighlighter indexHighlighter = new ColorHighlighter(new HighlightPredicate.ColumnHighlightPredicate(TransferRecordTableModel.INDEX_COLUMN), table.getTableHeader().getBackground(), null);
+        table.setHighlighters(evenHighlighter, oddHighlighter, indexHighlighter);
         
         // 排序(交易额列按数值排序) ———————— 导致filterController失效
 //        TableRowSorter sorter = new TableRowSorter(tableModel);

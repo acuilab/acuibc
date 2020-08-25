@@ -126,7 +126,6 @@ public class AboutDialog extends javax.swing.JDialog {
                 Exceptions.printStackTrace(ex);
             }
         }
-
     }//GEN-LAST:event_githubLinkActionPerformed
 
 

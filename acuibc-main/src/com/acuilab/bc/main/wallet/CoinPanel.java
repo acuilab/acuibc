@@ -6,9 +6,6 @@ import com.acuilab.bc.main.wallet.wizard.TransferConfirmWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.TransferInputWizardPanel;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Toolkit;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigInteger;
@@ -38,6 +35,7 @@ import static org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
+import org.jdesktop.swingx.JXHyperlink;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
@@ -54,6 +52,7 @@ import org.openide.util.Exceptions;
  */
 public class CoinPanel extends JXPanel {
     
+    private final WalletTopComponent parent;
     private final Wallet wallet;
     private final Coin coin;
     private final TransferRecordTableModel tableModel; 
@@ -66,8 +65,9 @@ public class CoinPanel extends JXPanel {
      * @param balance
      * @param transferRecords
      */
-    public CoinPanel(Wallet wallet, Coin coin, BigInteger balance, List<TransferRecord> transferRecords) {
+    public CoinPanel(WalletTopComponent parent, Wallet wallet, Coin coin, BigInteger balance, List<TransferRecord> transferRecords) {
         initComponents();
+        this.parent = parent;
         this.wallet = wallet;
         this.coin = coin;
         
@@ -415,18 +415,17 @@ public class CoinPanel extends JXPanel {
             
             try {
                 String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), recvAddress, coin.mainUint2MinUint(NumberUtils.toDouble(value)), isGasDefault ? null : BigInteger.valueOf(gas));
-                // 将交易哈希值复制到剪贴板
-                Transferable str = new StringSelection(StringUtils.join(hash, " ")); 
-                Toolkit.getDefaultToolkit().getSystemClipboard().setContents(str, null);
+                JXHyperlink hashLink = parent.getHashLink();
+                hashLink.setText(hash);
                 // 气泡提示
                 try {
-                    JLabel lbl = new JLabel("交易哈希" + hash + "已复制到剪贴板");
-                    BalloonTip balloonTip = new BalloonTip(transferBtn, 
+                    JLabel lbl = new JLabel("最近一次交易哈希已更新，单击打开区块链浏览器查看交易状态");
+                    BalloonTip balloonTip = new BalloonTip(hashLink, 
                                     lbl,
                                     Utils.createBalloonTipStyle(),
                                     Utils.createBalloonTipPositioner(), 
                                     null);
-                    TimingUtils.showTimedBalloon(balloonTip, 1000);
+                    TimingUtils.showTimedBalloon(balloonTip, 3000);
                 } catch (Exception ex) {
                     Exceptions.printStackTrace(ex);
                 }

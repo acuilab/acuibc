@@ -21,6 +21,7 @@ import org.netbeans.api.autoupdate.UpdateUnitProviderFactory;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
+import org.openide.util.NbPreferences;
 import org.openide.util.RequestProcessor;
 
 /**
@@ -35,7 +36,10 @@ public class AutoInstaller implements Runnable {
 
     @Override
     public void run() {
-        RequestProcessor.getDefault().post(new AutoInstallerImpl(), 1000);
+        boolean isAutoUpdate = NbPreferences.root().getBoolean("isAutoUpdate", true);   // 是否自动更新
+        if(isAutoUpdate) {
+            RequestProcessor.getDefault().post(new AutoInstallerImpl(), 1000);
+        }
     }
 
     private static final class AutoInstallerImpl implements Runnable {
@@ -46,7 +50,6 @@ public class AutoInstaller implements Runnable {
 
         @Override
         public void run() {
-            System.out.println("WarmUp AutoInstaller ..........................................");
             searchNewAndUpdatedModules();
 
             OperationContainer<InstallSupport> installContainer = addToContainer(OperationContainer.createForInstall(), install);
@@ -58,11 +61,8 @@ public class AutoInstaller implements Runnable {
 
         public OperationContainer<InstallSupport> addToContainer(OperationContainer<InstallSupport> container, List<UpdateElement> modules) {
             for (UpdateElement e : modules) {
-                System.out.println("UpdateElement e=" + e.toString());
-                System.out.println("container.canBeAdded(e.getUpdateUnit(), e)=" + container.canBeAdded(e.getUpdateUnit(), e));
                 if (container.canBeAdded(e.getUpdateUnit(), e)) {
                     OperationInfo<InstallSupport> operationInfo = container.add(e);
-                    System.out.println("operationInfo=" + operationInfo);
                     if (operationInfo != null) {
                         container.add(operationInfo.getRequiredElements());
                     }
@@ -75,13 +75,11 @@ public class AutoInstaller implements Runnable {
         public void installModules(OperationContainer<InstallSupport> container) {
             try {
                 InstallSupport support = container.getSupport();
-                System.out.println("support=" + support);
                 if (support != null) {
 
                     Validator vali = support.doDownload(null, true, true);
                     InstallSupport.Installer inst = support.doValidate(vali, null);
                     Restarter restarter = support.doInstall(inst, null);
-                    System.out.println("restarter=" + restarter);
                     if (restarter != null) {
                         support.doRestartLater(restarter);
                         if (!isRestartRequested) {
@@ -118,8 +116,6 @@ public class AutoInstaller implements Runnable {
                     }
                 }
             }
-            System.out.println("install=" + install.size());
-            System.out.println("update=" + update.size());
         }
 
         // Searching Modules in a Special Update Center

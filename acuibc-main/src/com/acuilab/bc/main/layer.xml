@@ -24,8 +24,17 @@
                 <attr intvalue="520" name="position"/>
             </file>
         </folder>
+        <folder name="工具">
+            <attr intvalue="600" name="position"/>
+            <file name="com.acuilab.bc.main.action.OptionAction.instance">
+                <attr intvalue="610" name="position"/>
+            </file>
+        </folder>
         <folder name="帮助">
             <attr intvalue="800" name="position"/>
+            <file name="com.acuilab.bc.main.action.CheckForUpdatesAction.instance">
+                <attr intvalue="810" name="position"/>
+            </file>
             <file name="com.acuilab.bc.main.action.AboutAction.instance">
                 <attr intvalue="820" name="position"/>
             </file>

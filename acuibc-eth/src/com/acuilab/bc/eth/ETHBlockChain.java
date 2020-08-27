@@ -84,5 +84,10 @@ public class ETHBlockChain implements BlockChain {
     public boolean isValidAddress(String address) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public String getTransactionDetailUrl(String hash) {
+        return null;
+    }
     
 }

@@ -37,6 +37,8 @@ public class CFXBlockChain implements BlockChain {
     public static final String BIP44PATH = "m/44'/503'/0'/0/0";
     public static final String SYMBOL = "CFX";
     
+    public static final String TRANSACTIONS_DETAIL_URL = "http://www.confluxscan.io/transactionsdetail/";
+    
     private Cfx cfx;
     private BigInteger chainId;
     private BigInteger gasPrice;
@@ -177,5 +179,10 @@ public class CFXBlockChain implements BlockChain {
             return false;
         }
         
+    }
+
+    @Override
+    public String getTransactionDetailUrl(String hash) {
+        return TRANSACTIONS_DETAIL_URL + hash;
     }
 }

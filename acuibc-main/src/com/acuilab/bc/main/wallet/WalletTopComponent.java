@@ -52,8 +52,6 @@ import org.springframework.util.DigestUtils;
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
 public final class WalletTopComponent extends TopComponent implements Observer {
     
-    public static final String TRANSACTIONS_DETAIL_URL = "http://www.confluxscan.io/transactionsdetail/";
-    
     private static final AtomicInteger ID = new AtomicInteger();
     private final String PREFERRED_ID;  // 20200802
     private final Wallet wallet;
@@ -406,8 +404,12 @@ public final class WalletTopComponent extends TopComponent implements Observer {
         if(Desktop.isDesktopSupported()) {
             try {
                 if(Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                    // 打开默认浏览器
-                    Desktop.getDesktop().browse(URI.create(TRANSACTIONS_DETAIL_URL + hashLink.getText()));
+                    BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
+                    String transactionDetailUrl = bc.getTransactionDetailUrl(hashLink.getText());
+                    if(transactionDetailUrl != null) {
+                        // 打开默认浏览器
+                       Desktop.getDesktop().browse(URI.create(transactionDetailUrl));
+                    }
                 }
             } catch (IOException ex) {
                 Exceptions.printStackTrace(ex);

@@ -97,4 +97,11 @@ public interface BlockChain {
      * @return 
      */
     boolean isValidAddress(String address);
+    
+    /**
+     * 获得交易信息的url地址
+     * @param hash  交易哈希
+     * @return 
+     */
+    String getTransactionDetailUrl(String hash);
 }

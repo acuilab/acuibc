@@ -229,7 +229,7 @@ public class WalletPanel extends JXPanel implements Observer {
             // do something
             String recvAddress = (String)wiz.getProperty("recvAddress");
             String value = (String)wiz.getProperty("value");
-            boolean gasDefault = (Boolean)wiz.getProperty("gasDefault");
+            boolean gasDefault = (Boolean)wiz.getProperty("isGasDefault");
             int gas = (int)wiz.getProperty("gas");
             String pwd = (String)wiz.getProperty("password");
             

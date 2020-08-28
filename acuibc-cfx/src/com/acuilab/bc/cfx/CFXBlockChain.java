@@ -106,7 +106,7 @@ public class CFXBlockChain implements BlockChain {
         } catch (IOException ex) {
             LOG.log(Level.WARNING, null, ex);
         }
-        cfx = Cfx.create(DEFAULT_NODE);
+        cfx = Cfx.create(node);
         // 获得chainId
         Status status = cfx.getStatus().sendAndGet();
         chainId = status.getChainId();
@@ -114,7 +114,6 @@ public class CFXBlockChain implements BlockChain {
         
         // 获得gasPrice
         gasPrice = cfx.getGasPrice().sendAndGet();
-        System.out.println("gasPrice================================" + gasPrice.toString());
     }
     
 

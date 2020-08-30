@@ -37,133 +37,133 @@ gourd社区钱包桌面版v0.6.0已经发布（目前只支持Conflux钱包）�
 
 ## 菜单栏
 
-**文件-退出**：退出本程序
-**钱包-创建钱包**：打开创建钱包向导，创建新钱包，目前只支持Conflux钱包
-**钱包-导入钱包**：打开导入钱包向导，通过私钥或助记词导入钱包，目前只支持Conflux钱包
-**钱包-迁入钱包**：将保存到硬盘的钱包数据恢复到本程序
-**钱包-迁出钱包**：将本程序的钱包数据保存到硬盘
-迁入和迁出功能可以实现钱包的备份和还原，也可以将钱包从一台电脑迁移到另一台电脑
-**工具-选项**：设置应用程序的配置项
-目前只有一个配置项“自动更新”，若选中，则程序启动后自动检查是否有更新，如果有更新则自动下载，程序重启后，自动更新为新版本；若未选中，则需手动执行菜单项“帮助-检查更新”来更新程序到新版本；默认选中自动更新。
-**帮助-检查更新**：手动检查更新
-**帮助-关于**：显示软件版本等信息
+**文件-退出**：退出本程序<br />
+**钱包-创建钱包**：打开创建钱包向导，创建新钱包，目前只支持Conflux钱包<br />
+**钱包-导入钱包**：打开导入钱包向导，通过私钥或助记词导入钱包，目前只支持Conflux钱包<br />
+**钱包-迁入钱包**：将保存到硬盘的钱包数据恢复到本程序<br />
+**钱包-迁出钱包**：将本程序的钱包数据保存到硬盘<br />
+迁入和迁出功能可以实现钱包的备份和还原，也可以将钱包从一台电脑迁移到另一台电脑<br />
+**工具-选项**：设置应用程序的配置项<br />
+目前只有一个配置项“自动更新”，若选中，则程序启动后自动检查是否有更新，如果有更新则自动下载，程序重启后，自动更新为新版本；若未选中，则需手动执行菜单项“帮助-检查更新”来更新程序到新版本；默认选中自动更新。<br />
+**帮助-检查更新**：手动检查更新<br />
+**帮助-关于**：显示软件版本等信息<br />
 
 ## 工具栏
 
-![createwallet64.png](https://b3logfile.com/file/2020/08/createwallet64-482951d5.png)创建钱包：打开创建钱包向导，创建新钱包
+![createwallet64.png](https://b3logfile.com/file/2020/08/createwallet64-482951d5.png)创建钱包：打开创建钱包向导，创建新钱包<br />
 
-![importwallet64.png](https://b3logfile.com/file/2020/08/importwallet64-aeb190c2.png)导入钱包：打开导入钱包向导，通过私钥或助记词导入钱包
+![importwallet64.png](https://b3logfile.com/file/2020/08/importwallet64-aeb190c2.png)导入钱包：打开导入钱包向导，通过私钥或助记词导入钱包<br />
 
 ## 创建钱包
 
-1. 设置钱包名称并选择币种
+1. 设置钱包名称并选择币种<br />
+<img src="https://b3logfile.com/file/2020/08/image-58afc29e.png" width="50%" />
 
-![image.png](https://b3logfile.com/file/2020/08/image-58afc29e.png)
+2. 设置钱包密码<br />
+<img src="https://b3logfile.com/file/2020/08/image-683bcca6.png" width="50%" />
 
-2. 设置钱包密码
+3. 生成助记词<br />
+<img src="https://b3logfile.com/file/2020/08/image-90125913.png" width="50%" />
 
-![image.png](https://b3logfile.com/file/2020/08/image-683bcca6.png)
+4. 确认助记词<br />
+<img src="https://b3logfile.com/file/2020/08/image-1b71e724.png" width="50%" />
 
-3. 生成助记词
-
-![image.png](https://b3logfile.com/file/2020/08/image-90125913.png)
-
-4. 确认助记词
-
-![image.png](https://b3logfile.com/file/2020/08/image-1b71e724.png)
 按顺序点击助记词，若顺序不一致，则点击上方对应的单词取消，重新选择。
 
-5. 创建完成
+5. 创建完成<br />
    左侧钱包列表显示新创建的钱包。
 
 ## 导入钱包
 
-1. 设置钱包名称并选择币种
-   
-   ![image.png](https://b3logfile.com/file/2020/08/image-33f6d8a8.png)
-2. 设置钱包密码
+1. 设置钱包名称并选择币种<br />
+   <img src="https://b3logfile.com/file/2020/08/image-33f6d8a8.png" width="50%" />
 
-![image.png](https://b3logfile.com/file/2020/08/image-c3c28e80.png)
+2. 设置钱包密码<br />
+<img src="https://b3logfile.com/file/2020/08/image-c3c28e80.png" width="50%" />
 
-3. 输入助记词或私钥
 
-![image.png](https://b3logfile.com/file/2020/08/image-d68a5d72.png)
+3. 输入助记词或私钥<br />
+<img src="https://b3logfile.com/file/2020/08/image-d68a5d72.png" width="50%" />
 
-4. 导入完成
+
+4. 导入完成<br />
    左侧钱包列表显示新导入的钱包。
 
 ## 迁入钱包
 
-1. 选择本地数据文件
+1. 选择本地数据文件<br />
+<img src="https://b3logfile.com/file/2020/08/image-556c2394.png" width="50%" />
 
-![image.png](https://b3logfile.com/file/2020/08/image-556c2394.png)
 
-2. 迁入完成，右下角提示重启应用以重新加载钱包
+2. 迁入完成，右下角提示重启应用以重新加载钱包<br />
+<img src="https://b3logfile.com/file/2020/08/image-12f88754.png" width="50%" />
 
-![image.png](https://b3logfile.com/file/2020/08/image-12f88754.png)
 
-3. 重启后，钱包列表中加载新迁入的钱包
+3. 重启后，钱包列表中加载新迁入的钱包<br />
    注意，如果发现同名的钱包，新迁入的钱包会在钱包名称后加一个时间戳后缀，用户可通过“修改名称”操作重新命名。
 
 ## 迁出钱包
 
-1. 选择要保存的本地文件
+1. 选择要保存的本地文件<br />
+<img src="https://b3logfile.com/file/2020/08/image-d2614598.png" width="50%" />
 
-![image.png](https://b3logfile.com/file/2020/08/image-d2614598.png)
 
-2. 迁入完成
+2. 迁入完成<br />
 
 ## 钱包列表
 
-左侧钱包列表窗口显示所有的钱包，每个钱包包括如下信息和操作
-![image.png](https://b3logfile.com/file/2020/08/image-2491e552.png)
+左侧钱包列表窗口显示所有的钱包，每个钱包包括如下信息和操作<br />
+<img src="https://b3logfile.com/file/2020/08/image-2491e552.png" width="50%" />
 
-1. 钱包名称：显示钱包名称
-2. 钱包地址：显示钱包地址
-3. 转账操作：打开转账向导（主网币转账），参见下面的转账
-4. 删除操作：删除当前钱包
-5. 打开钱包信息：在工作区右侧显示钱包信息
-6. 钱包余额：显示钱包余额
-7. 刷新操作：刷新钱包余额
+
+1. 钱包名称：显示钱包名称<br />
+2. 钱包地址：显示钱包地址<br />
+3. 转账操作：打开转账向导（主网币转账），参见下面的转账<br />
+4. 删除操作：删除当前钱包<br />
+5. 打开钱包信息：在工作区右侧显示钱包信息<br />
+6. 钱包余额：显示钱包余额<br />
+7. 刷新操作：刷新钱包余额<br />
 
 ## 钱包信息
+<img src="https://b3logfile.com/file/2020/08/image-eccd0722.png" width="50%" />
 
-![image.png](https://b3logfile.com/file/2020/08/image-eccd0722.png)
 
 钱包信息在工作区的右侧，如果打开多个钱包信息可通过上方的tab标签切换。钱包信息窗口上面是钱包的基本信息和操作
 
-1. 钱包名称
-2. 钱包地址
-3. 最近一次交易哈希
-4. 钱包地址二维码
-5. 修改名称操作
-6. 修改密码操作
-7. 导出助记词操作
-8. 导出私钥操作
+1. 钱包名称<br />
+2. 钱包地址<br />
+3. 最近一次交易哈希<br />
+4. 钱包地址二维码<br />
+5. 修改名称操作<br />
+6. 修改密码操作<br />
+7. 导出助记词操作<br />
+8. 导出私钥操作<br />
 
 钱包信息下面是主网币和代币信息、操作及交易记录列表。
 主网币和代币以tab页标签的形式展示。目前支持cfx、fc、cpi三种。
 
-1. 转账操作：打开转账向导进行转账
-2. 显示余额
-3. 刷新操作：刷新余额及交易记录
-4. 交易记录下方可根据关键字和交易类型对交易记录进行筛选。
+1. 转账操作：打开转账向导进行转账<br />
+2. 显示余额<br />
+3. 刷新操作：刷新余额及交易记录<br />
+4. 交易记录下方可根据关键字和交易类型对交易记录进行筛选。<br />
 
 ## 转账
 
 主网币和代币的转账都是通过转账向导实现的。
 
-1. 输入转账信息![image.png](https://b3logfile.com/file/2020/08/image-1a337537.png)
+1. 输入转账信息<br />
+<img src="https://b3logfile.com/file/2020/08/image-1a337537.png" width="50%" />
+
    注意：目前矿工费仅支持系统默认，不支持手动指定矿工费。
-2. 输入钱包密码
+2. 输入钱包密码<br />
+<img src="https://b3logfile.com/file/2020/08/image-35ead4f0.png" width="50%" />
 
-![image.png](https://b3logfile.com/file/2020/08/image-35ead4f0.png)
 
-3. 确认转账信息
+3. 确认转账信息<br />
+<img src="https://b3logfile.com/file/2020/08/image-f940b03c.png" width="50%" />
 
-![image.png](https://b3logfile.com/file/2020/08/image-f940b03c.png)
 
-4. 转账完成
+4. 转账完成<br />
    通过刷新操作获得最新的余额和交易记录。
 
 

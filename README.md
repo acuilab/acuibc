@@ -19,17 +19,17 @@ gourd社区钱包桌面版v0.6.0已经发布（目前只支持Conflux钱包）�
 本软件为压缩版，直接解压到硬盘即可使用，注意由于开发平台的限制解压到硬盘的路径不能包含中文。
 如果下载的是未绑定jre8的版本，需要单独安装Jre8并设置好环境变量。
 
-如下图解压到d盘
+如下图解压到d盘<br />
 <img src="https://b3logfile.com/file/2020/08/image-0cfd0755.png" width="50%" />
 
-打开bin目录，windows下双击执行gourd64.exe，linux和mac执行gourd脚本文件
-![image.png](https://b3logfile.com/file/2020/08/image-8830a9a7.png)
+打开bin目录，windows下双击执行gourd64.exe，linux和mac执行gourd脚本文件<br />
+<img src="https://b3logfile.com/file/2020/08/image-8830a9a7.png" width="50%" />
 
-加载窗口显示
-![image.png](https://b3logfile.com/file/2020/08/image-acc60fad.png)
+加载窗口显示<br />
+<img src="https://b3logfile.com/file/2020/08/image-acc60fad.png" width="50%" />
 
-稍等片刻，程序主窗口打开
-![image.png](https://b3logfile.com/file/2020/08/image-cf64d9f0.png)
+稍等片刻，程序主窗口打开<br />
+<img src="https://b3logfile.com/file/2020/08/image-cf64d9f0.png" width="50%" />
 
 # 使用
 

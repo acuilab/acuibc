@@ -4,7 +4,11 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.util.List;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import net.java.balloontip.BalloonTip;
+import net.java.balloontip.examples.complete.Utils;
+import net.java.balloontip.utils.TimingUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.util.Exceptions;
 import party.loveit.bip44forjava.utils.Bip44Utils;
@@ -161,6 +165,19 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
     private void copyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyBtnActionPerformed
         Transferable str = new StringSelection(StringUtils.join(mnemonicWords, " ")); 
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(str, null);
+        
+            // 气泡提示
+	    try {
+                JLabel lbl = new JLabel("复制成功");
+		BalloonTip balloonTip = new BalloonTip(copyBtn, 
+				lbl,
+				Utils.createBalloonTipStyle(),
+				Utils.createBalloonTipPositioner(), 
+				null);
+		TimingUtils.showTimedBalloon(balloonTip, 3000);
+	    } catch (Exception ex) {
+		Exceptions.printStackTrace(ex);
+	    }
     }//GEN-LAST:event_copyBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -234,15 +234,10 @@ public class WalletPanel extends JXPanel implements Observer {
             String pwd = (String)wiz.getProperty("password");
             
             try {
-                System.out.println("privateKey=" + AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd));
-                System.out.println("recvAddress=" + recvAddress);
-                System.out.println("value=" + value);
-                System.out.println("gas=" + gas);
                 String hash = baseCoin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), 
                         recvAddress, 
                         baseCoin.mainUint2MinUint(NumberUtils.toDouble(value)), 
                         gasDefault ? null : BigInteger.valueOf(gas));
-                System.out.println("hash=====================" + hash);
             } catch (Exception ex) {
                 Exceptions.printStackTrace(ex);
             }

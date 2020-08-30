@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.apisupport.project</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
+            <code-name-base>net.lingala.zip4j</code-name-base>
+            <suite-component/>
+            <module-dependencies/>
+            <public-packages>
+                <package>net.lingala.zip4j</package>
+                <package>net.lingala.zip4j.crypto</package>
+                <package>net.lingala.zip4j.crypto.PBKDF2</package>
+                <package>net.lingala.zip4j.crypto.engine</package>
+                <package>net.lingala.zip4j.exception</package>
+                <package>net.lingala.zip4j.headers</package>
+                <package>net.lingala.zip4j.io.inputstream</package>
+                <package>net.lingala.zip4j.io.outputstream</package>
+                <package>net.lingala.zip4j.model</package>
+                <package>net.lingala.zip4j.model.enums</package>
+                <package>net.lingala.zip4j.progress</package>
+                <package>net.lingala.zip4j.tasks</package>
+                <package>net.lingala.zip4j.util</package>
+            </public-packages>
+            <class-path-extension>
+                <runtime-relative-path>ext/zip4j-2.6.2.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/zip4j-2.6.2.jar</binary-origin>
+            </class-path-extension>
+        </data>
+    </configuration>
+</project>

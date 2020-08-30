@@ -73,6 +73,21 @@ public class WalletDAO {
 //        return exist != null;
 //    }
     
+    /**
+     * 获得钱包数量
+     * @return
+     * @throws SQLException 
+     */
+    public static int getCount() throws SQLException {
+	return JDBCUtil.executeQuery("select count(1) from wallet", new Object[] {}, Installer.getConnection(), new MapperUnique<Integer>() {
+	    @Override
+	    protected Integer next(ResultSet rs) throws SQLException {
+		return rs.getInt(1);
+	    }
+	    
+	});
+    }
+    
     public static List<Wallet> getList() throws SQLException {
         // 按blockChainSymbol及钱包名称排序
 	return JDBCUtil.executeQuery("select wname, pwdMd5, blockChainSymbol, waddress, privateKeyAES, mnemonicAES, created from wallet order by blockChainSymbol, wname", new Object[] {}, Installer.getConnection(), new Mapper<Wallet>() {

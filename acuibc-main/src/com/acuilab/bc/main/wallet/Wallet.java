@@ -20,8 +20,8 @@ public class Wallet extends Observable {
     private String mnemonicAES;      // 助记词
     private final Date created;             // 创建事件
     
-    public Wallet(String name, String pwdMD5, String symbol, String address, String privateKeyAES, Date created) {
-        this(name, pwdMD5, symbol, address, privateKeyAES, "", created);
+    public Wallet(String name, String pwdMD5, String blockChainSymbol, String address, String privateKeyAES, Date created) {
+        this(name, pwdMD5, blockChainSymbol, address, privateKeyAES, "", created);
     }
     
     public Wallet(String name, String pwdMD5, String blockChainSymbol, String address, String privateKeyAES, String mnemonicAES, Date created) {

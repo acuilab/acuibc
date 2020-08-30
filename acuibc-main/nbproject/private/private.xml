@@ -3,21 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/action/ImportAction.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/dao/WalletDAO.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/action/ExitAction.java</file>
             <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/util/Constants.java</file>
             <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/AutoInstaller.java</file>
-            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/BlockChain.java</file>
-            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/wizard/TransferInputVisualPanel.java</file>
-            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/WalletListTopComponent.java</file>
-            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/manager/CoinManager.java</file>
-            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/dao/WalletDAO.java</file>
-            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/ui/MyStatusLineClock.java</file>
-            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/CoinPanel.java</file>
-            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/wizard/TransferInputWizardPanel.java</file>
-            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/ui/AboutDialog.java</file>
-            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/Installer.java</file>
-            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/ui/OptionDialog.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/action/CreateAction.java</file>
             <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/layer.xml</file>
-            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/WalletPanel.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/Wallet.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/action/ExportAction.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/action/AboutAction.java</file>
         </group>
     </open-files>
 </project-private>

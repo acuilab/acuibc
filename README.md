@@ -20,7 +20,7 @@ gourd社区钱包桌面版v0.6.0已经发布（目前只支持Conflux钱包）�
 如果下载的是未绑定jre8的版本，需要单独安装Jre8并设置好环境变量。
 
 如下图解压到d盘
-![image.png](https://b3logfile.com/file/2020/08/image-0cfd0755.png)
+<img src="https://b3logfile.com/file/2020/08/image-0cfd0755.png" width="50%" />
 
 打开bin目录，windows下双击执行gourd64.exe，linux和mac执行gourd脚本文件
 ![image.png](https://b3logfile.com/file/2020/08/image-8830a9a7.png)

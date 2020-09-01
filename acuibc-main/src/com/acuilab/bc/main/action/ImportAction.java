@@ -24,6 +24,7 @@ import org.netbeans.api.progress.ProgressHandle;
 import org.openide.LifecycleManager;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.util.ImageUtilities;
+import org.openide.windows.WindowManager;
 
 /**
  *
@@ -46,7 +47,7 @@ public class ImportAction extends AbstractAction {
         chooser.setAcceptAllFileFilterUsed(false);
         chooser.setMultiSelectionEnabled(false);    // 可以同时新建多个
         chooser.setFileFilter(new FileNameExtensionFilter("支持文件(*.gw)", "gw"));
-        int returnVal = chooser.showOpenDialog(null);
+        int returnVal = chooser.showOpenDialog(WindowManager.getDefault().getMainWindow());
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             final File file = chooser.getSelectedFile();
 
@@ -67,7 +68,6 @@ public class ImportAction extends AbstractAction {
                     String sql = br.readLine();
                     if(sql != null) {
                         int count = NumberUtils.toInt(br.readLine());
-                        System.out.println("count====================================" + count);
                         for(int i=0; i<count; i++) {
                             // 钱包名称
                             String walletName = br.readLine();

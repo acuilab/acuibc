@@ -54,7 +54,8 @@ public class ExportAction extends AbstractAction {
         chooser.setAcceptAllFileFilterUsed(false);
         chooser.setSelectedFile(new File("gourd wallet.gw"));  // 设置默认文件名
         chooser.setFileFilter(new FileNameExtensionFilter("gw 文件 (*.gw)", "gw"));
-        int returnVal = chooser.showSaveDialog(null);
+        // FileChooser的图标取自传入的jFrame.通过更改JFrame的图标,您还应该在JFileChooser中获得反映的图标更改.
+        int returnVal = chooser.showSaveDialog(WindowManager.getDefault().getMainWindow());
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             final File file = chooser.getSelectedFile();
             

@@ -404,7 +404,7 @@ public class CoinPanel extends JXPanel {
         WizardDescriptor wiz = new WizardDescriptor(new WizardDescriptor.ArrayIterator<>(panels));
         // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
         wiz.setTitleFormat(new MessageFormat("{0}"));
-        wiz.setTitle("转账");
+        wiz.setTitle(wallet.getName() + "：" + coin.getName() + "(" + coin.getSymbol() + ")" + "转账");
         if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
             // do something
             String recvAddress = (String)wiz.getProperty("recvAddress");

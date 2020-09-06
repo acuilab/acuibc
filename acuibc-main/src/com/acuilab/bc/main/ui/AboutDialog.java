@@ -41,6 +41,7 @@ public class AboutDialog extends javax.swing.JDialog {
         githubLink = new org.jdesktop.swingx.JXHyperlink();
         jXLabel4 = new org.jdesktop.swingx.JXLabel();
         versionFld = new org.jdesktop.swingx.JXTextField();
+        jXLabel5 = new org.jdesktop.swingx.JXLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(AboutDialog.class, "AboutDialog.title")); // NOI18N
@@ -70,6 +71,8 @@ public class AboutDialog extends javax.swing.JDialog {
         versionFld.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         versionFld.setText(org.openide.util.NbBundle.getMessage(AboutDialog.class, "AboutDialog.versionFld.text")); // NOI18N
 
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel5, org.openide.util.NbBundle.getMessage(AboutDialog.class, "AboutDialog.jXLabel5.text")); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -90,6 +93,10 @@ public class AboutDialog extends javax.swing.JDialog {
                 .addGap(19, 19, 19)
                 .addComponent(jXLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(19, 19, 19))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jXLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -108,7 +115,9 @@ public class AboutDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(versionFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addComponent(jXLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -136,6 +145,7 @@ public class AboutDialog extends javax.swing.JDialog {
     private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXLabel jXLabel3;
     private org.jdesktop.swingx.JXLabel jXLabel4;
+    private org.jdesktop.swingx.JXLabel jXLabel5;
     private org.jdesktop.swingx.JXTextField versionFld;
     // End of variables declaration//GEN-END:variables
 }

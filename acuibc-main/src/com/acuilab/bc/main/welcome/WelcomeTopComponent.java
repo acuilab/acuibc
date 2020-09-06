@@ -95,7 +95,7 @@ public final class WelcomeTopComponent extends TopComponent {
         jXTitledPanel1 = new org.jdesktop.swingx.JXTitledPanel("新手指南", guidePanel);
         jXTitledPanel2 = new org.jdesktop.swingx.JXTitledPanel("使用小技巧", skillPanel);
 
-        guidePanel.setPreferredSize(new java.awt.Dimension(800, 600));
+        guidePanel.setPreferredSize(new java.awt.Dimension(600, 600));
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel1.text")); // NOI18N
         jXLabel1.setLineWrap(true);
@@ -258,7 +258,7 @@ public final class WelcomeTopComponent extends TopComponent {
                 .addContainerGap())
         );
 
-        skillPanel.setPreferredSize(new java.awt.Dimension(800, 600));
+        skillPanel.setPreferredSize(new java.awt.Dimension(600, 600));
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel7, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel7.text")); // NOI18N
         jXLabel7.setFont(new java.awt.Font("宋体", 1, 21)); // NOI18N
@@ -317,7 +317,7 @@ public final class WelcomeTopComponent extends TopComponent {
                 .addComponent(jXLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(256, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jScrollPane1.setBorder(null);
@@ -325,10 +325,10 @@ public final class WelcomeTopComponent extends TopComponent {
         jXPanel1.setScrollableHeightHint(org.jdesktop.swingx.ScrollableSizeHint.PREFERRED_STRETCH);
         jXPanel1.setScrollableWidthHint(org.jdesktop.swingx.ScrollableSizeHint.PREFERRED_STRETCH);
 
-        jXTitledPanel1.setPreferredSize(new java.awt.Dimension(800, 600));
+        jXTitledPanel1.setPreferredSize(new java.awt.Dimension(600, 600));
         jXTitledPanel1.setTitle(org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXTitledPanel1.title")); // NOI18N
 
-        jXTitledPanel2.setPreferredSize(new java.awt.Dimension(800, 600));
+        jXTitledPanel2.setPreferredSize(new java.awt.Dimension(600, 600));
         jXTitledPanel2.setTitle(org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXTitledPanel2.title")); // NOI18N
 
         javax.swing.GroupLayout jXPanel1Layout = new javax.swing.GroupLayout(jXPanel1);
@@ -336,10 +336,10 @@ public final class WelcomeTopComponent extends TopComponent {
         jXPanel1Layout.setHorizontalGroup(
             jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jXPanel1Layout.createSequentialGroup()
-                .addComponent(jXTitledPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXTitledPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 801, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addComponent(jXTitledPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jXTitledPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jXPanel1Layout.setVerticalGroup(
             jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -356,9 +356,9 @@ public final class WelcomeTopComponent extends TopComponent {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1326, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(

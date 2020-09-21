@@ -85,4 +85,9 @@ public class FCCoin extends ERC20Coin {
     public String getContractAddress() {
         return CONTRACT_ADDRESS;
     }
+
+    @Override
+    public boolean isDivisible() {
+        return true;
+    }
 }

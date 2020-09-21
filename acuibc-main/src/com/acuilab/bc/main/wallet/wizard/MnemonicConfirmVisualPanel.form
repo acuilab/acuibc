@@ -49,12 +49,16 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jXPanel2" max="32767" attributes="0"/>
+                  <Component id="jXPanel1" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="jXLabel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="348" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="msgLbl" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jXPanel1" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="msgLbl" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="resetBtn" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -68,9 +72,12 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jXPanel1" min="-2" pref="202" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="msgLbl" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="msgLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="resetBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jXPanel2" pref="222" max="32767" attributes="0"/>
+              <Component id="jXPanel2" pref="216" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -265,6 +272,17 @@
           <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicConfirmVisualPanel.msgLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXButton" name="resetBtn">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicConfirmVisualPanel.resetBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+        <Property name="defaultCapable" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="resetBtnActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

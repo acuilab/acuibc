@@ -153,6 +153,13 @@
                 </Property>
               </Properties>
             </Component>
+            <Component class="org.jdesktop.swingx.JXLabel" name="mnemonicLbl8">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="ExportMnemonicDialog.mnemonicLbl8.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                </Property>
+              </Properties>
+            </Component>
             <Component class="org.jdesktop.swingx.JXLabel" name="mnemonicLbl9">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
@@ -171,13 +178,6 @@
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="ExportMnemonicDialog.mnemonicLbl11.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="org.jdesktop.swingx.JXLabel" name="mnemonicLbl8">
-              <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="ExportMnemonicDialog.mnemonicLbl8.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>

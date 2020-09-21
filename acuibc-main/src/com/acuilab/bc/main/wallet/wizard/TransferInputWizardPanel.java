@@ -98,16 +98,41 @@ public class TransferInputWizardPanel implements WizardDescriptor.ValidatingPane
             throw new WizardValidationException(null, "收款人不能是自己", null);
        }
        
-       // 数量有效BigInteger(整数)
+       // 非空
        String value = component.getValueFld().getText();
        if(StringUtils.isBlank(value)) {
            component.getValueFld().requestFocus();
            throw new WizardValidationException(null, "转账数量不能为空", null);
        }
        
-       if(!RegExpValidatorUtils.isPositive(value)) {
-           component.getValueFld().requestFocus();
-           throw new WizardValidationException(null, "转账数量格式错误", null);
+//       NumberUtils.toDouble(value);
+//       if(StringUtils.equals(value, "0")) {
+//           component.getValueFld().requestFocus();
+//           throw new WizardValidationException(null, "转账数量不能为0", null);
+//       }
+       
+       if(coin.isDivisible()) {
+            // 可分割，验证非零正数
+//            if(!RegExpValidatorUtils.isPositive(value)) {
+//                component.getValueFld().requestFocus();
+//                throw new WizardValidationException(null, "转账数量为0或格式错误", null);
+//            }
+            double doubleValue = NumberUtils.toDouble(value);
+            if(doubleValue <= 0.0d) {
+                component.getValueFld().requestFocus();
+                throw new WizardValidationException(null, "转账数量无效或格式错误", null);
+            }
+       } else {
+           // 不可分割，验证非零整数
+//            if(!RegExpValidatorUtils.IsIntNumber(value)) {
+//                component.getValueFld().requestFocus();
+//                throw new WizardValidationException(null, "转账数量为0或格式错误，注意" + coin.getSymbol()+ "不可分割，请输入正整数", null);
+//            }
+            int intValue = NumberUtils.toInt(value);
+            if(intValue <=0){
+                component.getValueFld().requestFocus();
+                throw new WizardValidationException(null, "转账数量无效或格式错误，注意" + coin.getSymbol()+ "不可分割，请输入正整数", null);
+            }
        }
        
        // 数量不能超过余额（暂未考虑矿工费）
@@ -116,8 +141,6 @@ public class TransferInputWizardPanel implements WizardDescriptor.ValidatingPane
            throw new WizardValidationException(null, "正在请求余额，请稍候...", null);
        }
        BigInteger balance = component.getBalance();
-       System.out.println("balance=" + balance.toString());
-       System.out.println("value=" + value);
        BigInteger valueDrip = coin.mainUint2MinUint(NumberUtils.toDouble(component.getValueFld().getText()));
        if(balance.compareTo(valueDrip) < 0) {
            component.getValueFld().requestFocus();

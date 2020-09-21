@@ -1,21 +1,25 @@
 package com.acuilab.bc.main.wallet.wizard;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.apache.commons.lang3.StringUtils;
+import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXLabel;
 
 public final class MnemonicConfirmVisualPanel extends JPanel {
     
     private String mnemonicWordsJoined;
+    private final Map<String, JXButton> mnemonicButtons = Maps.newHashMap();
     
     /**
      * Creates new form FirstCreateVisualPanel4
@@ -57,6 +61,19 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
         mnemonicBtn10.setText(mnemonicWordsShuffled.get(9));
         mnemonicBtn11.setText(mnemonicWordsShuffled.get(10));
         mnemonicBtn12.setText(mnemonicWordsShuffled.get(11));
+        
+        mnemonicButtons.put(mnemonicWordsShuffled.get(0), mnemonicBtn1);
+        mnemonicButtons.put(mnemonicWordsShuffled.get(1), mnemonicBtn2);
+        mnemonicButtons.put(mnemonicWordsShuffled.get(2), mnemonicBtn3);
+        mnemonicButtons.put(mnemonicWordsShuffled.get(3), mnemonicBtn4);
+        mnemonicButtons.put(mnemonicWordsShuffled.get(4), mnemonicBtn5);
+        mnemonicButtons.put(mnemonicWordsShuffled.get(5), mnemonicBtn6);
+        mnemonicButtons.put(mnemonicWordsShuffled.get(6), mnemonicBtn7);
+        mnemonicButtons.put(mnemonicWordsShuffled.get(7), mnemonicBtn8);
+        mnemonicButtons.put(mnemonicWordsShuffled.get(8), mnemonicBtn9);
+        mnemonicButtons.put(mnemonicWordsShuffled.get(9), mnemonicBtn10);
+        mnemonicButtons.put(mnemonicWordsShuffled.get(10), mnemonicBtn11);
+        mnemonicButtons.put(mnemonicWordsShuffled.get(11), mnemonicBtn12);
     }
     
     private void reset() {
@@ -100,6 +117,7 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
         mnemonicBtn11 = new org.jdesktop.swingx.JXButton();
         mnemonicBtn12 = new org.jdesktop.swingx.JXButton();
         msgLbl = new org.jdesktop.swingx.JXLabel();
+        resetBtn = new org.jdesktop.swingx.JXButton();
 
         setMinimumSize(new java.awt.Dimension(760, 540));
         setPreferredSize(new java.awt.Dimension(760, 540));
@@ -227,6 +245,14 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
         msgLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         org.openide.awt.Mnemonics.setLocalizedText(msgLbl, org.openide.util.NbBundle.getMessage(MnemonicConfirmVisualPanel.class, "MnemonicConfirmVisualPanel.msgLbl.text")); // NOI18N
 
+        org.openide.awt.Mnemonics.setLocalizedText(resetBtn, org.openide.util.NbBundle.getMessage(MnemonicConfirmVisualPanel.class, "MnemonicConfirmVisualPanel.resetBtn.text")); // NOI18N
+        resetBtn.setDefaultCapable(false);
+        resetBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -235,11 +261,14 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jXPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jXPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(msgLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jXPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 348, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(msgLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(resetBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -250,9 +279,11 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(msgLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(msgLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(resetBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                .addComponent(jXPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -304,6 +335,24 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
     private void mnemonicBtn12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnemonicBtn12ActionPerformed
         mnemonicBtnClicked((JButton)evt.getSource());
     }//GEN-LAST:event_mnemonicBtn12ActionPerformed
+
+    private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
+        Component[] components = jXPanel1.getComponents();
+        if(components.length > 0) {
+            jXPanel1.remove(components.length - 1);
+            // 启用对应的按钮
+            JXLabel lbl = (JXLabel)components[components.length -1];
+            JXButton btn = mnemonicButtons.get(lbl.getText());
+            btn.setEnabled(true);
+            
+            if(!isOrderOK()) {
+                msgLbl.setText("顺序不正确，请重试！");
+            } else {
+                msgLbl.setText(" ");
+            }
+        }
+        this.jXPanel1.repaint();
+    }//GEN-LAST:event_resetBtnActionPerformed
 
     private void mnemonicBtnClicked(final JButton source) {
         final JXLabel lbl = new JXLabel(source.getText());
@@ -358,5 +407,6 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
     private org.jdesktop.swingx.JXButton mnemonicBtn8;
     private org.jdesktop.swingx.JXButton mnemonicBtn9;
     private org.jdesktop.swingx.JXLabel msgLbl;
+    private org.jdesktop.swingx.JXButton resetBtn;
     // End of variables declaration//GEN-END:variables
 }

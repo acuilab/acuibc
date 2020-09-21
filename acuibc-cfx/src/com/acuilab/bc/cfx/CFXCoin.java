@@ -230,4 +230,9 @@ public class CFXCoin implements Coin {
         BigInteger gasValue = bc.getGasPrice().multiply(BigInteger.valueOf(gas));
         return gasValue + " drip/" + CfxUnit.drip2Cfx(gasValue).toPlainString() + " CFX";
     }
+
+    @Override
+    public boolean isDivisible() {
+        return true;
+    }
 }

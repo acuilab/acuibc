@@ -218,16 +218,19 @@ public class PasswordModifyDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+        okButton.setEnabled(false);
         String oldPwd = String.valueOf(oldPwdFld.getPassword());
         if(StringUtils.isBlank(oldPwd)) {
             infoLbl.setText("请输入旧密码");
             oldPwdFld.requestFocus();
+            okButton.setEnabled(true);
             return;
         }
         String pwdMD5 = DigestUtils.md5DigestAsHex(oldPwd.getBytes()); 
         if(!StringUtils.equals(pwdMD5, wallet.getPwdMD5())) {
             infoLbl.setText("旧密码错误");
             oldPwdFld.requestFocus();
+            okButton.setEnabled(true);
             return;
         }
         String newPwd = String.valueOf(newPwdFld.getPassword());
@@ -235,8 +238,9 @@ public class PasswordModifyDialog extends javax.swing.JDialog {
         Pattern pattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,16}$");
         Matcher matcher = pattern.matcher(newPwd);
         if(!matcher.matches()) {
-            infoLbl.setText("Invalid Password");
+            infoLbl.setText("新密码不符合要求");
             newPwdFld.requestFocus();
+            okButton.setEnabled(true);
             return;
         }
         
@@ -244,11 +248,13 @@ public class PasswordModifyDialog extends javax.swing.JDialog {
         if(StringUtils.isBlank(confirmPwd)) {
             infoLbl.setText("请填写确认密码");
             confirmPwdFld.requestFocus();
+            okButton.setEnabled(true);
             return;
         }
         if(!StringUtils.equals(newPwd, confirmPwd)) {
             infoLbl.setText("两次输入密码不一致");
             confirmPwdFld.requestFocus();
+            okButton.setEnabled(true);
             return;
         }
         

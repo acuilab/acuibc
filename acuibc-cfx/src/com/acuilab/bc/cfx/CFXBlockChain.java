@@ -24,6 +24,7 @@ import conflux.web3j.types.AddressException;
 import conflux.web3j.types.RawTransaction;
 import java.awt.Image;
 import java.util.Arrays;
+import org.javatuples.Pair;
 
 /**
  *
@@ -127,9 +128,16 @@ public class CFXBlockChain implements BlockChain {
             LOG.log(Level.WARNING, null, ex);
         }
     }
-
+    
+    /**
+     * 
+     * @param name
+     * @param pwd
+     * @param mnemonicWords
+     * @return 
+     */
     @Override
-    public Wallet createWalletByMnemonic(String name, String pwd, List<String> mnemonicWords) {
+    public Pair<String, String> createWalletByMnemonic(List<String> mnemonicWords) {
         // 1 根据助记词生成私钥
         BigInteger pathPrivateKey = Bip44Utils.getPathPrivateKey(mnemonicWords, BIP44PATH);
         
@@ -138,34 +146,57 @@ public class CFXBlockChain implements BlockChain {
         String privateKey = Numeric.toHexStringWithPrefix(ecKeyPair.getPrivateKey());
         Account account = Account.create(cfx, privateKey);
 
-        // 2 密码取md5并保存
-        String pwdMD5 = DigestUtils.md5DigestAsHex(pwd.getBytes()); 
-
-        // 3 助记词和私钥加密保存
-        String mnemonicAES = AESUtil.encrypt(StringUtils.join(mnemonicWords, " "), pwd);
-        String privateKeyAES = AESUtil.encrypt(privateKey, pwd);
-
-        return new Wallet(name, pwdMD5, SYMBOL, account.getAddress(), privateKeyAES, mnemonicAES, new Date());
+        return new Pair<>(account.getAddress(), privateKey);
     }
 
+//    @Override
+//    public Wallet createWalletByMnemonic(String name, String pwd, List<String> mnemonicWords) {
+//        // 1 根据助记词生成私钥
+//        BigInteger pathPrivateKey = Bip44Utils.getPathPrivateKey(mnemonicWords, BIP44PATH);
+//        
+//        ECKeyPair ecKeyPair = ECKeyPair.create(pathPrivateKey);
+////        String publicKey = Numeric.toHexStringWithPrefix(ecKeyPair.getPublicKey());
+//        String privateKey = Numeric.toHexStringWithPrefix(ecKeyPair.getPrivateKey());
+//        Account account = Account.create(cfx, privateKey);
+//
+//        // 2 密码取md5并保存
+//        String pwdMD5 = DigestUtils.md5DigestAsHex(pwd.getBytes()); 
+//
+//        // 3 助记词和私钥加密保存
+//        String mnemonicAES = AESUtil.encrypt(StringUtils.join(mnemonicWords, " "), pwd);
+//        String privateKeyAES = AESUtil.encrypt(privateKey, pwd);
+//
+//        return new Wallet(name, pwdMD5, SYMBOL, account.getAddress(), privateKeyAES, mnemonicAES, new Date());
+//    }
+    
     @Override
-    public Wallet importWalletByPrivateKey(String name, String pwd, String privateKey) {
-        Account account = Account.create(cfx, privateKey);
-        
-        // 2 密码取md5并保存
-        String pwdMD5 = DigestUtils.md5DigestAsHex(pwd.getBytes()); 
-
-        // 3 私钥加密保存
-        String privateKeyAES = AESUtil.encrypt(privateKey, pwd);
-
-        return new Wallet(name, pwdMD5, SYMBOL, account.getAddress(), privateKeyAES, new Date());
+    public String importWalletByPrivateKey(String privateKey) {
+        return Account.create(cfx, privateKey).getAddress();
     }
 
+//    @Override
+//    public Wallet importWalletByPrivateKey(String name, String pwd, String privateKey) {
+//        Account account = Account.create(cfx, privateKey);
+//        
+//        // 2 密码取md5并保存
+//        String pwdMD5 = DigestUtils.md5DigestAsHex(pwd.getBytes()); 
+//
+//        // 3 私钥加密保存
+//        String privateKeyAES = AESUtil.encrypt(privateKey, pwd);
+//
+//        return new Wallet(name, pwdMD5, SYMBOL, account.getAddress(), privateKeyAES, new Date());
+//    }
+    
     @Override
-    public Wallet importWalletByMnemonic(String name, String pwd, String mnemonic) {
-        List<String> mnemonicWords = Arrays.asList(StringUtils.split(mnemonic, " "));
-        return createWalletByMnemonic(name, pwd, mnemonicWords);
+    public Pair<String, String>  importWalletByMnemonic(String mnemonic) {
+        return createWalletByMnemonic(Arrays.asList(StringUtils.split(mnemonic, " ")));
     }
+
+//    @Override
+//    public Wallet importWalletByMnemonic(String name, String pwd, String mnemonic) {
+//        List<String> mnemonicWords = Arrays.asList(StringUtils.split(mnemonic, " "));
+//        return createWalletByMnemonic(name, pwd, mnemonicWords);
+//    }
 
     @Override
     public boolean isValidAddress(String address) {

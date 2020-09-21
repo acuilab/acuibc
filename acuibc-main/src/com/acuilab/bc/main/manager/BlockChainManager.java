@@ -72,4 +72,15 @@ public class BlockChainManager {
         Collections.sort(list);
         return list.toArray(new String[list.size()]);
     }
+    
+    public String[] getBlockChainNames() {
+        List<String> list = Lists.newArrayList();
+        Iterator<String> it = map.keySet().iterator();
+        while (it.hasNext()) {
+            BlockChain bc = map.get(it.next());
+            list.add(bc.getName());
+        }
+        Collections.sort(list);
+        return list.toArray(new String[list.size()]);
+    }
 }

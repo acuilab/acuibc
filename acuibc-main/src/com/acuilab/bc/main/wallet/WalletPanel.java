@@ -51,7 +51,9 @@ public class WalletPanel extends JXPanel implements Observer {
         walletIconFld.setIcon(bc.getIcon(64));
         
         walletNameFld.setText(wallet.getName());
+        walletNameFld.setToolTipText(wallet.getName());
         walletAddressFld.setText(wallet.getAddress());
+        walletAddressFld.setToolTipText(wallet.getAddress());
         
         Coin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
         balanceFld.setText("0.000000 " + baseCoin.getMainUnit());
@@ -95,7 +97,6 @@ public class WalletPanel extends JXPanel implements Observer {
         walletIconFld = new org.jdesktop.swingx.JXLabel();
         walletAddressFld = new org.jdesktop.swingx.JXTextField();
         walletNameFld = new org.jdesktop.swingx.JXTextField();
-        transferBtn = new org.jdesktop.swingx.JXButton();
         refreshBtn = new org.jdesktop.swingx.JXButton();
         openBtn = new org.jdesktop.swingx.JXButton();
         deleteBtn = new org.jdesktop.swingx.JXButton();
@@ -117,13 +118,6 @@ public class WalletPanel extends JXPanel implements Observer {
         walletNameFld.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         walletNameFld.setForeground(new java.awt.Color(0, 0, 255));
         walletNameFld.setText(org.openide.util.NbBundle.getMessage(WalletPanel.class, "WalletPanel.walletNameFld.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(transferBtn, org.openide.util.NbBundle.getMessage(WalletPanel.class, "WalletPanel.transferBtn.text")); // NOI18N
-        transferBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                transferBtnActionPerformed(evt);
-            }
-        });
 
         org.openide.awt.Mnemonics.setLocalizedText(refreshBtn, org.openide.util.NbBundle.getMessage(WalletPanel.class, "WalletPanel.refreshBtn.text")); // NOI18N
         refreshBtn.setEnabled(false);
@@ -161,13 +155,11 @@ public class WalletPanel extends JXPanel implements Observer {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(transferBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(balanceFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(balanceFld, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -190,59 +182,15 @@ public class WalletPanel extends JXPanel implements Observer {
                     .addComponent(walletIconFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(transferBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(refreshBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(balanceFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(balanceFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void transferBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transferBtnActionPerformed
-        Coin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
-        
-        List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<>();
-        panels.add(new TransferInputWizardPanel(wallet, baseCoin));
-        panels.add(new PasswordInputWizardPanel(wallet));
-        panels.add(new TransferConfirmWizardPanel(wallet, baseCoin));
-        String[] steps = new String[panels.size()];
-        for (int i = 0; i < panels.size(); i++) {
-            Component c = panels.get(i).getComponent();
-            // Default step name to component name of panel.
-            steps[i] = c.getName();
-            if (c instanceof JComponent) { // assume Swing components
-                JComponent jc = (JComponent) c;
-                jc.putClientProperty(WizardDescriptor.PROP_CONTENT_SELECTED_INDEX, i);
-                jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DATA, steps);
-                jc.putClientProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE, Boolean.TRUE);
-                jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, Boolean.TRUE);
-                jc.putClientProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, Boolean.TRUE);
-            }
-        }
-        WizardDescriptor wiz = new WizardDescriptor(new WizardDescriptor.ArrayIterator<>(panels));
-        // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
-        wiz.setTitleFormat(new MessageFormat("{0}"));
-        wiz.setTitle("转账");
-        if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
-            // do something
-            String recvAddress = (String)wiz.getProperty("recvAddress");
-            String value = (String)wiz.getProperty("value");
-            boolean gasDefault = (Boolean)wiz.getProperty("isGasDefault");
-            int gas = (int)wiz.getProperty("gas");
-            String pwd = (String)wiz.getProperty("password");
-            
-            try {
-                String hash = baseCoin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), 
-                        recvAddress, 
-                        baseCoin.mainUint2MinUint(NumberUtils.toDouble(value)), 
-                        gasDefault ? null : BigInteger.valueOf(gas));
-            } catch (Exception ex) {
-                Exceptions.printStackTrace(ex);
-            }
-        }
-    }//GEN-LAST:event_transferBtnActionPerformed
 
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
             // 获得余额
@@ -323,7 +271,6 @@ public class WalletPanel extends JXPanel implements Observer {
     private org.jdesktop.swingx.JXButton deleteBtn;
     private org.jdesktop.swingx.JXButton openBtn;
     private org.jdesktop.swingx.JXButton refreshBtn;
-    private org.jdesktop.swingx.JXButton transferBtn;
     private org.jdesktop.swingx.JXTextField walletAddressFld;
     private org.jdesktop.swingx.JXLabel walletIconFld;
     private org.jdesktop.swingx.JXTextField walletNameFld;

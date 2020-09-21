@@ -33,12 +33,12 @@
                 <attr intvalue="540" name="position"/>
             </file>
         </folder>
-        <folder name="工具">
+<!--        <folder name="工具">
             <attr intvalue="600" name="position"/>
             <file name="com.acuilab.bc.main.action.OptionAction.instance">
                 <attr intvalue="610" name="position"/>
             </file>
-        </folder>
+        </folder>-->
         <folder name="帮助">
             <attr intvalue="800" name="position"/>
             <file name="com.acuilab.bc.main.action.CheckForUpdatesAction.instance">

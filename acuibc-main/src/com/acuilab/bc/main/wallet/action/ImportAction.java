@@ -3,6 +3,7 @@ package com.acuilab.bc.main.wallet.action;
 import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.dao.WalletDAO;
 import com.acuilab.bc.main.manager.BlockChainManager;
+import com.acuilab.bc.main.util.AESUtil;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import static javax.swing.Action.NAME;
@@ -12,16 +13,25 @@ import com.acuilab.bc.main.wallet.wizard.MnemonicInputWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.NameCoinWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.PasswordWizardPanel;
 import java.awt.Component;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.JComponent;
 import org.apache.commons.lang3.StringUtils;
+import org.javatuples.Pair;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
 import org.openide.util.Exceptions;
 import org.openide.windows.WindowManager;
+import org.springframework.util.DigestUtils;
 
 /**
  *
@@ -60,7 +70,7 @@ public class ImportAction extends AbstractAction {
             wiz.setTitleFormat(new MessageFormat("{0}"));
             wiz.setTitle("导入钱包");
             if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
-                // TODO: 
+
                 String pwd = (String)wiz.getProperty("password");
                 String walletName = (String)wiz.getProperty("walletName");
                 String coinSymbal = (String)wiz.getProperty("coinSymbal");
@@ -71,19 +81,36 @@ public class ImportAction extends AbstractAction {
                 BlockChain blockChain = BlockChainManager.getDefault().getBlockChain(coinSymbal);
                 if(StringUtils.equals(importType, "助记词")) {
                     // 保存钱包到数据库
-                    Wallet wallet = blockChain.importWalletByMnemonic(walletName, pwd, mnemonicOrPrivate);
+                    Pair<String, String> pair = blockChain.importWalletByMnemonic(mnemonicOrPrivate);
+                    
+                    // 密码取md5并保存
+                    String pwdMD5 = DigestUtils.md5DigestAsHex(pwd.getBytes()); 
+
+                    // 私钥加密保存
+                    String mnemonicAES = AESUtil.encrypt(mnemonicOrPrivate, pwd);
+                    String privateKeyAES = AESUtil.encrypt(pair.getValue1(), pwd);
+
+                    Wallet wallet = new Wallet(walletName, pwdMD5, blockChain.getSymbol(), pair.getValue0(), privateKeyAES, mnemonicAES, new Date());
                     WalletDAO.insert(wallet);
                     
                     tc.addWallet(wallet);
                 } else {
-                    Wallet wallet = blockChain.importWalletByPrivateKey(walletName, pwd, mnemonicOrPrivate);
+                    String address = blockChain.importWalletByPrivateKey(mnemonicOrPrivate);
+                    
+                    // 密码取md5
+                    String pwdMD5 = DigestUtils.md5DigestAsHex(pwd.getBytes()); 
+
+                    // 助记词和私钥加密
+                    String privateKeyAES = AESUtil.encrypt(mnemonicOrPrivate, pwd);
+
+                    // 保存钱包
+                    Wallet wallet = new Wallet(walletName, pwdMD5, blockChain.getSymbol(), address, privateKeyAES, new Date());
                     WalletDAO.insert(wallet);
                 
                     tc.addWallet(wallet);
                 }
-
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | NoSuchAlgorithmException | NoSuchPaddingException | UnsupportedEncodingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex) {
             Exceptions.printStackTrace(ex);
         }
     }

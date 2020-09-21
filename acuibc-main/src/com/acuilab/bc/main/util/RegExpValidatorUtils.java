@@ -188,6 +188,16 @@ public final class RegExpValidatorUtils {
         String regex = "^(0|[1-9][0-9]*)(\\.\\d+)?$";
         return match(regex, str);
     }
+//    
+//    /**
+//     * 验证非零正数
+//     * @param str
+//     * @return 
+//     */
+//    public static boolean isPositiveNotZero(String str) {
+//        String regex = "^(0|[1-9][0-9]*)(\\.\\d+)?$";
+//        return match(regex, str);
+//    }
 
     /**
      * 验证大写字母

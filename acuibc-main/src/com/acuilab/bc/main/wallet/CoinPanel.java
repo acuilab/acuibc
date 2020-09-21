@@ -275,7 +275,7 @@ public class CoinPanel extends JXPanel {
             }
         });
 
-        limitSpinner.setModel(new javax.swing.SpinnerNumberModel(100, 0, 1000, 10));
+        limitSpinner.setModel(new javax.swing.SpinnerNumberModel(100, 0, 200, 10));
         JSpinner.NumberEditor editor = new JSpinner.NumberEditor(limitSpinner, "#");
         final JFormattedTextField textField = editor.getTextField();
         final DefaultFormatterFactory factory = (DefaultFormatterFactory)textField.getFormatterFactory();
@@ -456,7 +456,9 @@ public class CoinPanel extends JXPanel {
                 try {
                     Pair<BigInteger, List<TransferRecord>> pair = get();
                     
-                    balanceFld.setText(coin.minUnit2MainUint(pair.getValue0()).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit());
+                    String balance = coin.minUnit2MainUint(pair.getValue0()).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit();
+                    balanceFld.setText(balance);
+                    balanceFld.setToolTipText(balance);
                     tableModel.clear();
                     tableModel.add(pair.getValue1());
                     table.setHorizontalScrollEnabled(true);

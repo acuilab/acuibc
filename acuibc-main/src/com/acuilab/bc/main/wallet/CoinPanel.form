@@ -165,7 +165,7 @@
     <Component class="javax.swing.JSpinner" name="limitSpinner">
       <Properties>
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new javax.swing.SpinnerNumberModel(100, 0, 1000, 10)" type="code"/>
+          <Connection code="new javax.swing.SpinnerNumberModel(100, 0, 200, 10)" type="code"/>
         </Property>
       </Properties>
       <AuxValues>

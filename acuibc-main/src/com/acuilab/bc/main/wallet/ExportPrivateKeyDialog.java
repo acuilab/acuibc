@@ -6,11 +6,21 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.KeyStroke;
+import net.java.balloontip.BalloonTip;
+import net.java.balloontip.examples.complete.Utils;
+import net.java.balloontip.utils.TimingUtils;
+import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 
 /**
@@ -33,16 +43,15 @@ public class ExportPrivateKeyDialog extends javax.swing.JDialog {
      * Creates new form ExportPrivateKeyDialog
      * @param parent
      * @param wallet
-     * @param password
+     * @param privateKey
      */
-    public ExportPrivateKeyDialog(java.awt.Frame parent, Wallet wallet, String password) {
+    public ExportPrivateKeyDialog(java.awt.Frame parent, Wallet wallet, String privateKey) {
         super(parent, true);
         initComponents();
-        
-        //get 12 words
-        privateKey = AESUtil.decrypt(wallet.getPrivateKeyAES(), password);
-        privateKeyArea.setText(privateKey);
 
+        this.privateKey = privateKey;
+        privateKeyArea.setText(privateKey);
+        
         // Close the dialog when Esc is pressed
         String cancelName = "cancel";
         InputMap inputMap = getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
@@ -138,6 +147,19 @@ public class ExportPrivateKeyDialog extends javax.swing.JDialog {
     private void copyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyBtnActionPerformed
         Transferable str = new StringSelection(privateKey);
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(str, null);
+        
+        // 气泡提示
+        try {
+            JLabel lbl = new JLabel("复制成功");
+            BalloonTip balloonTip = new BalloonTip(copyBtn, 
+                            lbl,
+                            Utils.createBalloonTipStyle(),
+                            Utils.createBalloonTipPositioner(), 
+                            null);
+            TimingUtils.showTimedBalloon(balloonTip, 2000);
+        } catch (Exception ex) {
+            Exceptions.printStackTrace(ex);
+        }
     }//GEN-LAST:event_copyBtnActionPerformed
     
     private void doClose(int retStatus) {

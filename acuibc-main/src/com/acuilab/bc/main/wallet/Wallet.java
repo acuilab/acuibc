@@ -14,7 +14,7 @@ public class Wallet extends Observable {
     
     private String name;          // 钱包名称(主键)
     private String pwdMD5;        // 钱包密码
-    private final String blockChainSymbol;        // 区块链简称
+    private final String blockChainSymbol;        // 区块链简称(其实叫钱包类型更合适一些)
     private final String address;       // 钱包地址
     private String privateKeyAES;    // 私钥
     private String mnemonicAES;      // 助记词

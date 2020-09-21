@@ -75,6 +75,7 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
         mnemonicLbl11 = new org.jdesktop.swingx.JXLabel();
         mnemonicLbl12 = new org.jdesktop.swingx.JXLabel();
         copyBtn = new org.jdesktop.swingx.JXButton();
+        jXLabel3 = new org.jdesktop.swingx.JXLabel();
 
         setMinimumSize(new java.awt.Dimension(760, 540));
         setPreferredSize(new java.awt.Dimension(760, 540));
@@ -124,11 +125,14 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
         jXPanel1.add(mnemonicLbl12);
 
         org.openide.awt.Mnemonics.setLocalizedText(copyBtn, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.copyBtn.text")); // NOI18N
+        copyBtn.setDefaultCapable(false);
         copyBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 copyBtnActionPerformed(evt);
             }
         });
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel3, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.jXLabel3.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -139,12 +143,14 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jXPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 113, Short.MAX_VALUE)))
+                        .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -153,10 +159,12 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
                 .addContainerGap()
                 .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+                .addComponent(jXPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -166,24 +174,25 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
         Transferable str = new StringSelection(StringUtils.join(mnemonicWords, " ")); 
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(str, null);
         
-            // 气泡提示
-	    try {
-                JLabel lbl = new JLabel("复制成功");
-		BalloonTip balloonTip = new BalloonTip(copyBtn, 
-				lbl,
-				Utils.createBalloonTipStyle(),
-				Utils.createBalloonTipPositioner(), 
-				null);
-		TimingUtils.showTimedBalloon(balloonTip, 3000);
-	    } catch (Exception ex) {
-		Exceptions.printStackTrace(ex);
-	    }
+        // 气泡提示
+        try {
+            JLabel lbl = new JLabel("复制成功");
+            BalloonTip balloonTip = new BalloonTip(copyBtn, 
+                            lbl,
+                            Utils.createBalloonTipStyle(),
+                            Utils.createBalloonTipPositioner(), 
+                            null);
+            TimingUtils.showTimedBalloon(balloonTip, 2000);
+        } catch (Exception ex) {
+            Exceptions.printStackTrace(ex);
+        }
     }//GEN-LAST:event_copyBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXButton copyBtn;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel2;
+    private org.jdesktop.swingx.JXLabel jXLabel3;
     private org.jdesktop.swingx.JXPanel jXPanel1;
     private org.jdesktop.swingx.JXLabel mnemonicLbl1;
     private org.jdesktop.swingx.JXLabel mnemonicLbl10;

@@ -19,7 +19,7 @@ public final class NameCoinVisualPanel extends JPanel {
 
     @Override
     public String getName() {
-        return "设置钱包名称并选择币种";
+        return "设置钱包名称及类型";
     }
     
     public JTextField getWalletNameField(){
@@ -73,7 +73,7 @@ public final class NameCoinVisualPanel extends JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 617, Short.MAX_VALUE)))
+                        .addGap(0, 579, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

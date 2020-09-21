@@ -86,4 +86,9 @@ public class CPICoin extends ERC20Coin {
     public String getContractAddress() {
         return CONTRACT_ADDRESS;
     }
+
+    @Override
+    public boolean isDivisible() {
+        return false;
+    }
 }

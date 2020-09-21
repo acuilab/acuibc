@@ -4,6 +4,12 @@ import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.wallet.Coin;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.wallet.Wallet;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.concurrent.ExecutionException;
@@ -127,6 +133,7 @@ public final class TransferInputVisualPanel extends JPanel {
         gasLbl = new org.jdesktop.swingx.JXLabel();
         gasDefaultCheckBox = new javax.swing.JCheckBox();
         gasSpinner = new javax.swing.JSpinner();
+        pasteBtn = new org.jdesktop.swingx.JXButton();
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.jXLabel1.text")); // NOI18N
 
@@ -178,6 +185,13 @@ public final class TransferInputVisualPanel extends JPanel {
             }
         });
 
+        org.openide.awt.Mnemonics.setLocalizedText(pasteBtn, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.pasteBtn.text")); // NOI18N
+        pasteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pasteBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -191,7 +205,6 @@ public final class TransferInputVisualPanel extends JPanel {
                     .addComponent(jXLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(recvAddressFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(valueFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(sendAddressFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -207,7 +220,11 @@ public final class TransferInputVisualPanel extends JPanel {
                             .addComponent(fastLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(gasDefaultCheckBox)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(recvAddressFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pasteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -216,7 +233,8 @@ public final class TransferInputVisualPanel extends JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(recvAddressFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(recvAddressFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pasteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -238,7 +256,7 @@ public final class TransferInputVisualPanel extends JPanel {
                     .addComponent(slowLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fastLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(gasLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(239, Short.MAX_VALUE))
+                .addContainerGap(237, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -259,6 +277,27 @@ public final class TransferInputVisualPanel extends JPanel {
         gasSlider.setValue(value);
     }//GEN-LAST:event_gasSpinnerStateChanged
 
+    private void pasteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pasteBtnActionPerformed
+        // 获取系统剪贴板
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+
+        // 获取剪贴板中的内容
+        Transferable trans = clipboard.getContents(null);
+
+        if (trans != null) {
+            // 判断剪贴板中的内容是否支持文本
+            if (trans.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+                // 获取剪贴板中的文本内容
+                try {
+                    String text = (String) trans.getTransferData(DataFlavor.stringFlavor);
+                    recvAddressFld.setText(text);
+                } catch (UnsupportedFlavorException | IOException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_pasteBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXLabel fastLbl;
     private javax.swing.JCheckBox gasDefaultCheckBox;
@@ -269,6 +308,7 @@ public final class TransferInputVisualPanel extends JPanel {
     private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXLabel jXLabel3;
     private org.jdesktop.swingx.JXLabel jXLabel4;
+    private org.jdesktop.swingx.JXButton pasteBtn;
     private org.jdesktop.swingx.JXTextField recvAddressFld;
     private org.jdesktop.swingx.JXTextField sendAddressFld;
     private org.jdesktop.swingx.JXLabel slowLbl;

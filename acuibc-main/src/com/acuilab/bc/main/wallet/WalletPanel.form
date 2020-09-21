@@ -27,13 +27,11 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="transferBtn" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="deleteBtn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="openBtn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="balanceFld" max="32767" attributes="0"/>
+                      <Component id="balanceFld" pref="220" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="refreshBtn" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -64,13 +62,14 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="transferBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="openBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="deleteBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
                   <Component id="refreshBtn" max="32767" attributes="0"/>
-                  <Component id="balanceFld" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="balanceFld" alignment="3" max="32767" attributes="0"/>
+                      <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                          <Component id="openBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="deleteBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -125,16 +124,6 @@
           <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="WalletPanel.walletNameFld.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
-    </Component>
-    <Component class="org.jdesktop.swingx.JXButton" name="transferBtn">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="WalletPanel.transferBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="transferBtnActionPerformed"/>
-      </Events>
     </Component>
     <Component class="org.jdesktop.swingx.JXButton" name="refreshBtn">
       <Properties>

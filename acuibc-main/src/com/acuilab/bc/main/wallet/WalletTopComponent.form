@@ -53,15 +53,25 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="walletNameFld" pref="804" max="32767" attributes="0"/>
-                                  <Component id="walletAddressFld" max="32767" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="hashLink" max="32767" attributes="0"/>
+                                  <Component id="walletNameFld" pref="801" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="walletAddressFld" max="32767" attributes="0"/>
+                                          <Component id="hashLink" max="32767" attributes="0"/>
+                                      </Group>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="copyBtn" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="copyHashBtn" alignment="1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="copyAddressBtn" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jXLabel5" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jXLabel6" max="32767" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="jXLabel5" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
                                   </Group>
                               </Group>
                           </Group>
@@ -73,7 +83,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="mnemonicExportBtn" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jXButton2" min="-2" max="-2" attributes="0"/>
+                              <Component id="privateKeyBtn" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -99,12 +109,14 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jXLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="walletAddressFld" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jXLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="copyAddressBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jXLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="hashLink" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="copyBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="copyHashBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jXLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
@@ -112,7 +124,7 @@
                               <Component id="nameEditBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="pwdEditBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="mnemonicExportBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jXButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="privateKeyBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jXLabel1" min="-2" max="-2" attributes="0"/>
@@ -120,7 +132,7 @@
                   <Component id="barcodeLbl" min="-2" pref="128" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="tabbedPane1" pref="602" max="32767" attributes="0"/>
+              <Component id="tabbedPane1" pref="596" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -203,14 +215,14 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnemonicExportBtnActionPerformed"/>
       </Events>
     </Component>
-    <Component class="org.jdesktop.swingx.JXButton" name="jXButton2">
+    <Component class="org.jdesktop.swingx.JXButton" name="privateKeyBtn">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="WalletTopComponent.jXButton2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="WalletTopComponent.privateKeyBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jXButton2ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="privateKeyBtnActionPerformed"/>
       </Events>
     </Component>
     <Component class="org.jdesktop.swingx.JXLabel" name="barcodeLbl">
@@ -263,14 +275,14 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="hashLinkActionPerformed"/>
       </Events>
     </Component>
-    <Component class="org.jdesktop.swingx.JXButton" name="copyBtn">
+    <Component class="org.jdesktop.swingx.JXButton" name="copyHashBtn">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="WalletTopComponent.copyBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="WalletTopComponent.copyHashBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="copyBtnActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="copyHashBtnActionPerformed"/>
       </Events>
     </Component>
     <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel5">
@@ -279,6 +291,23 @@
           <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="WalletTopComponent.jXLabel5.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel6">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="WalletTopComponent.jXLabel6.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXButton" name="copyAddressBtn">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="WalletTopComponent.copyAddressBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="copyAddressBtnActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -36,10 +36,11 @@ public class AutoInstaller implements Runnable {
 
     @Override
     public void run() {
-        boolean isAutoUpdate = NbPreferences.root().getBoolean("isAutoUpdate", true);   // 是否自动更新
-        if(isAutoUpdate) {
-            RequestProcessor.getDefault().post(new AutoInstallerImpl(), 1000);
-        }
+        // 20200916, cuizhf, 去掉自动更新
+//        boolean isAutoUpdate = NbPreferences.root().getBoolean("isAutoUpdate", true);   // 是否自动更新
+//        if(isAutoUpdate) {
+//            RequestProcessor.getDefault().post(new AutoInstallerImpl(), 1000);
+//        }
     }
 
     private static final class AutoInstallerImpl implements Runnable {

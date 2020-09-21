@@ -137,6 +137,12 @@ public interface Coin {
      */
     String gasDesc(int gas);
     
+    /**
+     * 是否可分割
+     * @return 
+     */
+    boolean isDivisible();
+    
 //    public static enum Type {
 //        // 主网币、代币
 //        BASE, TOKEN

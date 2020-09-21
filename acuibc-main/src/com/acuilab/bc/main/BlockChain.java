@@ -4,6 +4,7 @@ import com.acuilab.bc.main.wallet.Wallet;
 import java.awt.Image;
 import java.util.List;
 import javax.swing.Icon;
+import org.javatuples.Pair;
 
 /**
  * 通过BlockChain接口屏蔽不同区块链之间的差别
@@ -66,30 +67,24 @@ public interface BlockChain {
     
     /**
      * 创建钱包
-     * @param name
-     * @param pwd
-     * @param mnemonicWords
-     * @return 
+     * @param mnemonicWords 助记词列表
+     * @return 1 钱包地址；2 私钥
      */
-    Wallet createWalletByMnemonic(String name, String pwd, List<String> mnemonicWords);
+    Pair<String, String> createWalletByMnemonic(List<String> mnemonicWords);
     
     /**
      * 根据私钥导入钱包
-     * @param name
-     * @param pwd
      * @param privateKey
-     * @return 
+     * @return 钱包地址
      */
-    Wallet importWalletByPrivateKey(String name, String pwd, String privateKey);
+    String importWalletByPrivateKey(String privateKey);
     
     /**
      * 根据助记词导入钱包
-     * @param name
-     * @param pwd
      * @param mnemonic
-     * @return 
+     * @return 1 钱包地址；2 私钥
      */
-    Wallet importWalletByMnemonic(String name, String pwd, String mnemonic);
+    Pair<String, String>  importWalletByMnemonic(String mnemonic);
     
     /**
      * 判断是否是有效地址

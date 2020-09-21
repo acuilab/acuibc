@@ -51,7 +51,13 @@ public final class WelcomeTopComponent extends TopComponent {
     }
     
     private void myInit() {
-        
+        jXHyperlink1.setToolTipText(jXHyperlink1.getText());
+        jXHyperlink2.setToolTipText(jXHyperlink2.getText());
+        jXHyperlink3.setToolTipText(jXHyperlink3.getText());
+        jXHyperlink4.setToolTipText(jXHyperlink4.getText());
+        jXHyperlink5.setToolTipText(jXHyperlink5.getText());
+        jXHyperlink6.setToolTipText(jXHyperlink6.getText());
+        jXHyperlink7.setToolTipText(jXHyperlink7.getText());
     }
 
     /**
@@ -84,25 +90,35 @@ public final class WelcomeTopComponent extends TopComponent {
         jXTextField2 = new org.jdesktop.swingx.JXTextField();
         skillPanel = new JXPanel();
         jXLabel7 = new org.jdesktop.swingx.JXLabel();
-        jXLabel8 = new org.jdesktop.swingx.JXLabel();
-        jXLabel9 = new org.jdesktop.swingx.JXLabel();
         jXLabel12 = new org.jdesktop.swingx.JXLabel();
-        jXLabel13 = new org.jdesktop.swingx.JXLabel();
         jXLabel14 = new org.jdesktop.swingx.JXLabel();
         jXLabel15 = new org.jdesktop.swingx.JXLabel();
+        jXLabel8 = new org.jdesktop.swingx.JXLabel();
+        jXLabel17 = new org.jdesktop.swingx.JXLabel();
+        jXLabel18 = new org.jdesktop.swingx.JXLabel();
+        jXLabel19 = new org.jdesktop.swingx.JXLabel();
+        jXLabel20 = new org.jdesktop.swingx.JXLabel();
+        jXLabel21 = new org.jdesktop.swingx.JXLabel();
+        jXLabel22 = new org.jdesktop.swingx.JXLabel();
+        jXLabel23 = new org.jdesktop.swingx.JXLabel();
+        jXLabel24 = new org.jdesktop.swingx.JXLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jXPanel1 = new org.jdesktop.swingx.JXPanel();
         jXTitledPanel1 = new org.jdesktop.swingx.JXTitledPanel("新手指南", guidePanel);
         jXTitledPanel2 = new org.jdesktop.swingx.JXTitledPanel("使用小技巧", skillPanel);
+        jXLabel9 = new org.jdesktop.swingx.JXLabel();
 
-        guidePanel.setPreferredSize(new java.awt.Dimension(600, 600));
+        guidePanel.setPreferredSize(new java.awt.Dimension(660, 600));
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel1.text")); // NOI18N
+        jXLabel1.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
         jXLabel1.setLineWrap(true);
 
+        jLabel1.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jLabel1.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXHyperlink1, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXHyperlink1.text")); // NOI18N
+        jXHyperlink1.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
         jXHyperlink1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jXHyperlink1ActionPerformed(evt);
@@ -110,16 +126,22 @@ public final class WelcomeTopComponent extends TopComponent {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel2, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel2.text")); // NOI18N
+        jXLabel2.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel3, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel3.text")); // NOI18N
+        jXLabel3.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel4, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel4.text")); // NOI18N
+        jXLabel4.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel5, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel5.text")); // NOI18N
+        jXLabel5.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel6, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel6.text")); // NOI18N
+        jXLabel6.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXHyperlink2, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXHyperlink2.text")); // NOI18N
+        jXHyperlink2.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
         jXHyperlink2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jXHyperlink2ActionPerformed(evt);
@@ -127,6 +149,7 @@ public final class WelcomeTopComponent extends TopComponent {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(jXHyperlink3, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXHyperlink3.text")); // NOI18N
+        jXHyperlink3.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
         jXHyperlink3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jXHyperlink3ActionPerformed(evt);
@@ -134,6 +157,7 @@ public final class WelcomeTopComponent extends TopComponent {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(jXHyperlink4, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXHyperlink4.text")); // NOI18N
+        jXHyperlink4.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
         jXHyperlink4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jXHyperlink4ActionPerformed(evt);
@@ -141,6 +165,7 @@ public final class WelcomeTopComponent extends TopComponent {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(jXHyperlink5, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXHyperlink5.text")); // NOI18N
+        jXHyperlink5.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
         jXHyperlink5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jXHyperlink5ActionPerformed(evt);
@@ -148,6 +173,7 @@ public final class WelcomeTopComponent extends TopComponent {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(jXHyperlink6, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXHyperlink6.text")); // NOI18N
+        jXHyperlink6.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
         jXHyperlink6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jXHyperlink6ActionPerformed(evt);
@@ -155,8 +181,10 @@ public final class WelcomeTopComponent extends TopComponent {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel10, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel10.text")); // NOI18N
+        jXLabel10.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXHyperlink7, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXHyperlink7.text")); // NOI18N
+        jXHyperlink7.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
         jXHyperlink7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jXHyperlink7ActionPerformed(evt);
@@ -165,17 +193,21 @@ public final class WelcomeTopComponent extends TopComponent {
 
         jXTextField1.setEditable(false);
         jXTextField1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jXTextField1.setForeground(java.awt.Color.blue);
+        jXTextField1.setForeground(java.awt.Color.red);
         jXTextField1.setText(org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXTextField1.text")); // NOI18N
         jXTextField1.setToolTipText(org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXTextField1.toolTipText")); // NOI18N
+        jXTextField1.setFont(new java.awt.Font("宋体", 1, 21)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel11, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel11.text")); // NOI18N
+        jXLabel11.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel16, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel16.text")); // NOI18N
+        jXLabel16.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
 
         jXTextField2.setEditable(false);
         jXTextField2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jXTextField2.setText(org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXTextField2.text")); // NOI18N
+        jXTextField2.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
 
         javax.swing.GroupLayout guidePanelLayout = new javax.swing.GroupLayout(guidePanel);
         guidePanel.setLayout(guidePanelLayout);
@@ -252,35 +284,54 @@ public final class WelcomeTopComponent extends TopComponent {
                 .addGroup(guidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jXTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
                 .addGroup(guidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jXLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
+        skillPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         skillPanel.setPreferredSize(new java.awt.Dimension(600, 600));
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel7, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel7.text")); // NOI18N
-        jXLabel7.setFont(new java.awt.Font("宋体", 1, 21)); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(jXLabel8, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel8.text")); // NOI18N
-        jXLabel8.setLineWrap(true);
-
-        org.openide.awt.Mnemonics.setLocalizedText(jXLabel9, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel9.text")); // NOI18N
-        jXLabel9.setLineWrap(true);
+        jXLabel7.setFont(new java.awt.Font("宋体", 1, 20)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel12, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel12.text")); // NOI18N
-        jXLabel12.setFont(new java.awt.Font("宋体", 1, 21)); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(jXLabel13, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel13.text")); // NOI18N
-        jXLabel13.setLineWrap(true);
+        jXLabel12.setFont(new java.awt.Font("宋体", 1, 20)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel14, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel14.text")); // NOI18N
-        jXLabel14.setFont(new java.awt.Font("宋体", 1, 21)); // NOI18N
+        jXLabel14.setFont(new java.awt.Font("宋体", 1, 20)); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel15, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel15.text")); // NOI18N
-        jXLabel15.setLineWrap(true);
+        jXLabel15.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel8, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel8.text")); // NOI18N
+        jXLabel8.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel17, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel17.text")); // NOI18N
+        jXLabel17.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel18, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel18.text")); // NOI18N
+        jXLabel18.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel19, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel19.text")); // NOI18N
+        jXLabel19.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel20, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel20.text")); // NOI18N
+        jXLabel20.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel21, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel21.text")); // NOI18N
+        jXLabel21.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel22, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel22.text")); // NOI18N
+        jXLabel22.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel23, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel23.text")); // NOI18N
+        jXLabel23.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel24, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel24.text")); // NOI18N
+        jXLabel24.setFont(new java.awt.Font("宋体", 0, 20)); // NOI18N
 
         javax.swing.GroupLayout skillPanelLayout = new javax.swing.GroupLayout(skillPanel);
         skillPanel.setLayout(skillPanelLayout);
@@ -289,17 +340,25 @@ public final class WelcomeTopComponent extends TopComponent {
             .addGroup(skillPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(skillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jXLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jXLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jXLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jXLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(skillPanelLayout.createSequentialGroup()
                         .addGroup(skillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jXLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jXLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jXLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jXLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, skillPanelLayout.createSequentialGroup()
+                        .addGroup(skillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jXLabel15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jXLabel24, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jXLabel23, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jXLabel22, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jXLabel21, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jXLabel20, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jXLabel18, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jXLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jXLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         skillPanelLayout.setVerticalGroup(
             skillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -309,66 +368,72 @@ public final class WelcomeTopComponent extends TopComponent {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jXLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jXLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jXLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jXLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jXLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jXLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jXLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jXLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(148, Short.MAX_VALUE))
         );
 
-        jScrollPane1.setBorder(null);
+        setLayout(new java.awt.BorderLayout());
 
+        jXPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jXPanel1.setScrollableHeightHint(org.jdesktop.swingx.ScrollableSizeHint.PREFERRED_STRETCH);
         jXPanel1.setScrollableWidthHint(org.jdesktop.swingx.ScrollableSizeHint.PREFERRED_STRETCH);
 
-        jXTitledPanel1.setPreferredSize(new java.awt.Dimension(600, 600));
+        jXTitledPanel1.setPreferredSize(new java.awt.Dimension(660, 600));
         jXTitledPanel1.setTitle(org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXTitledPanel1.title")); // NOI18N
 
         jXTitledPanel2.setPreferredSize(new java.awt.Dimension(600, 600));
         jXTitledPanel2.setTitle(org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXTitledPanel2.title")); // NOI18N
+
+        jXLabel9.setForeground(java.awt.Color.red);
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel9, org.openide.util.NbBundle.getMessage(WelcomeTopComponent.class, "WelcomeTopComponent.jXLabel9.text")); // NOI18N
+        jXLabel9.setFont(new java.awt.Font("宋体", 1, 24)); // NOI18N
 
         javax.swing.GroupLayout jXPanel1Layout = new javax.swing.GroupLayout(jXPanel1);
         jXPanel1.setLayout(jXPanel1Layout);
         jXPanel1Layout.setHorizontalGroup(
             jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jXPanel1Layout.createSequentialGroup()
-                .addComponent(jXTitledPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jXTitledPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jXTitledPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jXTitledPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jXLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jXPanel1Layout.setVerticalGroup(
             jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jXPanel1Layout.createSequentialGroup()
-                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jXTitledPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jXTitledPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 182, Short.MAX_VALUE))
+                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jXTitledPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jXTitledPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jXLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jScrollPane1.setViewportView(jXPanel1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(8, 8, 8)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1326, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
-        );
+        add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jXHyperlink1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXHyperlink1ActionPerformed
@@ -428,11 +493,18 @@ public final class WelcomeTopComponent extends TopComponent {
     private org.jdesktop.swingx.JXLabel jXLabel10;
     private org.jdesktop.swingx.JXLabel jXLabel11;
     private org.jdesktop.swingx.JXLabel jXLabel12;
-    private org.jdesktop.swingx.JXLabel jXLabel13;
     private org.jdesktop.swingx.JXLabel jXLabel14;
     private org.jdesktop.swingx.JXLabel jXLabel15;
     private org.jdesktop.swingx.JXLabel jXLabel16;
+    private org.jdesktop.swingx.JXLabel jXLabel17;
+    private org.jdesktop.swingx.JXLabel jXLabel18;
+    private org.jdesktop.swingx.JXLabel jXLabel19;
     private org.jdesktop.swingx.JXLabel jXLabel2;
+    private org.jdesktop.swingx.JXLabel jXLabel20;
+    private org.jdesktop.swingx.JXLabel jXLabel21;
+    private org.jdesktop.swingx.JXLabel jXLabel22;
+    private org.jdesktop.swingx.JXLabel jXLabel23;
+    private org.jdesktop.swingx.JXLabel jXLabel24;
     private org.jdesktop.swingx.JXLabel jXLabel3;
     private org.jdesktop.swingx.JXLabel jXLabel4;
     private org.jdesktop.swingx.JXLabel jXLabel5;

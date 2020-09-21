@@ -3,25 +3,36 @@ package com.acuilab.bc.main.wallet.action;
 import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.dao.WalletDAO;
 import com.acuilab.bc.main.manager.BlockChainManager;
+import com.acuilab.bc.main.util.AESUtil;
+import com.acuilab.bc.main.wallet.Wallet;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import static javax.swing.Action.NAME;
-import com.acuilab.bc.main.wallet.Wallet;
 import com.acuilab.bc.main.wallet.WalletListTopComponent;
 import com.acuilab.bc.main.wallet.wizard.MnemonicConfirmWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.MnemonicGenerateWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.NameCoinWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.PasswordWizardPanel;
 import java.awt.Component;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.JComponent;
+import org.apache.commons.lang3.StringUtils;
+import org.javatuples.Pair;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
 import org.openide.util.Exceptions;
 import org.openide.windows.WindowManager;
+import org.springframework.util.DigestUtils;
 
 /**
  *
@@ -61,25 +72,31 @@ public class CreateAction extends AbstractAction {
                     wiz.setTitleFormat(new MessageFormat("{0}"));
                     wiz.setTitle("创建钱包");
                     if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
-                        // TODO: 
                         String pwd = (String)wiz.getProperty("password");
                         String walletName = (String)wiz.getProperty("walletName");
                         String coinSymbal = (String)wiz.getProperty("coinSymbal");
                         List<String> mnemonicWords = (List<String>)wiz.getProperty("mnemonicWords");
 
-                        System.out.println("walletName=" + walletName + ", coinSymbal=" + coinSymbal + ", words=" + mnemonicWords.get(0));
-
                         // 保存钱包到数据库
                         BlockChain blockChain = BlockChainManager.getDefault().getBlockChain(coinSymbal);
-                        Wallet wallet = blockChain.createWalletByMnemonic(walletName, pwd, mnemonicWords);
+                        Pair<String, String> pair = blockChain.createWalletByMnemonic(mnemonicWords);
+                        
+                        // 密码取md5
+                        String pwdMD5 = DigestUtils.md5DigestAsHex(pwd.getBytes()); 
+
+                        // 助记词和私钥加密
+                        String mnemonicAES = AESUtil.encrypt(StringUtils.join(mnemonicWords, " "), pwd);
+                        String privateKeyAES = AESUtil.encrypt(pair.getValue1(), pwd);
+
+                        // 保存钱包
+                        Wallet wallet = new Wallet(walletName, pwdMD5, blockChain.getSymbol(), pair.getValue0(), privateKeyAES, mnemonicAES, new Date());
                         WalletDAO.insert(wallet);
 
-                        
                         // 重新加载钱包列表
                         WalletListTopComponent tc = (WalletListTopComponent)WindowManager.getDefault().findTopComponent("WalletListTopComponent");
                         tc.addWallet(wallet);
                     }
-                } catch (SQLException ex) {
+                } catch (SQLException | NoSuchAlgorithmException | NoSuchPaddingException | UnsupportedEncodingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex) {
                     Exceptions.printStackTrace(ex);
                 }
     }

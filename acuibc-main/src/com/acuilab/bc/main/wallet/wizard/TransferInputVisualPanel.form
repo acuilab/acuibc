@@ -47,7 +47,6 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="recvAddressFld" alignment="0" max="32767" attributes="0"/>
                   <Component id="valueFld" alignment="0" max="32767" attributes="0"/>
                   <Component id="sendAddressFld" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
@@ -69,6 +68,11 @@
                       <Component id="gasDefaultCheckBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="recvAddressFld" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="pasteBtn" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -81,6 +85,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jXLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="recvAddressFld" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="pasteBtn" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -108,7 +113,7 @@
                   <Component id="fastLbl" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="gasLbl" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="239" max="32767" attributes="0"/>
+              <EmptySpace pref="237" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -221,6 +226,16 @@
       </Properties>
       <Events>
         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="gasSpinnerStateChanged"/>
+      </Events>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXButton" name="pasteBtn">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="TransferInputVisualPanel.pasteBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pasteBtnActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

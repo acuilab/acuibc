@@ -72,7 +72,7 @@ public class PasswordWizardPanel implements WizardDescriptor.ValidatingPanel<Wiz
         Pattern pattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,16}$");
         Matcher matcher = pattern.matcher(component.getPwdField().getText());
         if(!matcher.matches()) {
-            throw new WizardValidationException(null, "Invalid Password", null);
+            throw new WizardValidationException(null, "密码不符合要求", null);
         }
         
         String pwdConfirm = component.getPwdConfirmFeild().getText();

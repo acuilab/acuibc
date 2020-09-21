@@ -3,6 +3,7 @@ package com.acuilab.bc.main.wallet.wizard;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import org.jdesktop.swingx.prompt.PromptSupport;
+import org.openide.util.ImageUtilities;
 
 public final class PasswordVisualPanel extends JPanel {
 
@@ -42,6 +43,8 @@ public final class PasswordVisualPanel extends JPanel {
         jXLabel6 = new org.jdesktop.swingx.JXLabel();
         pwdFld = new javax.swing.JPasswordField();
         pwdConfirmFld = new javax.swing.JPasswordField();
+        viewConfirmPwdBtn = new org.jdesktop.swingx.JXButton();
+        viewPwdBtn = new org.jdesktop.swingx.JXButton();
 
         setMinimumSize(new java.awt.Dimension(760, 540));
         setPreferredSize(new java.awt.Dimension(760, 540));
@@ -68,6 +71,24 @@ public final class PasswordVisualPanel extends JPanel {
         PromptSupport.init("请再次输入钱包密码", null, null, pwdConfirmFld);
         pwdConfirmFld.setText(org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.pwdConfirmFld.text_1")); // NOI18N
 
+        viewConfirmPwdBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/eye.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(viewConfirmPwdBtn, org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.viewConfirmPwdBtn.text")); // NOI18N
+        viewConfirmPwdBtn.setToolTipText(org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.viewConfirmPwdBtn.toolTipText")); // NOI18N
+        viewConfirmPwdBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewConfirmPwdBtnActionPerformed(evt);
+            }
+        });
+
+        viewPwdBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/eye.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(viewPwdBtn, org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.viewPwdBtn.text")); // NOI18N
+        viewPwdBtn.setToolTipText(org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.viewPwdBtn.toolTipText")); // NOI18N
+        viewPwdBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewPwdBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -76,16 +97,23 @@ public final class PasswordVisualPanel extends JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jXLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jXLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE)
+                    .addComponent(jXLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE)
                     .addComponent(jXLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jXLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pwdFld, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jXLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(pwdConfirmFld, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jXLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(pwdConfirmFld))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(viewConfirmPwdBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pwdFld)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(viewPwdBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -94,7 +122,9 @@ public final class PasswordVisualPanel extends JPanel {
                 .addContainerGap()
                 .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pwdFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(viewPwdBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(pwdFld))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -106,10 +136,33 @@ public final class PasswordVisualPanel extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pwdConfirmFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(viewConfirmPwdBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(pwdConfirmFld))
+                .addContainerGap(241, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void viewConfirmPwdBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewConfirmPwdBtnActionPerformed
+        if(pwdConfirmFld.getEchoChar() != '\0') {
+            pwdConfirmFld.setEchoChar('\0');
+            viewPwdBtn.setIcon(ImageUtilities.loadImageIcon("/resource/eye-slash.png", true));
+        } else {
+            pwdConfirmFld.setEchoChar('●');
+            viewPwdBtn.setIcon(ImageUtilities.loadImageIcon("/resource/eye.png", true));
+        }
+    }//GEN-LAST:event_viewConfirmPwdBtnActionPerformed
+
+    private void viewPwdBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewPwdBtnActionPerformed
+        if(pwdFld.getEchoChar() != '\0') {
+            pwdFld.setEchoChar('\0');
+            viewPwdBtn.setIcon(ImageUtilities.loadImageIcon("/resource/eye-slash.png", true));
+        } else {
+            pwdFld.setEchoChar('●');
+            viewPwdBtn.setIcon(ImageUtilities.loadImageIcon("/resource/eye.png", true));
+        }
+        
+    }//GEN-LAST:event_viewPwdBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXLabel jXLabel1;
@@ -120,5 +173,7 @@ public final class PasswordVisualPanel extends JPanel {
     private org.jdesktop.swingx.JXLabel jXLabel6;
     private javax.swing.JPasswordField pwdConfirmFld;
     private javax.swing.JPasswordField pwdFld;
+    private org.jdesktop.swingx.JXButton viewConfirmPwdBtn;
+    private org.jdesktop.swingx.JXButton viewPwdBtn;
     // End of variables declaration//GEN-END:variables
 }

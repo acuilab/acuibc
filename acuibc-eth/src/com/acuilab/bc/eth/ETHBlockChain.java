@@ -4,10 +4,10 @@ package com.acuilab.bc.eth;
 
 import java.util.logging.Logger;
 import com.acuilab.bc.main.BlockChain;
-import com.acuilab.bc.main.wallet.Wallet;
 import java.awt.Image;
 import java.util.List;
 import javax.swing.Icon;
+import org.javatuples.Pair;
 import org.openide.util.ImageUtilities;
 
 /**
@@ -65,20 +65,20 @@ public class ETHBlockChain implements BlockChain {
         return ImageUtilities.loadImage("/resource/cfx" + size + ".png", true);
     }
 
-    @Override
-    public Wallet createWalletByMnemonic(String name, String pwd, List<String> mnemonicWords) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Wallet importWalletByPrivateKey(String name, String pwd, String privateKey) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Wallet importWalletByMnemonic(String name, String pwd, String mnemonic) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    @Override
+//    public Wallet createWalletByMnemonic(String name, String pwd, List<String> mnemonicWords) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public Wallet importWalletByPrivateKey(String name, String pwd, String privateKey) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public Wallet importWalletByMnemonic(String name, String pwd, String mnemonic) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 
     @Override
     public boolean isValidAddress(String address) {
@@ -88,6 +88,21 @@ public class ETHBlockChain implements BlockChain {
     @Override
     public String getTransactionDetailUrl(String hash) {
         return null;
+    }
+
+    @Override
+    public Pair<String, String> createWalletByMnemonic(List<String> mnemonicWords) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String importWalletByPrivateKey(String privateKey) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Pair<String, String> importWalletByMnemonic(String mnemonic) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

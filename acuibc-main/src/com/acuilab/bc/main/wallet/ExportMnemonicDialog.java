@@ -6,12 +6,22 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.KeyStroke;
+import net.java.balloontip.BalloonTip;
+import net.java.balloontip.examples.complete.Utils;
+import net.java.balloontip.utils.TimingUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 
 /**
@@ -34,15 +44,13 @@ public class ExportMnemonicDialog extends javax.swing.JDialog {
      * Creates new form ImportMnemonicDialog
      * @param parent
      * @param wallet
-     * @param privateKey
+     * @param password
      */
-    public ExportMnemonicDialog(java.awt.Frame parent, Wallet wallet, String privateKey) {
+    public ExportMnemonicDialog(java.awt.Frame parent, Wallet wallet, String mnemonic) {
         super(parent, true);
         initComponents();
         
-        //get 12 words
-        mnemonic = AESUtil.decrypt(wallet.getMnemonicAES(), privateKey);
-
+        this.mnemonic = mnemonic;
         String[] mnemonicWords = StringUtils.split(mnemonic, " ");
         this.mnemonicLbl1.setText(mnemonicWords[0]);
         this.mnemonicLbl2.setText(mnemonicWords[1]);
@@ -95,10 +103,10 @@ public class ExportMnemonicDialog extends javax.swing.JDialog {
         mnemonicLbl5 = new org.jdesktop.swingx.JXLabel();
         mnemonicLbl6 = new org.jdesktop.swingx.JXLabel();
         mnemonicLbl7 = new org.jdesktop.swingx.JXLabel();
+        mnemonicLbl8 = new org.jdesktop.swingx.JXLabel();
         mnemonicLbl9 = new org.jdesktop.swingx.JXLabel();
         mnemonicLbl10 = new org.jdesktop.swingx.JXLabel();
         mnemonicLbl11 = new org.jdesktop.swingx.JXLabel();
-        mnemonicLbl8 = new org.jdesktop.swingx.JXLabel();
         mnemonicLbl12 = new org.jdesktop.swingx.JXLabel();
         jXLabel3 = new org.jdesktop.swingx.JXLabel();
         copyBtn = new org.jdesktop.swingx.JXButton();
@@ -137,6 +145,9 @@ public class ExportMnemonicDialog extends javax.swing.JDialog {
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl7, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl7.text")); // NOI18N
         jXPanel1.add(mnemonicLbl7);
 
+        org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl8, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl8.text")); // NOI18N
+        jXPanel1.add(mnemonicLbl8);
+
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl9, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl9.text")); // NOI18N
         jXPanel1.add(mnemonicLbl9);
 
@@ -145,9 +156,6 @@ public class ExportMnemonicDialog extends javax.swing.JDialog {
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl11, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl11.text")); // NOI18N
         jXPanel1.add(mnemonicLbl11);
-
-        org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl8, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl8.text")); // NOI18N
-        jXPanel1.add(mnemonicLbl8);
 
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl12, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl12.text")); // NOI18N
         jXPanel1.add(mnemonicLbl12);
@@ -217,6 +225,19 @@ public class ExportMnemonicDialog extends javax.swing.JDialog {
     private void copyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyBtnActionPerformed
         Transferable str = new StringSelection(mnemonic);
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(str, null);
+        
+        // 气泡提示
+        try {
+            JLabel lbl = new JLabel("复制成功");
+            BalloonTip balloonTip = new BalloonTip(copyBtn, 
+                            lbl,
+                            Utils.createBalloonTipStyle(),
+                            Utils.createBalloonTipPositioner(), 
+                            null);
+            TimingUtils.showTimedBalloon(balloonTip, 2000);
+        } catch (Exception ex) {
+            Exceptions.printStackTrace(ex);
+        }
     }//GEN-LAST:event_copyBtnActionPerformed
     
     private void doClose(int retStatus) {

@@ -362,12 +362,14 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e){
                 jXPanel1.remove(lbl);
+                resetLabelIcon();
                 jXPanel1.revalidate();
                 jXPanel1.repaint();
                 source.setEnabled(true);
             }
         });
         jXPanel1.add(lbl);
+        resetLabelIcon();
         jXPanel1.revalidate();
         jXPanel1.repaint();
         source.setEnabled(false);
@@ -388,6 +390,14 @@ public final class MnemonicConfirmVisualPanel extends JPanel {
         }
 
         return StringUtils.startsWith(mnemonicWordsJoined, StringUtils.join(mnemonicWordsInput, " "));
+    }
+    
+    private void resetLabelIcon() {
+        Component[] comps = jXPanel1.getComponents();
+        for(int i=0; i<comps.length; i++) {
+            JLabel lbl = (JLabel)comps[i];
+            lbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n" + (i+1) + "-32.png")));
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

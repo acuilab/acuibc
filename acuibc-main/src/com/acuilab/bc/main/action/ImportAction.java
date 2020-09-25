@@ -1,7 +1,7 @@
 package com.acuilab.bc.main.action;
 
 import com.acuilab.bc.main.dao.WalletDAO;
-import com.acuilab.bc.main.ui.ExportFailDialog;
+import com.acuilab.bc.main.ui.ErrorDialog;
 import com.acuilab.bc.main.util.DateUtil;
 import com.acuilab.bc.main.wallet.Wallet;
 import java.awt.event.ActionEvent;
@@ -126,7 +126,7 @@ public class ImportAction extends AbstractAction {
                             // 迁入失败
 //                            NotifyDescriptor d = new NotifyDescriptor.Message(result);
 //                            DialogDisplayer.getDefault().notify(d);
-                            ExportFailDialog dlg = new ExportFailDialog(null, "迁入失败", result);
+                            ErrorDialog dlg = new ErrorDialog(null, "迁入失败", result);
                             dlg.setVisible(true);
                         }
                     } catch (InterruptedException | ExecutionException ex) {

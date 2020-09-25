@@ -11,6 +11,7 @@ import net.java.balloontip.examples.complete.Utils;
 import net.java.balloontip.utils.TimingUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.util.Exceptions;
+import org.openide.util.ImageUtilities;
 import party.loveit.bip44forjava.utils.Bip44Utils;
 
 public final class MnemonicGenerateVisualPanel extends JPanel {
@@ -88,39 +89,51 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
         jXPanel1.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
         jXPanel1.setLayout(new java.awt.GridLayout(4, 3, 10, 10));
 
+        mnemonicLbl1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n1-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl1, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl1.text")); // NOI18N
         jXPanel1.add(mnemonicLbl1);
 
+        mnemonicLbl2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n2-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl2, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl2.text")); // NOI18N
         jXPanel1.add(mnemonicLbl2);
 
+        mnemonicLbl3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n3-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl3, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl3.text")); // NOI18N
         jXPanel1.add(mnemonicLbl3);
 
+        mnemonicLbl4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n4-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl4, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl4.text")); // NOI18N
         jXPanel1.add(mnemonicLbl4);
 
+        mnemonicLbl5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n5-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl5, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl5.text")); // NOI18N
         jXPanel1.add(mnemonicLbl5);
 
+        mnemonicLbl6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n6-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl6, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl6.text")); // NOI18N
         jXPanel1.add(mnemonicLbl6);
 
+        mnemonicLbl7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n7-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl7, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl7.text")); // NOI18N
         jXPanel1.add(mnemonicLbl7);
 
+        mnemonicLbl8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n8-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl8, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl8.text")); // NOI18N
         jXPanel1.add(mnemonicLbl8);
 
+        mnemonicLbl9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n9-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl9, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl9.text")); // NOI18N
         jXPanel1.add(mnemonicLbl9);
 
+        mnemonicLbl10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n10-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl10, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl10.text")); // NOI18N
         jXPanel1.add(mnemonicLbl10);
 
+        mnemonicLbl11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n11-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl11, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl11.text")); // NOI18N
         jXPanel1.add(mnemonicLbl11);
 
+        mnemonicLbl12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n12-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl12, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.mnemonicLbl12.text")); // NOI18N
         jXPanel1.add(mnemonicLbl12);
 

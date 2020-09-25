@@ -2,6 +2,7 @@ package com.acuilab.bc.main;
 
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
+import com.acuilab.bc.main.ui.ConfirmDialog;
 import com.acuilab.bc.main.util.Constants;
 import java.io.File;
 import java.sql.Connection;
@@ -10,8 +11,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.openide.DialogDisplayer;
-import org.openide.NotifyDescriptor;
 import org.openide.modules.ModuleInstall;
 import org.openide.util.Exceptions;
 import org.openide.windows.WindowManager;
@@ -75,20 +74,20 @@ public class Installer extends ModuleInstall {
 		Exceptions.printStackTrace(ex);
 	    }
 	}
-//        
-//	try {
-//	    try (Statement stmt = getConnection().createStatement()) {
-//		stmt.execute("SELECT 1 FROM transferRecord");
-//	    }
-//	} catch(SQLException e) {
-//	    try {
-//		try (Statement stmt = getConnection().createStatement()) {
-//                    stmt.execute("CREATE TABLE transferRecord (coinName VARCHAR(255), status VARCHAR(255), sendAddress VARCHAR(255), recvAddress VARCHAR(255), remark VARCHAR(255), hash VARCHAR(255), created TIMESTAMP, PRIMARY KEY(hash))");
-//                }
-//	    } catch(SQLException ex) {
-//		Exceptions.printStackTrace(ex);
-//	    }
-//	}
+        
+	try {
+	    try (Statement stmt = getConnection().createStatement()) {
+		stmt.execute("SELECT 1 FROM addressBook");
+	    }
+	} catch(SQLException e) {
+	    try {
+		try (Statement stmt = getConnection().createStatement()) {
+                    stmt.execute("CREATE TABLE addressBook (id VARCHAR(255), address VARCHAR(255), remark VARCHAR(255), blockChainSymbol VARCHAR(255), created TIMESTAMP, PRIMARY KEY(id))");
+                }
+	    } catch(SQLException ex) {
+		Exceptions.printStackTrace(ex);
+	    }
+	}
     }
 
     @Override
@@ -98,12 +97,15 @@ public class Installer extends ModuleInstall {
 
     @Override
     public boolean closing() {
-        NotifyDescriptor descriptor = new NotifyDescriptor.Confirmation(
-                "您真的要退出该应用程序吗？",
-                "退出",
-                NotifyDescriptor.YES_NO_OPTION);
-        Object retval = DialogDisplayer.getDefault().notify(descriptor);
-        return retval.equals(NotifyDescriptor.YES_OPTION);
+//        NotifyDescriptor descriptor = new NotifyDescriptor.Confirmation(
+//                "您真的要退出该应用程序吗？",
+//                "退出",
+//                NotifyDescriptor.YES_NO_OPTION);
+//        Object retval = DialogDisplayer.getDefault().notify(descriptor);
+//        return retval.equals(NotifyDescriptor.YES_OPTION);
+        ConfirmDialog dlg = new ConfirmDialog(null, "退出", "您真的要退出该应用程序吗？");
+        dlg.setVisible(true);
+        return dlg.getReturnStatus() == ConfirmDialog.RET_OK;
     }
     
     

@@ -130,6 +130,9 @@
           <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicInputPanel.mnemonicRadio.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnemonicRadioActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JRadioButton" name="privateKeyRadio">
       <Properties>
@@ -137,6 +140,9 @@
           <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicInputPanel.privateKeyRadio.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="privateKeyRadioActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

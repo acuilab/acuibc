@@ -237,6 +237,7 @@ public final class WalletTopComponent extends TopComponent implements Observer {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(copyHashBtn, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.copyHashBtn.text")); // NOI18N
+        copyHashBtn.setToolTipText(org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.copyHashBtn.toolTipText")); // NOI18N
         copyHashBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 copyHashBtnActionPerformed(evt);
@@ -248,6 +249,7 @@ public final class WalletTopComponent extends TopComponent implements Observer {
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel6, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.jXLabel6.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(copyAddressBtn, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.copyAddressBtn.text")); // NOI18N
+        copyAddressBtn.setToolTipText(org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.copyAddressBtn.toolTipText")); // NOI18N
         copyAddressBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 copyAddressBtnActionPerformed(evt);
@@ -504,7 +506,7 @@ public final class WalletTopComponent extends TopComponent implements Observer {
 				Utils.createBalloonTipStyle(),
 				Utils.createBalloonTipPositioner(), 
 				null);
-		TimingUtils.showTimedBalloon(balloonTip, 3000);
+		TimingUtils.showTimedBalloon(balloonTip, 2000);
 	    } catch (Exception ex) {
 		Exceptions.printStackTrace(ex);
 	    }

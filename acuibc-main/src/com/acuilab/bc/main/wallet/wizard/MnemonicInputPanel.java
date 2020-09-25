@@ -77,8 +77,18 @@ public final class MnemonicInputPanel extends JPanel {
 
         mnemonicRadio.setSelected(true);
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicRadio, org.openide.util.NbBundle.getMessage(MnemonicInputPanel.class, "MnemonicInputPanel.mnemonicRadio.text")); // NOI18N
+        mnemonicRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnemonicRadioActionPerformed(evt);
+            }
+        });
 
         org.openide.awt.Mnemonics.setLocalizedText(privateKeyRadio, org.openide.util.NbBundle.getMessage(MnemonicInputPanel.class, "MnemonicInputPanel.privateKeyRadio.text")); // NOI18N
+        privateKeyRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                privateKeyRadioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -136,6 +146,16 @@ public final class MnemonicInputPanel extends JPanel {
             }
         }
     }//GEN-LAST:event_pasteBtnActionPerformed
+
+    private void mnemonicRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnemonicRadioActionPerformed
+        mnemonicLbl.setText("请输入您的助记词");
+        mnemonicArea.setPrompt("请依次填写助记词，以空格隔开");
+    }//GEN-LAST:event_mnemonicRadioActionPerformed
+
+    private void privateKeyRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_privateKeyRadioActionPerformed
+        mnemonicLbl.setText("请输入您的私钥");
+        mnemonicArea.setPrompt("请输入钱包的私钥地址");
+    }//GEN-LAST:event_privateKeyRadioActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;

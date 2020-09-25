@@ -119,6 +119,9 @@
       <SubComponents>
         <Component class="org.jdesktop.swingx.JXLabel" name="mnemonicLbl1">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/resource/n1-32.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
@@ -126,6 +129,9 @@
         </Component>
         <Component class="org.jdesktop.swingx.JXLabel" name="mnemonicLbl2">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/resource/n2-32.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
@@ -133,6 +139,9 @@
         </Component>
         <Component class="org.jdesktop.swingx.JXLabel" name="mnemonicLbl3">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/resource/n3-32.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl3.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
@@ -140,6 +149,9 @@
         </Component>
         <Component class="org.jdesktop.swingx.JXLabel" name="mnemonicLbl4">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/resource/n4-32.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl4.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
@@ -147,6 +159,9 @@
         </Component>
         <Component class="org.jdesktop.swingx.JXLabel" name="mnemonicLbl5">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/resource/n5-32.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl5.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
@@ -154,6 +169,9 @@
         </Component>
         <Component class="org.jdesktop.swingx.JXLabel" name="mnemonicLbl6">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/resource/n6-32.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl6.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
@@ -161,6 +179,9 @@
         </Component>
         <Component class="org.jdesktop.swingx.JXLabel" name="mnemonicLbl7">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/resource/n7-32.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl7.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
@@ -168,6 +189,9 @@
         </Component>
         <Component class="org.jdesktop.swingx.JXLabel" name="mnemonicLbl8">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/resource/n8-32.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl8.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
@@ -175,6 +199,9 @@
         </Component>
         <Component class="org.jdesktop.swingx.JXLabel" name="mnemonicLbl9">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/resource/n9-32.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl9.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
@@ -182,6 +209,9 @@
         </Component>
         <Component class="org.jdesktop.swingx.JXLabel" name="mnemonicLbl10">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/resource/n10-32.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl10.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
@@ -189,6 +219,9 @@
         </Component>
         <Component class="org.jdesktop.swingx.JXLabel" name="mnemonicLbl11">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/resource/n11-32.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl11.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
@@ -196,6 +229,9 @@
         </Component>
         <Component class="org.jdesktop.swingx.JXLabel" name="mnemonicLbl12">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/resource/n12-32.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="MnemonicGenerateVisualPanel.mnemonicLbl12.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>

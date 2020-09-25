@@ -32,6 +32,12 @@
             <file name="com.acuilab.bc.main.action.ExportAction.instance">
                 <attr intvalue="540" name="position"/>
             </file>
+            <file name="javax.swing.JSeparator.instance">
+                <attr intvalue="550" name="position"/>
+            </file>
+            <file name="com.acuilab.bc.main.wallet.action.AddressBookAction.instance">
+                <attr intvalue="560" name="position"/>
+            </file>
         </folder>
 <!--        <folder name="工具">
             <attr intvalue="600" name="position"/>
@@ -73,6 +79,12 @@
             </file>
             <file name="com.acuilab.bc.main.wallet.action.ImportAction.instance">
                 <attr intvalue="520" name="position"/>
+            </file>
+            <file name="javax.swing.JSeparator.instance">
+                <attr intvalue="525" name="position"/>
+            </file>
+            <file name="com.acuilab.bc.main.wallet.action.AddressBookAction.instance">
+                <attr intvalue="560" name="position"/>
             </file>
         </folder>
     </folder>

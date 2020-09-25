@@ -124,39 +124,51 @@ public class ExportMnemonicDialog extends javax.swing.JDialog {
         jXPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jXPanel1.setLayout(new java.awt.GridLayout(4, 3, 10, 10));
 
+        mnemonicLbl1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n1-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl1, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl1.text")); // NOI18N
         jXPanel1.add(mnemonicLbl1);
 
+        mnemonicLbl2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n2-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl2, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl2.text")); // NOI18N
         jXPanel1.add(mnemonicLbl2);
 
+        mnemonicLbl3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n3-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl3, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl3.text")); // NOI18N
         jXPanel1.add(mnemonicLbl3);
 
+        mnemonicLbl4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n4-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl4, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl4.text")); // NOI18N
         jXPanel1.add(mnemonicLbl4);
 
+        mnemonicLbl5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n5-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl5, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl5.text")); // NOI18N
         jXPanel1.add(mnemonicLbl5);
 
+        mnemonicLbl6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n6-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl6, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl6.text")); // NOI18N
         jXPanel1.add(mnemonicLbl6);
 
+        mnemonicLbl7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n7-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl7, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl7.text")); // NOI18N
         jXPanel1.add(mnemonicLbl7);
 
+        mnemonicLbl8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n8-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl8, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl8.text")); // NOI18N
         jXPanel1.add(mnemonicLbl8);
 
+        mnemonicLbl9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n9-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl9, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl9.text")); // NOI18N
         jXPanel1.add(mnemonicLbl9);
 
+        mnemonicLbl10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n10-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl10, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl10.text")); // NOI18N
         jXPanel1.add(mnemonicLbl10);
 
+        mnemonicLbl11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n11-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl11, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl11.text")); // NOI18N
         jXPanel1.add(mnemonicLbl11);
 
+        mnemonicLbl12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/n12-32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(mnemonicLbl12, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.mnemonicLbl12.text")); // NOI18N
         jXPanel1.add(mnemonicLbl12);
 

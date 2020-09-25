@@ -3,6 +3,8 @@ package com.acuilab.bc.main.wallet.wizard;
 import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.wallet.Coin;
 import com.acuilab.bc.main.manager.BlockChainManager;
+import com.acuilab.bc.main.wallet.Address;
+import com.acuilab.bc.main.wallet.AddressSelectDialog;
 import com.acuilab.bc.main.wallet.Wallet;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -13,7 +15,6 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.concurrent.ExecutionException;
-import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -21,7 +22,6 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
-import javax.swing.text.DefaultFormatter;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 import org.openide.util.Exceptions;
@@ -134,6 +134,7 @@ public final class TransferInputVisualPanel extends JPanel {
         gasDefaultCheckBox = new javax.swing.JCheckBox();
         gasSpinner = new javax.swing.JSpinner();
         pasteBtn = new org.jdesktop.swingx.JXButton();
+        selectBtn = new org.jdesktop.swingx.JXButton();
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.jXLabel1.text")); // NOI18N
 
@@ -192,6 +193,14 @@ public final class TransferInputVisualPanel extends JPanel {
             }
         });
 
+        org.openide.awt.Mnemonics.setLocalizedText(selectBtn, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.selectBtn.text")); // NOI18N
+        selectBtn.setToolTipText(org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.selectBtn.toolTipText")); // NOI18N
+        selectBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -224,6 +233,8 @@ public final class TransferInputVisualPanel extends JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(recvAddressFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(selectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pasteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -234,7 +245,8 @@ public final class TransferInputVisualPanel extends JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(recvAddressFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pasteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pasteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(selectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -298,6 +310,17 @@ public final class TransferInputVisualPanel extends JPanel {
         }
     }//GEN-LAST:event_pasteBtnActionPerformed
 
+    private void selectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectBtnActionPerformed
+
+        AddressSelectDialog dlg = new AddressSelectDialog(null, wallet.getBlockChainSymbol());
+        dlg.setVisible(true);
+        if(dlg.getReturnStatus() == AddressSelectDialog.RET_OK) {
+            Address address = dlg.getSelectedAddress();
+            recvAddressFld.setText(address.getAddress());
+            recvAddressFld.setToolTipText(address.getAddress() + "(" + address.getRemark() + ")");
+        }
+    }//GEN-LAST:event_selectBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXLabel fastLbl;
     private javax.swing.JCheckBox gasDefaultCheckBox;
@@ -310,6 +333,7 @@ public final class TransferInputVisualPanel extends JPanel {
     private org.jdesktop.swingx.JXLabel jXLabel4;
     private org.jdesktop.swingx.JXButton pasteBtn;
     private org.jdesktop.swingx.JXTextField recvAddressFld;
+    private org.jdesktop.swingx.JXButton selectBtn;
     private org.jdesktop.swingx.JXTextField sendAddressFld;
     private org.jdesktop.swingx.JXLabel slowLbl;
     private org.jdesktop.swingx.JXTextField valueFld;

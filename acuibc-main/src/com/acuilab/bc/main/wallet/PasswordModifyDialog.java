@@ -93,6 +93,8 @@ public class PasswordModifyDialog extends javax.swing.JDialog {
         jXLabel7 = new org.jdesktop.swingx.JXLabel();
         confirmPwdFld = new javax.swing.JPasswordField();
         infoLbl = new org.jdesktop.swingx.JXLabel();
+        jXLabel8 = new org.jdesktop.swingx.JXLabel();
+        jXLabel9 = new org.jdesktop.swingx.JXLabel();
 
         setTitle(org.openide.util.NbBundle.getMessage(PasswordModifyDialog.class, "PasswordModifyDialog.title")); // NOI18N
         setIconImage(ImageUtilities.loadImage("/resource/gourd32.png"));
@@ -139,6 +141,10 @@ public class PasswordModifyDialog extends javax.swing.JDialog {
         infoLbl.setForeground(new java.awt.Color(255, 0, 0));
         org.openide.awt.Mnemonics.setLocalizedText(infoLbl, org.openide.util.NbBundle.getMessage(PasswordModifyDialog.class, "PasswordModifyDialog.infoLbl.text")); // NOI18N
 
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel8, org.openide.util.NbBundle.getMessage(PasswordModifyDialog.class, "PasswordModifyDialog.jXLabel8.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel9, org.openide.util.NbBundle.getMessage(PasswordModifyDialog.class, "PasswordModifyDialog.jXLabel9.text")); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -165,12 +171,17 @@ public class PasswordModifyDialog extends javax.swing.JDialog {
                                     .addComponent(jXLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jXLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jXLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(333, 333, 333))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(oldPwdFld)
                                     .addComponent(newPwdFld)
-                                    .addComponent(confirmPwdFld))
+                                    .addComponent(confirmPwdFld)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jXLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jXLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
                                 .addContainerGap())))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(infoLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -203,8 +214,12 @@ public class PasswordModifyDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jXLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jXLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(infoLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
                     .addComponent(okButton))
@@ -235,7 +250,11 @@ public class PasswordModifyDialog extends javax.swing.JDialog {
         }
         String newPwd = String.valueOf(newPwdFld.getPassword());
         // 正则表达式：必须要有一个小写字母，一个大写字母和一个数字，并且是8-16位
-        Pattern pattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,16}$");
+        // (?=.*[a-z])  至少存在一位小写字母字符
+        // (?=.*[A-Z])  至少存在一位大写字母字符
+        // (?=.*[0-9])  至少存在一位数字字符
+        // ~!@#$%^&*()_+`\\-={}:\\\";'<>?,.\\/  英文特殊字符
+        Pattern pattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9~!@#$%^&*()_+`\\-={}:\\\";'<>?,.\\/]{8,16}$");
         Matcher matcher = pattern.matcher(newPwd);
         if(!matcher.matches()) {
             infoLbl.setText("新密码不符合要求");
@@ -289,6 +308,8 @@ public class PasswordModifyDialog extends javax.swing.JDialog {
     private org.jdesktop.swingx.JXLabel jXLabel5;
     private org.jdesktop.swingx.JXLabel jXLabel6;
     private org.jdesktop.swingx.JXLabel jXLabel7;
+    private org.jdesktop.swingx.JXLabel jXLabel8;
+    private org.jdesktop.swingx.JXLabel jXLabel9;
     private javax.swing.JPasswordField newPwdFld;
     private javax.swing.JButton okButton;
     private javax.swing.JPasswordField oldPwdFld;

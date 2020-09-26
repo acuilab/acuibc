@@ -93,6 +93,7 @@ public class ExportPrivateKeyDialog extends javax.swing.JDialog {
             }
         });
 
+        jXLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/warning32.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(ExportPrivateKeyDialog.class, "ExportPrivateKeyDialog.jXLabel1.text")); // NOI18N
 
         privateKeyArea.setEditable(false);
@@ -127,7 +128,7 @@ public class ExportPrivateKeyDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())

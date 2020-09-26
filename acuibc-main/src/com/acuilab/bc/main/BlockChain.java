@@ -1,6 +1,5 @@
 package com.acuilab.bc.main;
 
-import com.acuilab.bc.main.wallet.Wallet;
 import java.awt.Image;
 import java.util.List;
 import javax.swing.Icon;
@@ -99,4 +98,15 @@ public interface BlockChain {
      * @return 
      */
     String getTransactionDetailUrl(String hash);
+    
+    /**
+     * 获得交易状态
+     * @param hash
+     * @return 
+     */
+    TransactionStatus getTransactionStatusByHash(String hash);
+    
+    enum TransactionStatus {
+        UNKNOWN, SUCCESS, FAILED
+    }
 }

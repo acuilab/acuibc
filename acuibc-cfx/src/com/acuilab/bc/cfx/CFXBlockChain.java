@@ -1,17 +1,13 @@
 package com.acuilab.bc.cfx;
 
-import com.acuilab.bc.main.util.AESUtil;
-import com.acuilab.bc.main.wallet.Wallet;
 import conflux.web3j.Account;
 import conflux.web3j.Cfx;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.DigestUtils;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.utils.Numeric;
 import party.loveit.bip44forjava.utils.Bip44Utils;
@@ -19,11 +15,13 @@ import javax.swing.Icon;
 import org.openide.util.ImageUtilities;
 import com.acuilab.bc.main.BlockChain;
 import conflux.web3j.response.Status;
+import conflux.web3j.response.Transaction;
 import conflux.web3j.types.Address;
 import conflux.web3j.types.AddressException;
 import conflux.web3j.types.RawTransaction;
 import java.awt.Image;
 import java.util.Arrays;
+import java.util.Optional;
 import org.javatuples.Pair;
 
 /**
@@ -39,6 +37,8 @@ public class CFXBlockChain implements BlockChain {
     public static final String SYMBOL = "CFX";
     
     public static final String TRANSACTIONS_DETAIL_URL = "http://www.confluxscan.io/transactionsdetail/";
+    public static final int REFRESH_DELAY_MILLISECONDS = 2000;  // 延时毫秒数，以便服务器准备交易记录和余额
+    public static final int GET_TRANSACTION_STATUS_INTERVAL_MILLISECONDS = 2000;  // 获得交易状态的时间间隔
     
     private Cfx cfx;
     private BigInteger chainId;
@@ -214,5 +214,45 @@ public class CFXBlockChain implements BlockChain {
     @Override
     public String getTransactionDetailUrl(String hash) {
         return TRANSACTIONS_DETAIL_URL + hash;
+    }
+
+    @Override
+    public TransactionStatus getTransactionStatusByHash(String hash) {
+        
+        int count = 8;
+        while(count > 0) {
+            Transaction trans = cfx.getTransactionByHash(hash).sendAndGet().orElse(null);
+            if(trans != null) {
+                String blockHash =  trans.getBlockHash().orElse(null);
+                if(blockHash != null) {
+                    
+                    BigInteger result = trans.getStatus().orElse(null);
+                    
+                    // '0x0'成功执行; '0x1'异常发生，但是nonce值增加; '0x2' 异常发生，并且nonce值没有增加.
+                    if(result != null && result.equals(BigInteger.ZERO)) {
+                        // 成功执行
+                        try {
+                            Thread.sleep(REFRESH_DELAY_MILLISECONDS);
+                        } catch (InterruptedException ex) {
+                        }
+                        
+                        return TransactionStatus.SUCCESS;
+                    }
+                    
+                    return TransactionStatus.FAILED;
+                }
+            }
+            
+            count--;
+            
+            // 休眠2秒钟
+            try {
+                Thread.sleep(GET_TRANSACTION_STATUS_INTERVAL_MILLISECONDS);
+            } catch (InterruptedException ex) {
+            }
+        }
+
+        
+        return TransactionStatus.UNKNOWN;
     }
 }

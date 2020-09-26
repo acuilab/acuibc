@@ -104,5 +104,10 @@ public class ETHBlockChain implements BlockChain {
     public Pair<String, String> importWalletByMnemonic(String mnemonic) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public TransactionStatus getTransactionStatusByHash(String hash) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

@@ -1,15 +1,22 @@
 package com.acuilab.bc.main.wallet;
 
+import com.acuilab.bc.main.BlockChain;
+import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.util.AESUtil;
 import com.acuilab.bc.main.wallet.wizard.PasswordInputWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.TransferConfirmWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.TransferInputWizardPanel;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Desktop;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.net.URI;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +50,11 @@ import org.jdesktop.swingx.decorator.HighlighterFactory;
 import org.jdesktop.swingx.table.TableColumnExt;
 import org.netbeans.api.progress.ProgressHandle;
 import org.openide.DialogDisplayer;
+import org.openide.LifecycleManager;
 import org.openide.WizardDescriptor;
+import org.openide.awt.NotificationDisplayer;
 import org.openide.util.Exceptions;
+import org.openide.util.ImageUtilities;
 
 /**
  *
@@ -60,6 +70,7 @@ public class CoinPanel extends JXPanel {
 
     /**
      * Creates new form CoinPanel
+     * @param parent
      * @param wallet
      * @param coin
      * @param balance
@@ -429,13 +440,85 @@ public class CoinPanel extends JXPanel {
                 } catch (Exception ex) {
                     Exceptions.printStackTrace(ex);
                 }
+                
+                // 根据交易哈希查询转账结果
+                System.out.println("根据交易哈希查询转账结果");
+                final ProgressHandle ph = ProgressHandle.createHandle("正在查询交易状态，请稍候");
+                SwingWorker<BlockChain.TransactionStatus, Void> worker = new SwingWorker<BlockChain.TransactionStatus, Void>() {
+                    BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
+                    
+                    @Override
+                    protected BlockChain.TransactionStatus doInBackground() throws Exception {
+                        ph.start();
+                        System.out.println("获得交易状态");
+                        return bc.getTransactionStatusByHash(hash);
+                    }
+
+                    @Override
+                    protected void done() {
+                        ph.finish();
+                        System.out.println("通知用户");
+                        try {
+                            BlockChain.TransactionStatus result = get();
+                            
+                            if(result == BlockChain.TransactionStatus.SUCCESS) {
+                                // 交易成功，刷新余额及交易记录
+                                refreshBtnActionPerformed(null);
+                            } else if(result == BlockChain.TransactionStatus.FAILED) {
+                                // 交易失败
+                                NotificationDisplayer.getDefault().notify(
+                                        "交易失败",
+                                        ImageUtilities.loadImageIcon("resource/gourd32.png", false),
+                                        "交易失败，请重试", 
+                                        null);
+                            } else {
+                                // 交易为确认，提示用户手动查询交易结果
+                                NotificationDisplayer.getDefault().notify(
+                                        "交易尚未确认",
+                                        ImageUtilities.loadImageIcon("resource/gourd32.png", false),
+                                        "点击此处打开区块链浏览器查询交易状态",
+                                        new LinkAction(bc.getTransactionDetailUrl(hash))
+                                );
+                            }
+                        } catch (InterruptedException | ExecutionException ex) {
+                            Exceptions.printStackTrace(ex);
+                        }
+                    }
+                };
+                worker.execute();
+                
+                
             } catch (Exception ex) {
                 Exceptions.printStackTrace(ex);
             }
         }
     }//GEN-LAST:event_transferBtnActionPerformed
 
+    private static final class LinkAction implements ActionListener {
+        
+        private final String transactionDetailUrl;
+
+        public LinkAction(String transactionDetailUrl) {
+            this.transactionDetailUrl = transactionDetailUrl;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(Desktop.isDesktopSupported()) {
+                try {
+                    if(Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                        // 打开默认浏览器
+                        Desktop.getDesktop().browse(URI.create(transactionDetailUrl));
+                    }
+                } catch (IOException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+            }
+        }
+    }
+    
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
+        System.out.println("refreshBtnActionPerformed");
         refreshBtn.setEnabled(false);
         final ProgressHandle ph = ProgressHandle.createHandle("正在请求余额及交易记录，请稍候");
         SwingWorker<Pair<BigInteger, List<TransferRecord>>, Void> worker = new SwingWorker<Pair<BigInteger, List<TransferRecord>>, Void>() {
@@ -443,9 +526,11 @@ public class CoinPanel extends JXPanel {
             protected Pair<BigInteger, List<TransferRecord>> doInBackground() throws Exception {
                 ph.start();
                 // 请求余额
+                System.out.println("请求余额");
                 BigInteger balance = coin.balanceOf(wallet.getAddress());
 
                 // 请求历史记录
+                System.out.println("请求历史记录");
                 List<TransferRecord> transferRecords = coin.getTransferRecords(wallet, coin, wallet.getAddress(), (Integer)limitSpinner.getValue());
                 
                 return new Pair(balance, transferRecords);
@@ -453,16 +538,22 @@ public class CoinPanel extends JXPanel {
 
             @Override
             protected void done() {
+                System.out.println("done");
                 try {
                     Pair<BigInteger, List<TransferRecord>> pair = get();
-                    
+                    // 余额
                     String balance = coin.minUnit2MainUint(pair.getValue0()).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit();
+                    System.out.println("blance==============" + balance);
                     balanceFld.setText(balance);
                     balanceFld.setToolTipText(balance);
+                    balanceFld.repaint();
+                    // 交易记录
                     tableModel.clear();
                     tableModel.add(pair.getValue1());
-                    table.setHorizontalScrollEnabled(true);
-                    table.packAll();
+//                    table.setHorizontalScrollEnabled(true);
+//                    table.packAll();
+//                    table.validate();
+                    table.repaint();
                 } catch (InterruptedException | ExecutionException ex) {
                     Exceptions.printStackTrace(ex);
                 }

@@ -51,7 +51,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jXLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="373" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="366" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="copyBtn" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -62,6 +62,9 @@
   <SubComponents>
     <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel1">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/resource/warning32.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="ExportPrivateKeyDialog.jXLabel1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>

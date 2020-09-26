@@ -69,7 +69,11 @@ public class PasswordWizardPanel implements WizardDescriptor.ValidatingPanel<Wiz
     public void validate() throws WizardValidationException {
         String pwd = component.getPwdField().getText();
         // 正则表达式：必须要有一个小写字母，一个大写字母和一个数字，并且是8-16位
-        Pattern pattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,16}$");
+        // (?=.*[a-z])  至少存在一位小写字母字符
+        // (?=.*[A-Z])  至少存在一位大写字母字符
+        // (?=.*[0-9])  至少存在一位数字字符
+        // ~!@#$%^&*()_+`\\-={}:\\\";'<>?,.\\/  英文特殊字符
+        Pattern pattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9~!@#$%^&*()_+`\\-={}:\\\";'<>?,.\\/]{8,16}$");
         Matcher matcher = pattern.matcher(component.getPwdField().getText());
         if(!matcher.matches()) {
             throw new WizardValidationException(null, "密码不符合要求", null);

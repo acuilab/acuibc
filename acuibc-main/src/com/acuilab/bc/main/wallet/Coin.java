@@ -148,4 +148,19 @@ public interface Coin {
 //        BASE, TOKEN
 //    }
     
+    /**
+     * 获得合约地址，非主网币需覆盖此方法以提供合约地址
+     * @return 
+     */
+    default String getContractAddress() {
+        return null;
+    }
+    
+    /**
+     * 主网币的合约地址为空，此方法子类不需要覆盖
+     * @return 
+     */
+    default boolean isBaseCoin() {
+        return getContractAddress() == null;
+    }
 }

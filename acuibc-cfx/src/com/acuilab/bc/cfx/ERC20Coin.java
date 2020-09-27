@@ -2,7 +2,6 @@ package com.acuilab.bc.cfx;
 
 import static com.acuilab.bc.cfx.FCCoin.CONTRACT_ADDRESS;
 import com.acuilab.bc.main.wallet.Coin;
-import com.acuilab.bc.main.wallet.TokenCoin;
 import com.acuilab.bc.main.wallet.TransferRecord;
 import com.acuilab.bc.main.wallet.Wallet;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -15,7 +14,6 @@ import conflux.web3j.contract.ContractCall;
 import conflux.web3j.contract.ERC20Call;
 import conflux.web3j.contract.ERC20Executor;
 import conflux.web3j.response.UsedGasAndCollateral;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.Date;
@@ -34,7 +32,7 @@ import org.web3j.abi.datatypes.Address;
  *
  * @author admin
  */
-public abstract class ERC20Coin implements TokenCoin {
+public abstract class ERC20Coin implements Coin {
     
     private static final Logger LOG = Logger.getLogger(ERC20Coin.class.getName());
 

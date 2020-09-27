@@ -55,6 +55,7 @@ import org.openide.WizardDescriptor;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
+import org.openide.windows.WindowManager;
 
 /**
  *
@@ -91,9 +92,9 @@ public class CoinPanel extends JXPanel {
         balanceFld.setText(balanceStr);
         balanceFld.setToolTipText(balanceStr);
         // 合约地址
-        if(coin instanceof TokenCoin) {
-            TokenCoin tokenCoin = (TokenCoin)coin;
-            contractAddressFld.setText(tokenCoin.getContractAddress());
+        if(!coin.isBaseCoin()) {
+            contractAddressFld.setText(coin.getContractAddress());
+            contractAddressFld.setToolTipText(coin.getContractAddress());
         } else {
             contractAddressLbl.setText("");
             contractAddressFld.setText("");
@@ -469,8 +470,9 @@ public class CoinPanel extends JXPanel {
                                 NotificationDisplayer.getDefault().notify(
                                         "交易失败",
                                         ImageUtilities.loadImageIcon("resource/gourd32.png", false),
-                                        "交易失败，请重试", 
-                                        null);
+                                        "点击此处打开区块链浏览器查询交易状态",
+                                        new LinkAction(bc.getTransactionDetailUrl(hash))
+                                );
                             } else {
                                 // 交易为确认，提示用户手动查询交易结果
                                 NotificationDisplayer.getDefault().notify(
@@ -543,17 +545,25 @@ public class CoinPanel extends JXPanel {
                     Pair<BigInteger, List<TransferRecord>> pair = get();
                     // 余额
                     String balance = coin.minUnit2MainUint(pair.getValue0()).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit();
-                    System.out.println("blance==============" + balance);
                     balanceFld.setText(balance);
                     balanceFld.setToolTipText(balance);
                     balanceFld.repaint();
                     // 交易记录
                     tableModel.clear();
                     tableModel.add(pair.getValue1());
-//                    table.setHorizontalScrollEnabled(true);
-//                    table.packAll();
-//                    table.validate();
                     table.repaint();
+                    
+                    // 主网币更新左侧对应的WalletPanel余额
+                    if(coin.isBaseCoin()) {
+                        WalletListTopComponent tc = (WalletListTopComponent)WindowManager.getDefault().findTopComponent("WalletListTopComponent");
+                        if(tc != null) {
+                            WalletPanel walletPanel = tc.getWalletPanel(wallet.getName());
+                            if(walletPanel != null) {
+                                walletPanel.setBalance(pair.getValue0());
+                            }
+                        }
+                    }
+
                 } catch (InterruptedException | ExecutionException ex) {
                     Exceptions.printStackTrace(ex);
                 }

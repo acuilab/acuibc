@@ -6,9 +6,7 @@ import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
 import com.google.common.collect.Maps;
 import java.awt.Component;
-import java.awt.Font;
 import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.util.List;
 import org.netbeans.api.settings.ConvertAsProperties;
@@ -19,7 +17,6 @@ import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -55,8 +52,8 @@ import org.netbeans.api.progress.ProgressHandle;
 public final class WalletListTopComponent extends TopComponent {
     
     private final Map<String, JXTaskPane> taskPaneMap = Maps.newHashMap();  // blockChainSysbol
-    private final Map<String, WalletPanel> walletPanelMap = Maps.newHashMap();  // name, WalletPanel
-    private final Map<String, Component> strutMap = Maps.newHashMap();          // name, strut
+    private final Map<String, WalletPanel> walletPanelMap = Maps.newHashMap();  // walletName, WalletPanel
+    private final Map<String, Component> strutMap = Maps.newHashMap();          // walletName, strut
 
     public WalletListTopComponent() {
         initComponents();
@@ -143,6 +140,10 @@ public final class WalletListTopComponent extends TopComponent {
         } catch (SQLException ex) {
             Exceptions.printStackTrace(ex);
         }
+    }
+    
+    public WalletPanel getWalletPanel(String walletName) {
+        return walletPanelMap.get(walletName);
     }
     
     public void addWallet(Wallet wallet) {

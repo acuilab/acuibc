@@ -150,7 +150,7 @@ public class CFXCoin implements Coin {
             // "query.pageSize" do not match condition "<=100", got: 140
             limit = 100;
         }
-        String url = TRANSACTION_LIST_URL + "?skip=0&limit=" + limit + "&accountAddress=" + address;
+        String url = TRANSACTION_LIST_URL + "?skip=0&reverse=true&limit=" + limit + "&accountAddress=" + address;
         System.out.println("url=" + url);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)

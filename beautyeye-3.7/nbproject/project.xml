@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.apisupport.project</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
+            <code-name-base>org.jb2011.lnf.beautyeye</code-name-base>
+            <standalone/>
+            <module-dependencies/>
+            <public-packages>
+                <package>org.jb2011.lnf.beautyeye</package>
+                <package>org.jb2011.lnf.beautyeye.ch10_internalframe</package>
+                <package>org.jb2011.lnf.beautyeye.ch12_progress</package>
+                <package>org.jb2011.lnf.beautyeye.ch13_radio$cb_btn</package>
+                <package>org.jb2011.lnf.beautyeye.ch14_combox</package>
+                <package>org.jb2011.lnf.beautyeye.ch15_slider</package>
+                <package>org.jb2011.lnf.beautyeye.ch16_tree</package>
+                <package>org.jb2011.lnf.beautyeye.ch17_split</package>
+                <package>org.jb2011.lnf.beautyeye.ch18_spinner</package>
+                <package>org.jb2011.lnf.beautyeye.ch19_list</package>
+                <package>org.jb2011.lnf.beautyeye.ch1_titlepane</package>
+                <package>org.jb2011.lnf.beautyeye.ch20_filechooser</package>
+                <package>org.jb2011.lnf.beautyeye.ch2_tab</package>
+                <package>org.jb2011.lnf.beautyeye.ch3_button</package>
+                <package>org.jb2011.lnf.beautyeye.ch4_scroll</package>
+                <package>org.jb2011.lnf.beautyeye.ch5_table</package>
+                <package>org.jb2011.lnf.beautyeye.ch6_textcoms</package>
+                <package>org.jb2011.lnf.beautyeye.ch7_popup</package>
+                <package>org.jb2011.lnf.beautyeye.ch8_toolbar</package>
+                <package>org.jb2011.lnf.beautyeye.ch9_menu</package>
+                <package>org.jb2011.lnf.beautyeye.ch_x</package>
+                <package>org.jb2011.lnf.beautyeye.resources</package>
+                <package>org.jb2011.lnf.beautyeye.utils</package>
+                <package>org.jb2011.lnf.beautyeye.widget</package>
+                <package>org.jb2011.lnf.beautyeye.widget.border</package>
+                <package>org.jb2011.lnf.beautyeye.winlnfutils</package>
+                <package>org.jb2011.ninepatch4j</package>
+            </public-packages>
+            <class-path-extension>
+                <runtime-relative-path>ext/beautyeye_lnf.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/beautyeye_lnf.jar</binary-origin>
+            </class-path-extension>
+        </data>
+    </configuration>
+</project>

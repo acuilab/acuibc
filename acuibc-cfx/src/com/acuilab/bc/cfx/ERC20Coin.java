@@ -37,7 +37,7 @@ public abstract class ERC20Coin implements Coin {
     private static final Logger LOG = Logger.getLogger(ERC20Coin.class.getName());
 
     // http://scan-dev-service.conflux-chain.org:8885/api/transfer/list?pageSize=10&page=1&address=0x87010faf5964d67ed070bc4b8dcafa1e1adc0997&accountAddress=0x1eff4db4696253106ae18ca96e092a0f354ef7c8
-    public static final String TRANSFER_LIST_URL = "http://scan-dev-service.conflux-chain.org:8885/api/transfer/list";
+    public static final String TRANSFER_LIST_URL = "http://scan-dev-service.conflux-chain.org:8885/v1/transfer";
     
     private BigInteger estimateGas;
     
@@ -80,7 +80,7 @@ public abstract class ERC20Coin implements Coin {
             // "query.pageSize" do not match condition "<=100", got: 140
             limit = 100;
         }
-        String url = TRANSFER_LIST_URL + "?page=1&pageSize=" + limit + "&address=" + getContractAddress() + "&accountAddress=" + address;
+        String url = TRANSFER_LIST_URL + "?skip=0&limit=" + limit + "&address=" + getContractAddress() + "&accountAddress=" + address;
         System.out.println("url=" + url);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
@@ -94,37 +94,26 @@ public abstract class ERC20Coin implements Coin {
         ResponseBody body = response.body();
         if(body != null) {
             // 解析json
-            String bodyStr = body.string();
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode root = mapper.readTree(bodyStr);
-            
-            //获取code字段值
-            JsonNode code = root.get("code");
-            if(StringUtils.equals("0", code.asText())) {
-                JsonNode result = root.get("result");
-                JsonNode total = result.get("total");
-                JsonNode list = result.get("list");
-                for (final JsonNode objNode : list) {
-                    TransferRecord transferRecord = new TransferRecord();
-                    transferRecord.setWalletName(wallet.getName());
-                    transferRecord.setWalletAddress(wallet.getAddress());
-                    transferRecord.setCoinName(coin.getName());
-                    JsonNode value = objNode.get("value");
-                    transferRecord.setValue(coin.minUnit2MainUint(new BigInteger(value.asText("0"))).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).stripTrailingZeros().toPlainString());
-                    JsonNode from = objNode.get("from");
-                    transferRecord.setSendAddress(from.asText());
-                    JsonNode to = objNode.get("to");
-                    transferRecord.setRecvAddress(to.asText());
-                    JsonNode hash = objNode.get("transactionHash");
-                    transferRecord.setHash(hash.asText());
-                    JsonNode timestamp = objNode.get("timestamp");
-                    transferRecord.setTimestamp(new Date(timestamp.asLong()*1000));
-                    
-                    transferRecords.add(transferRecord);
-                }
-            } else {
-                JsonNode message = root.get("message");
-                LOG.log(Level.WARNING, message.asText());
+            JsonNode root = mapper.readTree(body.string());
+            JsonNode list = root.get("list");
+            for (final JsonNode objNode : list) {
+                TransferRecord transferRecord = new TransferRecord();
+                transferRecord.setWalletName(wallet.getName());
+                transferRecord.setWalletAddress(wallet.getAddress());
+                transferRecord.setCoinName(coin.getName());
+                JsonNode value = objNode.get("value");
+                transferRecord.setValue(coin.minUnit2MainUint(new BigInteger(value.asText("0"))).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).stripTrailingZeros().toPlainString());
+                JsonNode from = objNode.get("from");
+                transferRecord.setSendAddress(from.asText());
+                JsonNode to = objNode.get("to");
+                transferRecord.setRecvAddress(to.asText());
+                JsonNode hash = objNode.get("transactionHash");
+                transferRecord.setHash(hash.asText());
+                JsonNode timestamp = objNode.get("timestamp");
+                transferRecord.setTimestamp(new Date(timestamp.asLong()*1000));
+
+                transferRecords.add(transferRecord);
             }
         }
 

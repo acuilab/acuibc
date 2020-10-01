@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: true
+OpenIDE-Module: org.jb2011.lnf.beautyeye
+OpenIDE-Module-Localizing-Bundle: org/jb2011/lnf/beautyeye/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

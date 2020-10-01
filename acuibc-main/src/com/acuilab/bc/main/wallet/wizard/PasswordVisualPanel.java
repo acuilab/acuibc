@@ -78,6 +78,7 @@ public final class PasswordVisualPanel extends JPanel {
         viewConfirmPwdBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/eye.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(viewConfirmPwdBtn, org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.viewConfirmPwdBtn.text")); // NOI18N
         viewConfirmPwdBtn.setToolTipText(org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.viewConfirmPwdBtn.toolTipText")); // NOI18N
+        viewConfirmPwdBtn.setFocusable(false);
         viewConfirmPwdBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 viewConfirmPwdBtnActionPerformed(evt);
@@ -87,6 +88,7 @@ public final class PasswordVisualPanel extends JPanel {
         viewPwdBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/eye.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(viewPwdBtn, org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.viewPwdBtn.text")); // NOI18N
         viewPwdBtn.setToolTipText(org.openide.util.NbBundle.getMessage(PasswordVisualPanel.class, "PasswordVisualPanel.viewPwdBtn.toolTipText")); // NOI18N
+        viewPwdBtn.setFocusable(false);
         viewPwdBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 viewPwdBtnActionPerformed(evt);

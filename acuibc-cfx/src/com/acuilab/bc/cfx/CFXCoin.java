@@ -38,7 +38,7 @@ public class CFXCoin implements Coin {
     public static final String NAME = "CFX";
     public static final String SYMBOL = "CFX";
     // http://scan-dev-service.conflux-chain.org:8885/api/transaction/list?pageSize=10&page=1&accountAddress=0x176c45928d7c26b0175dec8bf6051108563c62c5
-    public static final String TRANSACTION_LIST_URL = "http://scan-dev-service.conflux-chain.org:8885/api/transaction/list";
+    public static final String TRANSACTION_LIST_URL = "http://scan-dev-service.conflux-chain.org:8885/v1/transaction";
 
     @Override
     public void init() {
@@ -150,7 +150,8 @@ public class CFXCoin implements Coin {
             // "query.pageSize" do not match condition "<=100", got: 140
             limit = 100;
         }
-        String url = TRANSACTION_LIST_URL + "?page=1&pageSize=" + limit + "&accountAddress=" + address;
+        String url = TRANSACTION_LIST_URL + "?skip=0&limit=" + limit + "&accountAddress=" + address;
+        System.out.println("url=" + url);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)
@@ -163,45 +164,34 @@ public class CFXCoin implements Coin {
         ResponseBody body = response.body();
         if(body != null) {
             // 解析json
-            String bodyStr = body.string();
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode root = mapper.readTree(bodyStr);
-            
-            //获取code字段值
-            JsonNode code = root.get("code");
-            if(StringUtils.equals("0", code.asText())) {
-                JsonNode result = root.get("result");
-                JsonNode total = result.get("total");
-                JsonNode list = result.get("list");
-                for (final JsonNode objNode : list) {
-                    TransferRecord transferRecord = new TransferRecord();
-                    transferRecord.setWalletName(wallet.getName());
-                    transferRecord.setWalletAddress(wallet.getAddress());
-                    transferRecord.setCoinName(coin.getName());
-                    JsonNode value = objNode.get("value");
-                    transferRecord.setValue(coin.minUnit2MainUint(new BigInteger(value.asText("0"))).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).stripTrailingZeros().toPlainString());
-                    JsonNode gasPrice = objNode.get("gasPrice");
-                    transferRecord.setGasPrice(gasPrice.asText());
-                    JsonNode gas = objNode.get("gas");
-                    transferRecord.setGas(gas.asText());
-                    JsonNode status = objNode.get("status");
-                    transferRecord.setStatus("" + status.asInt());
-                    JsonNode blockHash = objNode.get("blockHash");
-                    transferRecord.setBlockHash(blockHash.asText());
-                    JsonNode from = objNode.get("from");
-                    transferRecord.setSendAddress(from.asText());
-                    JsonNode to = objNode.get("to");
-                    transferRecord.setRecvAddress(to.asText());
-                    JsonNode hash = objNode.get("hash");
-                    transferRecord.setHash(hash.asText());
-                    JsonNode timestamp = objNode.get("timestamp");
-                    transferRecord.setTimestamp(new Date(timestamp.asLong()*1000));
-                    
-                    transferRecords.add(transferRecord);
-                }
-            } else {
-                JsonNode message = root.get("message");
-                LOG.log(Level.WARNING, message.asText());
+            JsonNode root = mapper.readTree(body.string());
+            JsonNode list = root.get("list");
+            for (final JsonNode objNode : list) {
+                TransferRecord transferRecord = new TransferRecord();
+                transferRecord.setWalletName(wallet.getName());
+                transferRecord.setWalletAddress(wallet.getAddress());
+                transferRecord.setCoinName(coin.getName());
+                JsonNode value = objNode.get("value");
+                transferRecord.setValue(coin.minUnit2MainUint(new BigInteger(value.asText("0"))).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).stripTrailingZeros().toPlainString());
+                JsonNode gasPrice = objNode.get("gasPrice");
+                transferRecord.setGasPrice(gasPrice.asText());
+                JsonNode gas = objNode.get("gas");
+                transferRecord.setGas(gas.asText());
+                JsonNode status = objNode.get("status");
+                transferRecord.setStatus("" + status.asInt());
+                JsonNode blockHash = objNode.get("blockHash");
+                transferRecord.setBlockHash(blockHash.asText());
+                JsonNode from = objNode.get("from");
+                transferRecord.setSendAddress(from.asText());
+                JsonNode to = objNode.get("to");
+                transferRecord.setRecvAddress(to.asText());
+                JsonNode hash = objNode.get("hash");
+                transferRecord.setHash(hash.asText());
+                JsonNode timestamp = objNode.get("timestamp");
+                transferRecord.setTimestamp(new Date(timestamp.asLong()*1000));
+
+                transferRecords.add(transferRecord);
             }
         }
 

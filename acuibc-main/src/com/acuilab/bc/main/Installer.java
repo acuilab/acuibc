@@ -29,6 +29,8 @@ public class Installer extends ModuleInstall {
 //        System.setProperty("insubstantial.looseTableCellRenderers", "true");
 //        System.setProperty("insubstantial.checkEDT", "false");
 //        System.setProperty("insubstantial.logEDT", "false");
+
+
         
 	// derby
 	System.setProperty("derby.system.home", System.getProperty("netbeans.user", System.getProperty("user.home")) + File.separator + "databases");
@@ -48,13 +50,6 @@ public class Installer extends ModuleInstall {
 		// 最大化显示；cuizhf, 20200916，不强制全屏
 //		WindowManager.getDefault().getMainWindow().setExtendedState(JFrame.MAXIMIZED_BOTH);
                 WindowManager.getDefault().getMainWindow().setLocationRelativeTo(null);
-                
-//                MouseListener[] listeners = ToolbarPool.getDefault().getMouseListeners();
-//                System.out.println("listeners.size=========================" + listeners.length);
-//                for(MouseListener listener : listeners) {
-//                    ToolbarPool.getDefault().removeMouseListener(listener);
-//                }
-                
             }
         });
     }

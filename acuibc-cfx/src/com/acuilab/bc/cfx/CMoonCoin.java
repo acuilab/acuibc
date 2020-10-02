@@ -7,20 +7,19 @@ import java.math.BigInteger;
 import java.util.logging.Logger;
 import javax.swing.Icon;
 import org.openide.util.ImageUtilities;
-import org.openide.util.Lookup;
 
 /**
  *
  * @author admin
  */
-public class CPICoin extends ERC20Coin {
+public class CMOONCoin extends ERC20Coin {
     
-    private static final Logger LOG = Logger.getLogger(CPICoin.class.getName());
+    private static final Logger LOG = Logger.getLogger(CMOONCoin.class.getName());
 
-    public static final String CONTRACT_ADDRESS = "0x8f50e31a4e3201b2f7aa720b3754dfa585b4dbfa";
+    public static final String CONTRACT_ADDRESS = "0x85caa0835c10c2fcaea3036099725ba0a69f0b72";
 
-    public static final String NAME = "CPI Coin";
-    public static final String SYMBOL = "CPI";
+    public static final String NAME = "conflux MOON";
+    public static final String SYMBOL = "cMOON";
 
     @Override
     public String getName() {
@@ -39,47 +38,47 @@ public class CPICoin extends ERC20Coin {
     
     @Override
     public Icon getIcon(int size) {
-        return ImageUtilities.loadImageIcon("/resource/CPI" + size + ".png", true);
+        return ImageUtilities.loadImageIcon("/resource/cMOON" + size + ".png", true);
     }
 
     @Override
     public Image getIconImage(int size) {
-        return ImageUtilities.loadImage("/resource/CPI" + size + ".png", true);
+        return ImageUtilities.loadImage("/resource/cMOON" + size + ".png", true);
     }
 
     @Override
     public String getMainUnit() {
-        return "CPI";
+        return "cMOON";
     }
 
     @Override
     public String getMinUnit() {
-        return "CPI";  // 没有最小单位
+        return "";  // 没有最小单位
     }
 
     @Override
     public BigDecimal minUnit2MainUint(BigInteger minUnitValue) {
-        return new BigDecimal(minUnitValue);
+        return CfxUnit.drip2Cfx(minUnitValue);
     }
 
     @Override
     public BigInteger mainUint2MinUint(double mainUnitValue) {
-        return BigDecimal.valueOf(mainUnitValue).toBigIntegerExact();
+        return CfxUnit.cfx2Drip(mainUnitValue);
     }
 
     @Override
     public BigInteger mainUint2MinUint(long mainUnitValue) {
-        return BigInteger.valueOf(mainUnitValue);
+        return CfxUnit.cfx2Drip(mainUnitValue);
     }
 
     @Override
     public int getMainUnitScale() {
-        return 0;
+        return 6;
     }
 
     @Override
     public int getScale() {
-        return 0;
+        return 18;
     }
 
     @Override
@@ -89,6 +88,6 @@ public class CPICoin extends ERC20Coin {
 
     @Override
     public boolean isDivisible() {
-        return false;
+        return true;
     }
 }

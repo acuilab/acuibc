@@ -90,7 +90,7 @@ public class CoinPanel extends JXPanel {
         // 余额
         String balanceStr = coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit();
         balanceFld.setText(balanceStr);
-        balanceFld.setToolTipText(balanceStr);
+        balanceFld.setToolTipText(coin.minUnit2MainUint(balance) + " " + coin.getMainUnit());
         // 合约地址
         if(!coin.isBaseCoin()) {
             contractAddressFld.setText(coin.getContractAddress());
@@ -546,7 +546,7 @@ public class CoinPanel extends JXPanel {
                     // 余额
                     String balance = coin.minUnit2MainUint(pair.getValue0()).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit();
                     balanceFld.setText(balance);
-                    balanceFld.setToolTipText(balance);
+                    balanceFld.setToolTipText(coin.minUnit2MainUint(pair.getValue0()) + " " + coin.getMainUnit());
                     balanceFld.repaint();
                     // 交易记录
                     tableModel.clear();

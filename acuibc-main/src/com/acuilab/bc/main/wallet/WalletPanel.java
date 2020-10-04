@@ -4,28 +4,16 @@ import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.dao.WalletDAO;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
-import com.acuilab.bc.main.util.AESUtil;
-import com.acuilab.bc.main.wallet.wizard.TransferInputWizardPanel;
-import com.acuilab.bc.main.wallet.wizard.PasswordInputWizardPanel;
-import com.acuilab.bc.main.wallet.wizard.TransferConfirmWizardPanel;
-import java.awt.Component;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.sql.SQLException;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ExecutionException;
-import javax.swing.JComponent;
 import javax.swing.SwingWorker;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.jdesktop.swingx.JXPanel;
 import org.netbeans.api.progress.ProgressHandle;
-import org.openide.DialogDisplayer;
-import org.openide.WizardDescriptor;
 import org.openide.util.Exceptions;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
@@ -57,6 +45,7 @@ public class WalletPanel extends JXPanel implements Observer {
         
         Coin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
         balanceFld.setText("0.000000 " + baseCoin.getMainUnit());
+        balanceFld.setToolTipText("0.000000 " + baseCoin.getMainUnit());
         
         this.wallet = wallet;
         this.walletTopComponentId = null;
@@ -71,6 +60,7 @@ public class WalletPanel extends JXPanel implements Observer {
     public void setBalance(BigInteger balance) {
         Coin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
         balanceFld.setText(baseCoin.minUnit2MainUint(balance).setScale(baseCoin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + baseCoin.getMainUnit());
+        balanceFld.setToolTipText(baseCoin.minUnit2MainUint(balance) + " " + baseCoin.getMainUnit());
     }
     
     public void setRefreshBtnEnabled() {

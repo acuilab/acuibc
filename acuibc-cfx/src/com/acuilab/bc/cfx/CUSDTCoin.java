@@ -48,7 +48,7 @@ public class CUSDTCoin extends ERC20Coin {
 
     @Override
     public String getMainUnit() {
-        return "cMOON";
+        return "cUSDT";
     }
 
     @Override

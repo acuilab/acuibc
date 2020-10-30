@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import org.openide.modules.ModuleInstall;
 import org.openide.util.Exceptions;
 import org.openide.windows.WindowManager;
@@ -48,7 +49,7 @@ public class Installer extends ModuleInstall {
 		// 设置标题
                 WindowManager.getDefault().getMainWindow().setTitle(Constants.TITLE);
 		// 最大化显示；cuizhf, 20200916，不强制全屏
-//		WindowManager.getDefault().getMainWindow().setExtendedState(JFrame.MAXIMIZED_BOTH);
+		WindowManager.getDefault().getMainWindow().setExtendedState(JFrame.MAXIMIZED_BOTH);
                 WindowManager.getDefault().getMainWindow().setLocationRelativeTo(null);
             }
         });

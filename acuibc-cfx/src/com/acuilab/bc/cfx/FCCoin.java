@@ -16,7 +16,7 @@ public class FCCoin extends ERC20Coin {
     
     private static final Logger LOG = Logger.getLogger(FCCoin.class.getName());
 
-    public static final String CONTRACT_ADDRESS = "0x87010faf5964d67ed070bc4b8dcafa1e1adc0997";
+    public static final String CONTRACT_ADDRESS = "0x8e2f2e68eb75bb8b18caafe9607242d4748f8d98";
 
     public static final String NAME = "Fans Coin";
     public static final String SYMBOL = "FC";

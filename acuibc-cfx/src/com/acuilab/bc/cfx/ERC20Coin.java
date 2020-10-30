@@ -19,12 +19,10 @@ import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
-import org.apache.commons.lang3.StringUtils;
 import org.openide.util.Lookup;
 import org.web3j.abi.datatypes.Address;
 

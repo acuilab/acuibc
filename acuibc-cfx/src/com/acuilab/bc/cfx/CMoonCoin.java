@@ -16,7 +16,7 @@ public class CMOONCoin extends ERC20Coin {
     
     private static final Logger LOG = Logger.getLogger(CMOONCoin.class.getName());
 
-    public static final String CONTRACT_ADDRESS = "0x85caa0835c10c2fcaea3036099725ba0a69f0b72";
+    public static final String CONTRACT_ADDRESS = "0x8e28460074f2ff545053e502e774dddc97125110";
 
     public static final String NAME = "conflux MOON";
     public static final String SYMBOL = "cMOON";

@@ -16,7 +16,7 @@ public class CETHCoin extends ERC20Coin {
     
     private static final Logger LOG = Logger.getLogger(CETHCoin.class.getName());
 
-    public static final String CONTRACT_ADDRESS = "0x85b1432b900ec2552a3f119d4e99f4b0f8078e29";
+    public static final String CONTRACT_ADDRESS = "0x86d2fb177eff4be03a342951269096265b98ac46";
 
     public static final String NAME = "conflux ETH";
     public static final String SYMBOL = "cETH";

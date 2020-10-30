@@ -1,13 +1,11 @@
 package com.acuilab.bc.cfx;
 
-import conflux.web3j.CfxUnit;
 import java.awt.Image;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.logging.Logger;
 import javax.swing.Icon;
 import org.openide.util.ImageUtilities;
-import org.openide.util.Lookup;
 
 /**
  *

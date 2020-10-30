@@ -32,7 +32,7 @@ public class CFXBlockChain implements BlockChain {
     
     private static final Logger LOG = Logger.getLogger(CFXBlockChain.class.getName());
     
-    public static final String DEFAULT_NODE = "http://mainnet-jsonrpc.conflux-chain.org:12537"; // 默认结点地址
+    public static final String DEFAULT_NODE = "http://wallet-main.confluxrpc.org"; // 默认结点地址
     public static final String BIP44PATH = "m/44'/503'/0'/0/0";
     public static final String SYMBOL = "CFX";
     
@@ -100,6 +100,7 @@ public class CFXBlockChain implements BlockChain {
 
     @Override
     public void setNode(String node) {
+        System.out.println("node=======================================================" + DEFAULT_NODE);
         try {
             if(cfx != null) {
                 cfx.close();

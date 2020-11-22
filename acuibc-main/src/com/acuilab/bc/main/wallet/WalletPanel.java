@@ -17,6 +17,7 @@ import org.netbeans.api.progress.ProgressHandle;
 import org.openide.util.Exceptions;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
+import com.acuilab.bc.main.coin.ICoin;
 
 /**
  *
@@ -43,7 +44,7 @@ public class WalletPanel extends JXPanel implements Observer {
         walletAddressFld.setText(wallet.getAddress());
         walletAddressFld.setToolTipText(wallet.getAddress());
         
-        Coin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
+        ICoin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
         balanceFld.setText("0.000000 " + baseCoin.getMainUnit());
         balanceFld.setToolTipText("0.000000 " + baseCoin.getMainUnit());
         
@@ -58,7 +59,7 @@ public class WalletPanel extends JXPanel implements Observer {
     }
     
     public void setBalance(BigInteger balance) {
-        Coin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
+        ICoin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
         balanceFld.setText(baseCoin.minUnit2MainUint(balance).setScale(baseCoin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + baseCoin.getMainUnit());
         balanceFld.setToolTipText(baseCoin.minUnit2MainUint(balance) + " " + baseCoin.getMainUnit());
     }
@@ -186,7 +187,7 @@ public class WalletPanel extends JXPanel implements Observer {
             // 这里没有禁用refreshBtn，因为禁用会导致焦点转移给下一个打开按钮openBtn，界面闪烁，用户体验不好；暂时没有更好的解决办法
             // 好吧，想到一个折中的办法，将refreshBtn放到最后
             refreshBtn.setEnabled(false);
-            final Coin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
+            final ICoin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
             final ProgressHandle ph = ProgressHandle.createHandle("正在请求余额，请稍候");
             SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
                 @Override

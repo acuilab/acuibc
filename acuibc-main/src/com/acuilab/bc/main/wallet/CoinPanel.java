@@ -56,6 +56,7 @@ import org.openide.awt.NotificationDisplayer;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 import org.openide.windows.WindowManager;
+import com.acuilab.bc.main.coin.ICoin;
 
 /**
  *
@@ -65,7 +66,7 @@ public class CoinPanel extends JXPanel {
     
     private final WalletTopComponent parent;
     private final Wallet wallet;
-    private final Coin coin;
+    private final ICoin coin;
     private final TransferRecordTableModel tableModel; 
     private final TransferRecordFiltering filterController; 
 
@@ -77,7 +78,7 @@ public class CoinPanel extends JXPanel {
      * @param balance
      * @param transferRecords
      */
-    public CoinPanel(WalletTopComponent parent, Wallet wallet, Coin coin, BigInteger balance, List<TransferRecord> transferRecords) {
+    public CoinPanel(WalletTopComponent parent, Wallet wallet, ICoin coin, BigInteger balance, List<TransferRecord> transferRecords) {
         initComponents();
         this.parent = parent;
         this.wallet = wallet;

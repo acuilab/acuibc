@@ -1,7 +1,6 @@
 package com.acuilab.bc.cfx;
 
 import static com.acuilab.bc.cfx.FCCoin.CONTRACT_ADDRESS;
-import com.acuilab.bc.main.wallet.Coin;
 import com.acuilab.bc.main.wallet.TransferRecord;
 import com.acuilab.bc.main.wallet.Wallet;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -25,12 +24,13 @@ import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import org.openide.util.Lookup;
 import org.web3j.abi.datatypes.Address;
+import com.acuilab.bc.main.coin.ICoin;
 
 /**
  *
  * @author admin
  */
-public abstract class ERC20Coin implements Coin {
+public abstract class ERC20Coin implements ICoin {
     
     private static final Logger LOG = Logger.getLogger(ERC20Coin.class.getName());
 
@@ -72,7 +72,7 @@ public abstract class ERC20Coin implements Coin {
     }
 
     @Override
-    public List<TransferRecord> getTransferRecords(Wallet wallet, Coin coin, String address, int limit) throws Exception {
+    public List<TransferRecord> getTransferRecords(Wallet wallet, ICoin coin, String address, int limit) throws Exception {
         List<TransferRecord> transferRecords = Lists.newArrayList();
         if(limit > 100) {
             // "query.pageSize" do not match condition "<=100", got: 140

@@ -47,6 +47,7 @@ import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.springframework.util.DigestUtils;
+import com.acuilab.bc.main.coin.ICoin;
 
 /**
  * Top component which displays something.
@@ -100,13 +101,13 @@ public final class WalletTopComponent extends TopComponent implements Observer {
         
         // 统一请求余额和历史记录
         final ProgressHandle ph = ProgressHandle.createHandle("正在请求余额及交易记录，请稍候");
-        SwingWorker<Void, Quartet<Integer, Coin, BigInteger, List<TransferRecord>>> worker = new SwingWorker<Void, Quartet<Integer, Coin, BigInteger, List<TransferRecord>>>() {
+        SwingWorker<Void, Quartet<Integer, ICoin, BigInteger, List<TransferRecord>>> worker = new SwingWorker<Void, Quartet<Integer, ICoin, BigInteger, List<TransferRecord>>>() {
             @Override
             protected Void doInBackground() throws Exception {
-                List<Coin> list = CoinManager.getDefault().getCoinList(wallet.getBlockChainSymbol());
+                List<ICoin> list = CoinManager.getDefault().getCoinList(wallet.getBlockChainSymbol());
                 ph.start(list.size());
                 for(int i=0; i<list.size(); i++) {
-                    Coin coin = list.get(i);
+                    ICoin coin = list.get(i);
                     // 请求余额
                     BigInteger balance = coin.balanceOf(wallet.getAddress());
                 
@@ -120,9 +121,9 @@ public final class WalletTopComponent extends TopComponent implements Observer {
             }
 
             @Override
-            protected void process(List<Quartet<Integer, Coin, BigInteger, List<TransferRecord>>> chunks) {
-                for(Quartet<Integer, Coin, BigInteger, List<TransferRecord>> chunk : chunks) {
-                    Coin coin = chunk.getValue1();
+            protected void process(List<Quartet<Integer, ICoin, BigInteger, List<TransferRecord>>> chunks) {
+                for(Quartet<Integer, ICoin, BigInteger, List<TransferRecord>> chunk : chunks) {
+                    ICoin coin = chunk.getValue1();
                     tabbedPane1.addTab(coin.getName(), coin.getIcon(16), new CoinPanel(WalletTopComponent.this,wallet, coin, chunk.getValue2(), chunk.getValue3()), coin.getName());
                     ph.progress(chunk.getValue0()+1);
                 }

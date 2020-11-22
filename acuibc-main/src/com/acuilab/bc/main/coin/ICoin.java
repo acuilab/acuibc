@@ -1,5 +1,7 @@
-package com.acuilab.bc.main.wallet;
+package com.acuilab.bc.main.coin;
 
+import com.acuilab.bc.main.wallet.TransferRecord;
+import com.acuilab.bc.main.wallet.Wallet;
 import java.awt.Image;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -10,7 +12,7 @@ import javax.swing.Icon;
  *oo
  * @author admin
  */
-public interface Coin {
+public interface ICoin {
     
     public void init();
     
@@ -106,7 +108,7 @@ public interface Coin {
      * @return 
      * @throws java.lang.Exception 
      */
-    public List<TransferRecord> getTransferRecords(Wallet wallet, Coin coin, String address, int limit) throws Exception;
+    public List<TransferRecord> getTransferRecords(Wallet wallet, ICoin coin, String address, int limit) throws Exception;
     
     
     /**

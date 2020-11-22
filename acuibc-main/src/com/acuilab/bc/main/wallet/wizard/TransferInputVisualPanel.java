@@ -1,7 +1,6 @@
 package com.acuilab.bc.main.wallet.wizard;
 
 import com.acuilab.bc.main.BlockChain;
-import com.acuilab.bc.main.wallet.Coin;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.wallet.Address;
 import com.acuilab.bc.main.wallet.AddressSelectDialog;
@@ -25,17 +24,18 @@ import javax.swing.SwingWorker;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 import org.openide.util.Exceptions;
+import com.acuilab.bc.main.coin.ICoin;
 
 public final class TransferInputVisualPanel extends JPanel {
     
     private final Wallet wallet;
-    private final Coin coin;
+    private final ICoin coin;
     private BigInteger balance;
     
     /**
      * Creates new form TransferVisualPanel1
      */
-    public TransferInputVisualPanel(Wallet wallet, Coin coin) {
+    public TransferInputVisualPanel(Wallet wallet, ICoin coin) {
         initComponents();
         
         this.wallet = wallet;

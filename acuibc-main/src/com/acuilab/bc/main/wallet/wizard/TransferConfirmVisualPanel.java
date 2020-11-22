@@ -1,18 +1,18 @@
 package com.acuilab.bc.main.wallet.wizard;
 
-import com.acuilab.bc.main.wallet.Coin;
 import com.acuilab.bc.main.wallet.Wallet;
 import javax.swing.JPanel;
+import com.acuilab.bc.main.coin.ICoin;
 
 public final class TransferConfirmVisualPanel extends JPanel {
     
     private final Wallet wallet;
-    private final Coin coin;
+    private final ICoin coin;
     
     /**
      * Creates new form TransferVisualPanel3
      */
-    public TransferConfirmVisualPanel(Wallet wallet, Coin coin) {
+    public TransferConfirmVisualPanel(Wallet wallet, ICoin coin) {
         initComponents();
         
         this.wallet = wallet;

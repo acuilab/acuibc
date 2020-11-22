@@ -24,6 +24,7 @@ import javax.swing.SwingWorker;
 import org.javatuples.Triplet;
 import org.jdesktop.swingx.JXTaskPane;
 import org.netbeans.api.progress.ProgressHandle;
+import com.acuilab.bc.main.coin.ICoin;
 
 /**
  * Top component which displays something.
@@ -107,7 +108,7 @@ public final class WalletListTopComponent extends TopComponent {
                     int i=0;
                     for(WalletPanel walletPanel : walletPanelMap.values()) {
                         Wallet wallet = walletPanel.getWallet();
-                        Coin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
+                        ICoin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
                         BigInteger balance = baseCoin.balanceOf(wallet.getAddress());
                         publish(new Triplet<>(i, walletPanel, balance));
                         
@@ -150,7 +151,7 @@ public final class WalletListTopComponent extends TopComponent {
         JXTaskPane taskPane = taskPaneMap.get(wallet.getBlockChainSymbol());
         WalletPanel walletPanel = new WalletPanel(wallet);
         // 获得余额
-        final Coin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
+        final ICoin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
         final ProgressHandle ph = ProgressHandle.createHandle("正在请求余额，请稍候");
         SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
             @Override

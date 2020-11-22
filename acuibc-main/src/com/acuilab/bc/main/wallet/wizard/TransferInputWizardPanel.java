@@ -1,7 +1,6 @@
 package com.acuilab.bc.main.wallet.wizard;
 
 import com.acuilab.bc.main.BlockChain;
-import com.acuilab.bc.main.wallet.Coin;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.util.RegExpValidatorUtils;
 import com.acuilab.bc.main.wallet.Wallet;
@@ -13,13 +12,14 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.openide.WizardDescriptor;
 import org.openide.WizardValidationException;
 import org.openide.util.HelpCtx;
+import com.acuilab.bc.main.coin.ICoin;
 
 public class TransferInputWizardPanel implements WizardDescriptor.ValidatingPanel<WizardDescriptor> {
 
     private final Wallet wallet;
-    private final Coin coin;
+    private final ICoin coin;
     
-    public TransferInputWizardPanel(Wallet wallet, Coin coin) {
+    public TransferInputWizardPanel(Wallet wallet, ICoin coin) {
         this.wallet = wallet;
         this.coin = coin;
     }

@@ -1,6 +1,5 @@
 package com.acuilab.bc.main.manager;
 
-import com.acuilab.bc.main.wallet.Coin;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import java.util.Collection;
@@ -10,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.util.Lookup;
+import com.acuilab.bc.main.coin.ICoin;
 
 /**
  *
@@ -17,7 +17,7 @@ import org.openide.util.Lookup;
  */
 public class CoinManager {
     private static CoinManager instance;
-    private LinkedHashMap<String, Coin> map;
+    private LinkedHashMap<String, ICoin> map;
     
     public static CoinManager getDefault() {
         if (instance == null) {
@@ -28,8 +28,8 @@ public class CoinManager {
     
     private CoinManager() {
         map = Maps.newLinkedHashMap();
-        Collection<? extends Coin> list = Lookup.getDefault().lookupAll(Coin.class);
-        for (Coin c : list) {
+        Collection<? extends ICoin> list = Lookup.getDefault().lookupAll(ICoin.class);
+        for (ICoin c : list) {
             c.init();
             map.put(c.getName(), c);
         }
@@ -40,21 +40,21 @@ public class CoinManager {
         List<String> mapKeys = Lists.newArrayList(map.keySet());
         Collections.sort(mapKeys);
 
-        LinkedHashMap<String, Coin> someMap = Maps.newLinkedHashMap();
+        LinkedHashMap<String, ICoin> someMap = Maps.newLinkedHashMap();
         for (int i = 0; i < mapKeys.size(); i++) {
             someMap.put(mapKeys.get(i), map.get(mapKeys.get(i)));
         }
         map = someMap;
     }
     
-    public Coin getCoin(String key) {
+    public ICoin getCoin(String key) {
         return map.get(key);
     }
     
-    public Coin getBaseCoin(String blockChainSymbol) {
+    public ICoin getBaseCoin(String blockChainSymbol) {
         Iterator<String> it = map.keySet().iterator();
         while (it.hasNext()) {
-            Coin coin = map.get(it.next());
+            ICoin coin = map.get(it.next());
             if(StringUtils.equals(coin.getBlockChainSymbol(), blockChainSymbol)) {
                 if(coin.isBaseCoin()) {
                     // 主网币只能有一个
@@ -71,12 +71,12 @@ public class CoinManager {
      * @param blockChainSymbol
      * @return 
      */
-    public List<Coin> getCoinList(String blockChainSymbol) {
-        List<Coin> list = Lists.newArrayList();
+    public List<ICoin> getCoinList(String blockChainSymbol) {
+        List<ICoin> list = Lists.newArrayList();
         Iterator<String> it = map.keySet().iterator();
-        Coin baseCoin = null;
+        ICoin baseCoin = null;
         while (it.hasNext()) {
-            Coin coin = map.get(it.next());
+            ICoin coin = map.get(it.next());
             if(StringUtils.equals(coin.getBlockChainSymbol(), blockChainSymbol)) {
                 if(!coin.isBaseCoin()) {
                     list.add(coin);

@@ -2,18 +2,18 @@ package com.acuilab.bc.main.wallet.wizard;
 
 import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.manager.BlockChainManager;
-import com.acuilab.bc.main.wallet.Coin;
 import com.acuilab.bc.main.wallet.Wallet;
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
+import com.acuilab.bc.main.coin.ICoin;
 
 public class TransferConfirmWizardPanel implements WizardDescriptor.Panel<WizardDescriptor> {
     
     private final Wallet wallet;
-    private final Coin coin;
+    private final ICoin coin;
     
-    public TransferConfirmWizardPanel(Wallet wallet, Coin coin) {
+    public TransferConfirmWizardPanel(Wallet wallet, ICoin coin) {
         this.wallet = wallet;
         this.coin = coin;
     }

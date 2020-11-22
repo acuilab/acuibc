@@ -1,6 +1,6 @@
 package com.acuilab.bc.cfx;
 
-import com.acuilab.bc.main.wallet.Coin;
+import com.acuilab.bc.main.coin.ICFXCoin;
 import com.acuilab.bc.main.wallet.TransferRecord;
 import com.acuilab.bc.main.wallet.Wallet;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -26,19 +26,20 @@ import okhttp3.ResponseBody;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
+import com.acuilab.bc.main.coin.ICoin;
 
 /**
  *
  * @author admin
  */
-public class CFXCoin implements Coin {
+public class CFXCoin implements ICFXCoin {
     
     private static final Logger LOG = Logger.getLogger(CFXCoin.class.getName());
     
     public static final String NAME = "CFX";
     public static final String SYMBOL = "CFX";
     // http://scan-dev-service.conflux-chain.org:8885/api/transaction/list?pageSize=10&page=1&accountAddress=0x176c45928d7c26b0175dec8bf6051108563c62c5
-    public static final String TRANSACTION_LIST_URL = "http://scan-dev-service.conflux-chain.org:8885/v1/transaction";
+    public static final String TRANSACTION_LIST_URL = "http://scan-dev-service.conflux-chain.org:8885/v1/transaction ";
 
     @Override
     public void init() {
@@ -144,7 +145,7 @@ public class CFXCoin implements Coin {
      * @return 
      */
     @Override
-    public List<TransferRecord> getTransferRecords(Wallet wallet, Coin coin, String address, int limit) throws Exception {
+    public List<TransferRecord> getTransferRecords(Wallet wallet, ICoin coin, String address, int limit) throws Exception {
         List<TransferRecord> transferRecords = Lists.newArrayList();
         if(limit > 100) {
             // "query.pageSize" do not match condition "<=100", got: 140
@@ -224,5 +225,20 @@ public class CFXCoin implements Coin {
     @Override
     public boolean isDivisible() {
         return true;
+    }
+
+    @Override
+    public void deposit() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void withdraw() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void stakingBalanceOf() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

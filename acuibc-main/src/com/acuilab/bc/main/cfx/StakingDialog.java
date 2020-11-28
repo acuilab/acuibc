@@ -4,10 +4,13 @@ import com.acuilab.bc.main.coin.ICFXCoin;
 import com.acuilab.bc.main.util.AESUtil;
 import com.acuilab.bc.main.wallet.PasswordVerifyDialog;
 import com.acuilab.bc.main.wallet.Wallet;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.net.URI;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutionException;
@@ -120,12 +123,15 @@ public class StakingDialog extends javax.swing.JDialog {
         stakingBalanceFld = new org.jdesktop.swingx.JXTextField();
         depositBtn = new org.jdesktop.swingx.JXButton();
         withdrawBtn = new org.jdesktop.swingx.JXButton();
-        jXLabel3 = new org.jdesktop.swingx.JXLabel();
         refreshBtn = new org.jdesktop.swingx.JXButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jXTextArea1 = new org.jdesktop.swingx.JXTextArea();
+        jXHyperlink1 = new org.jdesktop.swingx.JXHyperlink();
+        jXHyperlink2 = new org.jdesktop.swingx.JXHyperlink();
 
         setTitle(org.openide.util.NbBundle.getMessage(StakingDialog.class, "StakingDialog.title")); // NOI18N
         setIconImage(ImageUtilities.loadImage("/resource/gourd32.png"));
-        setMinimumSize(new java.awt.Dimension(658, 365));
+        setPreferredSize(new java.awt.Dimension(800, 600));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -164,13 +170,32 @@ public class StakingDialog extends javax.swing.JDialog {
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(jXLabel3, org.openide.util.NbBundle.getMessage(StakingDialog.class, "StakingDialog.jXLabel3.text")); // NOI18N
-        jXLabel3.setLineWrap(true);
-
         org.openide.awt.Mnemonics.setLocalizedText(refreshBtn, org.openide.util.NbBundle.getMessage(StakingDialog.class, "StakingDialog.refreshBtn.text")); // NOI18N
         refreshBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 refreshBtnActionPerformed(evt);
+            }
+        });
+
+        jXTextArea1.setEditable(false);
+        jXTextArea1.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
+        jXTextArea1.setColumns(20);
+        jXTextArea1.setLineWrap(true);
+        jXTextArea1.setRows(5);
+        jXTextArea1.setText(org.openide.util.NbBundle.getMessage(StakingDialog.class, "StakingDialog.jXTextArea1.text")); // NOI18N
+        jScrollPane1.setViewportView(jXTextArea1);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXHyperlink1, org.openide.util.NbBundle.getMessage(StakingDialog.class, "StakingDialog.jXHyperlink1.text")); // NOI18N
+        jXHyperlink1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXHyperlink1ActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXHyperlink2, org.openide.util.NbBundle.getMessage(StakingDialog.class, "StakingDialog.jXHyperlink2.text")); // NOI18N
+        jXHyperlink2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXHyperlink2ActionPerformed(evt);
             }
         });
 
@@ -187,7 +212,7 @@ public class StakingDialog extends javax.swing.JDialog {
                             .addComponent(jXLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(stakingBalanceFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(stakingBalanceFld, javax.swing.GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
                             .addComponent(balanceFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,7 +223,12 @@ public class StakingDialog extends javax.swing.JDialog {
                         .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(okButton))
-                    .addComponent(jXLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jXHyperlink1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jXHyperlink2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -215,8 +245,12 @@ public class StakingDialog extends javax.swing.JDialog {
                     .addComponent(stakingBalanceFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(withdrawBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jXHyperlink1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jXHyperlink2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(okButton)
                     .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -326,6 +360,32 @@ public class StakingDialog extends javax.swing.JDialog {
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
         myInit(wallet.getAddress(), coin);
     }//GEN-LAST:event_refreshBtnActionPerformed
+
+    private void jXHyperlink1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXHyperlink1ActionPerformed
+        if(Desktop.isDesktopSupported()) {
+            try {
+                if(Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                    // 打开默认浏览器
+                    Desktop.getDesktop().browse(URI.create("https://www.jinse.com/news/blockchain/921888.html"));
+                }
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+    }//GEN-LAST:event_jXHyperlink1ActionPerformed
+
+    private void jXHyperlink2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXHyperlink2ActionPerformed
+        if(Desktop.isDesktopSupported()) {
+            try {
+                if(Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                    // 打开默认浏览器
+                    Desktop.getDesktop().browse(URI.create("https://juejin.cn/post/6876330619798814728"));
+                }
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+    }//GEN-LAST:event_jXHyperlink2ActionPerformed
     
     private void doClose(int retStatus) {
         returnStatus = retStatus;
@@ -337,9 +397,12 @@ public class StakingDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXTextField balanceFld;
     private org.jdesktop.swingx.JXButton depositBtn;
+    private javax.swing.JScrollPane jScrollPane1;
+    private org.jdesktop.swingx.JXHyperlink jXHyperlink1;
+    private org.jdesktop.swingx.JXHyperlink jXHyperlink2;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel2;
-    private org.jdesktop.swingx.JXLabel jXLabel3;
+    private org.jdesktop.swingx.JXTextArea jXTextArea1;
     private javax.swing.JButton okButton;
     private org.jdesktop.swingx.JXButton refreshBtn;
     private org.jdesktop.swingx.JXTextField stakingBalanceFld;

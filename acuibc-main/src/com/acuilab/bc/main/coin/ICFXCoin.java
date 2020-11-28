@@ -1,16 +1,18 @@
 package com.acuilab.bc.main.coin;
 
+import java.math.BigInteger;
+
 /**
  *
  * @author admin
  */
 public interface ICFXCoin extends ICoin {
     
-    public void deposit();
+    public String deposit(String privateKey, BigInteger value) throws Exception;
     
-    public void withdraw();
+    public String withdraw(String privateKey, BigInteger value) throws Exception;
     
-    public void stakingBalanceOf();
+    public BigInteger stakingBalanceOf(String address);
             
             
 }

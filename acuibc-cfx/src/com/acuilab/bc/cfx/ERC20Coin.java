@@ -74,46 +74,46 @@ public abstract class ERC20Coin implements ICoin {
     @Override
     public List<TransferRecord> getTransferRecords(Wallet wallet, ICoin coin, String address, int limit) throws Exception {
         List<TransferRecord> transferRecords = Lists.newArrayList();
-        if(limit > 100) {
-            // "query.pageSize" do not match condition "<=100", got: 140
-            limit = 100;
-        }
-        String url = TRANSFER_LIST_URL + "?skip=0&reverse=true&limit=" + limit + "&address=" + getContractAddress() + "&accountAddress=" + address;
-        System.out.println("url=" + url);
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(20, TimeUnit.SECONDS)
-                .build();
-        final okhttp3.Request request = new okhttp3.Request.Builder()
-                .url(url)
-                .build();
-        final Call call = okHttpClient.newCall(request);
-        okhttp3.Response response = call.execute();             // java.net.SocketTimeoutException
-        ResponseBody body = response.body();
-        if(body != null) {
-            // 解析json
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode root = mapper.readTree(body.string());
-            JsonNode list = root.get("list");
-            for (final JsonNode objNode : list) {
-                TransferRecord transferRecord = new TransferRecord();
-                transferRecord.setWalletName(wallet.getName());
-                transferRecord.setWalletAddress(wallet.getAddress());
-                transferRecord.setCoinName(coin.getName());
-                JsonNode value = objNode.get("value");
-                transferRecord.setValue(coin.minUnit2MainUint(new BigInteger(value.asText("0"))).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).stripTrailingZeros().toPlainString());
-                JsonNode from = objNode.get("from");
-                transferRecord.setSendAddress(from.asText());
-                JsonNode to = objNode.get("to");
-                transferRecord.setRecvAddress(to.asText());
-                JsonNode hash = objNode.get("transactionHash");
-                transferRecord.setHash(hash.asText());
-                JsonNode timestamp = objNode.get("timestamp");
-                transferRecord.setTimestamp(new Date(timestamp.asLong()*1000));
-
-                transferRecords.add(transferRecord);
-            }
-        }
+//        if(limit > 100) {
+//            // "query.pageSize" do not match condition "<=100", got: 140
+//            limit = 100;
+//        }
+//        String url = TRANSFER_LIST_URL + "?skip=0&reverse=true&limit=" + limit + "&address=" + getContractAddress() + "&accountAddress=" + address;
+//        System.out.println("url=" + url);
+//        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+//                .connectTimeout(10, TimeUnit.SECONDS)
+//                .readTimeout(20, TimeUnit.SECONDS)
+//                .build();
+//        final okhttp3.Request request = new okhttp3.Request.Builder()
+//                .url(url)
+//                .build();
+//        final Call call = okHttpClient.newCall(request);
+//        okhttp3.Response response = call.execute();             // java.net.SocketTimeoutException
+//        ResponseBody body = response.body();
+//        if(body != null) {
+//            // 解析json
+//            ObjectMapper mapper = new ObjectMapper();
+//            JsonNode root = mapper.readTree(body.string());
+//            JsonNode list = root.get("list");
+//            for (final JsonNode objNode : list) {
+//                TransferRecord transferRecord = new TransferRecord();
+//                transferRecord.setWalletName(wallet.getName());
+//                transferRecord.setWalletAddress(wallet.getAddress());
+//                transferRecord.setCoinName(coin.getName());
+//                JsonNode value = objNode.get("value");
+//                transferRecord.setValue(coin.minUnit2MainUint(new BigInteger(value.asText("0"))).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).stripTrailingZeros().toPlainString());
+//                JsonNode from = objNode.get("from");
+//                transferRecord.setSendAddress(from.asText());
+//                JsonNode to = objNode.get("to");
+//                transferRecord.setRecvAddress(to.asText());
+//                JsonNode hash = objNode.get("transactionHash");
+//                transferRecord.setHash(hash.asText());
+//                JsonNode timestamp = objNode.get("timestamp");
+//                transferRecord.setTimestamp(new Date(timestamp.asLong()*1000));
+//
+//                transferRecords.add(transferRecord);
+//            }
+//        }
 
         return transferRecords;
     }

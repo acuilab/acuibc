@@ -3,8 +3,6 @@ package com.acuilab.bc.cfx;
 import com.acuilab.bc.main.coin.ICFXCoin;
 import com.acuilab.bc.main.wallet.TransferRecord;
 import com.acuilab.bc.main.wallet.Wallet;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import conflux.web3j.Account;
 import conflux.web3j.Cfx;
@@ -13,17 +11,9 @@ import conflux.web3j.types.RawTransaction;
 import java.awt.Image;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.RoundingMode;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
-import okhttp3.Call;
-import okhttp3.OkHttpClient;
-import okhttp3.ResponseBody;
-import org.apache.commons.lang3.StringUtils;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import com.acuilab.bc.main.coin.ICoin;
@@ -40,6 +30,8 @@ public class CFXCoin implements ICFXCoin {
     public static final String SYMBOL = "CFX";
     // http://scan-dev-service.conflux-chain.org:8885/api/transaction/list?pageSize=10&page=1&accountAddress=0x176c45928d7c26b0175dec8bf6051108563c62c5
     public static final String TRANSACTION_LIST_URL = "http://scan-dev-service.conflux-chain.org:8885/v1/transaction ";
+    
+    public static final String STAKING_CONTRACT_ADDRESS = "0x0888000000000000000000000000000000000002";
 
     @Override
     public void init() {
@@ -147,54 +139,54 @@ public class CFXCoin implements ICFXCoin {
     @Override
     public List<TransferRecord> getTransferRecords(Wallet wallet, ICoin coin, String address, int limit) throws Exception {
         List<TransferRecord> transferRecords = Lists.newArrayList();
-        if(limit > 100) {
-            // "query.pageSize" do not match condition "<=100", got: 140
-            limit = 100;
-        }
-        String url = TRANSACTION_LIST_URL + "?skip=0&reverse=true&limit=" + limit + "&accountAddress=" + address;
-        System.out.println("url=" + url);
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(20, TimeUnit.SECONDS)
-                .build();
-        final okhttp3.Request request = new okhttp3.Request.Builder()
-                .url(url)
-                .build();
-        final Call call = okHttpClient.newCall(request);
-        okhttp3.Response response = call.execute();             // java.net.SocketTimeoutException
-        ResponseBody body = response.body();
-        if(body != null) {
-            // 解析json
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode root = mapper.readTree(body.string());
-            JsonNode list = root.get("list");
-            for (final JsonNode objNode : list) {
-                TransferRecord transferRecord = new TransferRecord();
-                transferRecord.setWalletName(wallet.getName());
-                transferRecord.setWalletAddress(wallet.getAddress());
-                transferRecord.setCoinName(coin.getName());
-                JsonNode value = objNode.get("value");
-                transferRecord.setValue(coin.minUnit2MainUint(new BigInteger(value.asText("0"))).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).stripTrailingZeros().toPlainString());
-                JsonNode gasPrice = objNode.get("gasPrice");
-                transferRecord.setGasPrice(gasPrice.asText());
-                JsonNode gas = objNode.get("gas");
-                transferRecord.setGas(gas.asText());
-                JsonNode status = objNode.get("status");
-                transferRecord.setStatus("" + status.asInt());
-                JsonNode blockHash = objNode.get("blockHash");
-                transferRecord.setBlockHash(blockHash.asText());
-                JsonNode from = objNode.get("from");
-                transferRecord.setSendAddress(from.asText());
-                JsonNode to = objNode.get("to");
-                transferRecord.setRecvAddress(to.asText());
-                JsonNode hash = objNode.get("hash");
-                transferRecord.setHash(hash.asText());
-                JsonNode timestamp = objNode.get("timestamp");
-                transferRecord.setTimestamp(new Date(timestamp.asLong()*1000));
-
-                transferRecords.add(transferRecord);
-            }
-        }
+//        if(limit > 100) {
+//            // "query.pageSize" do not match condition "<=100", got: 140
+//            limit = 100;
+//        }
+//        String url = TRANSACTION_LIST_URL + "?skip=0&reverse=true&limit=" + limit + "&accountAddress=" + address;
+//        System.out.println("url=" + url);
+//        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+//                .connectTimeout(10, TimeUnit.SECONDS)
+//                .readTimeout(20, TimeUnit.SECONDS)
+//                .build();
+//        final okhttp3.Request request = new okhttp3.Request.Builder()
+//                .url(url)
+//                .build();
+//        final Call call = okHttpClient.newCall(request);
+//        okhttp3.Response response = call.execute();             // java.net.SocketTimeoutException
+//        ResponseBody body = response.body();
+//        if(body != null) {
+//            // 解析json
+//            ObjectMapper mapper = new ObjectMapper();
+//            JsonNode root = mapper.readTree(body.string());
+//            JsonNode list = root.get("list");
+//            for (final JsonNode objNode : list) {
+//                TransferRecord transferRecord = new TransferRecord();
+//                transferRecord.setWalletName(wallet.getName());
+//                transferRecord.setWalletAddress(wallet.getAddress());
+//                transferRecord.setCoinName(coin.getName());
+//                JsonNode value = objNode.get("value");
+//                transferRecord.setValue(coin.minUnit2MainUint(new BigInteger(value.asText("0"))).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).stripTrailingZeros().toPlainString());
+//                JsonNode gasPrice = objNode.get("gasPrice");
+//                transferRecord.setGasPrice(gasPrice.asText());
+//                JsonNode gas = objNode.get("gas");
+//                transferRecord.setGas(gas.asText());
+//                JsonNode status = objNode.get("status");
+//                transferRecord.setStatus("" + status.asInt());
+//                JsonNode blockHash = objNode.get("blockHash");
+//                transferRecord.setBlockHash(blockHash.asText());
+//                JsonNode from = objNode.get("from");
+//                transferRecord.setSendAddress(from.asText());
+//                JsonNode to = objNode.get("to");
+//                transferRecord.setRecvAddress(to.asText());
+//                JsonNode hash = objNode.get("hash");
+//                transferRecord.setHash(hash.asText());
+//                JsonNode timestamp = objNode.get("timestamp");
+//                transferRecord.setTimestamp(new Date(timestamp.asLong()*1000));
+//
+//                transferRecords.add(transferRecord);
+//            }
+//        }
 
         return transferRecords;
     }
@@ -228,17 +220,30 @@ public class CFXCoin implements ICFXCoin {
     }
 
     @Override
-    public void deposit() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String deposit(String privateKey, BigInteger value) throws Exception {
+        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
+        Cfx cfx = bc.getCfx();
+        
+        Account account = Account.create(cfx, privateKey);
+        
+        return account.call(STAKING_CONTRACT_ADDRESS, "deposit", new org.web3j.abi.datatypes.Uint(value));
     }
 
     @Override
-    public void withdraw() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String withdraw(String privateKey, BigInteger value) throws Exception {
+        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
+        Cfx cfx = bc.getCfx();
+        
+        Account account = Account.create(cfx, privateKey);
+        
+        return account.call(STAKING_CONTRACT_ADDRESS, "withdraw", new org.web3j.abi.datatypes.Uint(value));
     }
 
     @Override
-    public void stakingBalanceOf() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public BigInteger stakingBalanceOf(String address) {
+        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
+        Cfx cfx = bc.getCfx();
+        return cfx.getStakingBalance(address).sendAndGet();
     }
+
 }

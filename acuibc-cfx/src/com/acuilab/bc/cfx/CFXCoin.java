@@ -245,5 +245,10 @@ public class CFXCoin implements ICFXCoin {
         Cfx cfx = bc.getCfx();
         return cfx.getStakingBalance(address).sendAndGet();
     }
+    
+    @Override
+    public BigInteger getDefaultGas() {
+        return CfxUnit.DEFAULT_GAS_LIMIT.multiply(CfxUnit.DEFAULT_GAS_PRICE);
+    }
 
 }

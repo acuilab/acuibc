@@ -35,7 +35,7 @@ public class CFXBlockChain implements BlockChain {
     public static final String BIP44PATH = "m/44'/503'/0'/0/0";
     public static final String SYMBOL = "CFX";
     
-    public static final String TRANSACTIONS_DETAIL_URL = "http://www.confluxscan.io/transactionsdetail/";
+    public static final String TRANSACTIONS_DETAIL_URL = "http://www.confluxscan.io/transaction/";
     public static final int REFRESH_DELAY_MILLISECONDS = 2000;  // 延时毫秒数，以便服务器准备交易记录和余额
     public static final int GET_TRANSACTION_STATUS_INTERVAL_MILLISECONDS = 2000;  // 获得交易状态的时间间隔
     

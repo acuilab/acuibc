@@ -1,6 +1,8 @@
 package com.acuilab.bc.main.wallet;
 
 import com.acuilab.bc.main.BlockChain;
+import com.acuilab.bc.main.cfx.StakingDialog;
+import com.acuilab.bc.main.coin.ICFXCoin;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.util.AESUtil;
 import com.acuilab.bc.main.wallet.wizard.PasswordInputWizardPanel;
@@ -50,13 +52,15 @@ import org.jdesktop.swingx.decorator.HighlighterFactory;
 import org.jdesktop.swingx.table.TableColumnExt;
 import org.netbeans.api.progress.ProgressHandle;
 import org.openide.DialogDisplayer;
-import org.openide.LifecycleManager;
 import org.openide.WizardDescriptor;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 import org.openide.windows.WindowManager;
+import org.jdesktop.swingx.JXButton;
+import org.openide.awt.ToolbarWithOverflow;
 import com.acuilab.bc.main.coin.ICoin;
+import javax.swing.BorderFactory;
 
 /**
  *
@@ -83,6 +87,129 @@ public class CoinPanel extends JXPanel {
         this.parent = parent;
         this.wallet = wallet;
         this.coin = coin;
+        
+        // Toolbar
+        JXButton transferBtn = new JXButton("转账");
+        transferBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<>();
+                panels.add(new TransferInputWizardPanel(wallet, coin));
+                panels.add(new PasswordInputWizardPanel(wallet));
+                panels.add(new TransferConfirmWizardPanel(wallet, coin));
+                String[] steps = new String[panels.size()];
+                for (int i = 0; i < panels.size(); i++) {
+                    Component c = panels.get(i).getComponent();
+                    // Default step name to component name of panel.
+                    steps[i] = c.getName();
+                    if (c instanceof JComponent) { // assume Swing components
+                        JComponent jc = (JComponent) c;
+                        jc.putClientProperty(WizardDescriptor.PROP_CONTENT_SELECTED_INDEX, i);
+                        jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DATA, steps);
+                        jc.putClientProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE, true);
+                        jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, true);
+                        jc.putClientProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, true);
+                    }
+                }
+                WizardDescriptor wiz = new WizardDescriptor(new WizardDescriptor.ArrayIterator<>(panels));
+                // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
+                wiz.setTitleFormat(new MessageFormat("{0}"));
+                wiz.setTitle(wallet.getName() + "：" + coin.getSymbol() + "转账");
+                if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
+                    // do something
+                    String recvAddress = (String)wiz.getProperty("recvAddress");
+                    String value = (String)wiz.getProperty("value");
+                    boolean isGasDefault = (boolean)wiz.getProperty("isGasDefault");
+                    int gas = (int)wiz.getProperty("gas");
+                    String pwd = (String)wiz.getProperty("password");
+
+                    try {
+                        String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), recvAddress, coin.mainUint2MinUint(NumberUtils.toDouble(value)), isGasDefault ? null : BigInteger.valueOf(gas));
+                        JXHyperlink hashLink = parent.getHashLink();
+                        hashLink.setText(hash);
+                        // 气泡提示
+                        try {
+                            JLabel lbl = new JLabel("最近一次交易哈希已更新，单击打开区块链浏览器查看交易状态");
+                            BalloonTip balloonTip = new BalloonTip(hashLink, 
+                                            lbl,
+                                            Utils.createBalloonTipStyle(),
+                                            Utils.createBalloonTipPositioner(), 
+                                            null);
+                            TimingUtils.showTimedBalloon(balloonTip, 3000);
+                        } catch (Exception ex) {
+                            Exceptions.printStackTrace(ex);
+                        }
+
+                        // 根据交易哈希查询转账结果
+                        System.out.println("根据交易哈希查询转账结果");
+                        final ProgressHandle ph = ProgressHandle.createHandle("正在查询交易状态，请稍候");
+                        SwingWorker<BlockChain.TransactionStatus, Void> worker = new SwingWorker<BlockChain.TransactionStatus, Void>() {
+                            BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
+
+                            @Override
+                            protected BlockChain.TransactionStatus doInBackground() throws Exception {
+                                ph.start();
+                                System.out.println("获得交易状态");
+                                return bc.getTransactionStatusByHash(hash);
+                            }
+
+                            @Override
+                            protected void done() {
+                                ph.finish();
+                                System.out.println("通知用户");
+                                try {
+                                    BlockChain.TransactionStatus result = get();
+
+                                    if(result == BlockChain.TransactionStatus.SUCCESS) {
+                                        // 交易成功，刷新余额及交易记录
+                                        refreshBtnActionPerformed(null);
+                                    } else if(result == BlockChain.TransactionStatus.FAILED) {
+                                        // 交易失败
+                                        NotificationDisplayer.getDefault().notify(
+                                                "交易失败",
+                                                ImageUtilities.loadImageIcon("resource/gourd32.png", false),
+                                                "点击此处打开区块链浏览器查询交易状态",
+                                                new LinkAction(bc.getTransactionDetailUrl(hash))
+                                        );
+                                    } else {
+                                        // 交易为确认，提示用户手动查询交易结果
+                                        NotificationDisplayer.getDefault().notify(
+                                                "交易尚未确认",
+                                                ImageUtilities.loadImageIcon("resource/gourd32.png", false),
+                                                "点击此处打开区块链浏览器查询交易状态",
+                                                new LinkAction(bc.getTransactionDetailUrl(hash))
+                                        );
+                                    }
+                                } catch (InterruptedException | ExecutionException ex) {
+                                    Exceptions.printStackTrace(ex);
+                                }
+                            }
+                        };
+                        worker.execute();
+
+
+                    } catch (Exception ex) {
+                        Exceptions.printStackTrace(ex);
+                    }
+                }
+            }
+            
+        });
+        toolbar.add(transferBtn);
+        
+        // Coin个性化扩展
+        if(coin instanceof ICFXCoin) {
+            JXButton stakingBtn = new JXButton("质押");
+            stakingBtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    StakingDialog dlg = new StakingDialog(null, wallet, (ICFXCoin)coin);
+                    dlg.setVisible(true);
+                }
+                
+            });
+            toolbar.add(stakingBtn);
+        }
         
         buttonGroup1.add(allRadio);
         buttonGroup1.add(recvRadio);
@@ -237,7 +364,6 @@ public class CoinPanel extends JXPanel {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jXLabel1 = new org.jdesktop.swingx.JXLabel();
-        transferBtn = new org.jdesktop.swingx.JXButton();
         balanceFld = new org.jdesktop.swingx.JXTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new org.jdesktop.swingx.JXTable();
@@ -252,15 +378,9 @@ public class CoinPanel extends JXPanel {
         resetBtn = new org.jdesktop.swingx.JXButton();
         contractAddressFld = new org.jdesktop.swingx.JXTextField();
         contractAddressLbl = new org.jdesktop.swingx.JXLabel();
+        toolbar = new ToolbarWithOverflow();
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.jXLabel1.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(transferBtn, org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.transferBtn.text")); // NOI18N
-        transferBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                transferBtnActionPerformed(evt);
-            }
-        });
 
         balanceFld.setEditable(false);
         balanceFld.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -326,6 +446,9 @@ public class CoinPanel extends JXPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(contractAddressLbl, org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.contractAddressLbl.text")); // NOI18N
 
+        toolbar.setFloatable(false);
+        toolbar.setRollover(true);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -333,10 +456,9 @@ public class CoinPanel extends JXPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(toolbar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1117, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(transferBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(balanceFld, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -370,7 +492,6 @@ public class CoinPanel extends JXPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(transferBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(balanceFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(contractAddressFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -379,7 +500,9 @@ public class CoinPanel extends JXPanel {
                         .addComponent(limitSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
+                .addComponent(toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -394,108 +517,6 @@ public class CoinPanel extends JXPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void transferBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transferBtnActionPerformed
-        List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<>();
-        panels.add(new TransferInputWizardPanel(wallet, coin));
-        panels.add(new PasswordInputWizardPanel(wallet));
-        panels.add(new TransferConfirmWizardPanel(wallet, coin));
-        String[] steps = new String[panels.size()];
-        for (int i = 0; i < panels.size(); i++) {
-            Component c = panels.get(i).getComponent();
-            // Default step name to component name of panel.
-            steps[i] = c.getName();
-            if (c instanceof JComponent) { // assume Swing components
-                JComponent jc = (JComponent) c;
-                jc.putClientProperty(WizardDescriptor.PROP_CONTENT_SELECTED_INDEX, i);
-                jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DATA, steps);
-                jc.putClientProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE, true);
-                jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, true);
-                jc.putClientProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, true);
-            }
-        }
-        WizardDescriptor wiz = new WizardDescriptor(new WizardDescriptor.ArrayIterator<>(panels));
-        // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
-        wiz.setTitleFormat(new MessageFormat("{0}"));
-        wiz.setTitle(wallet.getName() + "：" + coin.getSymbol() + "转账");
-        if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
-            // do something
-            String recvAddress = (String)wiz.getProperty("recvAddress");
-            String value = (String)wiz.getProperty("value");
-            boolean isGasDefault = (boolean)wiz.getProperty("isGasDefault");
-            int gas = (int)wiz.getProperty("gas");
-            String pwd = (String)wiz.getProperty("password");
-            
-            try {
-                String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), recvAddress, coin.mainUint2MinUint(NumberUtils.toDouble(value)), isGasDefault ? null : BigInteger.valueOf(gas));
-                JXHyperlink hashLink = parent.getHashLink();
-                hashLink.setText(hash);
-                // 气泡提示
-                try {
-                    JLabel lbl = new JLabel("最近一次交易哈希已更新，单击打开区块链浏览器查看交易状态");
-                    BalloonTip balloonTip = new BalloonTip(hashLink, 
-                                    lbl,
-                                    Utils.createBalloonTipStyle(),
-                                    Utils.createBalloonTipPositioner(), 
-                                    null);
-                    TimingUtils.showTimedBalloon(balloonTip, 3000);
-                } catch (Exception ex) {
-                    Exceptions.printStackTrace(ex);
-                }
-                
-                // 根据交易哈希查询转账结果
-                System.out.println("根据交易哈希查询转账结果");
-                final ProgressHandle ph = ProgressHandle.createHandle("正在查询交易状态，请稍候");
-                SwingWorker<BlockChain.TransactionStatus, Void> worker = new SwingWorker<BlockChain.TransactionStatus, Void>() {
-                    BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
-                    
-                    @Override
-                    protected BlockChain.TransactionStatus doInBackground() throws Exception {
-                        ph.start();
-                        System.out.println("获得交易状态");
-                        return bc.getTransactionStatusByHash(hash);
-                    }
-
-                    @Override
-                    protected void done() {
-                        ph.finish();
-                        System.out.println("通知用户");
-                        try {
-                            BlockChain.TransactionStatus result = get();
-                            
-                            if(result == BlockChain.TransactionStatus.SUCCESS) {
-                                // 交易成功，刷新余额及交易记录
-                                refreshBtnActionPerformed(null);
-                            } else if(result == BlockChain.TransactionStatus.FAILED) {
-                                // 交易失败
-                                NotificationDisplayer.getDefault().notify(
-                                        "交易失败",
-                                        ImageUtilities.loadImageIcon("resource/gourd32.png", false),
-                                        "点击此处打开区块链浏览器查询交易状态",
-                                        new LinkAction(bc.getTransactionDetailUrl(hash))
-                                );
-                            } else {
-                                // 交易为确认，提示用户手动查询交易结果
-                                NotificationDisplayer.getDefault().notify(
-                                        "交易尚未确认",
-                                        ImageUtilities.loadImageIcon("resource/gourd32.png", false),
-                                        "点击此处打开区块链浏览器查询交易状态",
-                                        new LinkAction(bc.getTransactionDetailUrl(hash))
-                                );
-                            }
-                        } catch (InterruptedException | ExecutionException ex) {
-                            Exceptions.printStackTrace(ex);
-                        }
-                    }
-                };
-                worker.execute();
-                
-                
-            } catch (Exception ex) {
-                Exceptions.printStackTrace(ex);
-            }
-        }
-    }//GEN-LAST:event_transferBtnActionPerformed
 
     private static final class LinkAction implements ActionListener {
         
@@ -599,6 +620,6 @@ public class CoinPanel extends JXPanel {
     private javax.swing.JRadioButton sendRadio;
     private org.jdesktop.swingx.JXTable table;
     private org.jdesktop.swingx.JXLabel tableRowsLbl;
-    private org.jdesktop.swingx.JXButton transferBtn;
+    private javax.swing.JToolBar toolbar;
     // End of variables declaration//GEN-END:variables
 }

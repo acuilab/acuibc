@@ -145,6 +145,10 @@ public interface ICoin {
      */
     boolean isDivisible();
     
+    default BigInteger getDefaultGas(){
+        return BigInteger.ZERO;
+    }
+    
 //    public static enum Type {
 //        // 主网币、代币
 //        BASE, TOKEN
@@ -165,4 +169,6 @@ public interface ICoin {
     default boolean isBaseCoin() {
         return getContractAddress() == null;
     }
+    
+    
 }

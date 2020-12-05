@@ -91,6 +91,7 @@ public class CoinPanel extends JXPanel {
         
         // Toolbar
         JXButton transferBtn = new JXButton("转账");
+        transferBtn.setIcon(ImageUtilities.loadImageIcon("/resource/transfer16.png", false));
         transferBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -201,6 +202,7 @@ public class CoinPanel extends JXPanel {
         // Coin个性化扩展
         if(coin instanceof ICFXCoin) {
             JXButton stakingBtn = new JXButton("质押");
+            stakingBtn.setIcon(ImageUtilities.loadImageIcon("/resource/staking16.png", false));
             stakingBtn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {

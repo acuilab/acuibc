@@ -276,7 +276,6 @@ public class WalletPanel extends JXPanel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("arg=" + arg);
         walletNameFld.setText(((Wallet)o).getName());
     }
 }

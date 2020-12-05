@@ -21,8 +21,12 @@ import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.KeyStroke;
 import javax.swing.SwingWorker;
+import net.java.balloontip.BalloonTip;
+import net.java.balloontip.examples.complete.Utils;
+import net.java.balloontip.utils.TimingUtils;
 import org.javatuples.Pair;
 import org.netbeans.api.progress.ProgressHandle;
 import org.openide.util.Exceptions;
@@ -34,8 +38,8 @@ import org.openide.util.ImageUtilities;
  */
 public class StakingDialog extends javax.swing.JDialog {
     
-    private Wallet wallet;
-    private ICFXCoin coin;
+    private final Wallet wallet;
+    private final ICFXCoin coin;
 
     /**
      * A return status code - returned if Cancel button has been pressed
@@ -131,7 +135,6 @@ public class StakingDialog extends javax.swing.JDialog {
 
         setTitle(org.openide.util.NbBundle.getMessage(StakingDialog.class, "StakingDialog.title")); // NOI18N
         setIconImage(ImageUtilities.loadImage("/resource/gourd32.png"));
-        setPreferredSize(new java.awt.Dimension(800, 600));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -275,7 +278,6 @@ public class StakingDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_closeDialog
 
     private void depositBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_depositBtnActionPerformed
-        // 
         PasswordVerifyDialog passwordVerifyDialog = new PasswordVerifyDialog(null, wallet);
         passwordVerifyDialog.setVisible(true);
         if(passwordVerifyDialog.getReturnStatus() == PasswordVerifyDialog.RET_OK) {
@@ -292,6 +294,7 @@ public class StakingDialog extends javax.swing.JDialog {
                         ph.start();
 
                         BigInteger balance = coin.balanceOf(wallet.getAddress());
+                        if(balance.) 
                         return coin.deposit(privateKey, balance.subtract(CfxUnit.CFX_ONE));
                     }
 

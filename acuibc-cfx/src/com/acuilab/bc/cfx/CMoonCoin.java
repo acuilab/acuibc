@@ -20,6 +20,7 @@ public class CMOONCoin extends ERC20Coin {
 
     public static final String NAME = "conflux MOON";
     public static final String SYMBOL = "cMOON";
+    //123123
 
     @Override
     public String getName() {

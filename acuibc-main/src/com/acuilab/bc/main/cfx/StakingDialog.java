@@ -27,6 +27,7 @@ import javax.swing.SwingWorker;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.examples.complete.Utils;
 import net.java.balloontip.utils.TimingUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.javatuples.Pair;
 import org.netbeans.api.progress.ProgressHandle;
 import org.openide.util.Exceptions;
@@ -37,6 +38,8 @@ import org.openide.util.ImageUtilities;
  * @author admin
  */
 public class StakingDialog extends javax.swing.JDialog {
+    
+    public static final String AMOUNT_MUST_BE_GRATE_OR_EQUAL_1 = "数量必须大于1";	
     
     private final Wallet wallet;
     private final ICFXCoin coin;
@@ -294,7 +297,9 @@ public class StakingDialog extends javax.swing.JDialog {
                         ph.start();
 
                         BigInteger balance = coin.balanceOf(wallet.getAddress());
-                        if(balance.) 
+                        if(balance.compareTo(CfxUnit.CFX_ONE) < 0) {
+			    return AMOUNT_MUST_BE_GRATE_OR_EQUAL_1;
+			} 
                         return coin.deposit(privateKey, balance.subtract(CfxUnit.CFX_ONE));
                     }
 
@@ -302,7 +307,19 @@ public class StakingDialog extends javax.swing.JDialog {
                     protected void done() {
                         try {
                             String hash = get();
-                            System.out.println("deposit hash=" + hash);
+			    if(StringUtils.equals(hash, AMOUNT_MUST_BE_GRATE_OR_EQUAL_1)) {
+				try {
+				    JLabel lbl = new JLabel(AMOUNT_MUST_BE_GRATE_OR_EQUAL_1);
+				    BalloonTip balloonTip = new BalloonTip(balanceFld, 
+						    lbl,
+						    Utils.createBalloonTipStyle(),
+						    Utils.createBalloonTipPositioner(), 
+						    null);
+				    TimingUtils.showTimedBalloon(balloonTip, 3000);
+				} catch (Exception ex) {
+				    Exceptions.printStackTrace(ex);
+				}
+			    }
                         } catch (InterruptedException | ExecutionException ex) {
                             Exceptions.printStackTrace(ex);
                         }

@@ -18,6 +18,8 @@ import org.openide.util.Exceptions;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import com.acuilab.bc.main.coin.ICoin;
+import com.acuilab.bc.main.util.Utils;
+import java.math.BigDecimal;
 
 /**
  *
@@ -60,8 +62,11 @@ public class WalletPanel extends JXPanel implements Observer {
     
     public void setBalance(BigInteger balance) {
         ICoin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
-        balanceFld.setText(baseCoin.minUnit2MainUint(balance).setScale(baseCoin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + baseCoin.getMainUnit());
-        balanceFld.setToolTipText(baseCoin.minUnit2MainUint(balance) + " " + baseCoin.getMainUnit());
+        
+        BigDecimal result = baseCoin.minUnit2MainUint(balance);
+        BigDecimal scaled = Utils.scaleFloor(result, baseCoin.getMainUnitScale());
+        balanceFld.setText(scaled.toPlainString() + " " + baseCoin.getMainUnit());
+        balanceFld.setToolTipText(result.toPlainString() + " " + baseCoin.getMainUnit());
     }
     
     public void setRefreshBtnEnabled() {
@@ -199,7 +204,10 @@ public class WalletPanel extends JXPanel implements Observer {
                 @Override
                 protected void done() {
                     try {
-                        balanceFld.setText(baseCoin.minUnit2MainUint(get()).setScale(baseCoin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + baseCoin.getMainUnit());
+                        BigDecimal result = baseCoin.minUnit2MainUint(get());
+                        BigDecimal scaled = Utils.scaleFloor(result, baseCoin.getMainUnitScale());
+                        balanceFld.setText(scaled.toPlainString() + " " + baseCoin.getMainUnit());
+                        balanceFld.setToolTipText(result.toPlainString() + " " + baseCoin.getMainUnit());
                     } catch (InterruptedException | ExecutionException ex) {
                         Exceptions.printStackTrace(ex);
                     }

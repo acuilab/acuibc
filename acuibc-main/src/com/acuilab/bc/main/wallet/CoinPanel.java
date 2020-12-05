@@ -60,6 +60,7 @@ import org.openide.windows.WindowManager;
 import org.jdesktop.swingx.JXButton;
 import org.openide.awt.ToolbarWithOverflow;
 import com.acuilab.bc.main.coin.ICoin;
+import java.math.BigDecimal;
 import javax.swing.BorderFactory;
 
 /**
@@ -216,9 +217,10 @@ public class CoinPanel extends JXPanel {
         buttonGroup1.add(sendRadio);
         
         // 余额
-        String balanceStr = coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit();
-        balanceFld.setText(balanceStr);
-        balanceFld.setToolTipText(coin.minUnit2MainUint(balance) + " " + coin.getMainUnit());
+        BigDecimal result = coin.minUnit2MainUint(balance);
+        BigDecimal scaled = com.acuilab.bc.main.util.Utils.scaleFloor(result, coin.getMainUnitScale());
+        balanceFld.setText(scaled.toPlainString() + " " + coin.getMainUnit());
+        balanceFld.setToolTipText(result.toPlainString() + " " + coin.getMainUnit());
         // 合约地址
         if(!coin.isBaseCoin()) {
             contractAddressFld.setText(coin.getContractAddress());
@@ -542,7 +544,6 @@ public class CoinPanel extends JXPanel {
     }
     
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
-        System.out.println("refreshBtnActionPerformed");
         refreshBtn.setEnabled(false);
         final ProgressHandle ph = ProgressHandle.createHandle("正在请求余额及交易记录，请稍候");
         SwingWorker<Pair<BigInteger, List<TransferRecord>>, Void> worker = new SwingWorker<Pair<BigInteger, List<TransferRecord>>, Void>() {
@@ -550,11 +551,9 @@ public class CoinPanel extends JXPanel {
             protected Pair<BigInteger, List<TransferRecord>> doInBackground() throws Exception {
                 ph.start();
                 // 请求余额
-                System.out.println("请求余额");
                 BigInteger balance = coin.balanceOf(wallet.getAddress());
 
                 // 请求历史记录
-                System.out.println("请求历史记录");
                 List<TransferRecord> transferRecords = coin.getTransferRecords(wallet, coin, wallet.getAddress(), (Integer)limitSpinner.getValue());
                 
                 return new Pair(balance, transferRecords);
@@ -566,9 +565,10 @@ public class CoinPanel extends JXPanel {
                 try {
                     Pair<BigInteger, List<TransferRecord>> pair = get();
                     // 余额
-                    String balance = coin.minUnit2MainUint(pair.getValue0()).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit();
-                    balanceFld.setText(balance);
-                    balanceFld.setToolTipText(coin.minUnit2MainUint(pair.getValue0()) + " " + coin.getMainUnit());
+                    BigDecimal result = coin.minUnit2MainUint(pair.getValue0());
+                    BigDecimal scaled = com.acuilab.bc.main.util.Utils.scaleFloor(result, coin.getMainUnitScale());
+                    balanceFld.setText(scaled.toPlainString() + " " + coin.getMainUnit());
+                    balanceFld.setToolTipText(result.toPlainString() + " " + coin.getMainUnit());
                     balanceFld.repaint();
                     // 交易记录
                     tableModel.clear();

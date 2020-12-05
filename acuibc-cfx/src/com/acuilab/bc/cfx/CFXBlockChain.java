@@ -14,7 +14,6 @@ import party.loveit.bip44forjava.utils.Bip44Utils;
 import javax.swing.Icon;
 import org.openide.util.ImageUtilities;
 import com.acuilab.bc.main.BlockChain;
-import conflux.web3j.CfxUnit;
 import conflux.web3j.response.Status;
 import conflux.web3j.response.Transaction;
 import conflux.web3j.types.Address;
@@ -115,29 +114,6 @@ public class CFXBlockChain implements BlockChain {
         
         // 获得gasPrice
         gasPrice = cfx.getGasPrice().sendAndGet();
-        
-        // 质押余额
-//        System.out.println("质押余额");
-//        String privateKey = "0x2ac64045eebf9536d087a76a3843611069e206924fd82e8a76493abcae92284d";
-//        Account account = Account.create(cfx, privateKey);
-//        
-//        String stakingContractAddress = "0x0888000000000000000000000000000000000002";
-//        try {
-//String hash = account.call(stakingContractAddress, "deposit", new org.web3j.abi.datatypes.Uint(CfxUnit.CFX_ONE));
-//System.out.println("hash="+hash);
-//        } catch (Exception ex) {
-//            Logger.getLogger(CFXBlockChain.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
-//        try {
-//String hash = account.call(stakingContractAddress, "withdraw", new org.web3j.abi.datatypes.Uint(CfxUnit.CFX_ONE));
-//System.out.println("hash="+hash);
-//        } catch (Exception ex) {
-//            Logger.getLogger(CFXBlockChain.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        
-//        System.out.println("质押余额=" +cfx.getStakingBalance("0x1000000c2c78ae6b9c33a793820021702378fed5").sendAndGet().toString());
-//        System.out.println("质押余额end");
     }
     
 

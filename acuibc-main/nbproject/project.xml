@@ -204,6 +204,7 @@
             <public-packages>
                 <package>com.acuilab.bc.main</package>
                 <package>com.acuilab.bc.main.coin</package>
+                <package>com.acuilab.bc.main.nft</package>
                 <package>com.acuilab.bc.main.util</package>
                 <package>com.acuilab.bc.main.wallet</package>
             </public-packages>

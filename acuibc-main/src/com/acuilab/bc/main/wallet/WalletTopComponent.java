@@ -20,12 +20,10 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
 import java.net.URI;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -35,19 +33,17 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.SwingWorker;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.examples.complete.Utils;
 import net.java.balloontip.utils.TimingUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.javatuples.Quartet;
 import org.jdesktop.swingx.JXHyperlink;
-import org.netbeans.api.progress.ProgressHandle;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.springframework.util.DigestUtils;
 import com.acuilab.bc.main.coin.ICoin;
+import javax.swing.JTabbedPane;
 
 /**
  * Top component which displays something.
@@ -98,45 +94,56 @@ public final class WalletTopComponent extends TopComponent implements Observer {
         if(StringUtils.isBlank(wallet.getMnemonicAES())) {
             mnemonicExportBtn.setToolTipText("私钥导入，无助记词");
         }
+	
+	// 初始化coinPane
+	for(ICoin coin : CoinManager.getDefault().getCoinList(wallet.getBlockChainSymbol())) {
+	    coinPane.addTab(coin.getName(), coin.getIcon(16), new CoinPanel(WalletTopComponent.this,wallet, coin), coin.getName());
+	}
+	
+	// 请求第一个代币的余额及交易记录
+	if(coinPane.getComponentCount() > 0) {
+	    CoinPanel first = (CoinPanel)coinPane.getComponentAt(0);
+	    first.refreshBtnActionPerformed();
+	}
         
-        // 统一请求余额和历史记录
-        final ProgressHandle ph = ProgressHandle.createHandle("正在请求余额及交易记录，请稍候");
-        SwingWorker<Void, Quartet<Integer, ICoin, BigInteger, List<TransferRecord>>> worker = new SwingWorker<Void, Quartet<Integer, ICoin, BigInteger, List<TransferRecord>>>() {
-            @Override
-            protected Void doInBackground() throws Exception {
-                List<ICoin> list = CoinManager.getDefault().getCoinList(wallet.getBlockChainSymbol());
-                ph.start(list.size());
-                for(int i=0; i<list.size(); i++) {
-                    ICoin coin = list.get(i);
-                    // 请求余额
-                    BigInteger balance = coin.balanceOf(wallet.getAddress());
-                
-                    // 请求历史记录
-                    List<TransferRecord> transferRecords = coin.getTransferRecords(wallet, coin, wallet.getAddress(), 100);
-                    
-                    publish(new Quartet<>(i, coin, balance, transferRecords));
-                }
-
-                return null;
-            }
-
-            @Override
-            protected void process(List<Quartet<Integer, ICoin, BigInteger, List<TransferRecord>>> chunks) {
-                for(Quartet<Integer, ICoin, BigInteger, List<TransferRecord>> chunk : chunks) {
-                    ICoin coin = chunk.getValue1();
-                    tabbedPane1.addTab(coin.getName(), coin.getIcon(16), new CoinPanel(WalletTopComponent.this,wallet, coin, chunk.getValue2(), chunk.getValue3()), coin.getName());
-                    ph.progress(chunk.getValue0()+1);
-                }
-            }
-
-            @Override
-            protected void done() {
-                ph.finish();
-            }
-            
-            
-        };
-        worker.execute();
+//        // 统一请求余额和历史记录
+//        final ProgressHandle ph = ProgressHandle.createHandle("正在请求余额及交易记录，请稍候");
+//        SwingWorker<Void, Quartet<Integer, ICoin, BigInteger, List<TransferRecord>>> worker = new SwingWorker<Void, Quartet<Integer, ICoin, BigInteger, List<TransferRecord>>>() {
+//            @Override
+//            protected Void doInBackground() throws Exception {
+//                List<ICoin> list = CoinManager.getDefault().getCoinList(wallet.getBlockChainSymbol());
+//                ph.start(list.size());
+//                for(int i=0; i<list.size(); i++) {
+//                    ICoin coin = list.get(i);
+//                    // 请求余额
+//                    BigInteger balance = coin.balanceOf(wallet.getAddress());
+//                
+//                    // 请求历史记录
+//                    List<TransferRecord> transferRecords = coin.getTransferRecords(wallet, coin, wallet.getAddress(), 100);
+//                    
+//                    publish(new Quartet<>(i, coin, balance, transferRecords));
+//                }
+//
+//                return null;
+//            }
+//
+//            @Override
+//            protected void process(List<Quartet<Integer, ICoin, BigInteger, List<TransferRecord>>> chunks) {
+//                for(Quartet<Integer, ICoin, BigInteger, List<TransferRecord>> chunk : chunks) {
+//                    ICoin coin = chunk.getValue1();
+//                    tabbedPane1.addTab(coin.getName(), coin.getIcon(16), new CoinPanel(WalletTopComponent.this,wallet, coin, chunk.getValue2(), chunk.getValue3()), coin.getName());
+//                    ph.progress(chunk.getValue0()+1);
+//                }
+//            }
+//
+//            @Override
+//            protected void done() {
+//                ph.finish();
+//            }
+//            
+//            
+//        };
+//        worker.execute();
         
         // 这是一个新打开的窗口，生成新的窗口id并保存
         int id = ID.incrementAndGet();
@@ -155,7 +162,9 @@ public final class WalletTopComponent extends TopComponent implements Observer {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tabbedPane1 = new javax.swing.JTabbedPane();
+        tabbedPane1 = new javax.swing.JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
+        coinPane = new javax.swing.JTabbedPane();
+        nftPane = new javax.swing.JTabbedPane();
         jXLabel1 = new org.jdesktop.swingx.JXLabel();
         walletNameFld = new org.jdesktop.swingx.JXTextField();
         walletAddressFld = new org.jdesktop.swingx.JXTextField();
@@ -172,6 +181,14 @@ public final class WalletTopComponent extends TopComponent implements Observer {
         jXLabel5 = new org.jdesktop.swingx.JXLabel();
         jXLabel6 = new org.jdesktop.swingx.JXLabel();
         copyAddressBtn = new org.jdesktop.swingx.JXButton();
+
+        coinPane.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                coinPaneStateChanged(evt);
+            }
+        });
+        tabbedPane1.addTab(org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.coinPane.TabConstraints.tabTitle"), coinPane); // NOI18N
+        tabbedPane1.addTab(org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.nftPane.TabConstraints.tabTitle"), nftPane); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.jXLabel1.text")); // NOI18N
         jXLabel1.setMaximumSize(new java.awt.Dimension(128, 128));
@@ -550,8 +567,16 @@ public final class WalletTopComponent extends TopComponent implements Observer {
         }
     }//GEN-LAST:event_copyAddressBtnActionPerformed
 
+    private void coinPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_coinPaneStateChanged
+	    CoinPanel selected = (CoinPanel)coinPane.getSelectedComponent();
+	    if(selected != null) {
+		selected.refreshBtnActionPerformed();
+	    }
+    }//GEN-LAST:event_coinPaneStateChanged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXLabel barcodeLbl;
+    private javax.swing.JTabbedPane coinPane;
     private org.jdesktop.swingx.JXButton copyAddressBtn;
     private org.jdesktop.swingx.JXButton copyHashBtn;
     private org.jdesktop.swingx.JXHyperlink hashLink;
@@ -563,6 +588,7 @@ public final class WalletTopComponent extends TopComponent implements Observer {
     private org.jdesktop.swingx.JXLabel jXLabel6;
     private org.jdesktop.swingx.JXButton mnemonicExportBtn;
     private org.jdesktop.swingx.JXButton nameEditBtn;
+    private javax.swing.JTabbedPane nftPane;
     private org.jdesktop.swingx.JXButton privateKeyBtn;
     private org.jdesktop.swingx.JXButton pwdEditBtn;
     private javax.swing.JTabbedPane tabbedPane1;

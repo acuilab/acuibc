@@ -1,5 +1,6 @@
 package com.acuilab.bc.cfx;
 
+import static com.acuilab.bc.cfx.ConFiNFT.CONTRACT_ADDRESS;
 import conflux.web3j.Account;
 import conflux.web3j.Cfx;
 import java.io.IOException;
@@ -14,6 +15,8 @@ import party.loveit.bip44forjava.utils.Bip44Utils;
 import javax.swing.Icon;
 import org.openide.util.ImageUtilities;
 import com.acuilab.bc.main.BlockChain;
+import conflux.web3j.contract.ContractCall;
+import conflux.web3j.contract.abi.DecodeUtil;
 import conflux.web3j.response.Status;
 import conflux.web3j.response.Transaction;
 import conflux.web3j.types.Address;
@@ -22,6 +25,8 @@ import conflux.web3j.types.RawTransaction;
 import java.awt.Image;
 import java.util.Arrays;
 import org.javatuples.Pair;
+import org.web3j.abi.TypeReference;
+import org.web3j.abi.datatypes.DynamicArray;
 
 /**
  *
@@ -114,6 +119,12 @@ public class CFXBlockChain implements BlockChain {
         
         // 获得gasPrice
         gasPrice = cfx.getGasPrice().sendAndGet();
+	
+	ContractCall contract = new ContractCall(cfx, CONTRACT_ADDRESS);
+        // passing method name and parameter to `contract.call`
+        // note: parameters should use web3j.abi.datatypes type
+        String value = contract.call("uri", new org.web3j.abi.datatypes.Uint(BigInteger.valueOf(14l))).sendAndGet();
+        System.out.println(DecodeUtil.decode(value, org.web3j.abi.datatypes.Utf8String.class));
     }
     
 

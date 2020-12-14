@@ -83,7 +83,7 @@ public class CoinPanel extends JXPanel {
      * @param balance
      * @param transferRecords
      */
-    public CoinPanel(WalletTopComponent parent, Wallet wallet, ICoin coin, BigInteger balance, List<TransferRecord> transferRecords) {
+    public CoinPanel(WalletTopComponent parent, Wallet wallet, ICoin coin) {
         initComponents();
         this.parent = parent;
         this.wallet = wallet;
@@ -218,11 +218,6 @@ public class CoinPanel extends JXPanel {
         buttonGroup1.add(recvRadio);
         buttonGroup1.add(sendRadio);
         
-        // 余额
-        BigDecimal result = coin.minUnit2MainUint(balance);
-        BigDecimal scaled = com.acuilab.bc.main.util.Utils.scaleFloor(result, coin.getMainUnitScale());
-        balanceFld.setText(scaled.toPlainString() + " " + coin.getMainUnit());
-        balanceFld.setToolTipText(result.toPlainString() + " " + coin.getMainUnit());
         // 合约地址
         if(!coin.isBaseCoin()) {
             contractAddressFld.setText(coin.getContractAddress());
@@ -334,8 +329,6 @@ public class CoinPanel extends JXPanel {
 //        });
 //        table.setRowSorter(sorter);
         
-        // 交易记录
-        tableModel.add(transferRecords);
         table.setHorizontalScrollEnabled(true);
         table.packAll();
     }
@@ -543,6 +536,10 @@ public class CoinPanel extends JXPanel {
                 }
             }
         }
+    }
+    
+    public void refreshBtnActionPerformed() {
+	refreshBtnActionPerformed(null);
     }
     
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed

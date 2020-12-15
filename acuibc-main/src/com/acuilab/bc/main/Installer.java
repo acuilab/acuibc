@@ -2,6 +2,7 @@ package com.acuilab.bc.main;
 
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
+import com.acuilab.bc.main.manager.NFTManager;
 import com.acuilab.bc.main.ui.ConfirmDialog;
 import com.acuilab.bc.main.util.Constants;
 import java.io.File;
@@ -41,6 +42,7 @@ public class Installer extends ModuleInstall {
         // init
         BlockChainManager.getDefault();
         CoinManager.getDefault();
+	NFTManager.getDefault();
         
         // 设置主窗口标题
         WindowManager.getDefault().invokeWhenUIReady(new Runnable() {

@@ -119,12 +119,12 @@ public class CFXBlockChain implements BlockChain {
         
         // 获得gasPrice
         gasPrice = cfx.getGasPrice().sendAndGet();
-	
-	ContractCall contract = new ContractCall(cfx, CONTRACT_ADDRESS);
-        // passing method name and parameter to `contract.call`
-        // note: parameters should use web3j.abi.datatypes type
-        String value = contract.call("uri", new org.web3j.abi.datatypes.Uint(BigInteger.valueOf(14l))).sendAndGet();
-        System.out.println(DecodeUtil.decode(value, org.web3j.abi.datatypes.Utf8String.class));
+//	
+//	ContractCall contract = new ContractCall(cfx, CONTRACT_ADDRESS);
+//        // passing method name and parameter to `contract.call`
+//        // note: parameters should use web3j.abi.datatypes type
+//        String value = contract.call("uri", new org.web3j.abi.datatypes.Uint(BigInteger.valueOf(14l))).sendAndGet();
+//        System.out.println(DecodeUtil.decode(value, org.web3j.abi.datatypes.Utf8String.class));
     }
     
 

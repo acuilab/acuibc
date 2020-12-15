@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.math.BigInteger;
 import java.util.List;
 import javax.swing.Icon;
+import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.DynamicArray;
@@ -41,12 +42,12 @@ public class ConFiNFT implements INFT {
 
     @Override
     public Icon getIcon(int size) {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return ImageUtilities.loadImageIcon("/resource/confi" + size + ".png", true);
     }
 
     @Override
     public Image getIconImage(int size) {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return ImageUtilities.loadImage("/resource/confi" + size + ".png", true);
     }
 
     @Override
@@ -67,13 +68,13 @@ public class ConFiNFT implements INFT {
     }
     
     @Override
-    public String uri(String address) {
+    public String getMetaData(BigInteger tokenId) {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
 	ContractCall contract = new ContractCall(cfx, CONTRACT_ADDRESS);
         // passing method name and parameter to `contract.call`
         // note: parameters should use web3j.abi.datatypes type
-        String value = contract.call("uri", new org.web3j.abi.datatypes.Address(address)).sendAndGet();
+        String value = contract.call("uri", new org.web3j.abi.datatypes.Uint(tokenId)).sendAndGet();
         return DecodeUtil.decode(value, org.web3j.abi.datatypes.Utf8String.class);
     }
 }

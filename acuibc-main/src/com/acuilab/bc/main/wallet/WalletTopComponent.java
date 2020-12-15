@@ -43,6 +43,8 @@ import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.springframework.util.DigestUtils;
 import com.acuilab.bc.main.coin.ICoin;
+import com.acuilab.bc.main.manager.NFTManager;
+import com.acuilab.bc.main.nft.INFT;
 import javax.swing.JTabbedPane;
 
 /**
@@ -97,13 +99,24 @@ public final class WalletTopComponent extends TopComponent implements Observer {
 	
 	// 初始化coinPane
 	for(ICoin coin : CoinManager.getDefault().getCoinList(wallet.getBlockChainSymbol())) {
-	    coinPane.addTab(coin.getName(), coin.getIcon(16), new CoinPanel(WalletTopComponent.this,wallet, coin), coin.getName());
+	    coinPane.addTab(coin.getName(), coin.getIcon(16), new CoinPanel(WalletTopComponent.this, wallet, coin), coin.getName());
+	}
+	
+	// 初始化NFTPanel
+	for(INFT nft : NFTManager.getDefault().getNFTList(wallet.getBlockChainSymbol())) {
+	    nftPane.addTab(nft.getName(), nft.getIcon(16), new NFTPanel(wallet, nft), nft.getName());
 	}
 	
 	// 请求第一个代币的余额及交易记录
 	if(coinPane.getComponentCount() > 0) {
 	    CoinPanel first = (CoinPanel)coinPane.getComponentAt(0);
 	    first.refreshBtnActionPerformed();
+	}
+	
+	// 请求第一个nft列表
+	if(nftPane.getComponentCount() > 0) {
+	    NFTPanel first = (NFTPanel)nftPane.getComponent(0);
+	    first.reload();
 	}
         
 //        // 统一请求余额和历史记录

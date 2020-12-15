@@ -39,5 +39,10 @@ public interface INFT {
      */
     BigInteger[] tokensOf(String address);
     
-    String uri(String address);
+    /**
+     * 
+     * @param tokenId
+     * @return	  
+     */
+    String getMetaData(BigInteger tokenId);
 }

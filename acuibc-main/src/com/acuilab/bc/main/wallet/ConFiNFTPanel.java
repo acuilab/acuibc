@@ -1,7 +1,15 @@
 package com.acuilab.bc.main.wallet;
 
+import javax.print.DocFlavor;
+import org.apache.commons.lang3.StringUtils;
 import org.jdesktop.swingx.JXPanel;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+//import org.json.JSONArray;
+//import org.json.JSONObject;
 /**
  *
  * @author admin
@@ -13,6 +21,54 @@ public class ConFiNFTPanel extends JXPanel {
      */
     public ConFiNFTPanel(String metaData) {
 	initComponents();
+        this.idLbl.setText("编号："+StringUtils.substring(metaData, 0,StringUtils.indexOf(metaData, '{')));
+        
+        //JSONArray jsonArray = JSONArray.fromObject(JsonContext);
+        String metaDataSlim = metaData.replace("\"","");
+        System.out.println(metaDataSlim);
+        String nameStr = "001";
+        nameStr = StringUtils.substringBetween(metaDataSlim,"title:","_");
+        System.out.println(nameStr);
+        String name="烤仔";
+        if(StringUtils.equals(nameStr, "001")){
+            name="明星烤仔";
+        }else if(StringUtils.equals(nameStr, "002")){
+            name="烤仔与烤喵";
+        }else if(StringUtils.equals(nameStr, "003")){
+            name="天使烤仔";
+        }else if(StringUtils.equals(nameStr, "004")){
+            name="恶魔烤仔";
+        }else if(StringUtils.equals(nameStr, "005")){
+            name="矿工烤仔";
+        }else if(StringUtils.equals(nameStr, "006")){
+            name="金鼠烤仔";
+        }else if(StringUtils.equals(nameStr, "007")){
+            name="博士烤仔";
+        }else if(StringUtils.equals(nameStr, "008")){
+            name="嘻哈烤仔";
+        }
+        
+        //String urlImage = "http://cdn.tspace.online/image/finish/" + StringUtils.substring(metaDataSlim,StringUtils.indexOf(metaDataSlim,"url:")+4,35);
+        
+        String urlImage = "http://cdn.tspace.online/image/finish/" + StringUtils.substringBetween(metaDataSlim,"url:","}");
+        
+        
+        this.nameLbl.setText("名称："+name);
+        this.platformLbl.setText("平台：烤仔城市");
+        this.descTextArea.setText(metaData);
+        
+        try {
+            URL url = new URL(urlImage);
+            this.jXImageView1.setImageURL(url);
+           // this.jXImageView1.setScale(0.5);
+            System.out.println(urlImage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        //this.jXImageView1.setImage(urlImage));
+        //8016{"body":"000","eye":"013","nose":"001","auxiliary":"001","background":"000","clothes":"006","props":"000","title":"002_000_000_013_001_000_001_000","url":"002_000_000_013_001_000_001_000.png"}
+        //http://cdn.tspace.online/image/finish/001_000_000_003_005_001_004_001.png
     }
 
     /**
@@ -25,14 +81,16 @@ public class ConFiNFTPanel extends JXPanel {
         jXImageView1 = new org.jdesktop.swingx.JXImageView();
         nameLbl = new org.jdesktop.swingx.JXLabel();
         idLbl = new org.jdesktop.swingx.JXLabel();
-        jXLabel1 = new org.jdesktop.swingx.JXLabel();
+        platformLbl = new org.jdesktop.swingx.JXLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         descTextArea = new org.jdesktop.swingx.JXTextArea();
         jXButton1 = new org.jdesktop.swingx.JXButton();
 
-        jXImageView1.setMaximumSize(new java.awt.Dimension(400, 400));
-        jXImageView1.setMinimumSize(new java.awt.Dimension(400, 400));
-        jXImageView1.setPreferredSize(new java.awt.Dimension(400, 400));
+        jXImageView1.setMaximumSize(new java.awt.Dimension(200, 200));
+        jXImageView1.setMinimumSize(new java.awt.Dimension(200, 200));
+        jXImageView1.setScale(0.5);
+        jXImageView1.setScrollableHeightHint(org.jdesktop.swingx.ScrollableSizeHint.FIT);
+        jXImageView1.setScrollableWidthHint(org.jdesktop.swingx.ScrollableSizeHint.FIT);
 
         javax.swing.GroupLayout jXImageView1Layout = new javax.swing.GroupLayout(jXImageView1);
         jXImageView1.setLayout(jXImageView1Layout);
@@ -42,14 +100,14 @@ public class ConFiNFTPanel extends JXPanel {
         );
         jXImageView1Layout.setVerticalGroup(
             jXImageView1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         org.openide.awt.Mnemonics.setLocalizedText(nameLbl, org.openide.util.NbBundle.getMessage(ConFiNFTPanel.class, "ConFiNFTPanel.nameLbl.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(idLbl, org.openide.util.NbBundle.getMessage(ConFiNFTPanel.class, "ConFiNFTPanel.idLbl.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(ConFiNFTPanel.class, "ConFiNFTPanel.jXLabel1.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(platformLbl, org.openide.util.NbBundle.getMessage(ConFiNFTPanel.class, "ConFiNFTPanel.platformLbl.text")); // NOI18N
 
         descTextArea.setColumns(20);
         descTextArea.setRows(5);
@@ -62,11 +120,11 @@ public class ConFiNFTPanel extends JXPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jXImageView1, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+            .addComponent(jXImageView1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, Short.MAX_VALUE)
             .addComponent(nameLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(idLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jXLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+            .addComponent(platformLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -74,16 +132,16 @@ public class ConFiNFTPanel extends JXPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jXImageView1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jXImageView1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(nameLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(idLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(platformLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -95,7 +153,7 @@ public class ConFiNFTPanel extends JXPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXButton jXButton1;
     private org.jdesktop.swingx.JXImageView jXImageView1;
-    private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel nameLbl;
+    private org.jdesktop.swingx.JXLabel platformLbl;
     // End of variables declaration//GEN-END:variables
 }

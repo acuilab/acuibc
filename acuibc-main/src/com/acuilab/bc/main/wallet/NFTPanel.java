@@ -30,9 +30,14 @@ public class NFTPanel extends JXPanel {
 	
 	for(BigInteger tokenId : tockens) {
 	    String metaData = nft.getMetaData(tokenId);
-	    
+	    System.out.println(metaData);
 	    // TODO: 根据metadata创建不同的panel
+            this.add(new ConFiNFTPanel(metaData));
 	}
+        
+//        for(int i=0; i<10; i++) {
+//            this.add(new ConFiNFTPanel("" + i));
+//        }
     }
 
     /**
@@ -42,6 +47,8 @@ public class NFTPanel extends JXPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        setScrollableHeightHint(org.jdesktop.swingx.ScrollableSizeHint.FIT);
+        setScrollableWidthHint(org.jdesktop.swingx.ScrollableSizeHint.FIT);
         setLayout(null);
     }// </editor-fold>//GEN-END:initComponents
 

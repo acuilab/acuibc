@@ -5,6 +5,7 @@ import java.awt.Image;
 import org.jdesktop.swingx.JXPanel;
 
 import java.net.URL;
+import org.jdesktop.swingx.painter.PinstripePainter;
 //import org.json.JSONArray;
 //import org.json.JSONObject;
 /**
@@ -18,36 +19,8 @@ public class ConFiNFTPanel extends JXPanel {
      */
     public ConFiNFTPanel(MetaData metaData) {
 	initComponents();
+	this.setBackgroundPainter(new PinstripePainter());
         this.idLbl.setText("编号：" + metaData.getId());
-        
-//        //JSONArray jsonArray = JSONArray.fromObject(JsonContext);
-//        String metaDataSlim = metaData.replace("\"","");
-//        System.out.println(metaDataSlim);
-//        String nameStr = "001";
-//        nameStr = StringUtils.substringBetween(metaDataSlim,"title:","_");
-//        System.out.println(nameStr);
-//        String name="烤仔";
-//        if(StringUtils.equals(nameStr, "001")){
-//            name="明星烤仔";
-//        }else if(StringUtils.equals(nameStr, "002")){
-//            name="烤仔与烤喵";
-//        }else if(StringUtils.equals(nameStr, "003")){
-//            name="天使烤仔";
-//        }else if(StringUtils.equals(nameStr, "004")){
-//            name="恶魔烤仔";
-//        }else if(StringUtils.equals(nameStr, "005")){
-//            name="矿工烤仔";
-//        }else if(StringUtils.equals(nameStr, "006")){
-//            name="金鼠烤仔";
-//        }else if(StringUtils.equals(nameStr, "007")){
-//            name="博士烤仔";
-//        }else if(StringUtils.equals(nameStr, "008")){
-//            name="嘻哈烤仔";
-//        }
-//        
-//        //String urlImage = "http://cdn.tspace.online/image/finish/" + StringUtils.substring(metaDataSlim,StringUtils.indexOf(metaDataSlim,"url:")+4,35);
-//        
-//        String urlImage = "http://cdn.tspace.online/image/finish/" + StringUtils.substringBetween(metaDataSlim,"url:","}");
         
         
         this.nameLbl.setText("名称：" + metaData.getName());

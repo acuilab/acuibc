@@ -48,8 +48,8 @@ import com.acuilab.bc.main.nft.INFT;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS;
-import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
+import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
+import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
 
 /**
  * Top component which displays something.
@@ -109,7 +109,7 @@ public final class WalletTopComponent extends TopComponent implements Observer {
 	// 初始化NFTPanel
 	for(INFT nft : NFTManager.getDefault().getNFTList(wallet.getBlockChainSymbol())) {
 	    JPanel nftPanel = new NFTPanel(wallet, nft);
-	    JScrollPane scrollPane = new JScrollPane(nftPanel, VERTICAL_SCROLLBAR_ALWAYS, HORIZONTAL_SCROLLBAR_ALWAYS);
+	    JScrollPane scrollPane = new JScrollPane(nftPanel, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER);
 	    nftPane.addTab(nft.getName(), nft.getIcon(16), scrollPane, nft.getName());
 	}
 	

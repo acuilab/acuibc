@@ -113,57 +113,18 @@ public final class WalletTopComponent extends TopComponent implements Observer {
 	    nftPane.addTab(nft.getName(), nft.getIcon(16), scrollPane, nft.getName());
 	}
 	
-	// 请求第一个代币的余额及交易记录
-	if(coinPane.getComponentCount() > 0) {
-	    CoinPanel first = (CoinPanel)coinPane.getComponentAt(0);
-	    first.refreshBtnActionPerformed();
-	}
-	
-	// 请求第一个nft列表
-	if(nftPane.getComponentCount() > 0) {
-	    JScrollPane scrollPane = (JScrollPane)nftPane.getComponent(0);
-	    NFTPanel first = (NFTPanel)scrollPane.getViewport().getView();
-	    first.reload();
-	}
-        
-//        // 统一请求余额和历史记录
-//        final ProgressHandle ph = ProgressHandle.createHandle("正在请求余额及交易记录，请稍候");
-//        SwingWorker<Void, Quartet<Integer, ICoin, BigInteger, List<TransferRecord>>> worker = new SwingWorker<Void, Quartet<Integer, ICoin, BigInteger, List<TransferRecord>>>() {
-//            @Override
-//            protected Void doInBackground() throws Exception {
-//                List<ICoin> list = CoinManager.getDefault().getCoinList(wallet.getBlockChainSymbol());
-//                ph.start(list.size());
-//                for(int i=0; i<list.size(); i++) {
-//                    ICoin coin = list.get(i);
-//                    // 请求余额
-//                    BigInteger balance = coin.balanceOf(wallet.getAddress());
-//                
-//                    // 请求历史记录
-//                    List<TransferRecord> transferRecords = coin.getTransferRecords(wallet, coin, wallet.getAddress(), 100);
-//                    
-//                    publish(new Quartet<>(i, coin, balance, transferRecords));
-//                }
-//
-//                return null;
-//            }
-//
-//            @Override
-//            protected void process(List<Quartet<Integer, ICoin, BigInteger, List<TransferRecord>>> chunks) {
-//                for(Quartet<Integer, ICoin, BigInteger, List<TransferRecord>> chunk : chunks) {
-//                    ICoin coin = chunk.getValue1();
-//                    tabbedPane1.addTab(coin.getName(), coin.getIcon(16), new CoinPanel(WalletTopComponent.this,wallet, coin, chunk.getValue2(), chunk.getValue3()), coin.getName());
-//                    ph.progress(chunk.getValue0()+1);
-//                }
-//            }
-//
-//            @Override
-//            protected void done() {
-//                ph.finish();
-//            }
-//            
-//            
-//        };
-//        worker.execute();
+//	// 请求第一个代币的余额及交易记录
+//	if(coinPane.getComponentCount() > 0) {
+//	    CoinPanel first = (CoinPanel)coinPane.getComponentAt(0);
+//	    first.refreshBtnActionPerformed();
+//	}
+//	
+//	// 请求第一个nft列表
+//	if(nftPane.getComponentCount() > 0) {
+//	    JScrollPane scrollPane = (JScrollPane)nftPane.getComponent(0);
+//	    NFTPanel first = (NFTPanel)scrollPane.getViewport().getView();
+//	    first.reload();
+//	}
         
         // 这是一个新打开的窗口，生成新的窗口id并保存
         int id = ID.incrementAndGet();
@@ -208,6 +169,12 @@ public final class WalletTopComponent extends TopComponent implements Observer {
             }
         });
         tabbedPane1.addTab(org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.coinPane.TabConstraints.tabTitle"), coinPane); // NOI18N
+
+        nftPane.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                nftPaneStateChanged(evt);
+            }
+        });
         tabbedPane1.addTab(org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.nftPane.TabConstraints.tabTitle"), nftPane); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.jXLabel1.text")); // NOI18N
@@ -588,11 +555,19 @@ public final class WalletTopComponent extends TopComponent implements Observer {
     }//GEN-LAST:event_copyAddressBtnActionPerformed
 
     private void coinPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_coinPaneStateChanged
-	    CoinPanel selected = (CoinPanel)coinPane.getSelectedComponent();
-	    if(selected != null) {
-		selected.refreshBtnActionPerformed();
-	    }
+	CoinPanel selected = (CoinPanel)coinPane.getSelectedComponent();
+	if(selected != null) {
+	    selected.refreshBtnActionPerformed();
+	}
     }//GEN-LAST:event_coinPaneStateChanged
+
+    private void nftPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_nftPaneStateChanged
+	JScrollPane scrollPane = (JScrollPane)nftPane.getSelectedComponent();
+	NFTPanel selected = (NFTPanel)scrollPane.getViewport().getView();
+	if(selected != null) {
+	    selected.reload();
+	}
+    }//GEN-LAST:event_nftPaneStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXLabel barcodeLbl;

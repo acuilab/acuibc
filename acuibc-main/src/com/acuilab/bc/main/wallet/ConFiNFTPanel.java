@@ -19,21 +19,20 @@ public class ConFiNFTPanel extends JXPanel {
      */
     public ConFiNFTPanel(MetaData metaData) {
 	initComponents();
-	this.setBackgroundPainter(new PinstripePainter());
         this.idLbl.setText("编号：" + metaData.getId());
         
         
         this.nameLbl.setText("名称：" + metaData.getName());
         this.platformLbl.setText("平台：" + metaData.getPlatform());
         this.descTextArea.setText(metaData.getDesc());
+	this.descTextArea.setToolTipText(metaData.getDesc());
         
         try {
             URL url = new URL(metaData.getImageUrl());
 	    this.imageView.setImage(url);
 	    Image image = imageView.getImage();
-	    double scaleX = 200.0d/image.getWidth(null);
-	    double scaleY = 200.0d/image.getHeight(null);
-	    System.out.println("scaleX=" + scaleX + ", scaleY=" + scaleY);
+	    double scaleX = 178.0d/image.getWidth(null);
+	    double scaleY = 178.0d/image.getHeight(null);
             this.imageView.setScale(Math.max(scaleX, scaleY));
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,6 +58,7 @@ public class ConFiNFTPanel extends JXPanel {
         jXButton1 = new org.jdesktop.swingx.JXButton();
         imageView = new org.jdesktop.swingx.JXImageView();
 
+        setBackground(javax.swing.UIManager.getDefaults().getColor("InternalFrame.activeTitleGradient"));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         setMaximumSize(new java.awt.Dimension(180, 320));
         setMinimumSize(new java.awt.Dimension(180, 320));
@@ -75,7 +75,7 @@ public class ConFiNFTPanel extends JXPanel {
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         descTextArea.setEditable(false);
-        descTextArea.setBackground(javax.swing.UIManager.getDefaults().getColor("Panel.background"));
+        descTextArea.setBackground(javax.swing.UIManager.getDefaults().getColor("InternalFrame.activeTitleGradient"));
         descTextArea.setBorder(null);
         descTextArea.setColumns(20);
         descTextArea.setLineWrap(true);
@@ -85,9 +85,9 @@ public class ConFiNFTPanel extends JXPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(jXButton1, org.openide.util.NbBundle.getMessage(ConFiNFTPanel.class, "ConFiNFTPanel.jXButton1.text")); // NOI18N
 
-        imageView.setMaximumSize(new java.awt.Dimension(180, 180));
-        imageView.setMinimumSize(new java.awt.Dimension(180, 180));
-        imageView.setPreferredSize(new java.awt.Dimension(180, 180));
+        imageView.setMaximumSize(new java.awt.Dimension(178, 178));
+        imageView.setMinimumSize(new java.awt.Dimension(178, 178));
+        imageView.setPreferredSize(new java.awt.Dimension(178, 178));
 
         javax.swing.GroupLayout imageViewLayout = new javax.swing.GroupLayout(imageView);
         imageView.setLayout(imageViewLayout);
@@ -97,7 +97,7 @@ public class ConFiNFTPanel extends JXPanel {
         );
         imageViewLayout.setVerticalGroup(
             imageViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 180, Short.MAX_VALUE)
+            .addGap(0, 178, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -107,11 +107,11 @@ public class ConFiNFTPanel extends JXPanel {
             .addComponent(nameLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(idLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(platformLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(imageView, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
+            .addComponent(imageView, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,7 +124,7 @@ public class ConFiNFTPanel extends JXPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(platformLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );

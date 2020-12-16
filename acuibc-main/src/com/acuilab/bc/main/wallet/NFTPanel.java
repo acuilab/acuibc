@@ -5,7 +5,11 @@ import com.acuilab.bc.main.nft.MetaData;
 import com.acuilab.bc.main.ui.WrapLayout;
 import java.awt.FlowLayout;
 import java.math.BigInteger;
+import java.util.List;
+import javax.swing.SwingWorker;
+import org.javatuples.Pair;
 import org.jdesktop.swingx.JXPanel;
+import org.netbeans.api.progress.ProgressHandle;
 
 /**
  *
@@ -26,19 +30,49 @@ public class NFTPanel extends JXPanel {
 	this.nft = nft;
     }
     
-    // 重新加载nft列表
+    // 重新加载nft列表(后台线程执行)
     public void reload() {
-	BigInteger[] tockens = nft.tokensOf(wallet.getAddress());
+        final ProgressHandle ph = ProgressHandle.createHandle("正在NFT列表，请稍候");
+        SwingWorker<Void, Pair<Integer, MetaData>> worker = new SwingWorker<Void, Pair<Integer, MetaData>>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                BigInteger[] tockens = nft.tokensOf(wallet.getAddress());
+                ph.start(tockens.length);
+                for(int i=0; i<tockens.length; i++) {
+                    MetaData metaData = nft.getMetaData(tockens[i]);
+                    
+                    publish(Pair.with(i, metaData));
+                }
+
+                return null;
+            }
+
+            @Override
+            protected void process(List<Pair<Integer, MetaData>> chunks) {
+                for(Pair<Integer, MetaData> chunk : chunks) {
+		    try {
+			NFTPanel.this.add(new ConFiNFTPanel(chunk.getValue1()));
+		    } catch (Exception ex) {
+		    }
+                    ph.progress(chunk.getValue0()+1);
+                }
+            }
+
+            @Override
+            protected void done() {
+                ph.finish();
+            }
+        };
+        worker.execute();
 	
-	for (BigInteger tokenId : tockens) {
-	    try {
-		MetaData metaData = nft.getMetaData(tokenId);
-		System.out.println(metaData);
-		// TODO: 根据metadata创建不同的panel
-		this.add(new ConFiNFTPanel(metaData));
-	    } catch (Exception ex) {
-	    }
-	}
+//	for (BigInteger tokenId : tockens) {
+//	    try {
+//		MetaData metaData = nft.getMetaData(tokenId);
+//		// TODO: 根据metadata创建不同的panel
+//		this.add(new ConFiNFTPanel(metaData));
+//	    } catch (Exception ex) {
+//	    }
+//	}
         
     }
 

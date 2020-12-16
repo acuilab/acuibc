@@ -1,7 +1,9 @@
 package com.acuilab.bc.main.wallet;
 
 import com.acuilab.bc.main.nft.INFT;
+import com.acuilab.bc.main.nft.MetaData;
 import com.acuilab.bc.main.ui.WrapLayout;
+import java.awt.FlowLayout;
 import java.math.BigInteger;
 import org.jdesktop.swingx.JXPanel;
 
@@ -18,7 +20,7 @@ public class NFTPanel extends JXPanel {
      */
     public NFTPanel(Wallet wallet, INFT nft) {
 	initComponents();
-	setLayout(new WrapLayout());
+	setLayout(new WrapLayout(FlowLayout.CENTER, 10, 10));
 	
 	this.wallet = wallet;
 	this.nft = nft;
@@ -28,16 +30,16 @@ public class NFTPanel extends JXPanel {
     public void reload() {
 	BigInteger[] tockens = nft.tokensOf(wallet.getAddress());
 	
-	for(BigInteger tokenId : tockens) {
-	    String metaData = nft.getMetaData(tokenId);
-	    System.out.println(metaData);
-	    // TODO: 根据metadata创建不同的panel
-            this.add(new ConFiNFTPanel(metaData));
+	for (BigInteger tokenId : tockens) {
+	    try {
+		MetaData metaData = nft.getMetaData(tokenId);
+		System.out.println(metaData);
+		// TODO: 根据metadata创建不同的panel
+		this.add(new ConFiNFTPanel(metaData));
+	    } catch (Exception ex) {
+	    }
 	}
         
-//        for(int i=0; i<10; i++) {
-//            this.add(new ConFiNFTPanel("" + i));
-//        }
     }
 
     /**
@@ -47,8 +49,8 @@ public class NFTPanel extends JXPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setScrollableHeightHint(org.jdesktop.swingx.ScrollableSizeHint.FIT);
-        setScrollableWidthHint(org.jdesktop.swingx.ScrollableSizeHint.FIT);
+        setScrollableHeightHint(org.jdesktop.swingx.ScrollableSizeHint.PREFERRED_STRETCH);
+        setScrollableWidthHint(org.jdesktop.swingx.ScrollableSizeHint.PREFERRED_STRETCH);
         setLayout(null);
     }// </editor-fold>//GEN-END:initComponents
 

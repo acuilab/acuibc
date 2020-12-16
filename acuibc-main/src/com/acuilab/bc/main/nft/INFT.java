@@ -44,5 +44,5 @@ public interface INFT {
      * @param tokenId
      * @return	  
      */
-    String getMetaData(BigInteger tokenId);
+    MetaData getMetaData(BigInteger tokenId) throws Exception;
 }

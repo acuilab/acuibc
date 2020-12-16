@@ -3,10 +3,10 @@
 <Form version="1.4" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
     <Property name="scrollableHeightHint" type="org.jdesktop.swingx.ScrollableSizeHint" editor="org.netbeans.modules.form.editors.EnumEditor">
-      <Value id="FIT"/>
+      <Value id="PREFERRED_STRETCH"/>
     </Property>
     <Property name="scrollableWidthHint" type="org.jdesktop.swingx.ScrollableSizeHint" editor="org.netbeans.modules.form.editors.EnumEditor">
-      <Value id="FIT"/>
+      <Value id="PREFERRED_STRETCH"/>
     </Property>
   </Properties>
   <AuxValues>

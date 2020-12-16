@@ -45,7 +45,11 @@ import org.springframework.util.DigestUtils;
 import com.acuilab.bc.main.coin.ICoin;
 import com.acuilab.bc.main.manager.NFTManager;
 import com.acuilab.bc.main.nft.INFT;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS;
+import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
 
 /**
  * Top component which displays something.
@@ -104,7 +108,9 @@ public final class WalletTopComponent extends TopComponent implements Observer {
 	
 	// 初始化NFTPanel
 	for(INFT nft : NFTManager.getDefault().getNFTList(wallet.getBlockChainSymbol())) {
-	    nftPane.addTab(nft.getName(), nft.getIcon(16), new NFTPanel(wallet, nft), nft.getName());
+	    JPanel nftPanel = new NFTPanel(wallet, nft);
+	    JScrollPane scrollPane = new JScrollPane(nftPanel, VERTICAL_SCROLLBAR_ALWAYS, HORIZONTAL_SCROLLBAR_ALWAYS);
+	    nftPane.addTab(nft.getName(), nft.getIcon(16), scrollPane, nft.getName());
 	}
 	
 	// 请求第一个代币的余额及交易记录
@@ -115,7 +121,8 @@ public final class WalletTopComponent extends TopComponent implements Observer {
 	
 	// 请求第一个nft列表
 	if(nftPane.getComponentCount() > 0) {
-	    NFTPanel first = (NFTPanel)nftPane.getComponent(0);
+	    JScrollPane scrollPane = (JScrollPane)nftPane.getComponent(0);
+	    NFTPanel first = (NFTPanel)scrollPane.getViewport().getView();
 	    first.reload();
 	}
         

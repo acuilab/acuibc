@@ -5,7 +5,6 @@ import com.acuilab.bc.main.dao.WalletDAO;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
 import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.util.Observable;
 import java.util.Observer;

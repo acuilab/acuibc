@@ -1,6 +1,7 @@
 package com.acuilab.bc.main.nft;
 
 import java.awt.Image;
+import java.io.IOException;
 import java.math.BigInteger;
 import javax.swing.Icon;
 
@@ -45,4 +46,23 @@ public interface INFT {
      * @return	  
      */
     MetaData getMetaData(BigInteger tokenId) throws Exception;
+    
+    /**
+     * 
+     * @param from
+     * @param to
+     * @param id 
+     */
+    String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId, String data) throws Exception;
+    
+    /**
+     * 
+     * @param from
+     * @param to
+     * @param id 
+     */
+    default String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId) throws Exception {
+	return safeTransferFrom(privateKey, from, to, tokenId, "*");
+    }
+
 }

@@ -51,7 +51,7 @@ public class NFTPanel extends JXPanel {
             protected void process(List<Pair<Integer, MetaData>> chunks) {
                 for(Pair<Integer, MetaData> chunk : chunks) {
 		    try {
-			NFTPanel.this.add(new ConFiNFTPanel(chunk.getValue1()));
+			NFTPanel.this.add(new ConFiNFTPanel(wallet, nft, chunk.getValue1()));
 		    } catch (Exception ex) {
 		    }
                     ph.progress(chunk.getValue0()+1);

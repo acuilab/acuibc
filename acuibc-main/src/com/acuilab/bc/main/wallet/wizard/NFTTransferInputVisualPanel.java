@@ -12,43 +12,36 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.math.RoundingMode;
-import java.util.concurrent.ExecutionException;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingWorker;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 import org.openide.util.Exceptions;
-import com.acuilab.bc.main.coin.ICoin;
-import javax.swing.JLabel;
-import net.java.balloontip.BalloonTip;
-import net.java.balloontip.examples.complete.Utils;
-import net.java.balloontip.utils.TimingUtils;
+import com.acuilab.bc.main.nft.INFT;
 
-public final class TransferInputVisualPanel extends JPanel {
+public final class NFTTransferInputVisualPanel extends JPanel {
     
     private final Wallet wallet;
-    private final ICoin coin;
+    private final INFT nft;
     private BigInteger balance;
     
     /**
      * Creates new form TransferVisualPanel1
      */
-    public TransferInputVisualPanel(Wallet wallet, ICoin coin) {
+    public NFTTransferInputVisualPanel(Wallet wallet, INFT nft) {
         initComponents();
         
         this.wallet = wallet;
-        this.coin = coin;
+        this.nft = nft;
 
-        BlockChain bc = BlockChainManager.getDefault().getBlockChain(coin.getBlockChainSymbol());
-        int min = coin.gasMin(wallet.getAddress());
-        int max = coin.gasMax(wallet.getAddress());
-        int defaultValue = coin.gasDefaultValue(wallet.getAddress());
+        BlockChain bc = BlockChainManager.getDefault().getBlockChain(nft.getBlockChainSymbol());
+        int min = 0;
+        int max = 100;
+        int defaultValue = 10;
         gasSlider.setMinimum(min);
         gasSlider.setMaximum(max);
         gasSlider.setValue(defaultValue);
@@ -61,29 +54,9 @@ public final class TransferInputVisualPanel extends JPanel {
         gasSpinner.setEditor(editor);
         
         slowLbl.setText("慢(" + min + ")");
-        gasLbl.setText(coin.gasDesc(coin.gasDefaultValue(wallet.getAddress())));
+        gasLbl.setText("");
         fastLbl.setText("(" + max + ")快");
 
-        // 求余额
-        valueFld.setPrompt("正在请求余额，请稍候...");
-        SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
-            @Override
-            protected BigInteger doInBackground() throws Exception {
-                return coin.balanceOf(wallet.getAddress());
-            }
-
-            @Override
-            protected void done() {
-                try {
-                    balance = get();
-                    valueFld.setPrompt("可用：" + coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.FLOOR).toPlainString() + " " + coin.getMainUnit());
-                } catch (InterruptedException | ExecutionException ex) {
-                    Exceptions.printStackTrace(ex);
-                }
-            }
-        };
-        worker.execute();
-        
         sendAddressFld.setText(wallet.getAddress());
     }
 
@@ -139,28 +112,27 @@ public final class TransferInputVisualPanel extends JPanel {
         gasSpinner = new javax.swing.JSpinner();
         pasteBtn = new org.jdesktop.swingx.JXButton();
         selectBtn = new org.jdesktop.swingx.JXButton();
-        maxBtn = new org.jdesktop.swingx.JXButton();
-        resetBtn = new org.jdesktop.swingx.JXButton();
 
-        org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.jXLabel1.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.jXLabel1.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(jXLabel2, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.jXLabel2.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel2, org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.jXLabel2.text")); // NOI18N
 
-        recvAddressFld.setText(org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.recvAddressFld.text")); // NOI18N
+        recvAddressFld.setText(org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.recvAddressFld.text")); // NOI18N
 
-        valueFld.setText(org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.valueFld.text")); // NOI18N
+        valueFld.setText(org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.valueFld.text")); // NOI18N
+        valueFld.setEnabled(false);
         valueFld.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 valueFldActionPerformed(evt);
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(jXLabel3, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.jXLabel3.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel3, org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.jXLabel3.text")); // NOI18N
 
         sendAddressFld.setEditable(false);
-        sendAddressFld.setText(org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.sendAddressFld.text")); // NOI18N
+        sendAddressFld.setText(org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.sendAddressFld.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(jXLabel4, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.jXLabel4.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel4, org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.jXLabel4.text")); // NOI18N
 
         gasSlider.setPaintTicks(true);
         gasSlider.setSnapToTicks(true);
@@ -171,18 +143,18 @@ public final class TransferInputVisualPanel extends JPanel {
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(slowLbl, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.slowLbl.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(slowLbl, org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.slowLbl.text")); // NOI18N
 
         fastLbl.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        org.openide.awt.Mnemonics.setLocalizedText(fastLbl, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.fastLbl.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(fastLbl, org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.fastLbl.text")); // NOI18N
 
         gasLbl.setForeground(new java.awt.Color(0, 0, 255));
         gasLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        org.openide.awt.Mnemonics.setLocalizedText(gasLbl, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.gasLbl.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(gasLbl, org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.gasLbl.text")); // NOI18N
 
         gasDefaultCheckBox.setSelected(true);
-        org.openide.awt.Mnemonics.setLocalizedText(gasDefaultCheckBox, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.gasDefaultCheckBox.text")); // NOI18N
-        gasDefaultCheckBox.setToolTipText(org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.gasDefaultCheckBox.toolTipText")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(gasDefaultCheckBox, org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.gasDefaultCheckBox.text")); // NOI18N
+        gasDefaultCheckBox.setToolTipText(org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.gasDefaultCheckBox.toolTipText")); // NOI18N
         gasDefaultCheckBox.setEnabled(false);
         gasDefaultCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -197,32 +169,18 @@ public final class TransferInputVisualPanel extends JPanel {
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(pasteBtn, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.pasteBtn.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(pasteBtn, org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.pasteBtn.text")); // NOI18N
         pasteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pasteBtnActionPerformed(evt);
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(selectBtn, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.selectBtn.text")); // NOI18N
-        selectBtn.setToolTipText(org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.selectBtn.toolTipText")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(selectBtn, org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.selectBtn.text")); // NOI18N
+        selectBtn.setToolTipText(org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.selectBtn.toolTipText")); // NOI18N
         selectBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 selectBtnActionPerformed(evt);
-            }
-        });
-
-        org.openide.awt.Mnemonics.setLocalizedText(maxBtn, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.maxBtn.text")); // NOI18N
-        maxBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                maxBtnActionPerformed(evt);
-            }
-        });
-
-        org.openide.awt.Mnemonics.setLocalizedText(resetBtn, org.openide.util.NbBundle.getMessage(TransferInputVisualPanel.class, "TransferInputVisualPanel.resetBtn.text")); // NOI18N
-        resetBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                resetBtnActionPerformed(evt);
             }
         });
 
@@ -255,19 +213,12 @@ public final class TransferInputVisualPanel extends JPanel {
                         .addComponent(gasDefaultCheckBox)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(recvAddressFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(valueFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(recvAddressFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(selectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(pasteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(maxBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(resetBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(selectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pasteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(valueFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -282,9 +233,7 @@ public final class TransferInputVisualPanel extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(valueFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(maxBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(resetBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(valueFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -302,13 +251,13 @@ public final class TransferInputVisualPanel extends JPanel {
                     .addComponent(slowLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fastLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(gasLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(234, Short.MAX_VALUE))
+                .addContainerGap(236, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void gasSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_gasSliderStateChanged
         int value = ((JSlider) evt.getSource()).getValue();
-        gasLbl.setText(coin.gasDesc(value));
+        gasLbl.setText("desc");
         gasSpinner.setValue(value);
     }//GEN-LAST:event_gasSliderStateChanged
 
@@ -319,7 +268,7 @@ public final class TransferInputVisualPanel extends JPanel {
 
     private void gasSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_gasSpinnerStateChanged
         int value = (Integer)((JSpinner) evt.getSource()).getValue();
-        gasLbl.setText(coin.gasDesc(value));
+        gasLbl.setText("desc");
         gasSlider.setValue(value);
     }//GEN-LAST:event_gasSpinnerStateChanged
 
@@ -355,62 +304,6 @@ public final class TransferInputVisualPanel extends JPanel {
         }
     }//GEN-LAST:event_selectBtnActionPerformed
 
-    private void maxBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maxBtnActionPerformed
-        // TODO add your handling code here:
-        // 设置为最大数
-        // 求余额
-        valueFld.setPrompt("正在请求余额，请稍候...");
-        SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
-            @Override
-            protected BigInteger doInBackground() throws Exception {
-                return coin.balanceOf(wallet.getAddress());
-            }
-
-            @Override
-            protected void done() {
-                try {
-                    balance = get();
-                    BigInteger defaultGas = coin.getDefaultGas();
-                    if(balance.compareTo(defaultGas)<=0){
-                        try {
-                            JLabel lbl = new JLabel("账户余额不足。");
-                            BalloonTip balloonTip = new BalloonTip(valueFld, 
-                                            lbl,
-                                            Utils.createBalloonTipStyle(),
-                                            Utils.createBalloonTipPositioner(), 
-                                            null);
-                            TimingUtils.showTimedBalloon(balloonTip, 3000);
-                        } catch (Exception ex) {
-                            Exceptions.printStackTrace(ex);
-                        }
-                    }
-                    else{
-                        //valueFld.setPrompt(coin.minUnit2MainUint(balance.subtract(defaultGas)).setScale(coin.getMainUnitScale(), RoundingMode.FLOOR).toPlainString() + " " + coin.getMainUnit());
-                        valueFld.setText(coin.minUnit2MainUint(balance.subtract(defaultGas)).setScale(coin.getMainUnitScale(), RoundingMode.FLOOR).toPlainString());
-                    }
-              
-                } catch (InterruptedException | ExecutionException ex) {
-                    Exceptions.printStackTrace(ex);
-                }
-            }
-        };
-        worker.execute();
-        
-        //sendAddressFld.setText(wallet.getAddress());
-        
-        
-    }//GEN-LAST:event_maxBtnActionPerformed
-
-    private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
-        // TODO add your handling code here:
-        // 重置余额
-        valueFld.setText("");
-        valueFld.setPrompt("可用：" + coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit());
-               
-       
-
-    }//GEN-LAST:event_resetBtnActionPerformed
-
     private void valueFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valueFldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_valueFldActionPerformed
@@ -425,10 +318,8 @@ public final class TransferInputVisualPanel extends JPanel {
     private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXLabel jXLabel3;
     private org.jdesktop.swingx.JXLabel jXLabel4;
-    private org.jdesktop.swingx.JXButton maxBtn;
     private org.jdesktop.swingx.JXButton pasteBtn;
     private org.jdesktop.swingx.JXTextField recvAddressFld;
-    private org.jdesktop.swingx.JXButton resetBtn;
     private org.jdesktop.swingx.JXButton selectBtn;
     private org.jdesktop.swingx.JXTextField sendAddressFld;
     private org.jdesktop.swingx.JXLabel slowLbl;

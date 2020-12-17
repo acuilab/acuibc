@@ -3,12 +3,14 @@ package com.acuilab.bc.cfx;
 import com.acuilab.bc.main.nft.INFT;
 import com.acuilab.bc.main.nft.MetaData;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import conflux.web3j.Account;
+import conflux.web3j.Account.Option;
 import conflux.web3j.Cfx;
 import conflux.web3j.contract.ContractCall;
 import conflux.web3j.contract.abi.DecodeUtil;
 import java.awt.Image;
-import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 import javax.swing.Icon;
@@ -16,7 +18,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.web3j.abi.TypeReference;
+import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.DynamicArray;
+import org.web3j.abi.datatypes.Type;
 
 /**
  *
@@ -73,7 +77,7 @@ public class ConFiNFT implements INFT {
     }
     
     @Override
-    public MetaData getMetaData(BigInteger tokenId) throws IOException {
+    public MetaData getMetaData(BigInteger tokenId) throws Exception {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
 	ContractCall contract = new ContractCall(cfx, CONTRACT_ADDRESS);
@@ -124,5 +128,20 @@ public class ConFiNFT implements INFT {
 	}
 	
 	return md;
+    }
+
+    @Override
+    public String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId, String data) throws Exception {
+        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
+        Cfx cfx = bc.getCfx();
+	
+	byte[] bytes = StringUtils.getBytes(data, Charset.forName("UTF-8"));
+	System.out.println("bytes.length=======" + bytes.length);
+        
+        Account account = Account.create(cfx, privateKey);
+	return account.call(new Option(), CONTRACT_ADDRESS, "safeTransferFrom", new Type<?>[] {new org.web3j.abi.datatypes.Address(from), 
+	    new org.web3j.abi.datatypes.Address(to), 
+	    new org.web3j.abi.datatypes.Uint(tokenId), new org.web3j.abi.datatypes.Uint(BigInteger.ONE), 
+	    new org.web3j.abi.datatypes.generated.Bytes1(StringUtils.getBytes(data, Charset.forName("UTF-8")))});
     }
 }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import conflux.web3j.Account;
 import conflux.web3j.Account.Option;
 import conflux.web3j.Cfx;
+import conflux.web3j.CfxUnit;
 import conflux.web3j.contract.ContractCall;
 import conflux.web3j.contract.abi.DecodeUtil;
 import java.awt.Image;
@@ -49,6 +50,11 @@ public class ConDragonNFT implements INFT {
     public String getBlockChainSymbol() {
         return CFXBlockChain.SYMBOL;
     }
+    
+    @Override
+    public String getContractAddress() {
+	return CONTRACT_ADDRESS;
+    } 
 
     @Override
     public Icon getIcon(int size) {
@@ -127,9 +133,11 @@ public class ConDragonNFT implements INFT {
 	System.out.println("bytes.length=======" + bytes.length);
         
         Account account = Account.create(cfx, privateKey);
-	return account.call(new Option(), CONTRACT_ADDRESS, "safeTransferFrom", new Type<?>[] {new org.web3j.abi.datatypes.Address(from), 
+	return account.call(new Option(), CONTRACT_ADDRESS, "safeTransferFrom", 
+            new org.web3j.abi.datatypes.Address(from), 
 	    new org.web3j.abi.datatypes.Address(to), 
-	    new org.web3j.abi.datatypes.Uint(tokenId), new org.web3j.abi.datatypes.Uint(BigInteger.ONE), 
-	    new org.web3j.abi.datatypes.generated.Bytes1(StringUtils.getBytes(data, Charset.forName("UTF-8")))});
+	    new org.web3j.abi.datatypes.Uint(tokenId), 
+            new org.web3j.abi.datatypes.Uint(BigInteger.ONE), 
+	    new org.web3j.abi.datatypes.DynamicBytes(data.getBytes()));
     }
 }

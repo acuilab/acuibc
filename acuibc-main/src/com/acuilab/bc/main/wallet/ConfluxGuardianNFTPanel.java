@@ -62,9 +62,6 @@ public class ConfluxGuardianNFTPanel extends JXPanel {
             e.printStackTrace();
         }
         
-        //this.jXImageView1.setImage(urlImage));
-        //8016{"body":"000","eye":"013","nose":"001","auxiliary":"001","background":"000","clothes":"006","props":"000","title":"002_000_000_013_001_000_001_000","url":"002_000_000_013_001_000_001_000.png"}
-        //http://cdn.tspace.online/image/finish/001_000_000_003_005_001_004_001.png
     }
 
     /**

@@ -36,7 +36,7 @@ import org.openide.util.ImageUtilities;
  *
  * @author admin
  */
-public class ConFiNFTPanel extends JXPanel {
+public class SingleNFTPanel extends JXPanel {
     
     private final Wallet wallet;
     private final INFT nft;
@@ -45,7 +45,7 @@ public class ConFiNFTPanel extends JXPanel {
     /**
      * Creates new form NFTPanel
      */
-    public ConFiNFTPanel(Wallet wallet, INFT nft, MetaData metaData) {
+    public SingleNFTPanel(Wallet wallet, INFT nft, MetaData metaData) {
 	initComponents();
 	this.wallet = wallet;
 	this.nft = nft;
@@ -95,11 +95,11 @@ public class ConFiNFTPanel extends JXPanel {
         setMinimumSize(new java.awt.Dimension(180, 320));
         setPreferredSize(new java.awt.Dimension(180, 320));
 
-        org.openide.awt.Mnemonics.setLocalizedText(nameLbl, org.openide.util.NbBundle.getMessage(ConFiNFTPanel.class, "ConFiNFTPanel.nameLbl.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(nameLbl, org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.nameLbl.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(idLbl, org.openide.util.NbBundle.getMessage(ConFiNFTPanel.class, "ConFiNFTPanel.idLbl.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(idLbl, org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.idLbl.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(platformLbl, org.openide.util.NbBundle.getMessage(ConFiNFTPanel.class, "ConFiNFTPanel.platformLbl.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(platformLbl, org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.platformLbl.text")); // NOI18N
 
         jScrollPane1.setBorder(null);
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -111,10 +111,10 @@ public class ConFiNFTPanel extends JXPanel {
         descTextArea.setColumns(20);
         descTextArea.setLineWrap(true);
         descTextArea.setRows(5);
-        descTextArea.setText(org.openide.util.NbBundle.getMessage(ConFiNFTPanel.class, "ConFiNFTPanel.descTextArea.text")); // NOI18N
+        descTextArea.setText(org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.descTextArea.text")); // NOI18N
         jScrollPane1.setViewportView(descTextArea);
 
-        org.openide.awt.Mnemonics.setLocalizedText(transferBtn, org.openide.util.NbBundle.getMessage(ConFiNFTPanel.class, "ConFiNFTPanel.transferBtn.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(transferBtn, org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.transferBtn.text")); // NOI18N
         transferBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 transferBtnActionPerformed(evt);
@@ -147,7 +147,7 @@ public class ConFiNFTPanel extends JXPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(transferBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(imageView, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
+            .addComponent(imageView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

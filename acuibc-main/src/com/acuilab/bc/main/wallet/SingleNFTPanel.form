@@ -43,7 +43,7 @@
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               <Component id="transferBtn" min="-2" max="-2" attributes="0"/>
           </Group>
-          <Component id="imageView" alignment="0" pref="474" max="32767" attributes="0"/>
+          <Component id="imageView" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -68,21 +68,21 @@
     <Component class="org.jdesktop.swingx.JXLabel" name="nameLbl">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="ConFiNFTPanel.nameLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="SingleNFTPanel.nameLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
     <Component class="org.jdesktop.swingx.JXLabel" name="idLbl">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="ConFiNFTPanel.idLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="SingleNFTPanel.idLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
     <Component class="org.jdesktop.swingx.JXLabel" name="platformLbl">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="ConFiNFTPanel.platformLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="SingleNFTPanel.platformLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
@@ -113,7 +113,7 @@
             <Property name="lineWrap" type="boolean" value="true"/>
             <Property name="rows" type="int" value="5"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="ConFiNFTPanel.descTextArea.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="SingleNFTPanel.descTextArea.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>
@@ -122,7 +122,7 @@
     <Component class="org.jdesktop.swingx.JXButton" name="transferBtn">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="ConFiNFTPanel.transferBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="SingleNFTPanel.transferBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Events>

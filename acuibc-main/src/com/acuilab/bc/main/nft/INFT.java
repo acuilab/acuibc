@@ -18,6 +18,10 @@ public interface INFT {
     // 简称（外键）
     public String getSymbol();
     
+    // 合约地址
+    public String getContractAddress();
+    
+    
     /**
      * 获得区块链简称
      * @return 

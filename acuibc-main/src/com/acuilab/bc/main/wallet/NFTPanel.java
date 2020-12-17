@@ -25,12 +25,13 @@ public class NFTPanel extends JXPanel {
      */
     public NFTPanel(Wallet wallet, INFT nft) {
 	initComponents();
-	setLayout(new WrapLayout(FlowLayout.CENTER, 10, 10));
-	
+//	setLayout(new WrapLayout(FlowLayout.CENTER, 10, 10));
+	this.NFTDisplayPanel.setLayout(new WrapLayout(FlowLayout.CENTER, 10, 10));
 	this.wallet = wallet;
 	this.nft = nft;
         
         firstOpen = true;
+        
     }
 
     public boolean isFirstOpen() {
@@ -39,12 +40,14 @@ public class NFTPanel extends JXPanel {
     
     // 重新加载nft列表(后台线程执行)
     public void reload() {
-        this.removeAll(); 
+        this.NFTDisplayPanel.removeAll(); 
         final ProgressHandle ph = ProgressHandle.createHandle("正在NFT列表，请稍候");
         SwingWorker<Void, Pair<Integer, MetaData>> worker = new SwingWorker<Void, Pair<Integer, MetaData>>() {
             @Override
             protected Void doInBackground() throws Exception {
                 BigInteger[] tockens = nft.tokensOf(wallet.getAddress());
+                balanceFld.setText(tockens.length+"个");
+                contractAddressFld.setText(nft.getContractAddress());
                 ph.start(tockens.length);
                 for(int i=0; i<tockens.length; i++) {
                     MetaData metaData = nft.getMetaData(tockens[i]);
@@ -59,7 +62,7 @@ public class NFTPanel extends JXPanel {
             protected void process(List<Pair<Integer, MetaData>> chunks) {
                 for(Pair<Integer, MetaData> chunk : chunks) {
 		    try {
-			NFTPanel.this.add(new ConFiNFTPanel(wallet, nft, chunk.getValue1()));
+			NFTPanel.this.NFTDisplayPanel.add(new SingleNFTPanel(wallet, nft, chunk.getValue1()));
 		    } catch (Exception ex) {
 		    }
                     ph.progress(chunk.getValue0()+1);
@@ -77,7 +80,7 @@ public class NFTPanel extends JXPanel {
 //	    try {
 //		MetaData metaData = nft.getMetaData(tokenId);
 //		// TODO: 根据metadata创建不同的panel
-//		this.add(new ConFiNFTPanel(metaData));
+//		this.add(new SingleNFTPanel(metaData));
 //	    } catch (Exception ex) {
 //	    }
 //	}
@@ -91,12 +94,83 @@ public class NFTPanel extends JXPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        resetBtn = new org.jdesktop.swingx.JXButton();
+        NFTDisplayPanel = new org.jdesktop.swingx.JXPanel();
+        balanceLbl = new org.jdesktop.swingx.JXLabel();
+        balanceFld = new org.jdesktop.swingx.JXTextField();
+        contractAddressLbl = new org.jdesktop.swingx.JXLabel();
+        contractAddressFld = new org.jdesktop.swingx.JXTextField();
+
         setScrollableHeightHint(org.jdesktop.swingx.ScrollableSizeHint.PREFERRED_STRETCH);
         setScrollableWidthHint(org.jdesktop.swingx.ScrollableSizeHint.PREFERRED_STRETCH);
-        setLayout(null);
+
+        org.openide.awt.Mnemonics.setLocalizedText(resetBtn, org.openide.util.NbBundle.getMessage(NFTPanel.class, "NFTPanel.resetBtn.text")); // NOI18N
+        resetBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetBtnActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(balanceLbl, org.openide.util.NbBundle.getMessage(NFTPanel.class, "NFTPanel.balanceLbl.text")); // NOI18N
+
+        balanceFld.setEditable(false);
+        balanceFld.setText(org.openide.util.NbBundle.getMessage(NFTPanel.class, "NFTPanel.balanceFld.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(contractAddressLbl, org.openide.util.NbBundle.getMessage(NFTPanel.class, "NFTPanel.contractAddressLbl.text")); // NOI18N
+
+        contractAddressFld.setEditable(false);
+        contractAddressFld.setText(org.openide.util.NbBundle.getMessage(NFTPanel.class, "NFTPanel.contractAddressFld.text")); // NOI18N
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(NFTDisplayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(balanceLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(balanceFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(contractAddressLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(contractAddressFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 327, Short.MAX_VALUE)
+                        .addComponent(resetBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(resetBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(balanceLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(balanceFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(contractAddressLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(contractAddressFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(NFTDisplayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
+                .addContainerGap())
+        );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
+        // TODO add your handling code here:
+        firstOpen = false;
+        reload();
+    }//GEN-LAST:event_resetBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXPanel NFTDisplayPanel;
+    private org.jdesktop.swingx.JXTextField balanceFld;
+    private org.jdesktop.swingx.JXLabel balanceLbl;
+    private org.jdesktop.swingx.JXTextField contractAddressFld;
+    private org.jdesktop.swingx.JXLabel contractAddressLbl;
+    private org.jdesktop.swingx.JXButton resetBtn;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,8 +1,10 @@
 package com.acuilab.bc.cfx;
 
+import static com.acuilab.bc.cfx.ConFiNFT.CONTRACT_ADDRESS;
 import com.acuilab.bc.main.nft.INFT;
 import com.acuilab.bc.main.nft.MetaData;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import conflux.web3j.Account;
 import conflux.web3j.Cfx;
 import conflux.web3j.contract.ContractCall;
 import conflux.web3j.contract.abi.DecodeUtil;
@@ -18,6 +20,8 @@ import org.openide.util.Lookup;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.DynamicArray;
 import java.net.URL;
+import java.nio.charset.Charset;
+import org.web3j.abi.datatypes.Type;
 /**
  *
  * @author admin
@@ -109,5 +113,20 @@ public class MoonGenesisNFT implements INFT {
 	md.setPlatform("MoonSwap");
 	
 	return md;
+    }
+    
+    @Override
+    public String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId, String data) throws Exception {
+        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
+        Cfx cfx = bc.getCfx();
+	
+	byte[] bytes = StringUtils.getBytes(data, Charset.forName("UTF-8"));
+	System.out.println("bytes.length=======" + bytes.length);
+        
+        Account account = Account.create(cfx, privateKey);
+	return account.call(new Account.Option(), CONTRACT_ADDRESS, "safeTransferFrom", new Type<?>[] {new org.web3j.abi.datatypes.Address(from), 
+	    new org.web3j.abi.datatypes.Address(to), 
+	    new org.web3j.abi.datatypes.Uint(tokenId), new org.web3j.abi.datatypes.Uint(BigInteger.ONE), 
+	    new org.web3j.abi.datatypes.generated.Bytes1(StringUtils.getBytes(data, Charset.forName("UTF-8")))});
     }
 }

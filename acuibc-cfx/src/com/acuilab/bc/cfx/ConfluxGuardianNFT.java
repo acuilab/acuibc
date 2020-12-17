@@ -27,9 +27,9 @@ import org.web3j.abi.datatypes.Type;
  *
  * @author admin
  */
-public class ConDragonNFT implements INFT {
+public class ConfluxGuardianNFT implements INFT {
     
-    public static final String CONTRACT_ADDRESS = "0x83928828f200b79b78404dce3058ba0c8c4076c3";
+    public static final String CONTRACT_ADDRESS = "0x8fd17cadc3931d94afff8543005637f3fffeb769";
 
     @Override
     public void init() {
@@ -37,12 +37,12 @@ public class ConDragonNFT implements INFT {
 
     @Override
     public String getName() {
-	return "ConDragon NFT";
+	return "Conflux Guardian NFT";
     }
 
     @Override
     public String getSymbol() {
-	return "ConDragon";
+	return "CG";
     }
 
     @Override
@@ -52,12 +52,12 @@ public class ConDragonNFT implements INFT {
 
     @Override
     public Icon getIcon(int size) {
-        return ImageUtilities.loadImageIcon("/resource/condragon" + size + ".png", true);
+        return ImageUtilities.loadImageIcon("/resource/ConfluxGuardian" + size + ".png", true);
     }
 
     @Override
     public Image getIconImage(int size) {
-        return ImageUtilities.loadImage("/resource/condragon" + size + ".png", true);
+        return ImageUtilities.loadImage("/resource/ConfluxGuardian" + size + ".png", true);
     }
 
     @Override
@@ -86,34 +86,17 @@ public class ConDragonNFT implements INFT {
         // note: parameters should use web3j.abi.datatypes type
         String value = contract.call("uri", new org.web3j.abi.datatypes.Uint(tokenId)).sendAndGet();
         String json = DecodeUtil.decode(value, org.web3j.abi.datatypes.Utf8String.class);
-	System.out.println(value.toString());
+	
+        MetaData md = new MetaData();
+        System.out.println(value.toString());
         System.out.println(json.toString());
         
-        MetaData md = new MetaData();
-        
-        
-//        {
-//	"token_id": "3985",
-//	"image": "https:\/\/cdn.img.imakejoy.com\/condragon\/2-1.png",
-//	"description": "\u4f53\u578b\u5177\u6709\u7edd\u5bf9\u7684\u53c8\u662f\uff0c\u4f46\u662f\u4f7f\u5176\u884c\u52a8\u80fd\u529b\u4e25\u91cd\u53d7\u963b\uff0c\u6e29\u987a\u548c\u7766\u5f88\u5bb9\u6613\u9a6f\u670d\uff0c\u662f\u516c\u8ba4\u6700\u53ef\u9760\u7684\u4f19\u4f34\u3002",
-//	"description_en": "It has an absolute advantage in size. However, big size also makes it hard to move quickly. It can be easily tamed and is widely recognized as the most reliable partner.",
-//	"name": "\u5251\u9f99",
-//	"name_en": "Stegosaurus"
-//        }
-
-        String id = tokenId.toString();
+	String id = tokenId.toString();
 	md.setId(id);
-	
-	ObjectMapper mapper = new ObjectMapper();
-        Map<String, String> map = mapper.readValue(new URL(json), Map.class);
-
-        String imageUrl = map.get("image");
-        String imageUrlSlim = StringUtils.replace(imageUrl, "\\", "");
-        System.out.println(imageUrlSlim);
-	md.setImageUrl(imageUrlSlim);
-        md.setDesc(map.get("description"));
-        md.setName(map.get("name"));
-	md.setPlatform("ConDragon");
+	md.setImageUrl("https://cdn.img.imakejoy.com/guardian/nft.png");
+        md.setDesc("累计质押满1000FC的用户将获得一个NFT作为纪念徽章。");
+        md.setName("守护者徽章");
+	md.setPlatform("Conflux");
 	
 	return md;
     }

@@ -36,12 +36,12 @@ public class ConFiNFT implements INFT {
 
     @Override
     public String getName() {
-	return "Confi NFT";
+	return "ConFi NFT";
     }
 
     @Override
     public String getSymbol() {
-	return "Confi NFT";
+	return "ConFi";
     }
 
     @Override

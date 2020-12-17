@@ -48,7 +48,7 @@ public class MoonGenesisNFTPanel extends JXPanel {
         this.idLbl.setText("编号：" + metaData.getId());
         this.nameLbl.setText("名称：" + metaData.getName());
         this.platformLbl.setText("平台：" + metaData.getPlatform());
-        this.descTextArea.setText(metaData.getDesc());
+        this.descTextArea.setText("描述："+metaData.getDesc());
 	this.descTextArea.setToolTipText(metaData.getDesc());
         
         try {

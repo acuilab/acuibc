@@ -565,7 +565,10 @@ public final class WalletTopComponent extends TopComponent implements Observer {
 	JScrollPane scrollPane = (JScrollPane)nftPane.getSelectedComponent();
 	NFTPanel selected = (NFTPanel)scrollPane.getViewport().getView();
 	if(selected != null) {
-	    selected.reload();
+            //如果是首次调用则重载，如果非首次（已有）则不做操作。
+            if(selected.isFirstOpen()){
+                selected.reload();
+            }
 	}
     }//GEN-LAST:event_nftPaneStateChanged
 

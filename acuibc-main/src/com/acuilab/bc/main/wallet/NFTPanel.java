@@ -18,6 +18,7 @@ import org.netbeans.api.progress.ProgressHandle;
 public class NFTPanel extends JXPanel {
     private final Wallet wallet;
     private final INFT nft;
+    private boolean firstOpen;
     
     /**
      * Creates new form NFTPanel
@@ -28,10 +29,17 @@ public class NFTPanel extends JXPanel {
 	
 	this.wallet = wallet;
 	this.nft = nft;
+        
+        firstOpen = true;
+    }
+
+    public boolean isFirstOpen() {
+        return firstOpen;
     }
     
     // 重新加载nft列表(后台线程执行)
     public void reload() {
+        this.removeAll(); 
         final ProgressHandle ph = ProgressHandle.createHandle("正在NFT列表，请稍候");
         SwingWorker<Void, Pair<Integer, MetaData>> worker = new SwingWorker<Void, Pair<Integer, MetaData>>() {
             @Override
@@ -73,7 +81,7 @@ public class NFTPanel extends JXPanel {
 //	    } catch (Exception ex) {
 //	    }
 //	}
-        
+        this.firstOpen=false;
     }
 
     /**

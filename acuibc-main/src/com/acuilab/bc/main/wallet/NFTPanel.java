@@ -1,15 +1,22 @@
 package com.acuilab.bc.main.wallet;
 
+import com.acuilab.bc.main.BlockChain;
+import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.nft.INFT;
 import com.acuilab.bc.main.nft.MetaData;
 import com.acuilab.bc.main.ui.WrapLayout;
+import java.awt.Desktop;
 import java.awt.FlowLayout;
+import java.io.IOException;
 import java.math.BigInteger;
+import java.net.URI;
 import java.util.List;
 import javax.swing.SwingWorker;
 import org.javatuples.Pair;
 import org.jdesktop.swingx.JXPanel;
 import org.netbeans.api.progress.ProgressHandle;
+import org.apache.commons.lang3.StringUtils;
+import org.openide.util.Exceptions;
 
 /**
  *
@@ -27,11 +34,13 @@ public class NFTPanel extends JXPanel {
     public NFTPanel(WalletTopComponent parent, Wallet wallet, INFT nft) {
 	initComponents();
         this.parent = parent;
-	this.nftDisplayPanel.setLayout(new WrapLayout(FlowLayout.CENTER, 10, 10));
+	this.nftDisplayPanel.setLayout(new WrapLayout(FlowLayout.LEFT, 10, 10));
 	this.wallet = wallet;
 	this.nft = nft;
         
         firstOpen = true;
+        websiteLink.setText(nft.getWebsite());
+        contractAddressFld.setText(nft.getContractAddress());
     }
     
     public WalletTopComponent getWalletTopComponent() {
@@ -51,7 +60,7 @@ public class NFTPanel extends JXPanel {
             protected Void doInBackground() throws Exception {
                 BigInteger[] tockens = nft.tokensOf(wallet.getAddress());
                 balanceFld.setText(tockens.length+"个");
-                contractAddressFld.setText(nft.getContractAddress());
+                
                 ph.start(tockens.length);
                 for(int i=0; i<tockens.length; i++) {
                     MetaData metaData = nft.getMetaData(tockens[i]);
@@ -77,6 +86,7 @@ public class NFTPanel extends JXPanel {
             protected void done() {
                 ph.finish();
 		firstOpen=false;
+                NFTPanel.this.repaint();
             }
         };
         worker.execute();
@@ -95,6 +105,8 @@ public class NFTPanel extends JXPanel {
         balanceFld = new org.jdesktop.swingx.JXTextField();
         contractAddressLbl = new org.jdesktop.swingx.JXLabel();
         contractAddressFld = new org.jdesktop.swingx.JXTextField();
+        websiteLbl = new org.jdesktop.swingx.JXLabel();
+        websiteLink = new org.jdesktop.swingx.JXHyperlink();
 
         setScrollableHeightHint(org.jdesktop.swingx.ScrollableSizeHint.PREFERRED_STRETCH);
         setScrollableWidthHint(org.jdesktop.swingx.ScrollableSizeHint.PREFERRED_STRETCH);
@@ -111,12 +123,23 @@ public class NFTPanel extends JXPanel {
         org.openide.awt.Mnemonics.setLocalizedText(balanceLbl, org.openide.util.NbBundle.getMessage(NFTPanel.class, "NFTPanel.balanceLbl.text")); // NOI18N
 
         balanceFld.setEditable(false);
+        balanceFld.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         balanceFld.setText(org.openide.util.NbBundle.getMessage(NFTPanel.class, "NFTPanel.balanceFld.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(contractAddressLbl, org.openide.util.NbBundle.getMessage(NFTPanel.class, "NFTPanel.contractAddressLbl.text")); // NOI18N
 
         contractAddressFld.setEditable(false);
+        contractAddressFld.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         contractAddressFld.setText(org.openide.util.NbBundle.getMessage(NFTPanel.class, "NFTPanel.contractAddressFld.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(websiteLbl, org.openide.util.NbBundle.getMessage(NFTPanel.class, "NFTPanel.websiteLbl.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(websiteLink, org.openide.util.NbBundle.getMessage(NFTPanel.class, "NFTPanel.websiteLink.text")); // NOI18N
+        websiteLink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                websiteLinkActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -134,7 +157,11 @@ public class NFTPanel extends JXPanel {
                         .addComponent(contractAddressLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(contractAddressFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 327, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(websiteLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(websiteLink, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 158, Short.MAX_VALUE)
                         .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -148,7 +175,9 @@ public class NFTPanel extends JXPanel {
                         .addComponent(balanceLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(balanceFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(contractAddressLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(contractAddressFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(contractAddressFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(websiteLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(websiteLink, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(nftDisplayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
                 .addContainerGap())
@@ -163,6 +192,27 @@ public class NFTPanel extends JXPanel {
         reload();
     }//GEN-LAST:event_refreshBtnActionPerformed
 
+    private void websiteLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_websiteLinkActionPerformed
+                                                
+        if(StringUtils.isBlank(websiteLink.getText())) {
+            return;
+        }
+        
+        if(Desktop.isDesktopSupported()) {
+            try {
+                if(Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                    if(websiteLink.getText() != null) {
+                        // 打开默认浏览器
+                       Desktop.getDesktop().browse(URI.create(websiteLink.getText()));
+                    }
+                }
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+       
+        }// TODO add your handling code here:
+    }//GEN-LAST:event_websiteLinkActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXTextField balanceFld;
@@ -171,5 +221,7 @@ public class NFTPanel extends JXPanel {
     private org.jdesktop.swingx.JXLabel contractAddressLbl;
     private org.jdesktop.swingx.JXPanel nftDisplayPanel;
     private org.jdesktop.swingx.JXButton refreshBtn;
+    private org.jdesktop.swingx.JXLabel websiteLbl;
+    private org.jdesktop.swingx.JXHyperlink websiteLink;
     // End of variables declaration//GEN-END:variables
 }

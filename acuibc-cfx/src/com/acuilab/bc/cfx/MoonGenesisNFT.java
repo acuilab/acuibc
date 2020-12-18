@@ -30,6 +30,7 @@ import org.web3j.abi.datatypes.Type;
 public class MoonGenesisNFT implements INFT {
     
     public static final String CONTRACT_ADDRESS = "0x89c9ec494607ae96ae2a36c8c3d0220bc3a51819";
+    public static final String WEBSITE = "https://nft.moonswap.fi/";
 
     @Override
     public void init() {
@@ -48,6 +49,11 @@ public class MoonGenesisNFT implements INFT {
     @Override
     public String getBlockChainSymbol() {
         return CFXBlockChain.SYMBOL;
+    }
+    
+    @Override
+    public String getWebsite() {
+        return WEBSITE;
     }
     
     @Override

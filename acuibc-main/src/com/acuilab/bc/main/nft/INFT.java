@@ -21,6 +21,9 @@ public interface INFT {
     // 合约地址
     public String getContractAddress();
     
+    // 合约地址
+    public String getWebsite();
+    
     
     /**
      * 获得区块链简称

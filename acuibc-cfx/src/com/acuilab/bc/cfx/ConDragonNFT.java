@@ -31,7 +31,8 @@ import org.web3j.abi.datatypes.Type;
 public class ConDragonNFT implements INFT {
     
     public static final String CONTRACT_ADDRESS = "0x83928828f200b79b78404dce3058ba0c8c4076c3";
-
+    public static final String WEBSITE = "https://condragon.com/";
+     
     @Override
     public void init() {
     }
@@ -55,6 +56,11 @@ public class ConDragonNFT implements INFT {
     public String getContractAddress() {
 	return CONTRACT_ADDRESS;
     } 
+    
+    @Override
+    public String getWebsite() {
+        return WEBSITE;
+    }
 
     @Override
     public Icon getIcon(int size) {

@@ -30,6 +30,7 @@ import org.web3j.abi.datatypes.Type;
 public class ConfluxGuardianNFT implements INFT {
     
     public static final String CONTRACT_ADDRESS = "0x8fd17cadc3931d94afff8543005637f3fffeb769";
+    public static final String WEBSITE = "https://fccfx.confluxscan.io/";
 
     @Override
     public void init() {
@@ -54,6 +55,11 @@ public class ConfluxGuardianNFT implements INFT {
     public String getContractAddress() {
 	return CONTRACT_ADDRESS;
     } 
+    
+    @Override
+    public String getWebsite() {
+        return WEBSITE;
+    }
 
     @Override
     public Icon getIcon(int size) {

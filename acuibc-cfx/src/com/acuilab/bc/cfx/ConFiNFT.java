@@ -29,6 +29,7 @@ import org.web3j.abi.datatypes.Type;
 public class ConFiNFT implements INFT {
     
     public static final String CONTRACT_ADDRESS = "0x859ed8d97707be2c62679fc3505cdf5a77b2c5af";
+    public static final String WEBSITE = "http://nft.tspace.io";
 
     @Override
     public void init() {
@@ -53,6 +54,11 @@ public class ConFiNFT implements INFT {
     public String getContractAddress() {
 	return CONTRACT_ADDRESS;
     } 
+    
+    @Override
+    public String getWebsite() {
+        return WEBSITE;
+    }
 
     @Override
     public Icon getIcon(int size) {

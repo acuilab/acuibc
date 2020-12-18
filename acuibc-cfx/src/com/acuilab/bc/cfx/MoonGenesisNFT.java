@@ -127,7 +127,6 @@ public class MoonGenesisNFT implements INFT {
         Cfx cfx = bc.getCfx();
 	
 	byte[] bytes = StringUtils.getBytes(data, Charset.forName("UTF-8"));
-	System.out.println("bytes.length=======" + bytes.length);
         
         Account account = Account.create(cfx, privateKey);
 	return account.call(new Option(), CONTRACT_ADDRESS, "safeTransferFrom", 

@@ -9,8 +9,13 @@ import com.acuilab.bc.main.wallet.wizard.NFTTransferConfirmWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.NFTTransferInputWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.PasswordInputWizardPanel;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.math.BigInteger;
+import java.net.URI;
 import org.jdesktop.swingx.JXPanel;
 
 import java.net.URL;
@@ -37,7 +42,7 @@ import org.openide.util.ImageUtilities;
  * @author admin
  */
 public class SingleNFTPanel extends JXPanel {
-    
+    private final NFTPanel parent;
     private final Wallet wallet;
     private final INFT nft;
     private final MetaData metaData;
@@ -45,8 +50,9 @@ public class SingleNFTPanel extends JXPanel {
     /**
      * Creates new form NFTPanel
      */
-    public SingleNFTPanel(Wallet wallet, INFT nft, MetaData metaData) {
+    public SingleNFTPanel(NFTPanel parent, Wallet wallet, INFT nft, MetaData metaData) {
 	initComponents();
+        this.parent = parent;
 	this.wallet = wallet;
 	this.nft = nft;
 	this.metaData = metaData;
@@ -199,23 +205,22 @@ public class SingleNFTPanel extends JXPanel {
 
 	    try {
 		String hash = nft.safeTransferFrom(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), wallet.getAddress(), recvAddress, new BigInteger(metaData.getId()));
-//		JXHyperlink hashLink = parent.getHashLink();
-//		hashLink.setText(hash);
-//		// 气泡提示
-//		try {
-//		    JLabel lbl = new JLabel("最近一次交易哈希已更新，单击打开区块链浏览器查看交易状态");
-//		    BalloonTip balloonTip = new BalloonTip(hashLink, 
-//				    lbl,
-//				    Utils.createBalloonTipStyle(),
-//				    Utils.createBalloonTipPositioner(), 
-//				    null);
-//		    TimingUtils.showTimedBalloon(balloonTip, 3000);
-//		} catch (Exception ex) {
-//		    Exceptions.printStackTrace(ex);
-//		}
+		JXHyperlink hashLink = parent.getWalletTopComponent().getHashLink();
+		hashLink.setText(hash);
+		// 气泡提示
+		try {
+		    JLabel lbl = new JLabel("最近一次交易哈希已更新，单击打开区块链浏览器查看交易状态");
+		    BalloonTip balloonTip = new BalloonTip(hashLink, 
+				    lbl,
+				    Utils.createBalloonTipStyle(),
+				    Utils.createBalloonTipPositioner(), 
+				    null);
+		    TimingUtils.showTimedBalloon(balloonTip, 3000);
+		} catch (Exception ex) {
+		    Exceptions.printStackTrace(ex);
+		}
 
 		// 根据交易哈希查询转账结果
-		System.out.println("根据交易哈希查询转账结果");
 		final ProgressHandle ph = ProgressHandle.createHandle("正在查询交易状态，请稍候");
 		SwingWorker<BlockChain.TransactionStatus, Void> worker = new SwingWorker<BlockChain.TransactionStatus, Void>() {
 		    BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
@@ -236,23 +241,23 @@ public class SingleNFTPanel extends JXPanel {
 
 			    if(result == BlockChain.TransactionStatus.SUCCESS) {
 				// 交易成功，刷新余额及交易记录
-//				refreshBtnActionPerformed(null);
+				parent.refreshBtnActionPerformed();
 			    } else if(result == BlockChain.TransactionStatus.FAILED) {
-//				// 交易失败
-//				NotificationDisplayer.getDefault().notify(
-//					"交易失败",
-//					ImageUtilities.loadImageIcon("resource/gourd32.png", false),
-//					"点击此处打开区块链浏览器查询交易状态",
-//					new CoinPanel.LinkAction(bc.getTransactionDetailUrl(hash))
-//				);
+				// 交易失败
+				NotificationDisplayer.getDefault().notify(
+					"交易失败",
+					ImageUtilities.loadImageIcon("resource/gourd32.png", false),
+					"点击此处打开区块链浏览器查询交易状态",
+					new LinkAction(bc.getTransactionDetailUrl(hash))
+				);
 			    } else {
-//				// 交易为确认，提示用户手动查询交易结果
-//				NotificationDisplayer.getDefault().notify(
-//					"交易尚未确认",
-//					ImageUtilities.loadImageIcon("resource/gourd32.png", false),
-//					"点击此处打开区块链浏览器查询交易状态",
-//					new CoinPanel.LinkAction(bc.getTransactionDetailUrl(hash))
-//				);
+				// 交易为确认，提示用户手动查询交易结果
+				NotificationDisplayer.getDefault().notify(
+					"交易尚未确认",
+					ImageUtilities.loadImageIcon("resource/gourd32.png", false),
+					"点击此处打开区块链浏览器查询交易状态",
+					new LinkAction(bc.getTransactionDetailUrl(hash))
+				);
 			    }
 			} catch (InterruptedException | ExecutionException ex) {
 			    Exceptions.printStackTrace(ex);
@@ -268,7 +273,29 @@ public class SingleNFTPanel extends JXPanel {
 	}
     }//GEN-LAST:event_transferBtnActionPerformed
 
+    private static final class LinkAction implements ActionListener {
+        
+        private final String transactionDetailUrl;
 
+        public LinkAction(String transactionDetailUrl) {
+            this.transactionDetailUrl = transactionDetailUrl;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(Desktop.isDesktopSupported()) {
+                try {
+                    if(Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                        // 打开默认浏览器
+                        Desktop.getDesktop().browse(URI.create(transactionDetailUrl));
+                    }
+                } catch (IOException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+            }
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXTextArea descTextArea;
     private org.jdesktop.swingx.JXLabel idLbl;

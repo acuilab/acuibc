@@ -27,7 +27,7 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="NFTDisplayPanel" max="32767" attributes="0"/>
+                  <Component id="nftDisplayPanel" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="balanceLbl" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -37,7 +37,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="contractAddressFld" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="327" max="32767" attributes="0"/>
-                      <Component id="resetBtn" min="-2" max="-2" attributes="0"/>
+                      <Component id="refreshBtn" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -49,7 +49,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="resetBtn" min="-2" max="-2" attributes="0"/>
+                  <Component id="refreshBtn" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="balanceLbl" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="balanceFld" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -58,24 +58,27 @@
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="NFTDisplayPanel" pref="359" max="32767" attributes="0"/>
+              <Component id="nftDisplayPanel" pref="359" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="org.jdesktop.swingx.JXButton" name="resetBtn">
+    <Component class="org.jdesktop.swingx.JXButton" name="refreshBtn">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="NFTPanel.resetBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="NFTPanel.refreshBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="resetBtnActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="refreshBtnActionPerformed"/>
       </Events>
     </Component>
-    <Container class="org.jdesktop.swingx.JXPanel" name="NFTDisplayPanel">
+    <Container class="org.jdesktop.swingx.JXPanel" name="nftDisplayPanel">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="nftDisplayPanel.setLayout(new WrapLayout(FlowLayout.CENTER, 10, 10));"/>
+      </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
     </Container>

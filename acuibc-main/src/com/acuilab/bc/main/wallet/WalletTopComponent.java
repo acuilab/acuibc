@@ -108,7 +108,7 @@ public final class WalletTopComponent extends TopComponent implements Observer {
 	
 	// 初始化NFTPanel
 	for(INFT nft : NFTManager.getDefault().getNFTList(wallet.getBlockChainSymbol())) {
-	    JPanel nftPanel = new NFTPanel(wallet, nft);
+	    JPanel nftPanel = new NFTPanel(WalletTopComponent.this, wallet, nft);
 	    JScrollPane scrollPane = new JScrollPane(nftPanel, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER);
 	    nftPane.addTab(nft.getName(), nft.getIcon(16), scrollPane, nft.getName());
 	}

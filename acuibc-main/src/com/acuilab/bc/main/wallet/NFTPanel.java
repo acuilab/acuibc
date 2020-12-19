@@ -56,6 +56,7 @@ public class NFTPanel extends JXPanel {
     
     // 重新加载nft列表(后台线程执行)
     public void reload() {
+	refreshBtn.setEnabled(false);
         nftDisplayPanel.removeAll(); 
         final ProgressHandle ph = ProgressHandle.createHandle("正在NFT列表，请稍候");
         SwingWorker<Integer, Pair<Integer, MetaData>> worker = new SwingWorker<Integer, Pair<Integer, MetaData>>() {
@@ -96,6 +97,7 @@ public class NFTPanel extends JXPanel {
 		} catch (InterruptedException | ExecutionException ex) {
 		    Exceptions.printStackTrace(ex);
 		}
+		refreshBtn.setEnabled(true);
             }
         };
         worker.execute();

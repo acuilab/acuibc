@@ -4,6 +4,7 @@ import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.nft.INFT;
 import com.acuilab.bc.main.nft.MetaData;
+import com.acuilab.bc.main.ui.MyJXImageView;
 import com.acuilab.bc.main.util.AESUtil;
 import com.acuilab.bc.main.wallet.wizard.NFTTransferConfirmWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.NFTTransferInputWizardPanel;
@@ -29,7 +30,6 @@ import javax.swing.SwingWorker;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.examples.complete.Utils;
 import net.java.balloontip.utils.TimingUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.jdesktop.swingx.JXHyperlink;
 import org.netbeans.api.progress.ProgressHandle;
 import org.openide.DialogDisplayer;
@@ -62,16 +62,18 @@ public class SingleNFTPanel extends JXPanel {
         
         nameLbl.setText("名称：" + metaData.getName());
         platformLbl.setText("平台：" + metaData.getPlatform());
-	imageView.setToolTipText(metaData.getDesc());
 	this.setToolTipText(metaData.getDesc());
-        
+
+	MyJXImageView myImageView = (MyJXImageView)imageView;
+	myImageView.setToolTipText(metaData.getDesc());		// 这句必须调用，否则ImageToolTip弹不出来
+	myImageView.setMetaData(metaData);
         try {
             URL url = new URL(metaData.getImageUrl());
-	    imageView.setImage(url);
-	    Image image = imageView.getImage();
+	    myImageView.setImage(url);
+	    Image image = myImageView.getImage();
 	    double scaleX = 178.0d/image.getWidth(null);
 	    double scaleY = 178.0d/image.getHeight(null);
-            imageView.setScale(Math.max(scaleX, scaleY));
+            myImageView.setScale(Math.max(scaleX, scaleY));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -92,7 +94,7 @@ public class SingleNFTPanel extends JXPanel {
         idLbl = new org.jdesktop.swingx.JXLabel();
         platformLbl = new org.jdesktop.swingx.JXLabel();
         transferBtn = new org.jdesktop.swingx.JXButton();
-        imageView = new org.jdesktop.swingx.JXImageView();
+        imageView = new MyJXImageView();
         indexLbl = new org.jdesktop.swingx.JXLabel();
 
         setBackground(javax.swing.UIManager.getDefaults().getColor("InternalFrame.activeTitleGradient"));

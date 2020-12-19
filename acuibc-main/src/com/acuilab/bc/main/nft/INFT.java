@@ -69,7 +69,7 @@ public interface INFT {
      * @param id 
      */
     default String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId) throws Exception {
-	return safeTransferFrom(privateKey, from, to, tokenId, "");
+	return safeTransferFrom(privateKey, from, to, tokenId, "*");
     }
 
 }

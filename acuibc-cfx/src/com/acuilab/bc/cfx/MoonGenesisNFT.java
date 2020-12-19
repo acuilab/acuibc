@@ -132,15 +132,13 @@ public class MoonGenesisNFT implements INFT {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
 	
-	byte[] bytes = StringUtils.getBytes(data, Charset.forName("UTF-8"));
-        
         Account account = Account.create(cfx, privateKey);
 	return account.call(new Option(), CONTRACT_ADDRESS, "safeTransferFrom", 
             new org.web3j.abi.datatypes.Address(from), 
 	    new org.web3j.abi.datatypes.Address(to), 
 	    new org.web3j.abi.datatypes.Uint(tokenId), 
             new org.web3j.abi.datatypes.Uint(BigInteger.ONE), 
-	    new org.web3j.abi.datatypes.DynamicBytes(data.getBytes()));
+	    new org.web3j.abi.datatypes.DynamicBytes(StringUtils.getBytes(data, Charset.forName("UTF-8"))));
     }
     
 }

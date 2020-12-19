@@ -1,0 +1,8 @@
+具体使用说明详见论坛发布帖子：
+https://forum.conflux.fun/t/topic/2020/25
+
+打开bin目录，windows下双击执行gourd64.exe，linux和mac执行gourd脚本文件
+
+注意，目录路径中不可有中文。
+
+宝葫芦Gourd社区钱包桌面版已更新为v0.8.8版本，Github项目源代码地址：https://github.com/acuilab/acuibc

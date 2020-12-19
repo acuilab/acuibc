@@ -50,19 +50,20 @@ public class SingleNFTPanel extends JXPanel {
     /**
      * Creates new form NFTPanel
      */
-    public SingleNFTPanel(NFTPanel parent, Wallet wallet, INFT nft, MetaData metaData) {
+    public SingleNFTPanel(NFTPanel parent, Wallet wallet, INFT nft, int index, MetaData metaData) {
 	initComponents();
         this.parent = parent;
 	this.wallet = wallet;
 	this.nft = nft;
 	this.metaData = metaData;
 	
+	indexLbl.setText("#" + (index+1));
         idLbl.setText("编号：" + metaData.getId());
         
         nameLbl.setText("名称：" + metaData.getName());
         platformLbl.setText("平台：" + metaData.getPlatform());
-        descTextArea.setText("描述：" +metaData.getDesc());
-	descTextArea.setToolTipText(metaData.getDesc());
+	imageView.setToolTipText(metaData.getDesc());
+	this.setToolTipText(metaData.getDesc());
         
         try {
             URL url = new URL(metaData.getImageUrl());
@@ -90,35 +91,21 @@ public class SingleNFTPanel extends JXPanel {
         nameLbl = new org.jdesktop.swingx.JXLabel();
         idLbl = new org.jdesktop.swingx.JXLabel();
         platformLbl = new org.jdesktop.swingx.JXLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        descTextArea = new org.jdesktop.swingx.JXTextArea();
         transferBtn = new org.jdesktop.swingx.JXButton();
         imageView = new org.jdesktop.swingx.JXImageView();
+        indexLbl = new org.jdesktop.swingx.JXLabel();
 
         setBackground(javax.swing.UIManager.getDefaults().getColor("InternalFrame.activeTitleGradient"));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        setMaximumSize(new java.awt.Dimension(180, 320));
-        setMinimumSize(new java.awt.Dimension(180, 320));
-        setPreferredSize(new java.awt.Dimension(180, 320));
+        setMaximumSize(new java.awt.Dimension(180, 326));
+        setMinimumSize(new java.awt.Dimension(180, 326));
+        setPreferredSize(new java.awt.Dimension(180, 326));
 
         org.openide.awt.Mnemonics.setLocalizedText(nameLbl, org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.nameLbl.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(idLbl, org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.idLbl.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(platformLbl, org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.platformLbl.text")); // NOI18N
-
-        jScrollPane1.setBorder(null);
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-
-        descTextArea.setEditable(false);
-        descTextArea.setBackground(javax.swing.UIManager.getDefaults().getColor("InternalFrame.activeTitleGradient"));
-        descTextArea.setBorder(null);
-        descTextArea.setColumns(20);
-        descTextArea.setLineWrap(true);
-        descTextArea.setRows(5);
-        descTextArea.setText(org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.descTextArea.text")); // NOI18N
-        jScrollPane1.setViewportView(descTextArea);
 
         org.openide.awt.Mnemonics.setLocalizedText(transferBtn, org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.transferBtn.text")); // NOI18N
         transferBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -142,16 +129,20 @@ public class SingleNFTPanel extends JXPanel {
             .addGap(0, 178, Short.MAX_VALUE)
         );
 
+        indexLbl.setForeground(java.awt.Color.red);
+        indexLbl.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        org.openide.awt.Mnemonics.setLocalizedText(indexLbl, org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.indexLbl.text")); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(nameLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(idLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(platformLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
+            .addComponent(platformLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(indexLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(transferBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(imageView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -165,10 +156,10 @@ public class SingleNFTPanel extends JXPanel {
                 .addComponent(idLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(platformLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(transferBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(transferBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(indexLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -297,10 +288,9 @@ public class SingleNFTPanel extends JXPanel {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.jdesktop.swingx.JXTextArea descTextArea;
     private org.jdesktop.swingx.JXLabel idLbl;
     private org.jdesktop.swingx.JXImageView imageView;
-    private javax.swing.JScrollPane jScrollPane1;
+    private org.jdesktop.swingx.JXLabel indexLbl;
     private org.jdesktop.swingx.JXLabel nameLbl;
     private org.jdesktop.swingx.JXLabel platformLbl;
     private org.jdesktop.swingx.JXButton transferBtn;

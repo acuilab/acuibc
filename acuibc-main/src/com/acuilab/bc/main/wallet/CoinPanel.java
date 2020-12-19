@@ -74,6 +74,7 @@ public class CoinPanel extends JXPanel {
     private final ICoin coin;
     private final TransferRecordTableModel tableModel; 
     private final TransferRecordFiltering filterController; 
+    private boolean firstOpen;
 
     /**
      * Creates new form CoinPanel
@@ -88,6 +89,8 @@ public class CoinPanel extends JXPanel {
         this.parent = parent;
         this.wallet = wallet;
         this.coin = coin;
+	
+	firstOpen = true;
         
         // Toolbar
         JXButton transferBtn = new JXButton("转账");
@@ -331,6 +334,10 @@ public class CoinPanel extends JXPanel {
         
         table.setHorizontalScrollEnabled(true);
         table.packAll();
+    }
+    
+    public boolean isFirstOpen() {
+        return firstOpen;
     }
     
     /**
@@ -590,6 +597,7 @@ public class CoinPanel extends JXPanel {
                 }
                 
                 ph.finish();
+		firstOpen=false;		
                 refreshBtn.setEnabled(true);
             }
         };

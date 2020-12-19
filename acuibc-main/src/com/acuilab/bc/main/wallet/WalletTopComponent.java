@@ -107,24 +107,12 @@ public final class WalletTopComponent extends TopComponent implements Observer {
 	}
 	
 	// 初始化NFTPanel
+	int i=0;
 	for(INFT nft : NFTManager.getDefault().getNFTList(wallet.getBlockChainSymbol())) {
-	    JPanel nftPanel = new NFTPanel(WalletTopComponent.this, wallet, nft);
-	    JScrollPane scrollPane = new JScrollPane(nftPanel, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER);
-	    nftPane.addTab(nft.getName(), nft.getIcon(16), scrollPane, nft.getName());
+	    JPanel nftPanel = new NFTPanel(WalletTopComponent.this, wallet, nft, i);
+	    nftPane.addTab(nft.getName(), nft.getIcon(16), nftPanel, nft.getName());
+	    i++;
 	}
-	
-//	// 请求第一个代币的余额及交易记录
-//	if(coinPane.getComponentCount() > 0) {
-//	    CoinPanel first = (CoinPanel)coinPane.getComponentAt(0);
-//	    first.refreshBtnActionPerformed();
-//	}
-//	
-//	// 请求第一个nft列表
-//	if(nftPane.getComponentCount() > 0) {
-//	    JScrollPane scrollPane = (JScrollPane)nftPane.getComponent(0);
-//	    NFTPanel first = (NFTPanel)scrollPane.getViewport().getView();
-//	    first.reload();
-//	}
         
         // 这是一个新打开的窗口，生成新的窗口id并保存
         int id = ID.incrementAndGet();
@@ -133,6 +121,10 @@ public final class WalletTopComponent extends TopComponent implements Observer {
     
     public JXHyperlink getHashLink() {
         return hashLink;
+    }
+    
+    public void setNftPaneTitleAt(int index, String title) {
+	nftPane.setTitleAt(index, title);
     }
 
     /**
@@ -557,13 +549,14 @@ public final class WalletTopComponent extends TopComponent implements Observer {
     private void coinPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_coinPaneStateChanged
 	CoinPanel selected = (CoinPanel)coinPane.getSelectedComponent();
 	if(selected != null) {
-	    selected.refreshBtnActionPerformed();
+	    if(selected.isFirstOpen()){
+		selected.refreshBtnActionPerformed();
+	    }
 	}
     }//GEN-LAST:event_coinPaneStateChanged
 
     private void nftPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_nftPaneStateChanged
-	JScrollPane scrollPane = (JScrollPane)nftPane.getSelectedComponent();
-	NFTPanel selected = (NFTPanel)scrollPane.getViewport().getView();
+	NFTPanel selected = (NFTPanel)nftPane.getSelectedComponent();
 	if(selected != null) {
             //如果是首次调用则重载，如果非首次（已有）则不做操作。
             if(selected.isFirstOpen()){

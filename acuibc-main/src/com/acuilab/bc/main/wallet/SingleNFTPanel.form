@@ -109,6 +109,9 @@
           <Dimension value="[178, 178]"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new MyJXImageView()"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">

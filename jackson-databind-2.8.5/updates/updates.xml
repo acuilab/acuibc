@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE module_updates PUBLIC "-//NetBeans//DTD Autoupdate Catalog 2.6//EN" "http://www.netbeans.org/dtds/autoupdate-catalog-2_6.dtd">
+<module_updates timestamp="08/04/13/21/12/2020">
+
+
+
+<module codenamebase="com.acuilab.bc.cfx" distribution="com-acuilab-bc-cfx.nbm" downloadsize="232357" homepage="" license="AD9FBBC9" moduleauthor="" needsrestart="false" releasedate="2020/12/21" targetcluster="gourd">
+    <manifest AutoUpdate-Show-In-Client="true" OpenIDE-Module="com.acuilab.bc.cfx" OpenIDE-Module-Implementation-Version="201221" OpenIDE-Module-Java-Dependencies="Java &gt; 1.8" OpenIDE-Module-Module-Dependencies="com.acuilab.bc.main &gt; 1.0, com.google.guava &gt; 1.0, conflux.web3j &gt; 1.0.1, org.apache.commons.lang3 &gt; 1.0, org.javatuples &gt; 1.0, org.openide.util.lookup &gt; 8.33.1, org.openide.util.ui &gt; 9.6.1, org.springframework.core &gt; 1.0, party.loveit.bip44forjava &gt; 1.0" OpenIDE-Module-Name="acuibc cfx" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Specification-Version="3.6.2"/>
+    
+</module>
+
+<module codenamebase="com.acuilab.bc.eth" distribution="com-acuilab-bc-eth.nbm" downloadsize="30164" homepage="" license="AD9FBBC9" moduleauthor="" needsrestart="false" releasedate="2020/12/21" targetcluster="gourd">
+    <manifest AutoUpdate-Show-In-Client="true" OpenIDE-Module="com.acuilab.bc.eth" OpenIDE-Module-Implementation-Version="201221" OpenIDE-Module-Java-Dependencies="Java &gt; 1.7" OpenIDE-Module-Module-Dependencies="com.acuilab.bc.main &gt; 1.0, org.javatuples &gt; 1.0, org.openide.util.ui &gt; 9.6.1" OpenIDE-Module-Name="acuibc eth" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Specification-Version="1.3.1"/>
+    
+</module>
+
+<module codenamebase="com.acuilab.bc.main" distribution="com-acuilab-bc-main.nbm" downloadsize="981409" homepage="" license="AD9FBBC9" moduleauthor="" needsrestart="false" releasedate="2020/12/21" targetcluster="gourd">
+    <manifest AutoUpdate-Show-In-Client="true" OpenIDE-Module="com.acuilab.bc.main" OpenIDE-Module-Implementation-Version="201221" OpenIDE-Module-Java-Dependencies="Java &gt; 1.8" OpenIDE-Module-Module-Dependencies="com.google.guava &gt; 1.0, com.google.zxing &gt; 1.0, net.java.balloontip &gt; 1.0, net.lingala.zip4j &gt; 1.0, org.apache.commons.lang3 &gt; 1.0, org.apache.derby &gt; 1.0, org.javatuples &gt; 1.0, org.jdesktop.beansbinding &gt; 1.0, org.jdesktop.swingx &gt; 1.0, org.netbeans.api.progress/1 &gt; 1.47.1, org.netbeans.api.progress.nb &gt; 1.47.1, org.netbeans.api.templates &gt; 1.7.1, org.netbeans.modules.autoupdate.services &gt; 1.52.1, org.netbeans.modules.settings/1 &gt; 1.49.1, org.openide.awt &gt; 7.67.1, org.openide.dialogs &gt; 7.42.1, org.openide.loaders &gt; 7.66.1, org.openide.modules &gt; 7.48.1, org.openide.util &gt; 9.7.1, org.openide.util.lookup &gt; 8.33.1, org.openide.util.ui &gt; 9.6.1, org.openide.windows &gt; 6.75.1, org.springframework.core &gt; 1.0, party.loveit.bip44forjava &gt; 1.0" OpenIDE-Module-Name="acuibc main" OpenIDE-Module-Requires="org.openide.windows.WindowManager, org.openide.modules.ModuleFormat1" OpenIDE-Module-Specification-Version="5.8.2"/>
+    
+</module>
+
+<module autoload="true" codenamebase="net.java.balloontip" distribution="net-java-balloontip.nbm" downloadsize="82769" homepage="" license="AD9FBBC9" moduleauthor="" needsrestart="false" releasedate="2020/12/21" targetcluster="gourd">
+    <manifest AutoUpdate-Show-In-Client="true" OpenIDE-Module="net.java.balloontip" OpenIDE-Module-Implementation-Version="201221" OpenIDE-Module-Java-Dependencies="Java &gt; 1.4" OpenIDE-Module-Name="balloontip-1.2.4.1" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module autoload="true" codenamebase="org.bouncycastle" distribution="org-bouncycastle.nbm" downloadsize="3595070" homepage="" license="AD9FBBC9" moduleauthor="" needsrestart="false" releasedate="2020/12/21" targetcluster="gourd">
+    <manifest AutoUpdate-Show-In-Client="true" OpenIDE-Module="org.bouncycastle" OpenIDE-Module-Implementation-Version="201221" OpenIDE-Module-Java-Dependencies="Java &gt; 1.4" OpenIDE-Module-Name="bcprov-jdk15on-1.60" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module autoload="true" codenamebase="org.jdesktop.beansbinding" distribution="org-jdesktop-beansbinding.nbm" downloadsize="74997" homepage="" license="AD9FBBC9" moduleauthor="" needsrestart="false" releasedate="2020/12/21" targetcluster="gourd">
+    <manifest AutoUpdate-Show-In-Client="true" OpenIDE-Module="org.jdesktop.beansbinding" OpenIDE-Module-Implementation-Version="201221" OpenIDE-Module-Java-Dependencies="Java &gt; 1.4" OpenIDE-Module-Name="betterbeansbinding-1.3.0-all" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module autoload="true" codenamebase="party.loveit.bip44forjava" distribution="party-loveit-bip44forjava.nbm" downloadsize="4154573" homepage="" license="AD9FBBC9" moduleauthor="" needsrestart="false" releasedate="2020/12/21" targetcluster="gourd">
+    <manifest AutoUpdate-Show-In-Client="true" OpenIDE-Module="party.loveit.bip44forjava" OpenIDE-Module-Implementation-Version="201221" OpenIDE-Module-Java-Dependencies="Java &gt; 1.4" OpenIDE-Module-Module-Dependencies="com.google.guava &gt; 1.0, org.bouncycastle &gt; 1.0" OpenIDE-Module-Name="Bip44ForJava-1.0.0" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Specification-Version="1.1"/>
+    
+</module>
+
+<module autoload="true" codenamebase="org.apache.commons.lang3" distribution="org-apache-commons-lang3.nbm" downloadsize="173070" homepage="" license="AD9FBBC9" moduleauthor="" needsrestart="false" releasedate="2020/12/21" targetcluster="gourd">
+    <manifest AutoUpdate-Show-In-Client="true" OpenIDE-Module="org.apache.commons.lang3" OpenIDE-Module-Implementation-Version="201221" OpenIDE-Module-Java-Dependencies="Java &gt; 1.4" OpenIDE-Module-Name="commons-lang3-3.10" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module autoload="true" codenamebase="conflux.web3j" distribution="conflux-web3j.nbm" downloadsize="6180653" homepage="" license="AD9FBBC9" moduleauthor="" needsrestart="false" releasedate="2020/12/21" targetcluster="gourd">
+    <manifest AutoUpdate-Show-In-Client="true" OpenIDE-Module="conflux.web3j" OpenIDE-Module-Implementation-Version="201221" OpenIDE-Module-Java-Dependencies="Java &gt; 1.4" OpenIDE-Module-Name="conflux-web3j" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Specification-Version="1.0.1"/>
+    
+</module>
+
+<module autoload="true" codenamebase="org.apache.derby" distribution="org-apache-derby.nbm" downloadsize="929039" homepage="" license="AD9FBBC9" moduleauthor="" needsrestart="false" releasedate="2020/12/21" targetcluster="gourd">
+    <manifest AutoUpdate-Show-In-Client="true" OpenIDE-Module="org.apache.derby" OpenIDE-Module-Implementation-Version="201221" OpenIDE-Module-Java-Dependencies="Java &gt; 1.4" OpenIDE-Module-Name="db-derby-10.14.2.0" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module autoload="true" codenamebase="com.google.guava" distribution="com-google-guava.nbm" downloadsize="575166" homepage="" license="AD9FBBC9" moduleauthor="" needsrestart="false" releasedate="2020/12/21" targetcluster="gourd">
+    <manifest AutoUpdate-Show-In-Client="true" OpenIDE-Module="com.google.guava" OpenIDE-Module-Implementation-Version="201221" OpenIDE-Module-Java-Dependencies="Java &gt; 1.4" OpenIDE-Module-Name="guava-29.0-jre" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module autoload="true" codenamebase="org.javatuples" distribution="org-javatuples.nbm" downloadsize="25069" homepage="" license="AD9FBBC9" moduleauthor="" needsrestart="false" releasedate="2020/12/21" targetcluster="gourd">
+    <manifest AutoUpdate-Show-In-Client="true" OpenIDE-Module="org.javatuples" OpenIDE-Module-Implementation-Version="201221" OpenIDE-Module-Java-Dependencies="Java &gt; 1.4" OpenIDE-Module-Name="javatuples-1.2" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module autoload="true" codenamebase="org.springframework.core" distribution="org-springframework-core.nbm" downloadsize="356873" homepage="" license="AD9FBBC9" moduleauthor="" needsrestart="false" releasedate="2020/12/21" targetcluster="gourd">
+    <manifest AutoUpdate-Show-In-Client="true" OpenIDE-Module="org.springframework.core" OpenIDE-Module-Implementation-Version="201221" OpenIDE-Module-Java-Dependencies="Java &gt; 1.4" OpenIDE-Module-Name="spring-core-5.2.8.RELEASE" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module autoload="true" codenamebase="org.jdesktop.swingx" distribution="org-jdesktop-swingx.nbm" downloadsize="375524" homepage="" license="AD9FBBC9" moduleauthor="" needsrestart="false" releasedate="2020/12/21" targetcluster="gourd">
+    <manifest AutoUpdate-Show-In-Client="true" OpenIDE-Module="org.jdesktop.swingx" OpenIDE-Module-Implementation-Version="201221" OpenIDE-Module-Java-Dependencies="Java &gt; 1.4" OpenIDE-Module-Name="swingx-all-1.6.5-1" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module autoload="true" codenamebase="net.lingala.zip4j" distribution="net-lingala-zip4j.nbm" downloadsize="63898" homepage="" license="AD9FBBC9" moduleauthor="" needsrestart="false" releasedate="2020/12/21" targetcluster="gourd">
+    <manifest AutoUpdate-Show-In-Client="true" OpenIDE-Module="net.lingala.zip4j" OpenIDE-Module-Implementation-Version="201221" OpenIDE-Module-Java-Dependencies="Java &gt; 1.4" OpenIDE-Module-Name="zip4j-2.6.2" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module autoload="true" codenamebase="com.google.zxing" distribution="com-google-zxing.nbm" downloadsize="201111" homepage="" license="AD9FBBC9" moduleauthor="" needsrestart="false" releasedate="2020/12/21" targetcluster="gourd">
+    <manifest AutoUpdate-Show-In-Client="true" OpenIDE-Module="com.google.zxing" OpenIDE-Module-Implementation-Version="201221" OpenIDE-Module-Java-Dependencies="Java &gt; 1.4" OpenIDE-Module-Name="zxing-3.4.0" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<license name="AD9FBBC9" url="licenses/AD9FBBC9.license"/>
+</module_updates>
+

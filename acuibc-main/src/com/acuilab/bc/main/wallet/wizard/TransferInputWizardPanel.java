@@ -2,7 +2,6 @@ package com.acuilab.bc.main.wallet.wizard;
 
 import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.manager.BlockChainManager;
-import com.acuilab.bc.main.util.RegExpValidatorUtils;
 import com.acuilab.bc.main.wallet.Wallet;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -78,7 +77,6 @@ public class TransferInputWizardPanel implements WizardDescriptor.ValidatingPane
         // use wiz.putProperty to remember current panel state
         wiz.putProperty("recvAddress", component.getRecvAddressFld().getText());
         wiz.putProperty("value", component.getValueFld().getText());
-        wiz.putProperty("isGasDefault", component.isGasDefault());
         wiz.putProperty("gas", component.getGasSlider().getValue());
     }
 

@@ -1,7 +1,5 @@
 package com.acuilab.bc.main.wallet.wizard;
 
-import com.acuilab.bc.main.BlockChain;
-import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.wallet.Wallet;
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
@@ -67,15 +65,8 @@ public class TransferConfirmWizardPanel implements WizardDescriptor.Panel<Wizard
         // use wiz.getProperty to retrieve previous panel state
         String recvAddress = (String)wiz.getProperty("recvAddress");
         String value = (String)wiz.getProperty("value");
-        boolean isGasDefault = (boolean)wiz.getProperty("isGasDefault");
         int gas = (int)wiz.getProperty("gas");
-        
-        if(isGasDefault) {
-            getComponent().init(recvAddress, value, wallet.getAddress(), "系统默认");
-        } else {
-            getComponent().init(recvAddress, value, wallet.getAddress(), coin.gasDesc(gas));
-        }
-        
+	getComponent().init(recvAddress, value, wallet.getAddress(), coin.gasDesc(gas));
     }
 
     @Override

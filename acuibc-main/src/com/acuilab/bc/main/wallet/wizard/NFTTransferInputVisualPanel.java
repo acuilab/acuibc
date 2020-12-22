@@ -39,9 +39,9 @@ public final class NFTTransferInputVisualPanel extends JPanel {
         this.nft = nft;
 
         BlockChain bc = BlockChainManager.getDefault().getBlockChain(nft.getBlockChainSymbol());
-        int min = 0;
-        int max = 100;
-        int defaultValue = 10;
+        int min = nft.gasMin();
+        int max = nft.gasMax();
+        int defaultValue = nft.gasDefault();
         gasSlider.setMinimum(min);
         gasSlider.setMaximum(max);
         gasSlider.setValue(defaultValue);
@@ -53,9 +53,7 @@ public final class NFTTransferInputVisualPanel extends JPanel {
         formatter.setCommitsOnValidEdit(true);
         gasSpinner.setEditor(editor);
         
-        slowLbl.setText("慢(" + min + ")");
-        gasLbl.setText("");
-        fastLbl.setText("(" + max + ")快");
+        gasLbl.setText(nft.gasDesc(nft.gasDefault()));
 
         sendAddressFld.setText(wallet.getAddress());
     }
@@ -84,10 +82,6 @@ public final class NFTTransferInputVisualPanel extends JPanel {
     public boolean balanceAvailable() {
         return balance != null;
     }
-    
-    public boolean isGasDefault() {
-        return gasDefaultCheckBox.isSelected();
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -108,7 +102,6 @@ public final class NFTTransferInputVisualPanel extends JPanel {
         slowLbl = new org.jdesktop.swingx.JXLabel();
         fastLbl = new org.jdesktop.swingx.JXLabel();
         gasLbl = new org.jdesktop.swingx.JXLabel();
-        gasDefaultCheckBox = new javax.swing.JCheckBox();
         gasSpinner = new javax.swing.JSpinner();
         pasteBtn = new org.jdesktop.swingx.JXButton();
         selectBtn = new org.jdesktop.swingx.JXButton();
@@ -121,11 +114,6 @@ public final class NFTTransferInputVisualPanel extends JPanel {
 
         valueFld.setText(org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.valueFld.text")); // NOI18N
         valueFld.setEnabled(false);
-        valueFld.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                valueFldActionPerformed(evt);
-            }
-        });
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel3, org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.jXLabel3.text")); // NOI18N
 
@@ -136,7 +124,6 @@ public final class NFTTransferInputVisualPanel extends JPanel {
 
         gasSlider.setPaintTicks(true);
         gasSlider.setSnapToTicks(true);
-        gasSlider.setEnabled(false);
         gasSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 gasSliderStateChanged(evt);
@@ -152,17 +139,6 @@ public final class NFTTransferInputVisualPanel extends JPanel {
         gasLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         org.openide.awt.Mnemonics.setLocalizedText(gasLbl, org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.gasLbl.text")); // NOI18N
 
-        gasDefaultCheckBox.setSelected(true);
-        org.openide.awt.Mnemonics.setLocalizedText(gasDefaultCheckBox, org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.gasDefaultCheckBox.text")); // NOI18N
-        gasDefaultCheckBox.setToolTipText(org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.gasDefaultCheckBox.toolTipText")); // NOI18N
-        gasDefaultCheckBox.setEnabled(false);
-        gasDefaultCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gasDefaultCheckBoxActionPerformed(evt);
-            }
-        });
-
-        gasSpinner.setEnabled(false);
         gasSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 gasSpinnerStateChanged(evt);
@@ -201,17 +177,14 @@ public final class NFTTransferInputVisualPanel extends JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(slowLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(slowLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(gasLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE))
-                            .addComponent(gasSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(gasLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fastLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(gasSlider, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(gasSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                            .addComponent(fastLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(gasDefaultCheckBox)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(gasSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(recvAddressFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -238,33 +211,28 @@ public final class NFTTransferInputVisualPanel extends JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sendAddressFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(7, 7, 7)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jXLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(gasDefaultCheckBox))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(gasSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(gasSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(slowLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fastLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(gasLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(236, Short.MAX_VALUE))
+                    .addComponent(jXLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(gasSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(gasSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(slowLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(gasLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(fastLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(271, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void gasSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_gasSliderStateChanged
         int value = ((JSlider) evt.getSource()).getValue();
-        gasLbl.setText("desc");
+        gasLbl.setText(nft.gasDesc(value));
         gasSpinner.setValue(value);
     }//GEN-LAST:event_gasSliderStateChanged
-
-    private void gasDefaultCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gasDefaultCheckBoxActionPerformed
-        gasSlider.setEnabled(!gasDefaultCheckBox.isSelected());
-        gasSpinner.setEnabled(!gasDefaultCheckBox.isSelected());
-    }//GEN-LAST:event_gasDefaultCheckBoxActionPerformed
 
     private void gasSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_gasSpinnerStateChanged
         int value = (Integer)((JSpinner) evt.getSource()).getValue();
@@ -304,13 +272,8 @@ public final class NFTTransferInputVisualPanel extends JPanel {
         }
     }//GEN-LAST:event_selectBtnActionPerformed
 
-    private void valueFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valueFldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_valueFldActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXLabel fastLbl;
-    private javax.swing.JCheckBox gasDefaultCheckBox;
     private org.jdesktop.swingx.JXLabel gasLbl;
     private javax.swing.JSlider gasSlider;
     private javax.swing.JSpinner gasSpinner;

@@ -192,12 +192,11 @@ public class SingleNFTPanel extends JXPanel {
 	    // do something
 	    String recvAddress = (String)wiz.getProperty("recvAddress");
 	    String value = (String)wiz.getProperty("value");
-	    boolean isGasDefault = (boolean)wiz.getProperty("isGasDefault");
 	    int gas = (int)wiz.getProperty("gas");
 	    String pwd = (String)wiz.getProperty("password");
 
 	    try {
-		String hash = nft.safeTransferFrom(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), wallet.getAddress(), recvAddress, new BigInteger(metaData.getId()));
+		String hash = nft.safeTransferFrom(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), wallet.getAddress(), recvAddress, new BigInteger(metaData.getId()), BigInteger.valueOf(gas));
 		JXHyperlink hashLink = parent.getWalletTopComponent().getHashLink();
 		hashLink.setText(hash);
 		// 气泡提示

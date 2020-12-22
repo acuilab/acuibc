@@ -124,12 +124,11 @@ public class CoinPanel extends JXPanel {
                     // do something
                     String recvAddress = (String)wiz.getProperty("recvAddress");
                     String value = (String)wiz.getProperty("value");
-                    boolean isGasDefault = (boolean)wiz.getProperty("isGasDefault");
                     int gas = (int)wiz.getProperty("gas");
                     String pwd = (String)wiz.getProperty("password");
 
                     try {
-                        String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), recvAddress, coin.mainUint2MinUint(NumberUtils.toDouble(value)), isGasDefault ? null : BigInteger.valueOf(gas));
+                        String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), recvAddress, coin.mainUint2MinUint(NumberUtils.toDouble(value)), BigInteger.valueOf(gas));
                         JXHyperlink hashLink = parent.getHashLink();
                         hashLink.setText(hash);
                         // 气泡提示
@@ -146,7 +145,6 @@ public class CoinPanel extends JXPanel {
                         }
 
                         // 根据交易哈希查询转账结果
-                        System.out.println("根据交易哈希查询转账结果");
                         final ProgressHandle ph = ProgressHandle.createHandle("正在查询交易状态，请稍候");
                         SwingWorker<BlockChain.TransactionStatus, Void> worker = new SwingWorker<BlockChain.TransactionStatus, Void>() {
                             BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());

@@ -1,6 +1,5 @@
 package com.acuilab.bc.cfx;
 
-import static com.acuilab.bc.cfx.FCCoin.CONTRACT_ADDRESS;
 import com.acuilab.bc.main.wallet.TransferRecord;
 import com.acuilab.bc.main.wallet.Wallet;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -8,11 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import conflux.web3j.Account;
 import conflux.web3j.Cfx;
-import conflux.web3j.CfxUnit;
-import conflux.web3j.contract.ContractCall;
 import conflux.web3j.contract.ERC20Call;
 import conflux.web3j.contract.ERC20Executor;
-import conflux.web3j.response.UsedGasAndCollateral;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.Date;
@@ -23,7 +19,6 @@ import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import org.openide.util.Lookup;
-import org.web3j.abi.datatypes.Address;
 import com.acuilab.bc.main.coin.ICoin;
 
 /**
@@ -37,17 +32,10 @@ public abstract class ERC20Coin implements ICoin {
     // http://scan-dev-service.conflux-chain.org:8885/api/transfer/list?pageSize=10&page=1&address=0x87010faf5964d67ed070bc4b8dcafa1e1adc0997&accountAddress=0x1eff4db4696253106ae18ca96e092a0f354ef7c8
     public static final String TRANSFER_LIST_URL = "https://confluxscan.io/v1/transfer";
     
-    private BigInteger estimateGas;
-    
     @Override
     public void init() {
     }    
     
-//    @Override
-//    public Type getType() {
-//        return Type.TOKEN;
-//    }
-
     @Override
     public BigInteger balanceOf(String address) {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
@@ -62,13 +50,7 @@ public abstract class ERC20Coin implements ICoin {
         Cfx cfx = bc.getCfx();
         Account account = Account.create(cfx, privateKey);
         ERC20Executor exec = new ERC20Executor(account, getContractAddress());
-        // 忽略gas参数，让sdk自己估算吧
-        
-        if(gas == null) {
-            return exec.transfer(new Account.Option(), to, value);
-        }
-        
-        return exec.transfer(new Account.Option().withGasLimit(gas), to, value);
+        return exec.transfer(new Account.Option().withGasPrice(gas).withGasLimit(this.gasLimit()), to, value);
     }
 
     @Override
@@ -119,35 +101,31 @@ public abstract class ERC20Coin implements ICoin {
     }
 
     @Override
-    public int gasMin(String address) {
-        if(estimateGas == null) {
-            CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
-
-            ContractCall call = new ContractCall(bc.getCfx(), CONTRACT_ADDRESS);
-            UsedGasAndCollateral usedGas = call.estimateGasAndCollateral("balanceOf", new Address(address)).sendAndGet();
-            estimateGas = usedGas.getGasUsed();
-        }
-
-        return estimateGas.intValue();
+    public int gasMin() {
+	// 1drip
+        return 1;
     }
 
     @Override
-    public int gasMax(String address) {
-        // @see http://acuilab.com:8080/articles/2020/08/12/1597238136717.html
-        return (int)(gasMin(address) * 1.3);
+    public int gasMax() {
+        // 100drip
+        return 100;
     }
 
     @Override
-    public int gasDefaultValue(String address) {
-        // 为避免多次请求，调用方直接取gasMin
-        return gasMin(address);
+    public int gasDefault() {
+	// 1drip
+        return 1;
+    }
+    
+    @Override
+    public int gasLimit() {
+	return 100000;
     }
 
     @Override
     public String gasDesc(int gas) {
-        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
-        BigInteger gasValue = bc.getGasPrice().multiply(BigInteger.valueOf(gas));
-        return gasValue + " drip/" + CfxUnit.drip2Cfx(gasValue).toPlainString() + " CFX";
+        return gas + "drip";
     }
 
 }

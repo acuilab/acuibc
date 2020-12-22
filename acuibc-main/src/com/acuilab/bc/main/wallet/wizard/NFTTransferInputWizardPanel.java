@@ -74,7 +74,6 @@ public class NFTTransferInputWizardPanel implements WizardDescriptor.ValidatingP
         // use wiz.putProperty to remember current panel state
         wiz.putProperty("recvAddress", component.getRecvAddressFld().getText());
         wiz.putProperty("value", component.getValueFld().getText());
-        wiz.putProperty("isGasDefault", component.isGasDefault());
         wiz.putProperty("gas", component.getGasSlider().getValue());
     }
 

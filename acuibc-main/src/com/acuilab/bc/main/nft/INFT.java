@@ -1,7 +1,6 @@
 package com.acuilab.bc.main.nft;
 
 import java.awt.Image;
-import java.io.IOException;
 import java.math.BigInteger;
 import javax.swing.Icon;
 
@@ -60,7 +59,7 @@ public interface INFT {
      * @param to
      * @param id 
      */
-    String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId, String data) throws Exception;
+    String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId, String data, BigInteger gas) throws Exception;
     
     /**
      * 
@@ -68,8 +67,34 @@ public interface INFT {
      * @param to
      * @param id 
      */
-    default String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId) throws Exception {
-	return safeTransferFrom(privateKey, from, to, tokenId, "");
+    default String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId, BigInteger gas) throws Exception {
+	return safeTransferFrom(privateKey, from, to, tokenId, "", gas);
     }
 
+    /**
+     * 矿工费最小值
+     * @return 
+     */
+    int gasMin();
+    
+    /**
+     * 矿工费最大值
+     * @return 
+     */
+    int gasMax();
+    
+    /**
+     * 矿工费初值
+     * @return 
+     */
+    int gasDefault();
+    
+    /**
+     * 矿工费描述：例如1drip
+     * @param gas
+     * @return 
+     */
+    String gasDesc(int gas);
+    
+    int gasLimit();
 }

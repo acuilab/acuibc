@@ -112,47 +112,37 @@ public interface ICoin {
     
     
     /**
-     * 矿工费最小值
-     * @param address
+     * 矿工费单价最小值
      * @return 
      */
-    int gasMin(String address);
+    int gasMin();
     
     /**
-     * 矿工费最大值
-     * @param address
+     * 矿工费单价最大值
      * @return 
      */
-    int gasMax(String address);
+    int gasMax();
     
     /**
-     * 矿工费初值
-     * @param address
+     * 矿工费单价初值
      * @return 
      */
-    int gasDefaultValue(String address);
+    int gasDefault();
     
     /**
-     * 矿工费描述：例如20 Gdrip/0.002 CFX
+     * 矿工费描述：例如1drip
      * @param gas
      * @return 
      */
     String gasDesc(int gas);
+    
+    int gasLimit();
     
     /**
      * 是否可分割
      * @return 
      */
     boolean isDivisible();
-    
-    default BigInteger getDefaultGas(){
-        return BigInteger.ZERO;
-    }
-    
-//    public static enum Type {
-//        // 主网币、代币
-//        BASE, TOKEN
-//    }
     
     /**
      * 获得合约地址，非主网币需覆盖此方法以提供合约地址

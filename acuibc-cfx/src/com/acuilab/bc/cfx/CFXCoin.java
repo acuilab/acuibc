@@ -7,7 +7,6 @@ import com.google.common.collect.Lists;
 import conflux.web3j.Account;
 import conflux.web3j.Cfx;
 import conflux.web3j.CfxUnit;
-import conflux.web3j.types.RawTransaction;
 import java.awt.Image;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -19,6 +18,7 @@ import org.openide.util.Lookup;
 import com.acuilab.bc.main.coin.ICoin;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import conflux.web3j.Account.Option;
 import java.math.RoundingMode;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -70,11 +70,6 @@ public class CFXCoin implements ICFXCoin {
         return ImageUtilities.loadImage("/resource/cfx" + size + ".png", true);
     }
 
-//    @Override
-//    public Type getType() {
-//        return Type.BASE;
-//    }
-
     @Override
     public BigInteger balanceOf(String address) {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
@@ -94,13 +89,7 @@ public class CFXCoin implements ICFXCoin {
         Cfx cfx = bc.getCfx();
         
         Account account = Account.create(cfx, privateKey);
-        if(gas == null) {
-            return account.transfer(to, value);
-        }
-        
-        BigInteger currentEpoch = cfx.getEpochNumber().sendAndGet();
-        return account.mustSend(RawTransaction.create(account.getNonce(), gas, to, value, BigInteger.ZERO, currentEpoch, null));
-        
+	return account.transfer(new Option().withGasPrice(gas).withGasLimit(gasLimit()), to, value);
     }
 
     @Override
@@ -199,27 +188,35 @@ public class CFXCoin implements ICFXCoin {
         return transferRecords;
     }
 
+    // 单位drip
     @Override
-    public int gasMin(String address) {
-        return CfxUnit.DEFAULT_GAS_LIMIT.intValue();
+    public int gasMin() {
+	// 1drip
+        return 1;
     }
 
+    // 单位drip
     @Override
-    public int gasMax(String address) {
-        // @see http://acuilab.com:8080/articles/2020/08/12/1597238136717.html
-        return (int)(CfxUnit.DEFAULT_GAS_LIMIT.intValue() * 1.3);  // 向下取整
+    public int gasMax() {
+        // 100drip
+        return 100;
     }
 
+    // 单位drip
     @Override
-    public int gasDefaultValue(String address) {
-        return CfxUnit.DEFAULT_GAS_LIMIT.intValue();
+    public int gasDefault() {
+	// 1drip
+        return 1;
+    }
+    
+    @Override
+    public int gasLimit() {
+	return 25200;
     }
 
     @Override
     public String gasDesc(int gas) {
-        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
-        BigInteger gasValue = bc.getGasPrice().multiply(BigInteger.valueOf(gas));
-        return gasValue + " drip/" + CfxUnit.drip2Cfx(gasValue).toPlainString() + " CFX";
+        return gas + "drip";
     }
 
     @Override
@@ -231,9 +228,7 @@ public class CFXCoin implements ICFXCoin {
     public String deposit(String privateKey, BigInteger value) throws Exception {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
-        
         Account account = Account.create(cfx, privateKey);
-        
         return account.call(STAKING_CONTRACT_ADDRESS, "deposit", new org.web3j.abi.datatypes.Uint(value));
     }
 
@@ -241,9 +236,7 @@ public class CFXCoin implements ICFXCoin {
     public String withdraw(String privateKey, BigInteger value) throws Exception {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
-        
         Account account = Account.create(cfx, privateKey);
-        
         return account.call(STAKING_CONTRACT_ADDRESS, "withdraw", new org.web3j.abi.datatypes.Uint(value));
     }
 
@@ -253,10 +246,4 @@ public class CFXCoin implements ICFXCoin {
         Cfx cfx = bc.getCfx();
         return cfx.getStakingBalance(address).sendAndGet();
     }
-    
-    @Override
-    public BigInteger getDefaultGas() {
-        return CfxUnit.DEFAULT_GAS_LIMIT.multiply(CfxUnit.DEFAULT_GAS_PRICE);
-    }
-
 }

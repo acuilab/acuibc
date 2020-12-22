@@ -1,11 +1,7 @@
 package com.acuilab.bc.cfx;
 
-import static com.acuilab.bc.cfx.ConFiNFT.CONTRACT_ADDRESS;
-import com.acuilab.bc.main.nft.INFT;
 import com.acuilab.bc.main.nft.MetaData;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import conflux.web3j.Account;
-import conflux.web3j.Account.Option;
 import conflux.web3j.Cfx;
 import conflux.web3j.contract.ContractCall;
 import conflux.web3j.contract.abi.DecodeUtil;
@@ -21,13 +17,11 @@ import org.openide.util.Lookup;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.DynamicArray;
 import java.net.URL;
-import java.nio.charset.Charset;
-import org.web3j.abi.datatypes.Type;
 /**
  *
  * @author admin
  */
-public class MoonGenesisNFT implements INFT {
+public class MoonGenesisNFT extends AbstractNFT {
     
     public static final String CONTRACT_ADDRESS = "0x89c9ec494607ae96ae2a36c8c3d0220bc3a51819";
     public static final String WEBSITE = "https://nft.moonswap.fi/";
@@ -70,25 +64,6 @@ public class MoonGenesisNFT implements INFT {
     public Image getIconImage(int size) {
         return ImageUtilities.loadImage("/resource/cMOON" + size + ".png", true);
     }
-
-    @Override
-    public BigInteger[] tokensOf(String address) {
-        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
-        Cfx cfx = bc.getCfx();
-	ContractCall contract = new ContractCall(cfx, CONTRACT_ADDRESS);
-        // passing method name and parameter to `contract.call`
-        // note: parameters should use web3j.abi.datatypes type
-        String value = contract.call("tokensOf", new org.web3j.abi.datatypes.Address(address)).sendAndGet();
-        
-        List<org.web3j.abi.datatypes.Uint> valueDecode = DecodeUtil.decode(value, new TypeReference<DynamicArray<org.web3j.abi.datatypes.Uint>>() {});
-	// 转成BigInteger数组
-	BigInteger[] ret = new BigInteger[valueDecode.size()];
-	for(int i=0; i<valueDecode.size(); i++) {
-	    ret[i] = valueDecode.get(i).getValue();
-            System.out.println(ret[i]);
-	}
-	return ret;
-    }
     
     @Override
     public MetaData getMetaData(BigInteger tokenId) throws IOException {
@@ -126,19 +101,4 @@ public class MoonGenesisNFT implements INFT {
 	
 	return md;
     }
-    
-    @Override
-    public String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId, String data) throws Exception {
-        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
-        Cfx cfx = bc.getCfx();
-	
-        Account account = Account.create(cfx, privateKey);
-	return account.call(new Option(), CONTRACT_ADDRESS, "safeTransferFrom", 
-            new org.web3j.abi.datatypes.Address(from), 
-	    new org.web3j.abi.datatypes.Address(to), 
-	    new org.web3j.abi.datatypes.Uint(tokenId), 
-            new org.web3j.abi.datatypes.Uint(BigInteger.ONE), 
-	    new org.web3j.abi.datatypes.DynamicBytes(StringUtils.getBytes(data, Charset.forName("UTF-8"))));
-    }
-    
 }

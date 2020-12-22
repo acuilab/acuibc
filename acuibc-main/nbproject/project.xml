@@ -23,6 +23,14 @@
                     </run-dependency>
                 </dependency>
                 <dependency>
+                    <code-name-base>conflux.web3j</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.0.1</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
                     <code-name-base>net.java.balloontip</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>

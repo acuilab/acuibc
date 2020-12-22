@@ -1,18 +1,13 @@
 package com.acuilab.bc.cfx;
 
-import com.acuilab.bc.main.nft.INFT;
 import com.acuilab.bc.main.nft.MetaData;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import conflux.web3j.Account;
-import conflux.web3j.Account.Option;
 import conflux.web3j.Cfx;
-import conflux.web3j.CfxUnit;
 import conflux.web3j.contract.ContractCall;
 import conflux.web3j.contract.abi.DecodeUtil;
 import java.awt.Image;
 import java.math.BigInteger;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 import javax.swing.Icon;
@@ -20,15 +15,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.web3j.abi.TypeReference;
-import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.DynamicArray;
-import org.web3j.abi.datatypes.Type;
 
 /**
  *
  * @author admin
  */
-public class ConDragonNFT implements INFT {
+public class ConDragonNFT extends AbstractNFT {
     
     public static final String CONTRACT_ADDRESS = "0x83928828f200b79b78404dce3058ba0c8c4076c3";
     public static final String WEBSITE = "https://condragon.com/";
@@ -71,23 +64,6 @@ public class ConDragonNFT implements INFT {
     public Image getIconImage(int size) {
         return ImageUtilities.loadImage("/resource/condragon" + size + ".png", true);
     }
-
-    @Override
-    public BigInteger[] tokensOf(String address) {
-        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
-        Cfx cfx = bc.getCfx();
-	ContractCall contract = new ContractCall(cfx, CONTRACT_ADDRESS);
-        // passing method name and parameter to `contract.call`
-        // note: parameters should use web3j.abi.datatypes type
-        String value = contract.call("tokensOf", new org.web3j.abi.datatypes.Address(address)).sendAndGet();
-        List<org.web3j.abi.datatypes.Uint> valueDecode = DecodeUtil.decode(value, new TypeReference<DynamicArray<org.web3j.abi.datatypes.Uint>>() {});
-	// 转成BigInteger数组
-	BigInteger[] ret = new BigInteger[valueDecode.size()];
-	for(int i=0; i<valueDecode.size(); i++) {
-	    ret[i] = valueDecode.get(i).getValue();
-	}
-	return ret;
-    }
     
     @Override
     public MetaData getMetaData(BigInteger tokenId) throws Exception {
@@ -98,8 +74,6 @@ public class ConDragonNFT implements INFT {
         // note: parameters should use web3j.abi.datatypes type
         String value = contract.call("uri", new org.web3j.abi.datatypes.Uint(tokenId)).sendAndGet();
         String json = DecodeUtil.decode(value, org.web3j.abi.datatypes.Utf8String.class);
-	System.out.println(value.toString());
-        System.out.println(json.toString());
         
         MetaData md = new MetaData();
         
@@ -128,19 +102,5 @@ public class ConDragonNFT implements INFT {
 	md.setPlatform("ConDragon");
 	
 	return md;
-    }
-
-    @Override
-    public String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId, String data) throws Exception {
-        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
-        Cfx cfx = bc.getCfx();
-	
-        Account account = Account.create(cfx, privateKey);
-	return account.call(new Option(), CONTRACT_ADDRESS, "safeTransferFrom", 
-            new org.web3j.abi.datatypes.Address(from), 
-	    new org.web3j.abi.datatypes.Address(to), 
-	    new org.web3j.abi.datatypes.Uint(tokenId), 
-            new org.web3j.abi.datatypes.Uint(BigInteger.ONE), 
-	    new org.web3j.abi.datatypes.DynamicBytes(StringUtils.getBytes(data, Charset.forName("UTF-8"))));
     }
 }

@@ -13,6 +13,4 @@ public interface ICFXCoin extends ICoin {
     public String withdraw(String privateKey, BigInteger value) throws Exception;
     
     public BigInteger stakingBalanceOf(String address);
-            
-            
 }

@@ -4,6 +4,7 @@ import com.acuilab.bc.main.coin.ICFXCoin;
 import com.acuilab.bc.main.util.AESUtil;
 import com.acuilab.bc.main.wallet.PasswordVerifyDialog;
 import com.acuilab.bc.main.wallet.Wallet;
+import conflux.web3j.CfxUnit;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;

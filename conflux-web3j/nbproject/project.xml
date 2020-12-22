@@ -41,8 +41,10 @@
                 <package>conflux.web3j.contract</package>
                 <package>conflux.web3j.contract.abi</package>
                 <package>conflux.web3j.contract.diagnostics</package>
+                <package>conflux.web3j.contract.internals</package>
                 <package>conflux.web3j.request</package>
                 <package>conflux.web3j.response</package>
+                <package>conflux.web3j.response.events</package>
                 <package>conflux.web3j.types</package>
                 <package>io.reactivex</package>
                 <package>io.reactivex.annotations</package>
@@ -78,16 +80,20 @@
                 <package>okhttp3.internal</package>
                 <package>okhttp3.internal.cache</package>
                 <package>okhttp3.internal.cache2</package>
+                <package>okhttp3.internal.concurrent</package>
                 <package>okhttp3.internal.connection</package>
                 <package>okhttp3.internal.http</package>
                 <package>okhttp3.internal.http1</package>
                 <package>okhttp3.internal.http2</package>
                 <package>okhttp3.internal.io</package>
                 <package>okhttp3.internal.platform</package>
+                <package>okhttp3.internal.platform.android</package>
+                <package>okhttp3.internal.proxy</package>
                 <package>okhttp3.internal.publicsuffix</package>
                 <package>okhttp3.internal.tls</package>
                 <package>okhttp3.internal.ws</package>
                 <package>okio</package>
+                <package>okio.internal</package>
                 <package>org.bouncycastle</package>
                 <package>org.bouncycastle.asn1</package>
                 <package>org.bouncycastle.asn1.anssi</package>
@@ -110,6 +116,7 @@
                 <package>org.bouncycastle.asn1.gnu</package>
                 <package>org.bouncycastle.asn1.iana</package>
                 <package>org.bouncycastle.asn1.icao</package>
+                <package>org.bouncycastle.asn1.isara</package>
                 <package>org.bouncycastle.asn1.isismtt</package>
                 <package>org.bouncycastle.asn1.isismtt.ocsp</package>
                 <package>org.bouncycastle.asn1.isismtt.x509</package>
@@ -161,7 +168,6 @@
                 <package>org.bouncycastle.crypto.prng</package>
                 <package>org.bouncycastle.crypto.prng.drbg</package>
                 <package>org.bouncycastle.crypto.signers</package>
-                <package>org.bouncycastle.crypto.tls</package>
                 <package>org.bouncycastle.crypto.util</package>
                 <package>org.bouncycastle.i18n</package>
                 <package>org.bouncycastle.i18n.filter</package>
@@ -216,6 +222,7 @@
                 <package>org.bouncycastle.pqc.crypto</package>
                 <package>org.bouncycastle.pqc.crypto.gmss</package>
                 <package>org.bouncycastle.pqc.crypto.gmss.util</package>
+                <package>org.bouncycastle.pqc.crypto.lms</package>
                 <package>org.bouncycastle.pqc.crypto.mceliece</package>
                 <package>org.bouncycastle.pqc.crypto.newhope</package>
                 <package>org.bouncycastle.pqc.crypto.qtesla</package>
@@ -227,6 +234,7 @@
                 <package>org.bouncycastle.pqc.jcajce.interfaces</package>
                 <package>org.bouncycastle.pqc.jcajce.provider</package>
                 <package>org.bouncycastle.pqc.jcajce.provider.gmss</package>
+                <package>org.bouncycastle.pqc.jcajce.provider.lms</package>
                 <package>org.bouncycastle.pqc.jcajce.provider.mceliece</package>
                 <package>org.bouncycastle.pqc.jcajce.provider.newhope</package>
                 <package>org.bouncycastle.pqc.jcajce.provider.qtesla</package>
@@ -254,6 +262,7 @@
                 <package>org.web3j.abi.datatypes.generated</package>
                 <package>org.web3j.abi.datatypes.primitive</package>
                 <package>org.web3j.abi.spi</package>
+                <package>org.web3j.commons</package>
                 <package>org.web3j.contracts.token</package>
                 <package>org.web3j.crypto</package>
                 <package>org.web3j.ens</package>
@@ -266,6 +275,7 @@
                 <package>org.web3j.protocol.core.filters</package>
                 <package>org.web3j.protocol.core.methods.request</package>
                 <package>org.web3j.protocol.core.methods.response</package>
+                <package>org.web3j.protocol.core.methods.response.admin</package>
                 <package>org.web3j.protocol.deserializer</package>
                 <package>org.web3j.protocol.exceptions</package>
                 <package>org.web3j.protocol.http</package>
@@ -274,6 +284,8 @@
                 <package>org.web3j.protocol.websocket</package>
                 <package>org.web3j.protocol.websocket.events</package>
                 <package>org.web3j.rlp</package>
+                <package>org.web3j.tuples</package>
+                <package>org.web3j.tuples.generated</package>
                 <package>org.web3j.tx</package>
                 <package>org.web3j.tx.exceptions</package>
                 <package>org.web3j.tx.gas</package>
@@ -281,64 +293,76 @@
                 <package>org.web3j.utils</package>
             </public-packages>
             <class-path-extension>
+                <runtime-relative-path>ext/utils-4.6.3.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/utils-4.6.3.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
                 <runtime-relative-path>ext/jackson-annotations-2.8.0.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/jackson-annotations-2.8.0.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/core-4.5.5.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/core-4.5.5.jar</binary-origin>
+                <runtime-relative-path>ext/okio-2.4.1.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/okio-2.4.1.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/tuples-4.6.3.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/tuples-4.6.3.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/jackson-databind-2.8.11.6.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/jackson-databind-2.8.11.6.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/okhttp-4.3.1.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/okhttp-4.3.1.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/reactive-streams-1.0.2.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/reactive-streams-1.0.2.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/jackson-core-2.8.5.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/jackson-core-2.8.5.jar</binary-origin>
+                <runtime-relative-path>ext/bcprov-jdk15on-1.65.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/bcprov-jdk15on-1.65.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/crypto-4.5.5.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/crypto-4.5.5.jar</binary-origin>
+                <runtime-relative-path>ext/abi-4.6.3.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/abi-4.6.3.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/rxjava-2.2.2.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/rxjava-2.2.2.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/abi-4.5.5.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/abi-4.5.5.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
                 <runtime-relative-path>ext/conflux-web3j.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/conflux-web3j.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/okhttp-3.8.1.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/okhttp-3.8.1.jar</binary-origin>
+                <runtime-relative-path>ext/rlp-4.6.3.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/rlp-4.6.3.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/bcprov-jdk15on-1.61.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/bcprov-jdk15on-1.61.jar</binary-origin>
+                <runtime-relative-path>ext/kotlin-stdlib-common-1.3.61.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/kotlin-stdlib-common-1.3.61.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/utils-4.5.5.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/utils-4.5.5.jar</binary-origin>
+                <runtime-relative-path>ext/jackson-core-2.8.10.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/jackson-core-2.8.10.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/rlp-4.5.5.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/rlp-4.5.5.jar</binary-origin>
+                <runtime-relative-path>ext/crypto-4.6.3.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/crypto-4.6.3.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/core-4.6.3.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/core-4.6.3.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/kotlin-stdlib-1.3.61.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/kotlin-stdlib-1.3.61.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/slf4j-api-1.7.25.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/slf4j-api-1.7.25.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
-                <runtime-relative-path>ext/jackson-databind-2.8.5.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/jackson-databind-2.8.5.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
-                <runtime-relative-path>ext/okio-1.13.0.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/okio-1.13.0.jar</binary-origin>
             </class-path-extension>
         </data>
     </configuration>

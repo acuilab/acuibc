@@ -8,5 +8,5 @@ public class Constants {
     private Constants() {}
     
     public static final String TITLE = "宝葫芦Gourd — Conflux社区桌面钱包";
-    public static final String VERSION = "v0.9.0";
+    public static final String VERSION = "v0.9.2";
 }

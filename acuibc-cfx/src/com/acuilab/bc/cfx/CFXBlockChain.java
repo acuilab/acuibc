@@ -240,7 +240,7 @@ public class CFXBlockChain implements BlockChain {
                     
                     // '0x0'成功执行; '0x1'异常发生，但是nonce值增加; '0x2' 异常发生，并且nonce值没有增加.
                     if(result != null && result.equals(BigInteger.ZERO)) {
-                        // 成功执行
+                        // 成功执行: 延时，以便服务器准备交易记录和余额
                         try {
                             Thread.sleep(REFRESH_DELAY_MILLISECONDS);
                         } catch (InterruptedException ex) {

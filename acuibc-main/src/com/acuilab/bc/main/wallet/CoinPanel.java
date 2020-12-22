@@ -154,14 +154,14 @@ public class CoinPanel extends JXPanel {
                             @Override
                             protected BlockChain.TransactionStatus doInBackground() throws Exception {
                                 ph.start();
-                                System.out.println("获得交易状态");
+                                // 获得交易状态
                                 return bc.getTransactionStatusByHash(hash);
                             }
 
                             @Override
                             protected void done() {
                                 ph.finish();
-                                System.out.println("通知用户");
+                                // 通知用户
                                 try {
                                     BlockChain.TransactionStatus result = get();
 
@@ -172,7 +172,7 @@ public class CoinPanel extends JXPanel {
                                         // 交易失败
                                         NotificationDisplayer.getDefault().notify(
                                                 "交易失败",
-                                                ImageUtilities.loadImageIcon("resource/gourd32.png", false),
+                                                ImageUtilities.loadImageIcon("resource/gourd16.png", false),
                                                 "点击此处打开区块链浏览器查询交易状态",
                                                 new LinkAction(bc.getTransactionDetailUrl(hash))
                                         );
@@ -180,7 +180,7 @@ public class CoinPanel extends JXPanel {
                                         // 交易为确认，提示用户手动查询交易结果
                                         NotificationDisplayer.getDefault().notify(
                                                 "交易尚未确认",
-                                                ImageUtilities.loadImageIcon("resource/gourd32.png", false),
+                                                ImageUtilities.loadImageIcon("resource/gourd16.png", false),
                                                 "点击此处打开区块链浏览器查询交易状态",
                                                 new LinkAction(bc.getTransactionDetailUrl(hash))
                                         );

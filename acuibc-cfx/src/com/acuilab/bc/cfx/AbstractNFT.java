@@ -34,7 +34,6 @@ public abstract class AbstractNFT implements INFT {
 	BigInteger[] ret = new BigInteger[valueDecode.size()];
 	for(int i=0; i<valueDecode.size(); i++) {
 	    ret[i] = valueDecode.get(i).getValue();
-            System.out.println(ret[i]);
 	}
 	return ret;
     }

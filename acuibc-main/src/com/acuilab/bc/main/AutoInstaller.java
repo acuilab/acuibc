@@ -86,7 +86,7 @@ public class AutoInstaller implements Runnable {
                         if (!isRestartRequested) {
                             NotificationDisplayer.getDefault().notify(
                                     "该应用程序已更新",
-                                    ImageUtilities.loadImageIcon("resource/gourd32.png", false),
+                                    ImageUtilities.loadImageIcon("resource/gourd16.png", false),
                                     "点击此处重新启动",
                                     new RestartAction(support, restarter)
                             );

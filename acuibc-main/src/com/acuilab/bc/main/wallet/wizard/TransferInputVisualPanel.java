@@ -338,22 +338,28 @@ public final class TransferInputVisualPanel extends JPanel {
             protected void done() {
                 try {
                     balance = get();
-		    BigInteger gasFee = BigInteger.valueOf(gasSlider.getValue() * coin.gasLimit());
-                    if(balance.compareTo(gasFee)<=0){
-                        try {
-                            JLabel lbl = new JLabel("账户余额不足。");
-                            BalloonTip balloonTip = new BalloonTip(valueFld, 
-                                            lbl,
-                                            Utils.createBalloonTipStyle(),
-                                            Utils.createBalloonTipPositioner(), 
-                                            null);
-                            TimingUtils.showTimedBalloon(balloonTip, 3000);
-                        } catch (Exception ex) {
-                            Exceptions.printStackTrace(ex);
-                        }
-                    } else{
-                        valueFld.setText(coin.minUnit2MainUint(balance.subtract(gasFee)).setScale(coin.getMainUnitScale(), RoundingMode.FLOOR).toPlainString());
-                    }
+		    if(coin.isBaseCoin()) {
+			// 主网币
+			BigInteger gasFee = BigInteger.valueOf(gasSlider.getValue() * coin.gasLimit());
+			if(balance.compareTo(gasFee)<=0){
+			    try {
+				JLabel lbl = new JLabel("账户余额不足。");
+				BalloonTip balloonTip = new BalloonTip(valueFld, 
+						lbl,
+						Utils.createBalloonTipStyle(),
+						Utils.createBalloonTipPositioner(), 
+						null);
+				TimingUtils.showTimedBalloon(balloonTip, 3000);
+			    } catch (Exception ex) {
+				Exceptions.printStackTrace(ex);
+			    }
+			} else{
+			    valueFld.setText(coin.minUnit2MainUint(balance.subtract(gasFee)).setScale(coin.getMainUnitScale(), RoundingMode.FLOOR).toPlainString());
+			}
+		    } else {
+			// 代币
+			valueFld.setText(coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.FLOOR).toPlainString());
+		    }
               
                 } catch (InterruptedException | ExecutionException ex) {
                     Exceptions.printStackTrace(ex);

@@ -2,6 +2,7 @@ package com.acuilab.bc.main;
 
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
+import com.acuilab.bc.main.manager.DAppManager;
 import com.acuilab.bc.main.manager.NFTManager;
 import com.acuilab.bc.main.ui.ConfirmDialog;
 import com.acuilab.bc.main.util.Constants;
@@ -43,6 +44,7 @@ public class Installer extends ModuleInstall {
         BlockChainManager.getDefault();
         CoinManager.getDefault();
 	NFTManager.getDefault();
+	DAppManager.getDefault();
         
         // 设置主窗口标题
         WindowManager.getDefault().invokeWhenUIReady(new Runnable() {
@@ -50,9 +52,8 @@ public class Installer extends ModuleInstall {
             public void run() {
 		// 设置标题
                 WindowManager.getDefault().getMainWindow().setTitle(Constants.TITLE);
-		// 最大化显示；cuizhf, 20200916，不强制全屏
+		// 最大化显示
 		WindowManager.getDefault().getMainWindow().setExtendedState(JFrame.MAXIMIZED_BOTH);
-                WindowManager.getDefault().getMainWindow().setLocationRelativeTo(null);
             }
         });
     }

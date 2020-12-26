@@ -1,5 +1,6 @@
 package com.acuilab.bc.cfx;
 
+import com.acuilab.bc.main.util.Constants;
 import java.awt.Image;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -32,7 +33,7 @@ public class CPICoin extends ERC20Coin {
 
     @Override
     public String getBlockChainSymbol() {
-        return CFXBlockChain.SYMBOL;
+        return Constants.CFX_BLOCKCHAIN_SYMBAL;
     }
     
     @Override

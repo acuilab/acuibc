@@ -1,6 +1,7 @@
 package com.acuilab.bc.cfx;
 
 import com.acuilab.bc.main.nft.MetaData;
+import com.acuilab.bc.main.util.Constants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import conflux.web3j.Cfx;
 import conflux.web3j.contract.ContractCall;
@@ -8,14 +9,11 @@ import conflux.web3j.contract.abi.DecodeUtil;
 import java.awt.Image;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.List;
 import java.util.Map;
 import javax.swing.Icon;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
-import org.web3j.abi.TypeReference;
-import org.web3j.abi.datatypes.DynamicArray;
 import java.net.URL;
 /**
  *
@@ -42,7 +40,7 @@ public class MoonGenesisNFT extends AbstractNFT {
 
     @Override
     public String getBlockChainSymbol() {
-        return CFXBlockChain.SYMBOL;
+        return Constants.CFX_BLOCKCHAIN_SYMBAL;
     }
     
     @Override

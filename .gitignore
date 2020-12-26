@@ -51,12 +51,15 @@ hs_err_pid*
 /zxing-3.4.0/build/
 /acuibc-eth/nbproject/private/
 /dist/
+/jre/
+/dapp/
 /jre-win/
 /jre-mac/
 /jre-linux/
 /betterbeansbinding-1.3.0-all/build/
 /betterbeansbinding-1.3.0-all/nbproject/private/
 gourd安装包.exe
+badlogic.jpg
 /zip4j-2.6.2/build/
 /JTattoo-1.6.13/build/
 /JTattoo-1.6.13/nbproject/private/
@@ -65,3 +68,8 @@ gourd安装包.exe
 /balloontip-1.2.4.1/bcprov-jdk15on-1.60/build/
 /balloontip-1.2.4.1/bcprov-jdk15on-1.60/nbproject/private/
 /bcprov-jdk15on-1.60/nbproject/private/
+/libgdx-1.9.12/
+/acuibc-cfx-flappeebee/
+/acuibc-cfx-dapp/nbproject/private/
+/acuibc-cfx-dapp/build/
+/commons-io-2.8.0/build/

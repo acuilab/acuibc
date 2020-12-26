@@ -1,6 +1,7 @@
 package com.acuilab.bc.cfx;
 
 import com.acuilab.bc.main.nft.MetaData;
+import com.acuilab.bc.main.util.Constants;
 import conflux.web3j.Cfx;
 import conflux.web3j.contract.ContractCall;
 import conflux.web3j.contract.abi.DecodeUtil;
@@ -38,7 +39,7 @@ public class ConfluxGuardianNFT extends AbstractNFT {
 
     @Override
     public String getBlockChainSymbol() {
-        return CFXBlockChain.SYMBOL;
+        return Constants.CFX_BLOCKCHAIN_SYMBAL;
     }
     
     @Override

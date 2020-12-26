@@ -19,7 +19,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.model.ZipParameters;
 import org.netbeans.api.progress.ProgressHandle;
+import org.openide.awt.NotificationDisplayer;
 import org.openide.util.Exceptions;
+import org.openide.util.ImageUtilities;
 import org.openide.windows.WindowManager;
 
 /**
@@ -122,6 +124,12 @@ public class ExportAction extends AbstractAction {
                 @Override
                 protected void done() {
                     ph.finish();
+		    NotificationDisplayer.getDefault().notify(
+			    "迁出钱包",
+			    ImageUtilities.loadImageIcon("resource/gourd16.png", false),
+			    "迁出钱包已完成",
+			    null
+		    );
                 }
             };
             exportWorker.execute();

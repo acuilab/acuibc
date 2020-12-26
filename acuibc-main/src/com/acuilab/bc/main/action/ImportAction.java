@@ -118,7 +118,7 @@ public class ImportAction extends AbstractAction {
                             // 迁入成功，通知用户重启应用，以便重新加载所有钱包
                             NotificationDisplayer.getDefault().notify(
                                     "迁入钱包已完成",
-                                    ImageUtilities.loadImageIcon("resource/gourd32.png", false),
+                                    ImageUtilities.loadImageIcon("resource/gourd16.png", false),
                                     "点击此处重新启动加载钱包",
                                     new RestartAction()
                             );

@@ -16,6 +16,7 @@ import javax.swing.Icon;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import com.acuilab.bc.main.coin.ICoin;
+import com.acuilab.bc.main.util.Constants;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import conflux.web3j.Account.Option;
@@ -57,7 +58,7 @@ public class CFXCoin implements ICFXCoin {
     
     @Override
     public String getBlockChainSymbol() {
-        return CFXBlockChain.SYMBOL;
+        return Constants.CFX_BLOCKCHAIN_SYMBAL;
     }
     
     @Override

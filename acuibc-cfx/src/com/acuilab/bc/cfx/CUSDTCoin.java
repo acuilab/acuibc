@@ -1,5 +1,6 @@
 package com.acuilab.bc.cfx;
 
+import com.acuilab.bc.main.util.Constants;
 import conflux.web3j.CfxUnit;
 import java.awt.Image;
 import java.math.BigDecimal;
@@ -33,7 +34,7 @@ public class CUSDTCoin extends ERC20Coin {
 
     @Override
     public String getBlockChainSymbol() {
-        return CFXBlockChain.SYMBOL;
+        return Constants.CFX_BLOCKCHAIN_SYMBAL;
     }
     
     @Override

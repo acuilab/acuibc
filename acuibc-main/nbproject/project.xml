@@ -23,14 +23,6 @@
                     </run-dependency>
                 </dependency>
                 <dependency>
-                    <code-name-base>conflux.web3j</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <specification-version>1.0.1</specification-version>
-                    </run-dependency>
-                </dependency>
-                <dependency>
                     <code-name-base>net.java.balloontip</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
@@ -40,6 +32,14 @@
                 </dependency>
                 <dependency>
                     <code-name-base>net.lingala.zip4j</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.0</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
+                    <code-name-base>org.apache.commons.io</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
@@ -212,6 +212,7 @@
             <public-packages>
                 <package>com.acuilab.bc.main</package>
                 <package>com.acuilab.bc.main.coin</package>
+                <package>com.acuilab.bc.main.dapp</package>
                 <package>com.acuilab.bc.main.nft</package>
                 <package>com.acuilab.bc.main.util</package>
                 <package>com.acuilab.bc.main.wallet</package>

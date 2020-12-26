@@ -42,7 +42,7 @@ import org.openide.util.ImageUtilities;
  * @author admin
  */
 public class SingleNFTPanel extends JXPanel {
-    private final NFTPanel parent;
+    private final NFTListPanel parent;
     private final Wallet wallet;
     private final INFT nft;
     private final MetaData metaData;
@@ -50,7 +50,7 @@ public class SingleNFTPanel extends JXPanel {
     /**
      * Creates new form NFTPanel
      */
-    public SingleNFTPanel(NFTPanel parent, Wallet wallet, INFT nft, int index, MetaData metaData) {
+    public SingleNFTPanel(NFTListPanel parent, Wallet wallet, INFT nft, int index, MetaData metaData) {
 	initComponents();
         this.parent = parent;
 	this.wallet = wallet;

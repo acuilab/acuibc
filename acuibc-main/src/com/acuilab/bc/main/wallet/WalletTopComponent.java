@@ -46,10 +46,7 @@ import com.acuilab.bc.main.coin.ICoin;
 import com.acuilab.bc.main.manager.NFTManager;
 import com.acuilab.bc.main.nft.INFT;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
-import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
 
 /**
  * Top component which displays something.
@@ -109,7 +106,7 @@ public final class WalletTopComponent extends TopComponent implements Observer {
 	// 初始化NFTPanel
 	int i=0;
 	for(INFT nft : NFTManager.getDefault().getNFTList(wallet.getBlockChainSymbol())) {
-	    JPanel nftPanel = new NFTPanel(WalletTopComponent.this, wallet, nft, i);
+	    JPanel nftPanel = new NFTListPanel(WalletTopComponent.this, wallet, nft, i);
 	    nftPane.addTab(nft.getName(), nft.getIcon(16), nftPanel, nft.getName());
 	    i++;
 	}
@@ -556,7 +553,7 @@ public final class WalletTopComponent extends TopComponent implements Observer {
     }//GEN-LAST:event_coinPaneStateChanged
 
     private void nftPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_nftPaneStateChanged
-	NFTPanel selected = (NFTPanel)nftPane.getSelectedComponent();
+	NFTListPanel selected = (NFTListPanel)nftPane.getSelectedComponent();
 	if(selected != null) {
             //如果是首次调用则重载，如果非首次（已有）则不做操作。
             if(selected.isFirstOpen()){

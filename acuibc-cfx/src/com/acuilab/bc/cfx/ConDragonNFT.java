@@ -1,6 +1,7 @@
 package com.acuilab.bc.cfx;
 
 import com.acuilab.bc.main.nft.MetaData;
+import com.acuilab.bc.main.util.Constants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import conflux.web3j.Cfx;
 import conflux.web3j.contract.ContractCall;
@@ -42,7 +43,7 @@ public class ConDragonNFT extends AbstractNFT {
 
     @Override
     public String getBlockChainSymbol() {
-        return CFXBlockChain.SYMBOL;
+        return Constants.CFX_BLOCKCHAIN_SYMBAL;
     }
     
     @Override

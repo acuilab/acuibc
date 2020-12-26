@@ -2,9 +2,9 @@ package com.acuilab.bc.main.cfx;
 
 import com.acuilab.bc.main.coin.ICFXCoin;
 import com.acuilab.bc.main.util.AESUtil;
+import com.acuilab.bc.main.util.Constants;
 import com.acuilab.bc.main.wallet.PasswordVerifyDialog;
 import com.acuilab.bc.main.wallet.Wallet;
-import conflux.web3j.CfxUnit;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -298,10 +298,10 @@ public class StakingDialog extends javax.swing.JDialog {
                         ph.start();
 
                         BigInteger balance = coin.balanceOf(wallet.getAddress());
-                        if(balance.compareTo(CfxUnit.CFX_ONE) < 0) {
+                        if(balance.compareTo(Constants.CFX_ONE) < 0) {
 			    return AMOUNT_MUST_BE_GRATE_OR_EQUAL_1;
 			} 
-                        return coin.deposit(privateKey, balance.subtract(CfxUnit.CFX_ONE));
+                        return coin.deposit(privateKey, balance.subtract(Constants.CFX_ONE));
                     }
 
                     @Override

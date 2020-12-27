@@ -258,13 +258,11 @@ public final class WalletListTopComponent extends TopComponent {
     @Override
     public void componentOpened() {
         // TODO add custom code on component opening
-        System.out.println("componentOpened");
     }
 
     @Override
     public void componentClosed() {
         // TODO add custom code on component closing
-        System.out.println("componentClosed");
     }
 
     void writeProperties(java.util.Properties p) {

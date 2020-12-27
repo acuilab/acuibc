@@ -1,6 +1,6 @@
 package com.acuilab.bc.cfx.dapp.flappeebee;
 
-import com.acuilab.bc.main.dapp.ExecutedJarDApp;
+import com.acuilab.bc.main.dapp.FatJarDApp;
 import com.acuilab.bc.main.util.Constants;
 import java.awt.Image;
 
@@ -8,7 +8,7 @@ import java.awt.Image;
  *
  * @author admin
  */
-public class FlappeeBeeGame extends ExecutedJarDApp {
+public class FlappeeBeeGame extends FatJarDApp {
 
     @Override
     public void init() {
@@ -35,12 +35,12 @@ public class FlappeeBeeGame extends ExecutedJarDApp {
     }
 
     @Override
-    public String getExecutedJarVersion() {
+    public String getFatJarVersion() {
 	return "1.0.0";
     }
     
     @Override
-    public String getExecutedJarFileName() {
+    public String getFatJarFileName() {
 	return "flappeebee.jar";
     }
 }

@@ -9,10 +9,10 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- *
+ * 将一个jar及其依赖的三方jar全部打到一个包中，这个包即为FatJar。
  * @author admin
  */
-public abstract class ExecutedJarDApp implements IDApp {
+public abstract class FatJarDApp implements IDApp {
 
     @Override
     public void launch(String privateKey) throws Exception {
@@ -33,7 +33,7 @@ public abstract class ExecutedJarDApp implements IDApp {
 	// 是否需要将可执行jar包重新拷贝到本地
 	String executedJarDirPath = userDir + File.separator + "dapp";
 	File executedJarDir = new File(executedJarDirPath);
-	String executedJarFilePath = executedJarDirPath + File.separator + getId() + "-" + getExecutedJarVersion() + ".jar";
+	String executedJarFilePath = executedJarDirPath + File.separator + getId() + "-" + getFatJarVersion() + ".jar";
 	if(!new File(executedJarFilePath).exists()) {
 	    // 先删除之前的版本
 	    File[] files = executedJarDir.listFiles(new FilenameFilter() {
@@ -51,7 +51,7 @@ public abstract class ExecutedJarDApp implements IDApp {
 	    }
 	    
 	    // classpath根目录
-	    InputStream is = this.getClass().getResourceAsStream("/" + getExecutedJarFileName());
+	    InputStream is = this.getClass().getResourceAsStream("/" + getFatJarFileName());
 	    System.out.println("is=" + is);
 	    IOUtils.copy(is, new FileOutputStream(executedJarFilePath));
 	}
@@ -67,14 +67,14 @@ public abstract class ExecutedJarDApp implements IDApp {
     }
 
     /**
-     * 获得可执行jar包的版本
+     * 获得fatjar的版本
      * @return 
      */
-    public abstract String getExecutedJarVersion();
+    public abstract String getFatJarVersion();
     
     /**
-     * 获得可执行jar包的文件名
+     * 获得fatjar的文件名
      * @return 
      */
-    public abstract String getExecutedJarFileName();
+    public abstract String getFatJarFileName();
 }

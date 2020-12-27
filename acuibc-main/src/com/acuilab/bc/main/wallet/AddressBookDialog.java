@@ -68,7 +68,6 @@ public class AddressBookDialog extends javax.swing.JDialog {
     private void myInit() {
         findBar.setSearchable(table.getSearchable());
         
-        // 从数据库中加载数据
         tableModel = new AddressTableModel(table);
         table.setModel(tableModel);
         
@@ -140,14 +139,12 @@ public class AddressBookDialog extends javax.swing.JDialog {
         
         
         try {
-            // 交易记录
             tableModel.add(AddressBookDAO.getList());
             table.setHorizontalScrollEnabled(true);
             table.packAll();
         } catch (SQLException ex) {
             Exceptions.printStackTrace(ex);
         }
-
     }
     
     private void editAddress(Address address) {

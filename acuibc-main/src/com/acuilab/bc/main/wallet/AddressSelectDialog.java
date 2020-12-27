@@ -165,7 +165,6 @@ public class AddressSelectDialog extends javax.swing.JDialog {
     }
     
     public Address getSelectedAddress() {
-        
         return selected;
     }
 

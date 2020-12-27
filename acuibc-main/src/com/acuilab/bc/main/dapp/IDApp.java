@@ -44,5 +44,5 @@ public interface IDApp {
     /**
      * 启动DApp(可能涉及到拷贝文件等操作，故需启动线程执行)
      */
-    void launch(String privateKey) throws Exception;
+    void launch(String param) throws Exception;
 }

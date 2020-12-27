@@ -15,7 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 public abstract class FatJarDApp implements IDApp {
 
     @Override
-    public void launch(String privateKey) throws Exception {
+    public void launch(String param) throws Exception {
 	// 1 ######################### 获得java路径 ##########################################
 	// 1.1 绑定jre
 	String userDir = System.getProperty("user.dir");
@@ -31,17 +31,17 @@ public abstract class FatJarDApp implements IDApp {
 //	}
 
 	// 是否需要将可执行jar包重新拷贝到本地
-	String executedJarDirPath = userDir + File.separator + "dapp";
-	File executedJarDir = new File(executedJarDirPath);
-	String executedJarFilePath = executedJarDirPath + File.separator + getId() + "-" + getFatJarVersion() + ".jar";
-	if(!new File(executedJarFilePath).exists()) {
+	String fatJarDirPath = userDir + File.separator + "dapp";
+	File fatJarDir = new File(fatJarDirPath);
+	String fatJarFilePath = fatJarDirPath + File.separator + getId() + "-" + getFatJarVersion() + ".jar";
+	if(!new File(fatJarFilePath).exists()) {
 	    // 先删除之前的版本
-	    File[] files = executedJarDir.listFiles(new FilenameFilter() {
+	    File[] files = fatJarDir.listFiles(new FilenameFilter() {
 		@Override
 		public boolean accept(File dir, String name) {
 		    // 1 只扫描当前目录，不包括子目录
 		    // 2 getId()开头，jar结尾
-		    return executedJarDir.equals(dir) && StringUtils.startsWith(name, getId()) && StringUtils.endsWith(name, ".jar");
+		    return fatJarDir.equals(dir) && StringUtils.startsWith(name, getId()) && StringUtils.endsWith(name, ".jar");
 		}
 	    });
 	    
@@ -52,17 +52,16 @@ public abstract class FatJarDApp implements IDApp {
 	    
 	    // classpath根目录
 	    InputStream is = this.getClass().getResourceAsStream("/" + getFatJarFileName());
-	    System.out.println("is=" + is);
-	    IOUtils.copy(is, new FileOutputStream(executedJarFilePath));
+	    IOUtils.copy(is, new FileOutputStream(fatJarFilePath));
 	}
 
 	try {
 	    // 使用绑定jre执行
-	    System.out.println("executedJarFilePath=" + executedJarFilePath);
-	    Runtime.getRuntime().exec(bundledJre + " -jar " + executedJarFilePath);
+	    System.out.println("fatJarFilePath=" + fatJarFilePath);
+	    Runtime.getRuntime().exec(bundledJre + " -jar " + fatJarFilePath + " " + param);
 	} catch(IOException e) {
 	    // 若发生异常，则使用系统默认jre执行(若再次发生异常，可能用户未安装jre，异常向上抛出)
-	    Runtime.getRuntime().exec("java -jar " + executedJarFilePath);
+	    Runtime.getRuntime().exec("java -jar " + fatJarFilePath + " " + param);
 	}
     }
 

@@ -18,7 +18,7 @@ public class Wallet extends Observable {
     private final String address;       // 钱包地址
     private String privateKeyAES;    // 私钥
     private String mnemonicAES;      // 助记词
-    private final Date created;             // 创建事件
+    private final Date created;             // 创建日期
     
     public Wallet(String name, String pwdMD5, String blockChainSymbol, String address, String privateKeyAES, Date created) {
         this(name, pwdMD5, blockChainSymbol, address, privateKeyAES, "", created);

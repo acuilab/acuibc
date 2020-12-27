@@ -99,6 +99,17 @@ public class WalletDAO {
 	});
     }
     
+    public static List<Wallet> getListByBlockChainSymbol(String blockChainSymbol) throws SQLException {
+        // 按blockChainSymbol及钱包名称排序
+	return JDBCUtil.executeQuery("select wname, pwdMd5, blockChainSymbol, waddress, privateKeyAES, mnemonicAES, created from wallet where blockChainSymbol=? order by wname", new Object[] {blockChainSymbol}, Installer.getConnection(), new Mapper<Wallet>() {
+	    @Override
+	    protected Wallet next(ResultSet rs) throws SQLException {
+		return new Wallet(rs.getString("wname"), rs.getString("pwdMd5"), rs.getString("blockChainSymbol"), rs.getString("waddress"), rs.getString("privateKeyAES"), rs.getString("mnemonicAES"), rs.getDate("created"));
+	    }
+	    
+	});
+    }
+    
     public static void updatePwd(String name, String pwdMD5, String mnemonicAES, String privateKeyAES) throws SQLException {
         JDBCUtil.executeUpdate("update wallet set pwdMd5=?, mnemonicAES=?, privateKeyAES=? where wname=?", new Object[] {pwdMD5, mnemonicAES, privateKeyAES, name}, Installer.getConnection());
     }

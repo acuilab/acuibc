@@ -1,6 +1,16 @@
 package com.acuilab.bc.main.dapp;
 
+import com.acuilab.bc.main.util.AESUtil;
+import com.acuilab.bc.main.wallet.Wallet;
+import java.awt.Image;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.swing.SwingWorker;
 import org.jdesktop.swingx.JXPanel;
+import org.netbeans.api.progress.ProgressHandle;
 import org.openide.util.Exceptions;
 
 /**
@@ -11,14 +21,18 @@ public class SingleDAppPanel extends JXPanel {
     private final IDApp dapp;
 
     /**
-     * Creates new form SingleGamePanel
+     * Creates new form SingleDAppPanel
      */
-    public SingleDAppPanel(IDApp game) {
+    public SingleDAppPanel(IDApp dapp) {
 	initComponents();
 	
-	this.dapp = game;
-	nameLbl.setText(game.getName());
-	imageView.setImage(game.getImage());
+	this.dapp = dapp;
+	nameLbl.setText(dapp.getName());
+	Image image = dapp.getImage();
+	imageView.setImage(image);
+	double scaleX = 178.0d/image.getWidth(null);
+	double scaleY = 178.0d/image.getHeight(null);
+	imageView.setScale(Math.max(scaleX, scaleY));
     }
 
     /**
@@ -92,12 +106,37 @@ public class SingleDAppPanel extends JXPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void launchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_launchBtnActionPerformed
-	try {
-	    // TODO: 选择钱包，输入密码，获得私钥
-	    dapp.launch(null);
-	} catch (Exception ex) {
-	    Exceptions.printStackTrace(ex);
-	}
+
+	// 选择钱包，输入密码，获得私钥
+        WalletSelectorDialog dlg = new WalletSelectorDialog(null, dapp);
+        dlg.setVisible(true);
+        if(dlg.getReturnStatus() == WalletSelectorDialog.RET_OK) {
+	    Wallet wallet = dlg.getSelectedWallet();
+	    String password = dlg.getPassword();
+            try {
+                String privateKey = AESUtil.decrypt(wallet.getPrivateKeyAES(), password);
+		
+		launchBtn.setEnabled(false);
+		final ProgressHandle ph = ProgressHandle.createHandle("正在启动" + dapp.getName() + "，请稍候");
+		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+		    @Override
+		    protected Void doInBackground() throws Exception {
+			ph.start();
+			dapp.launch(privateKey);
+			return null;
+		    }
+
+		    @Override
+		    protected void done() {
+			ph.finish();
+			launchBtn.setEnabled(true);
+		    }
+		};
+		worker.execute();
+            } catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchPaddingException | NoSuchAlgorithmException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
     }//GEN-LAST:event_launchBtnActionPerformed
 
 

@@ -54,6 +54,8 @@ public class Installer extends ModuleInstall {
                 WindowManager.getDefault().getMainWindow().setTitle(Constants.TITLE);
 		// 最大化显示
 		WindowManager.getDefault().getMainWindow().setExtendedState(JFrame.MAXIMIZED_BOTH);
+                
+                new ADDialog(null, false).setVisible(true);
             }
         });
     }

@@ -17,7 +17,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.net.URI;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -61,7 +60,6 @@ import org.jdesktop.swingx.JXButton;
 import org.openide.awt.ToolbarWithOverflow;
 import com.acuilab.bc.main.coin.ICoin;
 import java.math.BigDecimal;
-import javax.swing.BorderFactory;
 
 /**
  *

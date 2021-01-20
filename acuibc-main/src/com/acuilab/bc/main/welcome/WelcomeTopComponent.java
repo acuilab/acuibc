@@ -14,6 +14,7 @@ import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.util.Exceptions;
+import org.openide.util.ImageUtilities;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 
@@ -546,4 +547,10 @@ public final class WelcomeTopComponent extends TopComponent {
         String version = p.getProperty("version");
         // TODO read your settings according to their version
     }
+
+//    @Override
+//    protected void paintComponent(Graphics g) {
+//	g.drawImage(ImageUtilities.loadImage("/resource/splash.png", true), 0, 0, this);
+//	super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
+//    }
 }

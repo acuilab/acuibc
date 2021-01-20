@@ -5,6 +5,7 @@ package com.acuilab.bc.eth;
 import java.util.logging.Logger;
 import com.acuilab.bc.main.BlockChain;
 import java.awt.Image;
+import java.math.BigInteger;
 import java.util.List;
 import javax.swing.Icon;
 import org.javatuples.Pair;
@@ -108,6 +109,13 @@ public class ETHBlockChain implements BlockChain {
     @Override
     public TransactionStatus getTransactionStatusByHash(String hash) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public String getAddressFromDomain(String ens) {
+        
+        return ens;
+        
     }
     
 }

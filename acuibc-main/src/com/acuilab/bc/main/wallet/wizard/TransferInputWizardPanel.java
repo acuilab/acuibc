@@ -12,6 +12,7 @@ import org.openide.WizardDescriptor;
 import org.openide.WizardValidationException;
 import org.openide.util.HelpCtx;
 import com.acuilab.bc.main.coin.ICoin;
+import com.acuilab.bc.main.ui.MessageDialog;
 
 public class TransferInputWizardPanel implements WizardDescriptor.ValidatingPanel<WizardDescriptor> {
 
@@ -83,13 +84,29 @@ public class TransferInputWizardPanel implements WizardDescriptor.ValidatingPane
     @Override
     public void validate() throws WizardValidationException {
         BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
-        // 转账地址是有效的
-        String recvAddress = component.getRecvAddressFld().getText();
-        if(!bc.isValidAddress(recvAddress)) {
+        String recvAddress = component.getRecvAddressFld().getText();  
+        
+        String resolvedAddress;   
+
+        //转账地址为域名
+        if(StringUtils.endsWith(recvAddress,".cfx")){
             component.getRecvAddressFld().requestFocus();
-            throw new WizardValidationException(null, "地址格式错误", null);
+            resolvedAddress = bc.getAddressFromDomain(recvAddress);
+            if(StringUtils.isBlank(resolvedAddress)){
+                throw new WizardValidationException(null, "域名解析不成功", null);
+            }
+            else{
+                //弹框提示将接收方地址框从域名改为实际地址
+                MessageDialog msg = new MessageDialog(null,"域名解析地址提示","接收地址为域名，将解析为实际地址。");
+                msg.setVisible(true);
+                //将接收方地址框从域名改为实际地址
+                component.getRecvAddressFld().setText(resolvedAddress);
+            }
         }
-               
+        
+        
+        
+        
        // 不能给自己转账
        if(StringUtils.equals(wallet.getAddress(), recvAddress)) {
             component.getRecvAddressFld().requestFocus();
@@ -144,6 +161,17 @@ public class TransferInputWizardPanel implements WizardDescriptor.ValidatingPane
            component.getValueFld().requestFocus();
            throw new WizardValidationException(null, "余额不足【" + "可用：" + coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit() + "】", null);
        }
+       
+       // 转账地址是有效的
+        if(!bc.isValidAddress(recvAddress)) {
+            component.getRecvAddressFld().requestFocus();
+            if(!StringUtils.endsWith(recvAddress,".cfx")){
+                throw new WizardValidationException(null, "地址格式错误", null);
+            }
+            else{
+                throw new WizardValidationException(null, "域名已自动解析为地址", null);
+            }
+        }
        
     }
 

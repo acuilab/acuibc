@@ -2,6 +2,7 @@ package com.acuilab.bc.cfx;
 
 import conflux.web3j.Account;
 import conflux.web3j.Cfx;
+import conflux.web3j.contract.ContractCall;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
@@ -15,6 +16,7 @@ import javax.swing.Icon;
 import org.openide.util.ImageUtilities;
 import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.util.Constants;
+import conflux.web3j.contract.abi.DecodeUtil;
 import conflux.web3j.response.Status;
 import conflux.web3j.response.Transaction;
 import conflux.web3j.types.Address;
@@ -23,6 +25,8 @@ import conflux.web3j.types.RawTransaction;
 import java.awt.Image;
 import java.util.Arrays;
 import org.javatuples.Pair;
+import org.web3j.ens.NameHash;
+
 
 /**
  *
@@ -207,7 +211,27 @@ public class CFXBlockChain implements BlockChain {
             // ignore
             return false;
         }
-        
+    }
+    @Override
+    public String getAddressFromDomain(String cns) {
+        try {
+            
+            //域名解析合约地址CNS Alan SKY, 之后应该改为由读取合约得到
+            ContractCall contract = new ContractCall(cfx, "0x88fb20bd7e08d8d7333be177d584ca8779ae0a3a");
+            String nameHash = NameHash.nameHash(cns);
+            System.out.println("nameHash:"+nameHash);
+            BigInteger tokenId = new BigInteger(StringUtils.substringAfter(nameHash, "0x"),16);
+
+            System.out.println("tokenId:"+tokenId);
+            String address = contract.call("get", new org.web3j.abi.datatypes.generated.Uint256(tokenId), new org.web3j.abi.datatypes.Utf8String("wallet.CFX.address")).sendAndGet();
+            String addresDecode = DecodeUtil.decode(address, org.web3j.abi.datatypes.Utf8String.class);
+          
+            System.out.println("addresDecode:"+addresDecode);
+            return addresDecode;
+        } catch(AddressException e) {
+            // ignore
+            return null;
+        }
     }
 
     @Override

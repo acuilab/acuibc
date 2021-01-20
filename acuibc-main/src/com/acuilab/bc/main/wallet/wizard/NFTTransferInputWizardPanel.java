@@ -9,6 +9,7 @@ import org.openide.WizardDescriptor;
 import org.openide.WizardValidationException;
 import org.openide.util.HelpCtx;
 import com.acuilab.bc.main.nft.INFT;
+import com.acuilab.bc.main.ui.MessageDialog;
 
 public class NFTTransferInputWizardPanel implements WizardDescriptor.ValidatingPanel<WizardDescriptor> {
 
@@ -82,16 +83,40 @@ public class NFTTransferInputWizardPanel implements WizardDescriptor.ValidatingP
         BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
         // 转账地址是有效的
         String recvAddress = component.getRecvAddressFld().getText();
-        if(!bc.isValidAddress(recvAddress)) {
+        String resolvedAddress;   
+
+        //转账地址为域名
+        if(StringUtils.endsWith(recvAddress,".cfx")){
             component.getRecvAddressFld().requestFocus();
-            throw new WizardValidationException(null, "地址格式错误", null);
+            resolvedAddress = bc.getAddressFromDomain(recvAddress);
+            if(StringUtils.isBlank(resolvedAddress)){
+                throw new WizardValidationException(null, "域名解析不成功", null);
+            }
+            else{
+                //弹框提示将接收方地址框从域名改为实际地址
+                MessageDialog msg = new MessageDialog(null,"域名解析地址提示","您的接收地址为域名，将解析为实际地址。");
+                msg.setVisible(true);
+                //将接收方地址框从域名改为实际地址
+                component.getRecvAddressFld().setText(resolvedAddress);
+            }
         }
-               
+           
        // 不能给自己转账
        if(StringUtils.equals(wallet.getAddress(), recvAddress)) {
             component.getRecvAddressFld().requestFocus();
             throw new WizardValidationException(null, "收款人不能是自己", null);
        }
+       
+       // 转账地址是有效的
+        if(!bc.isValidAddress(recvAddress)) {
+            component.getRecvAddressFld().requestFocus();
+            if(!StringUtils.endsWith(recvAddress,".cfx")){
+                throw new WizardValidationException(null, "地址格式错误", null);
+            }
+            else{
+                throw new WizardValidationException(null, "域名已自动解析为地址", null);
+            }
+        }
     }
 
 }

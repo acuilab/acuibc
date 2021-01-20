@@ -1,5 +1,7 @@
 package com.acuilab.bc.main.nft;
 
+import java.awt.Image;
+
 /**
  *
  * @author admin
@@ -10,7 +12,16 @@ public class MetaData {
     private String platform;
     private String imageUrl;
     private String desc;
+    private Image image;
 
+    public Image getImage() {
+	return image;
+    }
+
+    public void setImage(Image image) {
+	this.image =image;
+    }
+    
     public String getDesc() {
 	return desc;
     }

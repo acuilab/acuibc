@@ -2,6 +2,21 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/GitHub/acuibc/acuibc-cfx/src/com/acuilab/bc/cfx/CFXBlockChain.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-cfx/src/com/acuilab/bc/cfx/CETHCoin.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-cfx/src/com/acuilab/bc/cfx/ConDragonNFT.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-cfx/src/com/acuilab/bc/cfx/CnsNFT.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-cfx/src/META-INF/services/com.acuilab.bc.main.coin.ICoin</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-cfx/src/com/acuilab/bc/cfx/ConfluxGuardianNFT.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-cfx/src/com/acuilab/bc/cfx/CFXCoin.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-cfx/src/com/acuilab/bc/cfx/MoonGenesisNFT.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-cfx/src/com/acuilab/bc/cfx/CPICoin.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-cfx/src/com/acuilab/bc/cfx/CMOONCoin.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-cfx/src/com/acuilab/bc/cfx/Bundle.properties</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-cfx/src/com/acuilab/bc/cfx/CUSDTCoin.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-cfx/src/com/acuilab/bc/cfx/ConFiNFT.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-cfx/src/com/acuilab/bc/cfx/AbstractNFT.java</file>
+        </group>
     </open-files>
 </project-private>

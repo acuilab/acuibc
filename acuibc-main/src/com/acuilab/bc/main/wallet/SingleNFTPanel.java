@@ -11,9 +11,13 @@ import com.acuilab.bc.main.wallet.wizard.NFTTransferInputWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.PasswordInputWizardPanel;
 import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URI;
@@ -30,6 +34,7 @@ import javax.swing.SwingWorker;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.examples.complete.Utils;
 import net.java.balloontip.utils.TimingUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jdesktop.swingx.JXHyperlink;
 import org.netbeans.api.progress.ProgressHandle;
 import org.openide.DialogDisplayer;
@@ -58,24 +63,42 @@ public class SingleNFTPanel extends JXPanel {
 	this.metaData = metaData;
 	
 	indexLbl.setText("#" + (index+1));
-        idLbl.setText("编号：" + metaData.getId());
+        String id = metaData.getId();
+//        Graphics g = idLbl.getGraphics();
+//        FontMetrics fm = g.getFontMetrics();
+//        System.out.println("stringWidth=" + fm.stringWidth(id));
+//        System.out.println("width=" + idLbl.getWidth());
+        idLbl.setText("编号：" + StringUtils.substring(id, 0, 18) + (StringUtils.length(id) > 18 ? "..." : ""));
+        idLbl.setToolTipText(id);
         
         nameLbl.setText("名称：" + metaData.getName());
         platformLbl.setText("平台：" + metaData.getPlatform());
+        descLbl.setText("描述：" + metaData.getDesc());
 	this.setToolTipText(metaData.getDesc());
 
 	MyJXImageView myImageView = (MyJXImageView)imageView;
 	myImageView.setToolTipText(metaData.getDesc());		// 这句必须调用，否则ImageToolTip弹不出来
 	myImageView.setMetaData(metaData);
-        try {
-            URL url = new URL(metaData.getImageUrl());
-	    myImageView.setImage(url);
-	    Image image = myImageView.getImage();
-	    double scaleX = 178.0d/image.getWidth(null);
-	    double scaleY = 178.0d/image.getHeight(null);
-            myImageView.setScale(Math.max(scaleX, scaleY));
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (!StringUtils.isBlank(metaData.getImageUrl())) {
+            try {
+                URL url = new URL(metaData.getImageUrl());
+                myImageView.setImage(url);
+                Image image = myImageView.getImage();
+                double scaleX = 178.0d / image.getWidth(null);
+                double scaleY = 178.0d / image.getHeight(null);
+                myImageView.setScale(Math.max(scaleX, scaleY));
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+        else if(metaData.getImage()!= null){
+            try {
+                myImageView.setImage(metaData.getImage());
+                Image image = myImageView.getImage();
+                myImageView.setImageLocation(new Point2D.Double(image.getWidth(null)/2, image.getWidth(null)/2));
+            } catch (Exception ex) {
+                Exceptions.printStackTrace(ex);
+            }
         }
         
         //this.jXImageView1.setImage(urlImage));
@@ -96,6 +119,7 @@ public class SingleNFTPanel extends JXPanel {
         transferBtn = new org.jdesktop.swingx.JXButton();
         imageView = new MyJXImageView();
         indexLbl = new org.jdesktop.swingx.JXLabel();
+        descLbl = new org.jdesktop.swingx.JXLabel();
 
         setBackground(javax.swing.UIManager.getDefaults().getColor("InternalFrame.activeTitleGradient"));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -135,18 +159,21 @@ public class SingleNFTPanel extends JXPanel {
         indexLbl.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         org.openide.awt.Mnemonics.setLocalizedText(indexLbl, org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.indexLbl.text")); // NOI18N
 
+        org.openide.awt.Mnemonics.setLocalizedText(descLbl, org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.descLbl.text")); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(nameLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(idLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(platformLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+            .addComponent(idLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(platformLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(indexLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(transferBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(imageView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(imageView, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+            .addComponent(descLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,7 +185,9 @@ public class SingleNFTPanel extends JXPanel {
                 .addComponent(idLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(platformLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(descLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(transferBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(indexLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -289,6 +318,7 @@ public class SingleNFTPanel extends JXPanel {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXLabel descLbl;
     private org.jdesktop.swingx.JXLabel idLbl;
     private org.jdesktop.swingx.JXImageView imageView;
     private org.jdesktop.swingx.JXLabel indexLbl;

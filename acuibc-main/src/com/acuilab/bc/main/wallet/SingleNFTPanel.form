@@ -36,14 +36,15 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="nameLbl" alignment="0" max="32767" attributes="0"/>
-          <Component id="idLbl" alignment="0" max="32767" attributes="0"/>
-          <Component id="platformLbl" alignment="0" pref="178" max="32767" attributes="0"/>
+          <Component id="idLbl" alignment="0" max="-2" attributes="0"/>
+          <Component id="platformLbl" alignment="0" pref="280" max="32767" attributes="0"/>
           <Group type="102" alignment="1" attributes="0">
               <Component id="indexLbl" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="transferBtn" min="-2" max="-2" attributes="0"/>
           </Group>
-          <Component id="imageView" alignment="0" max="32767" attributes="0"/>
+          <Component id="imageView" alignment="0" pref="280" max="32767" attributes="0"/>
+          <Component id="descLbl" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -56,7 +57,9 @@
               <Component id="idLbl" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="platformLbl" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="descLbl" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="19" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="transferBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="indexLbl" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -134,6 +137,13 @@
         <Property name="horizontalAlignment" type="int" value="2"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="SingleNFTPanel.indexLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXLabel" name="descLbl">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="SingleNFTPanel.descLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>

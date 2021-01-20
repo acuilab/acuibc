@@ -55,7 +55,8 @@ public class Installer extends ModuleInstall {
 		// 最大化显示
 		WindowManager.getDefault().getMainWindow().setExtendedState(JFrame.MAXIMIZED_BOTH);
                 
-                new ADDialog(null, false).setVisible(true);
+                //chy：广告位，有广告则用，无广告则隐藏
+                //new ADDialog(null, false).setVisible(true);
             }
         });
     }

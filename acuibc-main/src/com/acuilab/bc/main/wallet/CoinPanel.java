@@ -60,22 +60,24 @@ import org.jdesktop.swingx.JXButton;
 import org.openide.awt.ToolbarWithOverflow;
 import com.acuilab.bc.main.coin.ICoin;
 import java.math.BigDecimal;
+import org.openide.WizardValidationException;
 
 /**
  *
  * @author admin
  */
 public class CoinPanel extends JXPanel {
-    
+
     private final WalletTopComponent parent;
     private final Wallet wallet;
     private final ICoin coin;
-    private final TransferRecordTableModel tableModel; 
-    private final TransferRecordFiltering filterController; 
+    private final TransferRecordTableModel tableModel;
+    private final TransferRecordFiltering filterController;
     private boolean firstOpen;
 
     /**
      * Creates new form CoinPanel
+     *
      * @param parent
      * @param wallet
      * @param coin
@@ -87,9 +89,9 @@ public class CoinPanel extends JXPanel {
         this.parent = parent;
         this.wallet = wallet;
         this.coin = coin;
-	
-	firstOpen = true;
-        
+
+        firstOpen = true;
+
         // Toolbar
         JXButton transferBtn = new JXButton("转账");
         transferBtn.setIcon(ImageUtilities.loadImageIcon("/resource/transfer16.png", false));
@@ -120,10 +122,10 @@ public class CoinPanel extends JXPanel {
                 wiz.setTitle(wallet.getName() + "：" + coin.getSymbol() + "转账");
                 if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
                     // do something
-                    String recvAddress = (String)wiz.getProperty("recvAddress");
-                    String value = (String)wiz.getProperty("value");
-                    int gas = (int)wiz.getProperty("gas");
-                    String pwd = (String)wiz.getProperty("password");
+                    String recvAddress = (String) wiz.getProperty("recvAddress");             
+                    String value = (String) wiz.getProperty("value");
+                    int gas = (int) wiz.getProperty("gas");
+                    String pwd = (String) wiz.getProperty("password");
 
                     try {
                         String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), recvAddress, coin.mainUint2MinUint(NumberUtils.toDouble(value)), BigInteger.valueOf(gas));
@@ -132,11 +134,11 @@ public class CoinPanel extends JXPanel {
                         // 气泡提示
                         try {
                             JLabel lbl = new JLabel("最近一次交易哈希已更新，单击打开区块链浏览器查看交易状态");
-                            BalloonTip balloonTip = new BalloonTip(hashLink, 
-                                            lbl,
-                                            Utils.createBalloonTipStyle(),
-                                            Utils.createBalloonTipPositioner(), 
-                                            null);
+                            BalloonTip balloonTip = new BalloonTip(hashLink,
+                                    lbl,
+                                    Utils.createBalloonTipStyle(),
+                                    Utils.createBalloonTipPositioner(),
+                                    null);
                             TimingUtils.showTimedBalloon(balloonTip, 3000);
                         } catch (Exception ex) {
                             Exceptions.printStackTrace(ex);
@@ -161,10 +163,10 @@ public class CoinPanel extends JXPanel {
                                 try {
                                     BlockChain.TransactionStatus result = get();
 
-                                    if(result == BlockChain.TransactionStatus.SUCCESS) {
+                                    if (result == BlockChain.TransactionStatus.SUCCESS) {
                                         // 交易成功，刷新余额及交易记录
                                         refreshBtnActionPerformed(null);
-                                    } else if(result == BlockChain.TransactionStatus.FAILED) {
+                                    } else if (result == BlockChain.TransactionStatus.FAILED) {
                                         // 交易失败
                                         NotificationDisplayer.getDefault().notify(
                                                 "交易失败",
@@ -188,99 +190,98 @@ public class CoinPanel extends JXPanel {
                         };
                         worker.execute();
 
-
                     } catch (Exception ex) {
                         Exceptions.printStackTrace(ex);
                     }
                 }
             }
-            
+
         });
         toolbar.add(transferBtn);
-        
+
         // Coin个性化扩展
-        if(coin instanceof ICFXCoin) {
+        if (coin instanceof ICFXCoin) {
             JXButton stakingBtn = new JXButton("质押");
             stakingBtn.setIcon(ImageUtilities.loadImageIcon("/resource/staking16.png", false));
             stakingBtn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    StakingDialog dlg = new StakingDialog(null, wallet, (ICFXCoin)coin);
+                    StakingDialog dlg = new StakingDialog(null, wallet, (ICFXCoin) coin);
                     dlg.setVisible(true);
                 }
-                
+
             });
             toolbar.add(stakingBtn);
         }
-        
+
         buttonGroup1.add(allRadio);
         buttonGroup1.add(recvRadio);
         buttonGroup1.add(sendRadio);
-        
+
         // 合约地址
-        if(!coin.isBaseCoin()) {
+        if (!coin.isBaseCoin()) {
             contractAddressFld.setText(coin.getContractAddress());
             contractAddressFld.setToolTipText(coin.getContractAddress());
         } else {
             contractAddressLbl.setText("");
             contractAddressFld.setText("");
         }
-        
+
         tableModel = new TransferRecordTableModel(table);
         tableModel.addTableModelListener((TableModelEvent e) -> {
             updateStatusBar();
         });
-        
+
         // set the table model after setting the factory
         table.setModel(tableModel);
-        
+
         // Filter control
         filterController = new TransferRecordFiltering(table);
         // bind controller properties to input components
         BindingGroup filterGroup = new BindingGroup();
         // 全部/收款/转账
-        filterGroup.addBinding(Bindings.createAutoBinding(READ,  
-                 allRadio, BeanProperty.create("selected"), 
-                 filterController, BeanProperty.create("showAll")));
-        filterGroup.addBinding(Bindings.createAutoBinding(READ,  
-                 recvRadio, BeanProperty.create("selected"),  
-                 filterController, BeanProperty.create("showRecv")));  
-        filterGroup.addBinding(Bindings.createAutoBinding(READ,  
-                 sendRadio, BeanProperty.create("selected"),  
-                 filterController, BeanProperty.create("showSend")));  
-        
+        filterGroup.addBinding(Bindings.createAutoBinding(READ,
+                allRadio, BeanProperty.create("selected"),
+                filterController, BeanProperty.create("showAll")));
+        filterGroup.addBinding(Bindings.createAutoBinding(READ,
+                recvRadio, BeanProperty.create("selected"),
+                filterController, BeanProperty.create("showRecv")));
+        filterGroup.addBinding(Bindings.createAutoBinding(READ,
+                sendRadio, BeanProperty.create("selected"),
+                filterController, BeanProperty.create("showSend")));
+
         // filterString
-        filterGroup.addBinding(Bindings.createAutoBinding(READ,  
-                 filterFld, BeanProperty.create("text"), 
-                 filterController, BeanProperty.create("filterString"))); 
-        
+        filterGroup.addBinding(Bindings.createAutoBinding(READ,
+                filterFld, BeanProperty.create("text"),
+                filterController, BeanProperty.create("filterString")));
+
         // 全部/收款/转账
-        filterGroup.addBinding(Bindings.createAutoBinding(READ, 
-                filterController, BeanProperty.create("showAll"), 
+        filterGroup.addBinding(Bindings.createAutoBinding(READ,
+                filterController, BeanProperty.create("showAll"),
                 this, BeanProperty.create("statusContent")));
-        filterGroup.addBinding(Bindings.createAutoBinding(READ, 
-                filterController, BeanProperty.create("showRecv"), 
+        filterGroup.addBinding(Bindings.createAutoBinding(READ,
+                filterController, BeanProperty.create("showRecv"),
                 this, BeanProperty.create("statusContent")));
-        filterGroup.addBinding(Bindings.createAutoBinding(READ, 
-                filterController, BeanProperty.create("showSend"), 
+        filterGroup.addBinding(Bindings.createAutoBinding(READ,
+                filterController, BeanProperty.create("showSend"),
                 this, BeanProperty.create("statusContent")));
         // filterString
-        filterGroup.addBinding(Bindings.createAutoBinding(READ, 
-                filterController, BeanProperty.create("filterString"), 
+        filterGroup.addBinding(Bindings.createAutoBinding(READ,
+                filterController, BeanProperty.create("filterString"),
                 this, BeanProperty.create("statusContent")));
         filterGroup.bind();
-        
+
         // 悬浮提示单元格的值@see http://skull.iteye.com/blog/850320
         table.addMouseMotionListener(new MouseAdapter() {
-            
+
             @Override
             public void mouseMoved(MouseEvent e) {
                 int row = table.rowAtPoint(e.getPoint());
                 int col = table.columnAtPoint(e.getPoint());
-                if(row>-1 && col>-1) {
+                if (row > -1 && col > -1) {
                     Object value = table.getValueAt(row, col);
-                    
-                    if(value != null && StringUtils.isNotBlank(value.toString())) {
+
+                    if (value != null && StringUtils.isNotBlank(value.toString())) {
                         table.setToolTipText(value.toString()); // 悬浮显示单元格内容
                     } else {
                         table.setToolTipText(null);         // 关闭提示
@@ -288,36 +289,36 @@ public class CoinPanel extends JXPanel {
                 }
             }
         });
-        
+
         table.setColumnControlVisible(true);
         table.setColumnSelectionAllowed(true);		       // 允许列选择
         table.getTableHeader().setReorderingAllowed(false);     // 表头不可拖动
-        
+
         // 序号
-	TableColumnExt indexColumn = table.getColumnExt(TransferRecordTableModel.INDEX_COLUMN);
-	indexColumn.setMinWidth(40);
-	indexColumn.setMaxWidth(40);
+        TableColumnExt indexColumn = table.getColumnExt(TransferRecordTableModel.INDEX_COLUMN);
+        indexColumn.setMinWidth(40);
+        indexColumn.setMaxWidth(40);
         DefaultTableCellRenderer render = new DefaultTableCellRenderer();
         render.setHorizontalAlignment(SwingConstants.CENTER);
         // 不起作用，可能被下面的ColorHighlighter覆盖掉了, 使用下面的indexHighlighter实现同样的效果
 //        render.setBackground(table.getTableHeader().getBackground()); 
         indexColumn.setCellRenderer(render);
         indexColumn.setSortable(false);
-        
+
         // 状态图标
-	TableColumn statusColumn = table.getColumn(TransferRecordTableModel.STATUS_COLUMN);
-	statusColumn.setMinWidth(24);
-	statusColumn.setMaxWidth(24);
-	statusColumn.setCellRenderer(new StatusTableCellRenderer());
-        
-	TableColumn valueColumn = table.getColumn(TransferRecordTableModel.VALUE_COLUMN);
-	valueColumn.setCellRenderer(new ValueTableCellRenderer());
-        
+        TableColumn statusColumn = table.getColumn(TransferRecordTableModel.STATUS_COLUMN);
+        statusColumn.setMinWidth(24);
+        statusColumn.setMaxWidth(24);
+        statusColumn.setCellRenderer(new StatusTableCellRenderer());
+
+        TableColumn valueColumn = table.getColumn(TransferRecordTableModel.VALUE_COLUMN);
+        valueColumn.setCellRenderer(new ValueTableCellRenderer());
+
         ColorHighlighter evenHighlighter = new ColorHighlighter(HighlightPredicate.EVEN, Color.WHITE, null);
         ColorHighlighter oddHighlighter = new HighlighterFactory.UIColorHighlighter(HighlightPredicate.ODD);
         ColorHighlighter indexHighlighter = new ColorHighlighter(new HighlightPredicate.ColumnHighlightPredicate(TransferRecordTableModel.INDEX_COLUMN), table.getTableHeader().getBackground(), null);
         table.setHighlighters(evenHighlighter, oddHighlighter, indexHighlighter);
-        
+
         // 排序(交易额列按数值排序) ———————— 导致filterController失效
 //        TableRowSorter sorter = new TableRowSorter(tableModel);
 //        sorter.setComparator(TransferRecordTableModel.VALUE_COLUMN, new Comparator<String>() {
@@ -327,26 +328,26 @@ public class CoinPanel extends JXPanel {
 //            }
 //        });
 //        table.setRowSorter(sorter);
-        
         table.setHorizontalScrollEnabled(true);
         table.packAll();
     }
-    
+
     public boolean isFirstOpen() {
         return firstOpen;
     }
-    
+
     /**
-     * Binding artefact method: crude hack to update the status bar on state changes
-     * from controller.
+     * Binding artefact method: crude hack to update the status bar on state
+     * changes from controller.
+     *
      * @param dummy
      */
     public void setStatusContent(Object dummy) {
         updateStatusBar();
     }
-    
+
     private void updateStatusBar() {
-        if(filterController.isFiltering()) {
+        if (filterController.isFiltering()) {
             tableRowsLbl.setText("共" + table.getRowCount() + "条");
         } else {
             tableRowsLbl.setText("共" + tableModel.getRowCount() + "条");
@@ -519,7 +520,7 @@ public class CoinPanel extends JXPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private static final class LinkAction implements ActionListener {
-        
+
         private final String transactionDetailUrl;
 
         public LinkAction(String transactionDetailUrl) {
@@ -528,9 +529,9 @@ public class CoinPanel extends JXPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(Desktop.isDesktopSupported()) {
+            if (Desktop.isDesktopSupported()) {
                 try {
-                    if(Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                    if (Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
                         // 打开默认浏览器
                         Desktop.getDesktop().browse(URI.create(transactionDetailUrl));
                     }
@@ -540,11 +541,11 @@ public class CoinPanel extends JXPanel {
             }
         }
     }
-    
+
     public void refreshBtnActionPerformed() {
-	refreshBtnActionPerformed(null);
+        refreshBtnActionPerformed(null);
     }
-    
+
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
         refreshBtn.setEnabled(false);
         final ProgressHandle ph = ProgressHandle.createHandle("正在请求余额及交易记录，请稍候");
@@ -556,8 +557,8 @@ public class CoinPanel extends JXPanel {
                 BigInteger balance = coin.balanceOf(wallet.getAddress());
 
                 // 请求历史记录
-                List<TransferRecord> transferRecords = coin.getTransferRecords(wallet, coin, wallet.getAddress(), (Integer)limitSpinner.getValue());
-                
+                List<TransferRecord> transferRecords = coin.getTransferRecords(wallet, coin, wallet.getAddress(), (Integer) limitSpinner.getValue());
+
                 return new Pair(balance, transferRecords);
             }
 
@@ -576,13 +577,13 @@ public class CoinPanel extends JXPanel {
                     tableModel.clear();
                     tableModel.add(pair.getValue1());
                     table.repaint();
-                    
+
                     // 主网币更新左侧对应的WalletPanel余额
-                    if(coin.isBaseCoin()) {
-                        WalletListTopComponent tc = (WalletListTopComponent)WindowManager.getDefault().findTopComponent("WalletListTopComponent");
-                        if(tc != null) {
+                    if (coin.isBaseCoin()) {
+                        WalletListTopComponent tc = (WalletListTopComponent) WindowManager.getDefault().findTopComponent("WalletListTopComponent");
+                        if (tc != null) {
                             WalletPanel walletPanel = tc.getWalletPanel(wallet.getName());
-                            if(walletPanel != null) {
+                            if (walletPanel != null) {
                                 walletPanel.setBalance(pair.getValue0());
                             }
                         }
@@ -591,9 +592,9 @@ public class CoinPanel extends JXPanel {
                 } catch (InterruptedException | ExecutionException ex) {
                     Exceptions.printStackTrace(ex);
                 }
-                
+
                 ph.finish();
-		firstOpen=false;		
+                firstOpen = false;
                 refreshBtn.setEnabled(true);
             }
         };
@@ -602,7 +603,7 @@ public class CoinPanel extends JXPanel {
 
     private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
         filterFld.setText("");
-	filterFld.requestFocus();
+        filterFld.requestFocus();
     }//GEN-LAST:event_resetBtnActionPerformed
 
 

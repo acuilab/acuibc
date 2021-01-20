@@ -93,6 +93,13 @@ public interface BlockChain {
     boolean isValidAddress(String address);
     
     /**
+     * 通过域名返回实际地址
+     * @param address
+     * @return 
+     */
+    String getAddressFromDomain(String domain);
+    
+    /**
      * 获得交易信息的url地址
      * @param hash  交易哈希
      * @return 

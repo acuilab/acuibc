@@ -77,12 +77,12 @@ public final class WalletListTopComponent extends TopComponent {
             List<Wallet> list = WalletDAO.getList();
             Map<String,List<Wallet>> walletGroupMap = list.stream().collect(Collectors.groupingBy(Wallet::getBlockChainSymbol));
             walletGroupMap.entrySet().forEach(entry -> {
+		List<Wallet> wallets = entry.getValue();
+		
                 BlockChain bc = BlockChainManager.getDefault().getBlockChain(entry.getKey());
-                JXTaskPane taskPane = new JXTaskPane(bc.getName(), bc.getIcon(16));
+                JXTaskPane taskPane = new JXTaskPane(bc.getName() + "(" + wallets.size() + ")", bc.getIcon(16));
 //                taskPane.setFont(new java.awt.Font("宋体", Font.BOLD, 24));
                 taskPane.setLayout(new BoxLayout(taskPane.getContentPane(), BoxLayout.Y_AXIS));
-                
-                List<Wallet> wallets = entry.getValue();
                 
                 for(int i=0; i<wallets.size(); i++) {
                     if(i > 0) {
@@ -94,7 +94,6 @@ public final class WalletListTopComponent extends TopComponent {
                     taskPane.add(walletPanel);
                     walletPanelMap.put(wallets.get(i).getName(), walletPanel);
                 }
-                
                 jXTaskPaneContainer1.add(taskPane);
                 taskPaneMap.put(bc.getSymbol(), taskPane);
             });

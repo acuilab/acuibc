@@ -124,9 +124,9 @@ public class SingleNFTPanel extends JXPanel {
 
         setBackground(javax.swing.UIManager.getDefaults().getColor("InternalFrame.activeTitleGradient"));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        setMaximumSize(new java.awt.Dimension(180, 326));
-        setMinimumSize(new java.awt.Dimension(180, 326));
-        setPreferredSize(new java.awt.Dimension(180, 326));
+        setMaximumSize(new java.awt.Dimension(180, 342));
+        setMinimumSize(new java.awt.Dimension(180, 342));
+        setPreferredSize(new java.awt.Dimension(180, 342));
 
         org.openide.awt.Mnemonics.setLocalizedText(nameLbl, org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.nameLbl.text")); // NOI18N
         nameLbl.setMaximumSize(new java.awt.Dimension(178, 18));
@@ -200,7 +200,7 @@ public class SingleNFTPanel extends JXPanel {
                 .addComponent(platformLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(descLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(transferBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(indexLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))

@@ -78,7 +78,7 @@ public final class WalletListTopComponent extends TopComponent {
             Map<String,List<Wallet>> walletGroupMap = list.stream().collect(Collectors.groupingBy(Wallet::getBlockChainSymbol));
             walletGroupMap.entrySet().forEach(entry -> {
 		List<Wallet> wallets = entry.getValue();
-		
+		System.out.println("wallets:" + wallets.size());
                 BlockChain bc = BlockChainManager.getDefault().getBlockChain(entry.getKey());
                 JXTaskPane taskPane = new JXTaskPane(bc.getName() + "(" + wallets.size() + ")", bc.getIcon(16));
 //                taskPane.setFont(new java.awt.Font("宋体", Font.BOLD, 24));

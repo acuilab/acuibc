@@ -68,7 +68,8 @@ public class SingleNFTPanel extends JXPanel {
 //        FontMetrics fm = g.getFontMetrics();
 //        System.out.println("stringWidth=" + fm.stringWidth(id));
 //        System.out.println("width=" + idLbl.getWidth());
-        idLbl.setText("编号：" + StringUtils.substring(id, 0, 18) + (StringUtils.length(id) > 18 ? "..." : ""));
+        //idLbl.setText("编号：" + StringUtils.substring(id, 0, 18) + (StringUtils.length(id) > 18 ? "..." : ""));
+        idLbl.setText("编号：" + id);
         idLbl.setToolTipText(id);
         
         nameLbl.setText("名称：" + metaData.getName());
@@ -128,10 +129,19 @@ public class SingleNFTPanel extends JXPanel {
         setPreferredSize(new java.awt.Dimension(180, 326));
 
         org.openide.awt.Mnemonics.setLocalizedText(nameLbl, org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.nameLbl.text")); // NOI18N
+        nameLbl.setMaximumSize(new java.awt.Dimension(178, 18));
+        nameLbl.setMinimumSize(new java.awt.Dimension(178, 18));
+        nameLbl.setPreferredSize(new java.awt.Dimension(178, 18));
 
         org.openide.awt.Mnemonics.setLocalizedText(idLbl, org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.idLbl.text")); // NOI18N
+        idLbl.setMaximumSize(new java.awt.Dimension(178, 18));
+        idLbl.setMinimumSize(new java.awt.Dimension(178, 18));
+        idLbl.setPreferredSize(new java.awt.Dimension(178, 18));
 
         org.openide.awt.Mnemonics.setLocalizedText(platformLbl, org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.platformLbl.text")); // NOI18N
+        platformLbl.setMaximumSize(new java.awt.Dimension(178, 18));
+        platformLbl.setMinimumSize(new java.awt.Dimension(178, 18));
+        platformLbl.setPreferredSize(new java.awt.Dimension(178, 18));
 
         org.openide.awt.Mnemonics.setLocalizedText(transferBtn, org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.transferBtn.text")); // NOI18N
         transferBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -160,20 +170,23 @@ public class SingleNFTPanel extends JXPanel {
         org.openide.awt.Mnemonics.setLocalizedText(indexLbl, org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.indexLbl.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(descLbl, org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.descLbl.text")); // NOI18N
+        descLbl.setMaximumSize(new java.awt.Dimension(178, 18));
+        descLbl.setMinimumSize(new java.awt.Dimension(178, 18));
+        descLbl.setPreferredSize(new java.awt.Dimension(178, 18));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(nameLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(idLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(platformLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+            .addComponent(platformLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(indexLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(transferBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(imageView, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+            .addComponent(imageView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(descLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(nameLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(idLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -100,7 +100,7 @@ public final class WalletTopComponent extends TopComponent implements Observer {
 	
 	// 初始化coinPane
 	for(ICoin coin : CoinManager.getDefault().getCoinList(wallet.getBlockChainSymbol())) {
-	    coinPane.addTab(coin.getName(), coin.getIcon(16), new CoinPanel(WalletTopComponent.this, wallet, coin), coin.getName());
+	    coinPane.addTab(coin.getSymbol(), coin.getIcon(16), new CoinPanel(WalletTopComponent.this, wallet, coin), coin.getName());
 	}
 	
 	// 初始化NFTPanel

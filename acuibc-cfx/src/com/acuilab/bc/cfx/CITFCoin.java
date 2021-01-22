@@ -13,14 +13,14 @@ import org.openide.util.ImageUtilities;
  *
  * @author admin
  */
-public class CBTCCoin extends ERC20Coin {
+public class CITFCoin extends ERC20Coin {
     
-    private static final Logger LOG = Logger.getLogger(CBTCCoin.class.getName());
+    private static final Logger LOG = Logger.getLogger(CITFCoin.class.getName());
 
-    public static final String CONTRACT_ADDRESS = "0x821c636dfc85d0612fb8ebf34acf84771ba4c344";
+    public static final String CONTRACT_ADDRESS = "0x85edfff07c3ab0511bb4b3fc9282aacf1d131936";
 
-    public static final String NAME = "conflux BTC";
-    public static final String SYMBOL = "cBTC";
+    public static final String NAME = "conflux ITF";
+    public static final String SYMBOL = "cITF";
 
     @Override
     public String getName() {
@@ -39,17 +39,17 @@ public class CBTCCoin extends ERC20Coin {
     
     @Override
     public Icon getIcon(int size) {
-        return ImageUtilities.loadImageIcon("/resource/cBTC" + size + ".png", true);
+        return ImageUtilities.loadImageIcon("/resource/cfx" + size + ".png", true);
     }
 
     @Override
     public Image getIconImage(int size) {
-        return ImageUtilities.loadImage("/resource/cBTC" + size + ".png", true);
+        return ImageUtilities.loadImage("/resource/cfx" + size + ".png", true);
     }
 
     @Override
     public String getMainUnit() {
-        return "cBTC";
+        return "cITF";
     }
 
     @Override

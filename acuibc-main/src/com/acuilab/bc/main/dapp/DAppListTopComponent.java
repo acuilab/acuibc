@@ -21,7 +21,7 @@ import org.openide.util.NbBundle.Messages;
 	//iconBase="SET/PATH/TO/ICON/HERE", 
 	persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
-@TopComponent.Registration(mode = "editor", openAtStartup = false)
+@TopComponent.Registration(mode = "editor", openAtStartup = true)
 @ActionID(category = "Window", id = "com.acuilab.bc.main.dapp.DAppListTopComponent")
 @ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(
@@ -44,11 +44,11 @@ public final class DAppListTopComponent extends TopComponent {
 	putClientProperty(TopComponent.PROP_MAXIMIZATION_DISABLED, Boolean.FALSE);
 	putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.FALSE);
 
-	dappListPanel.setLayout(new WrapLayout(FlowLayout.LEFT, 10, 10));
-	
-	for(IDApp dapp : DAppManager.getDefault().getDAppList()) {
-	    dappListPanel.add(new SingleDAppPanel(dapp));
-	}
+//	dappListPanel.setLayout(new WrapLayout(FlowLayout.LEFT, 10, 10));
+//	
+//	for(IDApp dapp : DAppManager.getDefault().getDAppList()) {
+//	    dappListPanel.add(new SingleDAppPanel(dapp));
+//	}
     }
 
     /**
@@ -58,25 +58,28 @@ public final class DAppListTopComponent extends TopComponent {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        dappListPanel = new org.jdesktop.swingx.JXPanel();
+        jXTable1 = new org.jdesktop.swingx.JXTable();
+        jXTextField1 = new org.jdesktop.swingx.JXTextField();
+        jXButton1 = new org.jdesktop.swingx.JXButton();
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        dappListPanel.setScrollableHeightHint(org.jdesktop.swingx.ScrollableSizeHint.PREFERRED_STRETCH);
-        dappListPanel.setScrollableWidthHint(org.jdesktop.swingx.ScrollableSizeHint.PREFERRED_STRETCH);
+        jXTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jXTable1);
 
-        javax.swing.GroupLayout dappListPanelLayout = new javax.swing.GroupLayout(dappListPanel);
-        dappListPanel.setLayout(dappListPanelLayout);
-        dappListPanelLayout.setHorizontalGroup(
-            dappListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 360, Short.MAX_VALUE)
-        );
-        dappListPanelLayout.setVerticalGroup(
-            dappListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 262, Short.MAX_VALUE)
-        );
+        jXTextField1.setText(org.openide.util.NbBundle.getMessage(DAppListTopComponent.class, "DAppListTopComponent.jXTextField1.text")); // NOI18N
 
-        jScrollPane1.setViewportView(dappListPanel);
+        org.openide.awt.Mnemonics.setLocalizedText(jXButton1, org.openide.util.NbBundle.getMessage(DAppListTopComponent.class, "DAppListTopComponent.jXButton1.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -84,21 +87,32 @@ public final class DAppListTopComponent extends TopComponent {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jXTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jXTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.jdesktop.swingx.JXPanel dappListPanel;
     private javax.swing.JScrollPane jScrollPane1;
+    private org.jdesktop.swingx.JXButton jXButton1;
+    private org.jdesktop.swingx.JXTable jXTable1;
+    private org.jdesktop.swingx.JXTextField jXTextField1;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {

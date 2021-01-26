@@ -3,14 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/nft/INFT.java</file>
-            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/manager/NFTManager.java</file>
-            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/BlockChain.java</file>
-            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/CoinPanel.java</file>
-            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/nft/MetaData.java</file>
-            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/util/Utils.java</file>
-            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/WalletPanel.java</file>
-            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/wallet/AddressBookDialog.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/dapp/DAppListTopComponent.java</file>
+            <file>file:/D:/GitHub/acuibc/acuibc-main/src/com/acuilab/bc/main/layer.xml</file>
         </group>
     </open-files>
 </project-private>

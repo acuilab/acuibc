@@ -60,7 +60,6 @@ import org.jdesktop.swingx.JXButton;
 import org.openide.awt.ToolbarWithOverflow;
 import com.acuilab.bc.main.coin.ICoin;
 import java.math.BigDecimal;
-import org.openide.WizardValidationException;
 
 /**
  *

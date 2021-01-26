@@ -49,12 +49,12 @@ public class DAppManager {
         map = someMap;
     }
     
-    public IDApp getGame(String key) {
+    public IDApp getDApp(String key) {
         return map.get(key);
     }
     
     /**
-     * 获得Game列表
+     * 获得DApp列表
      * @return 
      */
     public List<IDApp> getDAppList() {
@@ -68,7 +68,7 @@ public class DAppManager {
     }
     
     /**
-     * 获得某个区块链的Game列表
+     * 获得某个区块链的DApp列表
      * @param blockChainSymbol
      * @return 
      */
@@ -78,6 +78,41 @@ public class DAppManager {
         while (it.hasNext()) {
             IDApp dapp = map.get(it.next());
             if(StringUtils.equals(dapp.getBlockChainSymbol(), blockChainSymbol)) {
+		list.add(dapp);
+            }
+        }
+        
+        return list;
+    }
+    
+    /**
+     * 获得某个区块链的DApp列表
+     * @return 
+     */
+    public List<IDApp> getInternalDAppList() {
+        List<IDApp> list = Lists.newArrayList();
+        Iterator<String> it = map.keySet().iterator();
+        while (it.hasNext()) {
+            IDApp dapp = map.get(it.next());
+            if(dapp.isInternal()) {
+		list.add(dapp);
+            }
+        }
+        
+        return list;
+    }
+    
+    /**
+     * 获得某个区块链的DApp列表
+     * @param blockChainSymbol
+     * @return 
+     */
+    public List<IDApp> getExternalDAppList(String blockChainSymbol) {
+        List<IDApp> list = Lists.newArrayList();
+        Iterator<String> it = map.keySet().iterator();
+        while (it.hasNext()) {
+            IDApp dapp = map.get(it.next());
+            if(StringUtils.equals(dapp.getBlockChainSymbol(), blockChainSymbol) && !dapp.isInternal()) {
 		list.add(dapp);
             }
         }

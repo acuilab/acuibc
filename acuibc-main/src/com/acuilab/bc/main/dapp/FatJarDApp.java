@@ -76,4 +76,10 @@ public abstract class FatJarDApp implements IDApp {
      * @return 
      */
     public abstract String getFatJarFileName();
+    
+
+    @Override
+    public boolean isInternal() {
+        return false;
+    }
 }

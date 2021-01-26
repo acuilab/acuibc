@@ -1,6 +1,7 @@
 package com.acuilab.bc.main.dapp;
 
 import java.awt.Image;
+import javax.swing.Icon;
 
 /**
  *
@@ -25,24 +26,29 @@ public interface IDApp {
     }
     
     /**
-     * 返回游戏名称
+     * 返回DApp名称
+     * @return 
      */
     String getName();
     
     /**
-     * 返回游戏描述
+     * 返回DApp描述
      * @return 
      */
     String getDesc();
     
     /**
-     * 获得游戏图片，用于游戏列表展示，大小固定为178*178
+     * 获得Dapp图标
      * @return 
      */
-    Image getImage();
+    Icon getIcon();
     
     /**
-     * 启动DApp(可能涉及到拷贝文件等操作，故需启动线程执行)
+     * 启动DApp(外部DApp可能涉及到拷贝文件等操作，故需启动线程执行)
+     * @param param
+     * @throws java.lang.Exception
      */
     void launch(String param) throws Exception;
+    
+    boolean isInternal();
 }

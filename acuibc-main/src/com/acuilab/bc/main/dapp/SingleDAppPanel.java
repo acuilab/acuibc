@@ -28,11 +28,11 @@ public class SingleDAppPanel extends JXPanel {
 	
 	this.dapp = dapp;
 	nameLbl.setText(dapp.getName());
-	Image image = dapp.getImage();
-	imageView.setImage(image);
-	double scaleX = 178.0d/image.getWidth(null);
-	double scaleY = 178.0d/image.getHeight(null);
-	imageView.setScale(Math.max(scaleX, scaleY));
+//	Image image = dapp.getImage();
+//	imageView.setImage(image);
+//	double scaleX = 178.0d/image.getWidth(null);
+//	double scaleY = 178.0d/image.getHeight(null);
+//	imageView.setScale(Math.max(scaleX, scaleY));
     }
 
     /**

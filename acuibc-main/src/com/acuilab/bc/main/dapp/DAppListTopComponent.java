@@ -21,7 +21,7 @@ import org.openide.util.NbBundle.Messages;
 	//iconBase="SET/PATH/TO/ICON/HERE", 
 	persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
-@TopComponent.Registration(mode = "editor", openAtStartup = true)
+@TopComponent.Registration(mode = "editor", openAtStartup = false)
 @ActionID(category = "Window", id = "com.acuilab.bc.main.dapp.DAppListTopComponent")
 @ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(

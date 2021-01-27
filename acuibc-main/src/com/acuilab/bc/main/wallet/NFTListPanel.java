@@ -8,8 +8,10 @@ import java.awt.FlowLayout;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URI;
+import java.net.URL;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import javax.imageio.ImageIO;
 import javax.swing.SwingWorker;
 import org.javatuples.Pair;
 import org.jdesktop.swingx.JXPanel;
@@ -30,6 +32,10 @@ public class NFTListPanel extends JXPanel {
     
     /**
      * Creates new form NFTPanel
+     * @param parent
+     * @param wallet
+     * @param nft
+     * @param index
      */
     public NFTListPanel(WalletTopComponent parent, Wallet wallet, INFT nft, int index) {
 	initComponents();
@@ -56,7 +62,7 @@ public class NFTListPanel extends JXPanel {
     public void reload() {
 	refreshBtn.setEnabled(false);
         nftDisplayPanel.removeAll(); 
-        final ProgressHandle ph = ProgressHandle.createHandle("正在NFT列表，请稍候");
+        final ProgressHandle ph = ProgressHandle.createHandle("正在请求NFT列表，请稍候");
         SwingWorker<Integer, Pair<Integer, MetaData>> worker = new SwingWorker<Integer, Pair<Integer, MetaData>>() {
             @Override
             protected Integer doInBackground() throws Exception {
@@ -65,6 +71,11 @@ public class NFTListPanel extends JXPanel {
                 ph.start(tockens.length);
                 for(int i=0; i<tockens.length; i++) {
                     MetaData metaData = nft.getMetaData(tockens[i]);
+                    
+                    if(metaData.getImage() == null && metaData.getImageUrl() != null) {
+                        // 远程获取图像
+                        metaData.setImage(ImageIO.read(new URL(metaData.getImageUrl())));
+                    }
                     
                     publish(Pair.with(i, metaData));
                 }
@@ -211,7 +222,7 @@ public class NFTListPanel extends JXPanel {
                 Exceptions.printStackTrace(ex);
             }
        
-        }// TODO add your handling code here:
+        }
     }//GEN-LAST:event_websiteLinkActionPerformed
 
 

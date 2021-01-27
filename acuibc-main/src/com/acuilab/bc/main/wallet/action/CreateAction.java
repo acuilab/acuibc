@@ -5,6 +5,7 @@ import com.acuilab.bc.main.dao.WalletDAO;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.util.AESUtil;
 import com.acuilab.bc.main.wallet.Wallet;
+import com.acuilab.bc.main.wallet.WalletList2TopComponent;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import static javax.swing.Action.NAME;
@@ -95,6 +96,8 @@ public class CreateAction extends AbstractAction {
                         // 重新加载钱包列表
                         WalletListTopComponent tc = (WalletListTopComponent)WindowManager.getDefault().findTopComponent("WalletListTopComponent");
                         tc.addWallet(wallet);
+                        WalletList2TopComponent tc2 = (WalletList2TopComponent)WindowManager.getDefault().findTopComponent("WalletList2TopComponent");
+                        tc2.addWallet(wallet);
                     }
                 } catch (SQLException | NoSuchAlgorithmException | NoSuchPaddingException | UnsupportedEncodingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex) {
                     Exceptions.printStackTrace(ex);

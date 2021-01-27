@@ -152,6 +152,12 @@ public final class WalletTopComponent extends TopComponent implements Observer {
         jXLabel6 = new org.jdesktop.swingx.JXLabel();
         copyAddressBtn = new org.jdesktop.swingx.JXButton();
 
+        tabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabbedPane1StateChanged(evt);
+            }
+        });
+
         coinPane.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 coinPaneStateChanged(evt);
@@ -544,23 +550,40 @@ public final class WalletTopComponent extends TopComponent implements Observer {
     }//GEN-LAST:event_copyAddressBtnActionPerformed
 
     private void coinPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_coinPaneStateChanged
-	CoinPanel selected = (CoinPanel)coinPane.getSelectedComponent();
-	if(selected != null) {
-	    if(selected.isFirstOpen()){
-		selected.refreshBtnActionPerformed();
-	    }
-	}
+        // 代币被选中
+        tabbedPane1StateChanged(evt);
     }//GEN-LAST:event_coinPaneStateChanged
 
     private void nftPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_nftPaneStateChanged
-	NFTListPanel selected = (NFTListPanel)nftPane.getSelectedComponent();
-	if(selected != null) {
-            //如果是首次调用则重载，如果非首次（已有）则不做操作。
-            if(selected.isFirstOpen()){
-                selected.reload();
-            }
-	}
+        // 藏品被选中
+        tabbedPane1StateChanged(evt);
     }//GEN-LAST:event_nftPaneStateChanged
+
+    private void tabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabbedPane1StateChanged
+        switch (tabbedPane1.getSelectedIndex()) {
+            case 0:
+                // 代币被选中
+                CoinPanel selectedCoinPanel = (CoinPanel)coinPane.getSelectedComponent();
+                if(selectedCoinPanel != null) {
+                    if(selectedCoinPanel.isFirstOpen()){
+                        selectedCoinPanel.refreshBtnActionPerformed();
+                    }
+                }
+                break;
+            case 1:
+                // 藏品被选中
+                NFTListPanel selectedNFTListPanel = (NFTListPanel)nftPane.getSelectedComponent();
+                if(selectedNFTListPanel != null) {
+                    //如果是首次调用则重载，如果非首次（已有）则不做操作。
+                    if(selectedNFTListPanel.isFirstOpen()){
+                        selectedNFTListPanel.reload();
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+    }//GEN-LAST:event_tabbedPane1StateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXLabel barcodeLbl;

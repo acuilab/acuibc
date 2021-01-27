@@ -1,7 +1,6 @@
 package com.acuilab.bc.main.wallet;
 
 import com.acuilab.bc.main.dao.WalletDAO;
-import com.acuilab.bc.main.dapp.IconTableCellRenderer;
 import com.google.common.collect.Maps;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -51,18 +50,14 @@ import org.openide.windows.WindowManager;
 	preferredID = "WalletList2TopComponent"
 )
 @Messages({
-    "CTL_WalletList2Action=钱包列表",
-    "CTL_WalletList2TopComponent=钱包列表",
-    "HINT_WalletList2TopComponent=钱包列表"
+    "CTL_WalletList2Action=快速检索",
+    "CTL_WalletList2TopComponent=快速检索",
+    "HINT_WalletList2TopComponent=快速检索"
 })
 public final class WalletList2TopComponent extends TopComponent {
-    
     private final WalletList2TableModel tableModel;
     private final WalletList2Filtering filterController;
     
-    // 钱包名称<->componentId
-    private final Map<String, String> map = Maps.newHashMap();
-
     public WalletList2TopComponent() {
 	initComponents();
 	setName(Bundle.CTL_WalletList2TopComponent());
@@ -128,11 +123,13 @@ public final class WalletList2TopComponent extends TopComponent {
                     if(row>-1 && col>-1) {
                         try {
                             Wallet wallet = tableModel.getWallet(table.convertRowIndexToModel(row));
-			    String tcId = map.get(wallet.getName());
+                            WalletListTopComponent walletListTC = (WalletListTopComponent)WindowManager.getDefault().findTopComponent("WalletListTopComponent");
+                            WalletPanel walletPanel = walletListTC.getWalletPanel(wallet.getName());
+			    String tcId = walletPanel.getWalletTopComponentId();
 			    if(StringUtils.isNotBlank(tcId)) {
-				TopComponent tc = WindowManager.getDefault().findTopComponent(tcId);
-				if(tc != null && tc.isOpened()) {
-				    tc.requestActive();
+				TopComponent walletTC = WindowManager.getDefault().findTopComponent(tcId);
+				if(walletTC != null && walletTC.isOpened()) {
+				    walletTC.requestActive();
 				    return;
 				}
 			    }
@@ -142,7 +139,7 @@ public final class WalletList2TopComponent extends TopComponent {
 			    WalletTopComponent tc = new WalletTopComponent(wallet);
 			    tc.open();
 			    tc.requestActive();
-			    map.put(wallet.getName(), tc.preferredID());
+                            walletPanel.setWalletTopComponentId(tc.preferredID());
                         } catch (Exception ex) {
                             Exceptions.printStackTrace(ex);
                         }
@@ -310,5 +307,15 @@ public final class WalletList2TopComponent extends TopComponent {
         } else {
             tableRowsLbl.setText("共" + tableModel.getRowCount() + "条");
         }
+    }
+    
+    public void addWallet(Wallet wallet) {
+        tableModel.add(wallet);
+        table.repaint();
+    }
+    
+    public void deleteWallet(Wallet wallet) {
+        tableModel.remove(wallet);
+        table.repaint();
     }
 }

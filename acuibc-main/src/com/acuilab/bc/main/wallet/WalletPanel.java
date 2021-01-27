@@ -244,6 +244,8 @@ public class WalletPanel extends JXPanel implements Observer {
                 // 从面板中删除
                 WalletListTopComponent walletListTC = (WalletListTopComponent)WindowManager.getDefault().findTopComponent("WalletListTopComponent");
                 walletListTC.deleteWallet(wallet);
+                WalletList2TopComponent walletList2TC = (WalletList2TopComponent)WindowManager.getDefault().findTopComponent("WalletList2TopComponent");
+                walletList2TC.deleteWallet(wallet);
 
                 // 关闭对应的WalletTopComponent
                 if(StringUtils.isNotEmpty(walletTopComponentId)) {

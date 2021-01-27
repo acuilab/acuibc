@@ -1,6 +1,7 @@
 package com.acuilab.bc.main.wallet;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.Observable;
 import org.apache.commons.lang3.StringUtils;
 
@@ -83,4 +84,33 @@ public class Wallet extends Observable {
     public void setMnemonicAES(String mnemonicAES) {
         this.mnemonicAES = mnemonicAES;
     }
+
+    // *** equals() & hash() ***
+    // 名称相同的钱包认为是同一个钱包
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.name);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Wallet other = (Wallet) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

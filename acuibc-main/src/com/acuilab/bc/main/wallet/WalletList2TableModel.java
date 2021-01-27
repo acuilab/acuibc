@@ -102,6 +102,11 @@ public class WalletList2TableModel extends AbstractTableModel {
         list.remove(row);
         fireTableRowsDeleted(row, row);
     }
+    
+    public void remove(Wallet wallet) {
+        int row = list.indexOf(wallet);
+        removeRow(row);
+    }
 
     public void clear() {
         list.clear();

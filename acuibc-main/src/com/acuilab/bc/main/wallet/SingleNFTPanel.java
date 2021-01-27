@@ -54,6 +54,11 @@ public class SingleNFTPanel extends JXPanel {
 
     /**
      * Creates new form NFTPanel
+     * @param parent
+     * @param wallet
+     * @param nft
+     * @param index
+     * @param metaData
      */
     public SingleNFTPanel(NFTListPanel parent, Wallet wallet, INFT nft, int index, MetaData metaData) {
 	initComponents();
@@ -64,11 +69,6 @@ public class SingleNFTPanel extends JXPanel {
 	
 	indexLbl.setText("#" + (index+1));
         String id = metaData.getId();
-//        Graphics g = idLbl.getGraphics();
-//        FontMetrics fm = g.getFontMetrics();
-//        System.out.println("stringWidth=" + fm.stringWidth(id));
-//        System.out.println("width=" + idLbl.getWidth());
-        //idLbl.setText("编号：" + StringUtils.substring(id, 0, 18) + (StringUtils.length(id) > 18 ? "..." : ""));
         idLbl.setText("编号：" + id);
         idLbl.setToolTipText(id);
         
@@ -80,7 +80,18 @@ public class SingleNFTPanel extends JXPanel {
 	MyJXImageView myImageView = (MyJXImageView)imageView;
 	myImageView.setToolTipText(metaData.getDesc());		// 这句必须调用，否则ImageToolTip弹不出来
 	myImageView.setMetaData(metaData);
-        if (!StringUtils.isBlank(metaData.getImageUrl())) {
+        if (metaData.getImage() != null) {
+            try {
+                myImageView.setImage(metaData.getImage());
+                Image image = myImageView.getImage();
+                double scaleX = 178.0d / image.getWidth(null);
+                double scaleY = 178.0d / image.getHeight(null);
+                myImageView.setScale(Math.max(scaleX, scaleY));
+//                myImageView.setImageLocation(new Point2D.Double(image.getWidth(null) / 2, image.getWidth(null) / 2));
+            } catch (Exception ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        } else if (!StringUtils.isBlank(metaData.getImageUrl())) {
             try {
                 URL url = new URL(metaData.getImageUrl());
                 myImageView.setImage(url);
@@ -89,15 +100,6 @@ public class SingleNFTPanel extends JXPanel {
                 double scaleY = 178.0d / image.getHeight(null);
                 myImageView.setScale(Math.max(scaleX, scaleY));
             } catch (IOException ex) {
-                Exceptions.printStackTrace(ex);
-            }
-        }
-        else if(metaData.getImage()!= null){
-            try {
-                myImageView.setImage(metaData.getImage());
-                Image image = myImageView.getImage();
-                myImageView.setImageLocation(new Point2D.Double(image.getWidth(null)/2, image.getWidth(null)/2));
-            } catch (Exception ex) {
                 Exceptions.printStackTrace(ex);
             }
         }

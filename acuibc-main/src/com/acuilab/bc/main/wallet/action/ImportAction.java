@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import static javax.swing.Action.NAME;
 import com.acuilab.bc.main.wallet.Wallet;
+import com.acuilab.bc.main.wallet.WalletList2TopComponent;
 import com.acuilab.bc.main.wallet.WalletListTopComponent;
 import com.acuilab.bc.main.wallet.wizard.MnemonicInputWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.NameCoinWizardPanel;
@@ -78,6 +79,7 @@ public class ImportAction extends AbstractAction {
                 String mnemonicOrPrivate = StringUtils.trim((String)wiz.getProperty("mnemonicOrPrivate"));    // 助记词或私钥
 
                 WalletListTopComponent tc = (WalletListTopComponent)WindowManager.getDefault().findTopComponent("WalletListTopComponent");
+                WalletList2TopComponent tc2 = (WalletList2TopComponent)WindowManager.getDefault().findTopComponent("WalletList2TopComponent");
                 BlockChain blockChain = BlockChainManager.getDefault().getBlockChain(coinSymbal);
                 if(StringUtils.equals(importType, "助记词")) {
                     // 保存钱包到数据库
@@ -94,6 +96,7 @@ public class ImportAction extends AbstractAction {
                     WalletDAO.insert(wallet);
                     
                     tc.addWallet(wallet);
+                    tc2.addWallet(wallet);
                 } else {
                     String address = blockChain.importWalletByPrivateKey(mnemonicOrPrivate);
                     
@@ -108,6 +111,7 @@ public class ImportAction extends AbstractAction {
                     WalletDAO.insert(wallet);
                 
                     tc.addWallet(wallet);
+                    tc2.addWallet(wallet);
                 }
             }
         } catch (SQLException | NoSuchAlgorithmException | NoSuchPaddingException | UnsupportedEncodingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex) {

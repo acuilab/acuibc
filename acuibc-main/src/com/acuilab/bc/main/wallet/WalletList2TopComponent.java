@@ -1,10 +1,15 @@
-package com.acuilab.bc.main.dapp;
+package com.acuilab.bc.main.wallet;
 
-import com.acuilab.bc.main.manager.DAppManager;
-import com.acuilab.bc.main.wallet.TransferRecordTableModel;
+import com.acuilab.bc.main.dao.WalletDAO;
+import com.acuilab.bc.main.dapp.IconTableCellRenderer;
+import com.google.common.collect.Maps;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.swing.SwingConstants;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -24,46 +29,52 @@ import org.openide.awt.ActionReference;
 import org.openide.util.Exceptions;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
+import org.openide.windows.WindowManager;
 
 /**
  * Top component which displays something.
  */
 @ConvertAsProperties(
-	dtd = "-//com.acuilab.bc.main.dapp//DAppList//EN",
+	dtd = "-//com.acuilab.bc.main.wallet//WalletList2//EN",
 	autostore = false
 )
 @TopComponent.Description(
-	preferredID = "InternalDAppListTopComponent",
-	//iconBase="SET/PATH/TO/ICON/HERE", 
+	preferredID = "WalletList2TopComponent",
+        iconBase="resource/wallet16.png",
 	persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
-@TopComponent.Registration(mode = "editor", openAtStartup = true)
-@ActionID(category = "Window", id = "com.acuilab.bc.main.dapp.InternalDAppListTopComponent")
+@TopComponent.Registration(mode = "bottomSlidingSide", openAtStartup = true)
+@ActionID(category = "Window", id = "com.acuilab.bc.main.wallet.WalletList2TopComponent")
 @ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(
-	displayName = "#CTL_InternalDAppListAction",
-	preferredID = "InternalDAppListTopComponent"
+	displayName = "#CTL_WalletList2Action",
+	preferredID = "WalletList2TopComponent"
 )
 @Messages({
-    "CTL_InternalDAppListAction=DApp列表",
-    "CTL_InternalDAppListTopComponent=DApp列表",
-    "HINT_InternalDAppListTopComponent=DApp列表"
+    "CTL_WalletList2Action=钱包列表",
+    "CTL_WalletList2TopComponent=钱包列表",
+    "HINT_WalletList2TopComponent=钱包列表"
 })
-public final class InternalDAppListTopComponent extends TopComponent {
+public final class WalletList2TopComponent extends TopComponent {
     
-    private final DAppTableModel tableModel;
-    private final DAppFiltering filterController;
+    private final WalletList2TableModel tableModel;
+    private final WalletList2Filtering filterController;
+    
+    // 钱包名称<->componentId
+    private final Map<String, String> map = Maps.newHashMap();
 
-    public InternalDAppListTopComponent() {
+    public WalletList2TopComponent() {
 	initComponents();
-	setName(Bundle.CTL_InternalDAppListTopComponent());
-	setToolTipText(Bundle.HINT_InternalDAppListTopComponent());
-	putClientProperty(TopComponent.PROP_CLOSING_DISABLED, Boolean.FALSE);
-	putClientProperty(TopComponent.PROP_DRAGGING_DISABLED, Boolean.FALSE);
-	putClientProperty(TopComponent.PROP_MAXIMIZATION_DISABLED, Boolean.FALSE);
-	putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.FALSE);
-        
-        tableModel = new DAppTableModel(table);
+	setName(Bundle.CTL_WalletList2TopComponent());
+	setToolTipText(Bundle.HINT_WalletList2TopComponent());
+        putClientProperty(TopComponent.PROP_CLOSING_DISABLED, Boolean.TRUE);
+        putClientProperty(TopComponent.PROP_DRAGGING_DISABLED, Boolean.TRUE);
+        putClientProperty(TopComponent.PROP_MAXIMIZATION_DISABLED, Boolean.TRUE);
+        putClientProperty(TopComponent.PROP_SLIDING_DISABLED, Boolean.TRUE);
+        putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.TRUE);
+        putClientProperty(TopComponent.PROP_KEEP_PREFERRED_SIZE_WHEN_SLIDED_IN, Boolean.TRUE);
+
+        tableModel = new WalletList2TableModel(table);
         tableModel.addTableModelListener((TableModelEvent e) -> {
             updateStatusBar();
         });
@@ -72,7 +83,7 @@ public final class InternalDAppListTopComponent extends TopComponent {
         table.setModel(tableModel);
 
         // Filter control
-        filterController = new DAppFiltering(table);
+        filterController = new WalletList2Filtering(table);
         // bind controller properties to input components
         BindingGroup filterGroup = new BindingGroup();
 
@@ -116,8 +127,22 @@ public final class InternalDAppListTopComponent extends TopComponent {
                     int col = table.columnAtPoint(e.getPoint());
                     if(row>-1 && col>-1) {
                         try {
-                            IDApp dapp = tableModel.getDApp(table.convertRowIndexToModel(row));
-                            dapp.launch(null);
+                            Wallet wallet = tableModel.getWallet(table.convertRowIndexToModel(row));
+			    String tcId = map.get(wallet.getName());
+			    if(StringUtils.isNotBlank(tcId)) {
+				TopComponent tc = WindowManager.getDefault().findTopComponent(tcId);
+				if(tc != null && tc.isOpened()) {
+				    tc.requestActive();
+				    return;
+				}
+			    }
+
+			    // 1 未打开过
+			    // 2 若打开过，但已被关闭
+			    WalletTopComponent tc = new WalletTopComponent(wallet);
+			    tc.open();
+			    tc.requestActive();
+			    map.put(wallet.getName(), tc.preferredID());
                         } catch (Exception ex) {
                             Exceptions.printStackTrace(ex);
                         }
@@ -131,7 +156,7 @@ public final class InternalDAppListTopComponent extends TopComponent {
         table.getTableHeader().setReorderingAllowed(false);     // 表头不可拖动
         
         // 序号
-        TableColumnExt indexColumn = table.getColumnExt(TransferRecordTableModel.INDEX_COLUMN);
+        TableColumnExt indexColumn = table.getColumnExt(WalletList2TableModel.INDEX_COLUMN);
         indexColumn.setMinWidth(40);
         indexColumn.setMaxWidth(40);
         DefaultTableCellRenderer render = new DefaultTableCellRenderer();
@@ -140,12 +165,13 @@ public final class InternalDAppListTopComponent extends TopComponent {
 //        render.setBackground(table.getTableHeader().getBackground()); 
         indexColumn.setCellRenderer(render);
         indexColumn.setSortable(false);
-
+	
         // 状态图标
-        TableColumn statusColumn = table.getColumn(TransferRecordTableModel.STATUS_COLUMN);
+        TableColumn statusColumn = table.getColumn(WalletList2TableModel.BLOCK_CHAIN_SYMBOL_COLUMN);
         statusColumn.setMinWidth(24);
         statusColumn.setMaxWidth(24);
-        statusColumn.setCellRenderer(new IconTableCellRenderer());
+        statusColumn.setCellRenderer(new BlockChainSymbolTableCellRenderer());
+	
 
         ColorHighlighter evenHighlighter = new ColorHighlighter(HighlightPredicate.EVEN, Color.WHITE, null);
         ColorHighlighter oddHighlighter = new HighlighterFactory.UIColorHighlighter(HighlightPredicate.ODD);
@@ -163,10 +189,18 @@ public final class InternalDAppListTopComponent extends TopComponent {
 //        table.setRowSorter(sorter);
         table.setHorizontalScrollEnabled(true);
         
-        // 加载dapp
-        tableModel.add(DAppManager.getDefault().getInternalDAppList());
-        table.repaint();
-        table.packAll();
+	// 从数据库加载所有钱包
+	try {
+	    List<Wallet> list = WalletDAO.getList();
+	    Map<String,List<Wallet>> walletGroupMap = list.stream().collect(Collectors.groupingBy(Wallet::getBlockChainSymbol));
+	    walletGroupMap.entrySet().forEach(entry -> {
+		tableModel.add(entry.getValue());
+	    });
+	    table.repaint();
+	    table.packAll();
+	} catch (SQLException ex) {
+	    Exceptions.printStackTrace(ex);
+	}
     }
 
     /**
@@ -175,13 +209,18 @@ public final class InternalDAppListTopComponent extends TopComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        filterFld = new org.jdesktop.swingx.JXTextField();
+        jXButton1 = new org.jdesktop.swingx.JXButton();
+        tableRowsLbl = new org.jdesktop.swingx.JXLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new org.jdesktop.swingx.JXTable();
-        filterFld = new org.jdesktop.swingx.JXTextField();
-        resetBtn = new org.jdesktop.swingx.JXButton();
-        tableRowsLbl = new org.jdesktop.swingx.JXLabel();
 
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        filterFld.setText(org.openide.util.NbBundle.getMessage(WalletList2TopComponent.class, "WalletList2TopComponent.filterFld.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXButton1, org.openide.util.NbBundle.getMessage(WalletList2TopComponent.class, "WalletList2TopComponent.jXButton1.text")); // NOI18N
+
+        tableRowsLbl.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        org.openide.awt.Mnemonics.setLocalizedText(tableRowsLbl, org.openide.util.NbBundle.getMessage(WalletList2TopComponent.class, "WalletList2TopComponent.tableRowsLbl.text")); // NOI18N
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -196,14 +235,6 @@ public final class InternalDAppListTopComponent extends TopComponent {
         ));
         jScrollPane1.setViewportView(table);
 
-        filterFld.setText(org.openide.util.NbBundle.getMessage(InternalDAppListTopComponent.class, "InternalDAppListTopComponent.filterFld.text")); // NOI18N
-        filterFld.setToolTipText(org.openide.util.NbBundle.getMessage(InternalDAppListTopComponent.class, "InternalDAppListTopComponent.filterFld.toolTipText")); // NOI18N
-        filterFld.setPrompt(org.openide.util.NbBundle.getMessage(InternalDAppListTopComponent.class, "InternalDAppListTopComponent.filterFld.prompt")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(resetBtn, org.openide.util.NbBundle.getMessage(InternalDAppListTopComponent.class, "InternalDAppListTopComponent.resetBtn.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(tableRowsLbl, org.openide.util.NbBundle.getMessage(InternalDAppListTopComponent.class, "InternalDAppListTopComponent.tableRowsLbl.text")); // NOI18N
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -211,11 +242,11 @@ public final class InternalDAppListTopComponent extends TopComponent {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(filterFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(resetBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tableRowsLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -224,11 +255,11 @@ public final class InternalDAppListTopComponent extends TopComponent {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(filterFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(resetBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tableRowsLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -237,7 +268,7 @@ public final class InternalDAppListTopComponent extends TopComponent {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXTextField filterFld;
     private javax.swing.JScrollPane jScrollPane1;
-    private org.jdesktop.swingx.JXButton resetBtn;
+    private org.jdesktop.swingx.JXButton jXButton1;
     private org.jdesktop.swingx.JXTable table;
     private org.jdesktop.swingx.JXLabel tableRowsLbl;
     // End of variables declaration//GEN-END:variables
@@ -263,7 +294,6 @@ public final class InternalDAppListTopComponent extends TopComponent {
 	// TODO read your settings according to their version
     }
     
-
     /**
      * Binding artefact method: crude hack to update the status bar on state
      * changes from controller.

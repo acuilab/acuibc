@@ -35,7 +35,7 @@ import com.acuilab.bc.main.coin.ICoin;
 )
 @TopComponent.Description(
         preferredID = "WalletListTopComponent",
-        iconBase="resource/wallet32.png",
+        iconBase="resource/wallet16.png",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
 @TopComponent.Registration(mode = "explorer", openAtStartup = true)
@@ -46,12 +46,13 @@ import com.acuilab.bc.main.coin.ICoin;
         preferredID = "WalletListTopComponent"
 )
 @Messages({
-    "CTL_WalletListAction=钱包列表",
-    "CTL_WalletListTopComponent=钱包列表",
-    "HINT_WalletListTopComponent=钱包列表"
+    "CTL_WalletListAction=快速检索",
+    "CTL_WalletListTopComponent=快速检索",
+    "HINT_WalletListTopComponent=快速检索"
 })
 public final class WalletListTopComponent extends TopComponent {
-    
+    // TODO：钱包增减时重新加载列表
+    // TODO: 共享tcId
     private final Map<String, JXTaskPane> taskPaneMap = Maps.newHashMap();  // blockChainSysbol
     private final Map<String, WalletPanel> walletPanelMap = Maps.newHashMap();  // walletName, WalletPanel
     private final Map<String, Component> strutMap = Maps.newHashMap();          // walletName, strut

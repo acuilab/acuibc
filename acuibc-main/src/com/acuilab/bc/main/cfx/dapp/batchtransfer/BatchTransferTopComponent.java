@@ -59,7 +59,9 @@ public final class BatchTransferTopComponent extends TopComponent {
         jXEditorPane1 = new org.jdesktop.swingx.JXEditorPane();
 
         jXTextField1.setText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.jXTextField1.text")); // NOI18N
+        jXTextField1.setToolTipText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.jXTextField1.toolTipText")); // NOI18N
         jXTextField1.setEnabled(false);
+        jXTextField1.setPrompt(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.jXTextField1.prompt")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXButton1, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.jXButton1.text")); // NOI18N
 
@@ -101,7 +103,7 @@ public final class BatchTransferTopComponent extends TopComponent {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSplitPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jXTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
+                        .addComponent(jXTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

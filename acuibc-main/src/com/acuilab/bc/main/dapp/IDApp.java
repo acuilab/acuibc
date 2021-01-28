@@ -1,7 +1,6 @@
 package com.acuilab.bc.main.dapp;
 
-import java.awt.Image;
-import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -41,7 +40,7 @@ public interface IDApp {
      * 获得Dapp图标
      * @return 
      */
-    Icon getIcon();
+    ImageIcon getImageIcon();
     
     /**
      * 启动DApp(外部DApp可能涉及到拷贝文件等操作，故需启动线程执行)

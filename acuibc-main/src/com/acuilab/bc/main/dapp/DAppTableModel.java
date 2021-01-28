@@ -40,7 +40,6 @@ public class DAppTableModel extends AbstractTableModel {
         
         int first = list.size();
         int last = first + newList.size() - 1;
-        System.out.println("first=" + first + ", last=" + last);
         if(last > -1) {
             list.addAll(newList);
             fireTableRowsInserted(first, last);
@@ -85,7 +84,7 @@ public class DAppTableModel extends AbstractTableModel {
             case INDEX_COLUMN:
                 return String.valueOf(table.convertRowIndexToView(row)+1);
             case ICON_COLUMN:
-                return dapp.getIcon();
+                return dapp.getImageIcon();
             case BLOCK_CHAIN_SYMBOL_COLUMN:
                 return dapp.getBlockChainSymbol();
             case NAME_COLUMN:

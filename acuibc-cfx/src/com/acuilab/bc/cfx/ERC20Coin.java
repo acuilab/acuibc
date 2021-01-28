@@ -61,7 +61,7 @@ public abstract class ERC20Coin implements ICoin {
             limit = 100;
         }
         String url = TRANSFER_LIST_URL + "?skip=0&reverse=true&limit=" + limit + "&address=" + getContractAddress() + "&accountAddress=" + address;
-        System.out.println("url=" + url);
+
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)

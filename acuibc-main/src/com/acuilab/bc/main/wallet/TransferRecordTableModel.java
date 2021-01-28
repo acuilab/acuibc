@@ -45,7 +45,6 @@ public class TransferRecordTableModel extends AbstractTableModel {
         
         int first = list.size();
         int last = first + newList.size() - 1;
-        System.out.println("first=" + first + ", last=" + last);
         if(last > -1) {
             list.addAll(newList);
             fireTableRowsInserted(first, last);

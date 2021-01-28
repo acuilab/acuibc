@@ -19,7 +19,7 @@ public class IconTableCellRenderer extends DefaultTableCellRenderer {
 	    label.setText(null);
 	    DAppTableModel tableModel = (DAppTableModel)table.getModel();
 	    IDApp dapp = tableModel.getDApp(table.convertRowIndexToModel(row));
-            label.setIcon(dapp.getIcon());
+            label.setIcon(dapp.getImageIcon());
 	}
 	
 	return label;

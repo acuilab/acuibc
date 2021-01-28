@@ -2,7 +2,7 @@ package com.acuilab.bc.cfx.dapp.flappeebee;
 
 import com.acuilab.bc.main.dapp.FatJarDApp;
 import com.acuilab.bc.main.util.Constants;
-import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import org.openide.util.ImageUtilities;
 
 /**
@@ -31,7 +31,7 @@ public class FlappeeBeeGame extends FatJarDApp {
     }
 
     @Override
-    public Icon getIcon() {
+    public ImageIcon getImageIcon() {
 	return ImageUtilities.loadImageIcon("/resource/bee16.png", false);
     }
 

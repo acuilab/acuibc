@@ -142,7 +142,7 @@ public class CFXCoin implements ICFXCoin {
             limit = 100;
         }
         String url = TRANSACTION_LIST_URL + "?skip=0&reverse=true&limit=" + limit + "&accountAddress=" + address;
-        System.out.println("url=" + url);
+
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)

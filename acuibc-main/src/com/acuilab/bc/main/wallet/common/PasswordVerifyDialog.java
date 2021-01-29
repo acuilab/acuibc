@@ -1,5 +1,6 @@
-package com.acuilab.bc.main.wallet;
+package com.acuilab.bc.main.wallet.common;
 
+import com.acuilab.bc.main.wallet.Wallet;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;

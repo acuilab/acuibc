@@ -1,5 +1,7 @@
-package com.acuilab.bc.main.cfx.dapp.batchtransfer;
+package com.acuilab.bc.main.wallet.common;
 
+import com.acuilab.bc.main.util.DateUtil;
+import com.acuilab.bc.main.wallet.Wallet;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -8,32 +10,30 @@ import org.jdesktop.swingx.JXTable;
 
 /**
  *
- * @author acuilab
+ * @author cuizhf
  */
-public class BatchTransferTableModel extends AbstractTableModel {
+public class WalletTableModel extends AbstractTableModel {
     
     private final JXTable table;
     
     public static final int INDEX_COLUMN = 0;
-    public static final int ADDRESS_COLUMN = 1;
-    public static final int VALUE_COLUMN = 2;
-    public static final int RESULT_COLUMN = 3;
-    public static final int COLUMN_COUNT = 4;
+    public static final int NAME_COLUMN = 1;
+    public static final int ADDRESS_COLUMN = 2;
+    public static final int COLUMN_COUNT = 3;
     
-    private final List<BatchTransfer> list = new ArrayList<>();
+    private final List<Wallet> list = new ArrayList<>();
     
     public static final String[] COLUMNIDS = {
         "",
-        "地址",
-        "数量",
-        "结果"
+        "名称",
+        "地址"
     };
     
-    public BatchTransferTableModel(JXTable table) {
+    public WalletTableModel(JXTable table) {
         this.table = table;
     }
 
-    public void add(List<BatchTransfer> newList) {
+    public void add(List<Wallet> newList) {
         
         int first = list.size();
         int last = first + newList.size() - 1;
@@ -43,7 +43,7 @@ public class BatchTransferTableModel extends AbstractTableModel {
         }
     }
 
-    public void add(BatchTransfer obj) {
+    public void add(Wallet obj) {
         int index = list.size();
         list.add(obj);
         fireTableRowsInserted(index, index);
@@ -76,25 +76,23 @@ public class BatchTransferTableModel extends AbstractTableModel {
             return new Object();
         }
         
-        BatchTransfer obj = getBatchTransfer(row);
+        Wallet wallet = getWallet(row);
         switch (column) {
             case INDEX_COLUMN:
                 return String.valueOf(table.convertRowIndexToView(row)+1);
+            case NAME_COLUMN:
+                return StringUtils.trimToEmpty(wallet.getName());
             case ADDRESS_COLUMN:
-                return StringUtils.trimToEmpty(obj.getAddress());
-            case VALUE_COLUMN:
-                return "";
-            case RESULT_COLUMN:
-                return "";
+                return StringUtils.trimToEmpty(wallet.getAddress());
         }
         return null;
     }
 
-    public BatchTransfer getBatchTransfer(int row) {
+    public Wallet getWallet(int row) {
         return list.get(row);
     }
     
-    public List<BatchTransfer> getBatchTransfers() {
+    public List<Wallet> getAddresses() {
         return list;
     }
 

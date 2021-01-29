@@ -3,7 +3,7 @@ package com.acuilab.bc.main.cfx;
 import com.acuilab.bc.main.coin.ICFXCoin;
 import com.acuilab.bc.main.util.AESUtil;
 import com.acuilab.bc.main.util.Constants;
-import com.acuilab.bc.main.wallet.PasswordVerifyDialog;
+import com.acuilab.bc.main.wallet.common.PasswordVerifyDialog;
 import com.acuilab.bc.main.wallet.Wallet;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;

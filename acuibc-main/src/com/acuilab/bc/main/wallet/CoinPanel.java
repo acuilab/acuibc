@@ -563,7 +563,6 @@ public class CoinPanel extends JXPanel {
 
             @Override
             protected void done() {
-                System.out.println("done");
                 try {
                     Pair<BigInteger, List<TransferRecord>> pair = get();
                     // 余额

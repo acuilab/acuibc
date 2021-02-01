@@ -9,7 +9,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.util.Lookup;
-import com.acuilab.bc.main.coin.ICoin;
 import com.acuilab.bc.main.nft.INFT;
 
 /**

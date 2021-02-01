@@ -10,6 +10,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.util.Lookup;
 import com.acuilab.bc.main.coin.ICoin;
+import java.util.Map;
 
 /**
  *
@@ -17,7 +18,10 @@ import com.acuilab.bc.main.coin.ICoin;
  */
 public class CoinManager {
     private static CoinManager instance;
+    // name <=> coin
     private LinkedHashMap<String, ICoin> map;
+    // symbol <=> coin
+    private Map<String, ICoin> map2;
     
     public static CoinManager getDefault() {
         if (instance == null) {
@@ -28,10 +32,12 @@ public class CoinManager {
     
     private CoinManager() {
         map = Maps.newLinkedHashMap();
+        map2 = Maps.newHashMap();
         Collection<? extends ICoin> list = Lookup.getDefault().lookupAll(ICoin.class);
         for (ICoin c : list) {
             c.init();
             map.put(c.getName(), c);
+            map2.put(c.getSymbol(), c);
         }
         sort();
     }

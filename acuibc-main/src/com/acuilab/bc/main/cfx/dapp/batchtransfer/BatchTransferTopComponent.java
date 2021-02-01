@@ -1,14 +1,29 @@
 package com.acuilab.bc.main.cfx.dapp.batchtransfer;
 
+import com.acuilab.bc.main.coin.ICoin;
 import com.acuilab.bc.main.util.Constants;
+import com.acuilab.bc.main.wallet.TransferRecord;
 import com.acuilab.bc.main.wallet.Wallet;
+import com.acuilab.bc.main.wallet.WalletListTopComponent;
+import com.acuilab.bc.main.wallet.WalletPanel;
+import com.acuilab.bc.main.wallet.common.SelectCoinDialog;
 import com.acuilab.bc.main.wallet.common.SelectWalletDialog;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
+import org.javatuples.Pair;
+import org.netbeans.api.progress.ProgressHandle;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
+import org.openide.util.Exceptions;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
+import org.openide.windows.WindowManager;
 
 /**
  * Top component which displays something.
@@ -36,6 +51,9 @@ import org.openide.util.NbBundle.Messages;
 })
 public final class BatchTransferTopComponent extends TopComponent {
     private final BatchTransferTableModel tableModel;
+
+    private Wallet wallet;
+    private ICoin coin;
     
     public BatchTransferTopComponent() {
         initComponents();
@@ -73,7 +91,7 @@ public final class BatchTransferTopComponent extends TopComponent {
         jXEditorPane1 = new org.jdesktop.swingx.JXEditorPane();
         jXLabel1 = new org.jdesktop.swingx.JXLabel();
         jXLabel2 = new org.jdesktop.swingx.JXLabel();
-        jXTextField2 = new org.jdesktop.swingx.JXTextField();
+        coinFld = new org.jdesktop.swingx.JXTextField();
         selectCoinBtn = new org.jdesktop.swingx.JXButton();
 
         walletFld.setText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.walletFld.text")); // NOI18N
@@ -147,12 +165,18 @@ public final class BatchTransferTopComponent extends TopComponent {
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel2, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.jXLabel2.text")); // NOI18N
 
-        jXTextField2.setText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.jXTextField2.text")); // NOI18N
-        jXTextField2.setToolTipText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.jXTextField2.toolTipText")); // NOI18N
-        jXTextField2.setEnabled(false);
-        jXTextField2.setPrompt(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.jXTextField2.prompt")); // NOI18N
+        coinFld.setText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.coinFld.text")); // NOI18N
+        coinFld.setToolTipText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.coinFld.toolTipText")); // NOI18N
+        coinFld.setEnabled(false);
+        coinFld.setPrompt(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.coinFld.prompt")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(selectCoinBtn, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.selectCoinBtn.text")); // NOI18N
+        selectCoinBtn.setEnabled(false);
+        selectCoinBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectCoinBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -172,7 +196,7 @@ public final class BatchTransferTopComponent extends TopComponent {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jXTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(coinFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -194,7 +218,7 @@ public final class BatchTransferTopComponent extends TopComponent {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(coinFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(selectCoinBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
@@ -210,12 +234,43 @@ public final class BatchTransferTopComponent extends TopComponent {
         SelectWalletDialog dlg = new SelectWalletDialog(null, Constants.CFX_BLOCKCHAIN_SYMBAL);
         dlg.setVisible(true);
         if(dlg.getReturnStatus() == SelectWalletDialog.RET_OK) {
-	    Wallet wallet = dlg.getSelectedWallet();
+	    wallet = dlg.getSelectedWallet();
 	    walletFld.setText(wallet.getName() + "(" + wallet.getAddress() + ")");
+            selectCoinBtn.setEnabled(true);
 	}
     }//GEN-LAST:event_selectWalletBtnActionPerformed
 
+    private void selectCoinBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectCoinBtnActionPerformed
+        // 选择代币前先选择钱包
+        SelectCoinDialog dlg = new SelectCoinDialog(null, Constants.CFX_BLOCKCHAIN_SYMBAL);
+        dlg.setVisible(true);
+        if(dlg.getReturnStatus() == SelectWalletDialog.RET_OK) {
+	    coin = dlg.getSelectedCoin();
+            
+            // 求余额
+            coinFld.setPrompt(coin.getName() + "(正在请求余额，请稍候...)");
+            SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
+                @Override
+                protected BigInteger doInBackground() throws Exception {
+                    return coin.balanceOf(wallet.getAddress());
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        BigInteger balance = get();
+                        coinFld.setPrompt(coin.getName() + "(" + coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.FLOOR).toPlainString() + " " + coin.getMainUnit() + ")");
+                    } catch (InterruptedException | ExecutionException ex) {
+                        Exceptions.printStackTrace(ex);
+                    }
+                }
+            };
+            worker.execute();
+	}
+    }//GEN-LAST:event_selectCoinBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXTextField coinFld;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSplitPane jSplitPane1;
@@ -226,7 +281,6 @@ public final class BatchTransferTopComponent extends TopComponent {
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXPanel jXPanel1;
-    private org.jdesktop.swingx.JXTextField jXTextField2;
     private org.jdesktop.swingx.JXButton selectCoinBtn;
     private org.jdesktop.swingx.JXButton selectWalletBtn;
     private org.jdesktop.swingx.JXTable table;

@@ -187,6 +187,9 @@ public final class WalletTopComponent extends TopComponent implements Observer {
         walletAddressFld.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         walletAddressFld.setForeground(new java.awt.Color(0, 0, 255));
         walletAddressFld.setText(org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.walletAddressFld.text")); // NOI18N
+        walletAddressFld.setMaximumSize(new java.awt.Dimension(100, 20));
+        walletAddressFld.setMinimumSize(new java.awt.Dimension(100, 20));
+        walletAddressFld.setPreferredSize(new java.awt.Dimension(100, 20));
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel2, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.jXLabel2.text")); // NOI18N
 
@@ -231,6 +234,9 @@ public final class WalletTopComponent extends TopComponent implements Observer {
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel4, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.jXLabel4.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(hashLink, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.hashLink.text")); // NOI18N
+        hashLink.setMaximumSize(new java.awt.Dimension(100, 18));
+        hashLink.setMinimumSize(new java.awt.Dimension(100, 18));
+        hashLink.setPreferredSize(new java.awt.Dimension(100, 18));
         hashLink.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 hashLinkActionPerformed(evt);

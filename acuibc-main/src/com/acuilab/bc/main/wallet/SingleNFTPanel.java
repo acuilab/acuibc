@@ -243,6 +243,7 @@ public class SingleNFTPanel extends JXPanel {
 		String hash = nft.safeTransferFrom(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), wallet.getAddress(), recvAddress, new BigInteger(metaData.getId()), BigInteger.valueOf(gas));
 		JXHyperlink hashLink = parent.getWalletTopComponent().getHashLink();
 		hashLink.setText(hash);
+                hashLink.setToolTipText(hash);
 		// 气泡提示
 		try {
 		    JLabel lbl = new JLabel("最近一次交易哈希已更新，单击打开区块链浏览器查看交易状态");

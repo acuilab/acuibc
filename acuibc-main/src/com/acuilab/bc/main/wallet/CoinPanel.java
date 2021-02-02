@@ -130,6 +130,7 @@ public class CoinPanel extends JXPanel {
                         String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), recvAddress, coin.mainUint2MinUint(NumberUtils.toDouble(value)), BigInteger.valueOf(gas));
                         JXHyperlink hashLink = parent.getHashLink();
                         hashLink.setText(hash);
+                        hashLink.setToolTipText(hash);
                         // 气泡提示
                         try {
                             JLabel lbl = new JLabel("最近一次交易哈希已更新，单击打开区块链浏览器查看交易状态");

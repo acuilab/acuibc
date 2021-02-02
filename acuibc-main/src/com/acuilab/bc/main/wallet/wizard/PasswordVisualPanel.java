@@ -172,10 +172,10 @@ public final class PasswordVisualPanel extends JPanel {
     private void viewConfirmPwdBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewConfirmPwdBtnActionPerformed
         if(pwdConfirmFld.getEchoChar() != '\0') {
             pwdConfirmFld.setEchoChar('\0');
-            viewPwdBtn.setIcon(ImageUtilities.loadImageIcon("/resource/eye-slash.png", true));
+            viewConfirmPwdBtn.setIcon(ImageUtilities.loadImageIcon("/resource/eye-slash.png", true));
         } else {
             pwdConfirmFld.setEchoChar('●');
-            viewPwdBtn.setIcon(ImageUtilities.loadImageIcon("/resource/eye.png", true));
+            viewConfirmPwdBtn.setIcon(ImageUtilities.loadImageIcon("/resource/eye.png", true));
         }
     }//GEN-LAST:event_viewConfirmPwdBtnActionPerformed
 

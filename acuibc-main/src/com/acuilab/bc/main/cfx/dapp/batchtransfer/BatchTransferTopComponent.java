@@ -1,29 +1,30 @@
 package com.acuilab.bc.main.cfx.dapp.batchtransfer;
 
 import com.acuilab.bc.main.coin.ICoin;
+import com.acuilab.bc.main.manager.CoinManager;
 import com.acuilab.bc.main.util.Constants;
-import com.acuilab.bc.main.wallet.TransferRecord;
+import com.acuilab.bc.main.wallet.TransferRecordTableModel;
 import com.acuilab.bc.main.wallet.Wallet;
-import com.acuilab.bc.main.wallet.WalletListTopComponent;
-import com.acuilab.bc.main.wallet.WalletPanel;
 import com.acuilab.bc.main.wallet.common.SelectCoinDialog;
 import com.acuilab.bc.main.wallet.common.SelectWalletDialog;
-import java.math.BigDecimal;
+import java.awt.Color;
 import java.math.BigInteger;
 import java.math.RoundingMode;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
+import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
-import org.javatuples.Pair;
-import org.netbeans.api.progress.ProgressHandle;
+import javax.swing.table.DefaultTableCellRenderer;
+import org.jdesktop.swingx.decorator.ColorHighlighter;
+import org.jdesktop.swingx.decorator.HighlightPredicate;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
+import org.jdesktop.swingx.table.TableColumnExt;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.util.Exceptions;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
-import org.openide.windows.WindowManager;
 
 /**
  * Top component which displays something.
@@ -67,6 +68,28 @@ public final class BatchTransferTopComponent extends TopComponent {
 	
         // set the table model after setting the factory
         table.setModel(tableModel);
+	
+        table.setColumnControlVisible(true);
+        table.setColumnSelectionAllowed(false);		       // 允许列选择
+        table.getTableHeader().setReorderingAllowed(false);     // 表头不可拖动
+	
+        // 序号
+        TableColumnExt indexColumn = table.getColumnExt(TransferRecordTableModel.INDEX_COLUMN);
+        indexColumn.setMinWidth(40);
+        indexColumn.setMaxWidth(40);
+        DefaultTableCellRenderer render = new DefaultTableCellRenderer();
+        render.setHorizontalAlignment(SwingConstants.CENTER);
+        // 不起作用，可能被下面的ColorHighlighter覆盖掉了, 使用下面的indexHighlighter实现同样的效果
+//        render.setBackground(table.getTableHeader().getBackground()); 
+        indexColumn.setCellRenderer(render);
+        indexColumn.setSortable(false);
+
+	ColorHighlighter evenHighlighter = new ColorHighlighter(HighlightPredicate.EVEN, Color.WHITE, null);
+	ColorHighlighter oddHighlighter = new HighlighterFactory.UIColorHighlighter(HighlightPredicate.ODD);
+	ColorHighlighter indexHighlighter = new ColorHighlighter(new HighlightPredicate.ColumnHighlightPredicate(TransferRecordTableModel.INDEX_COLUMN), table.getTableHeader().getBackground(), null);
+	table.setHighlighters(evenHighlighter, oddHighlighter, indexHighlighter);
+	
+	table.setHorizontalScrollEnabled(true);
     }
 
     /**
@@ -87,6 +110,7 @@ public final class BatchTransferTopComponent extends TopComponent {
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new org.jdesktop.swingx.JXTable();
         tableRowsLbl = new org.jdesktop.swingx.JXLabel();
+        addBtn = new org.jdesktop.swingx.JXButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jXEditorPane1 = new org.jdesktop.swingx.JXEditorPane();
         jXLabel1 = new org.jdesktop.swingx.JXLabel();
@@ -94,9 +118,9 @@ public final class BatchTransferTopComponent extends TopComponent {
         coinFld = new org.jdesktop.swingx.JXTextField();
         selectCoinBtn = new org.jdesktop.swingx.JXButton();
 
+        walletFld.setEditable(false);
         walletFld.setText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.walletFld.text")); // NOI18N
         walletFld.setToolTipText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.walletFld.toolTipText")); // NOI18N
-        walletFld.setEnabled(false);
         walletFld.setPrompt(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.walletFld.prompt")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(selectWalletBtn, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.selectWalletBtn.text")); // NOI18N
@@ -133,16 +157,24 @@ public final class BatchTransferTopComponent extends TopComponent {
         tableRowsLbl.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         org.openide.awt.Mnemonics.setLocalizedText(tableRowsLbl, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.tableRowsLbl.text")); // NOI18N
 
+        org.openide.awt.Mnemonics.setLocalizedText(addBtn, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.addBtn.text")); // NOI18N
+        addBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jXPanel1Layout = new javax.swing.GroupLayout(jXPanel1);
         jXPanel1.setLayout(jXPanel1Layout);
         jXPanel1Layout.setHorizontalGroup(
             jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jXPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jXButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tableRowsLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1057, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 821, Short.MAX_VALUE)
         );
         jXPanel1Layout.setVerticalGroup(
             jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,12 +183,15 @@ public final class BatchTransferTopComponent extends TopComponent {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tableRowsLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(tableRowsLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jSplitPane1.setLeftComponent(jXPanel1);
 
         jScrollPane3.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.jScrollPane3.border.title"))); // NOI18N
+
+        jXEditorPane1.setEditable(false);
         jScrollPane3.setViewportView(jXEditorPane1);
 
         jSplitPane1.setRightComponent(jScrollPane3);
@@ -165,12 +200,13 @@ public final class BatchTransferTopComponent extends TopComponent {
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel2, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.jXLabel2.text")); // NOI18N
 
+        coinFld.setEditable(false);
         coinFld.setText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.coinFld.text")); // NOI18N
         coinFld.setToolTipText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.coinFld.toolTipText")); // NOI18N
-        coinFld.setEnabled(false);
         coinFld.setPrompt(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.coinFld.prompt")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(selectCoinBtn, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.selectCoinBtn.text")); // NOI18N
+        selectCoinBtn.setToolTipText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.selectCoinBtn.toolTipText")); // NOI18N
         selectCoinBtn.setEnabled(false);
         selectCoinBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -221,7 +257,7 @@ public final class BatchTransferTopComponent extends TopComponent {
                     .addComponent(coinFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(selectCoinBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -235,17 +271,40 @@ public final class BatchTransferTopComponent extends TopComponent {
         dlg.setVisible(true);
         if(dlg.getReturnStatus() == SelectWalletDialog.RET_OK) {
 	    wallet = dlg.getSelectedWallet();
-	    walletFld.setText(wallet.getName() + "(" + wallet.getAddress() + ")");
+	    walletFld.setText(wallet.getName() + "(地址：" + wallet.getAddress() + ")");
             selectCoinBtn.setEnabled(true);
+	    
+	    // 若coin存在，则刷新其余额
+	    if(coin != null) {
+		// 求余额
+		coinFld.setPrompt(coin.getName() + "(正在请求余额，请稍候...)");
+		SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
+		    @Override
+		    protected BigInteger doInBackground() throws Exception {
+			return coin.balanceOf(wallet.getAddress());
+		    }
+
+		    @Override
+		    protected void done() {
+			try {
+			    BigInteger balance = get();
+			    coinFld.setText(coin.getName() + "(余额：" + coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.FLOOR).toPlainString() + " " + coin.getMainUnit() + ")");
+			} catch (InterruptedException | ExecutionException ex) {
+			    Exceptions.printStackTrace(ex);
+			}
+		    }
+		};
+		worker.execute();
+	    }
 	}
     }//GEN-LAST:event_selectWalletBtnActionPerformed
 
     private void selectCoinBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectCoinBtnActionPerformed
         // 选择代币前先选择钱包
-        SelectCoinDialog dlg = new SelectCoinDialog(null, Constants.CFX_BLOCKCHAIN_SYMBAL);
+        SelectCoinDialog dlg = new SelectCoinDialog(null, Constants.CFX_BLOCKCHAIN_SYMBAL, coin != null ? coin.getSymbol() : null);
         dlg.setVisible(true);
         if(dlg.getReturnStatus() == SelectWalletDialog.RET_OK) {
-	    coin = dlg.getSelectedCoin();
+	    coin = CoinManager.getDefault().getCoin(Constants.CFX_BLOCKCHAIN_SYMBAL, dlg.getSelected());
             
             // 求余额
             coinFld.setPrompt(coin.getName() + "(正在请求余额，请稍候...)");
@@ -259,7 +318,7 @@ public final class BatchTransferTopComponent extends TopComponent {
                 protected void done() {
                     try {
                         BigInteger balance = get();
-                        coinFld.setPrompt(coin.getName() + "(" + coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.FLOOR).toPlainString() + " " + coin.getMainUnit() + ")");
+                        coinFld.setText(coin.getName() + "(余额：" + coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.FLOOR).toPlainString() + " " + coin.getMainUnit() + ")");
                     } catch (InterruptedException | ExecutionException ex) {
                         Exceptions.printStackTrace(ex);
                     }
@@ -269,7 +328,19 @@ public final class BatchTransferTopComponent extends TopComponent {
 	}
     }//GEN-LAST:event_selectCoinBtnActionPerformed
 
+    private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
+
+	
+	
+	
+	
+	
+	
+	
+    }//GEN-LAST:event_addBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXButton addBtn;
     private org.jdesktop.swingx.JXTextField coinFld;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;

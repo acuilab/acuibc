@@ -108,4 +108,10 @@ public class BatchTransferTableModel extends AbstractTableModel {
         fireTableDataChanged();
     }
 
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+	return !(columnIndex == INDEX_COLUMN || columnIndex == RESULT_COLUMN);
+    }
+
+    
 }

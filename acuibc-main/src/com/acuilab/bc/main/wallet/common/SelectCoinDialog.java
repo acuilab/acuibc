@@ -2,14 +2,20 @@ package com.acuilab.bc.main.wallet.common;
 
 import com.acuilab.bc.main.coin.ICoin;
 import com.acuilab.bc.main.manager.CoinManager;
+import com.acuilab.bc.main.ui.WrapLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
+import javax.swing.JRadioButton;
 import javax.swing.KeyStroke;
+import org.apache.commons.lang3.StringUtils;
+import org.openide.util.ImageUtilities;
 
 /**
  *
@@ -18,7 +24,8 @@ import javax.swing.KeyStroke;
 public class SelectCoinDialog extends javax.swing.JDialog {
     
     private final String blockChainSymbol;
-    private ICoin selected;
+    private final String symbol;
+    private String selected;
 
     /**
      * A return status code - returned if Cancel button has been pressed
@@ -32,11 +39,12 @@ public class SelectCoinDialog extends javax.swing.JDialog {
     /**
      * Creates new form SelectCoinDialog
      */
-    public SelectCoinDialog(java.awt.Frame parent, String blockChainSymbol) {
+    public SelectCoinDialog(java.awt.Frame parent, String blockChainSymbol, String symbol) {
         super(parent, true);
         initComponents();
         
 	this.blockChainSymbol = blockChainSymbol;
+	this.symbol = symbol;
 	
 	myInit();
 
@@ -54,17 +62,25 @@ public class SelectCoinDialog extends javax.swing.JDialog {
     
     private void myInit() {
 	this.setTitle("代币列表(" + blockChainSymbol + ")");
+	panel.setLayout(new WrapLayout(FlowLayout.LEFT));
         
         // 获得所有代币
         List<ICoin> coins = CoinManager.getDefault().getCoinList(blockChainSymbol);
         if(!coins.isEmpty()) {
-            String[] coinSymbols = new String[coins.size()];
-            for(int i=0; i<coins.size(); i++) {
-                coinSymbols[i] = coins.get(i).getSymbol();
-            }
-            
-            radioGroup.setValues(coinSymbols);
-            radioGroup.setSelectedValue(coinSymbols[0]);
+	    for(ICoin coin : coins) {
+		final JRadioButton radioBtn = new JRadioButton(coin.getSymbol());
+		radioBtn.setSelected(StringUtils.equals(coin.getSymbol(), symbol));
+		radioBtn.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+			selected = radioBtn.getText();
+			doClose(RET_OK);
+		    }
+		});
+		
+		buttonGroup1.add(radioBtn);
+		panel.add(radioBtn);
+	    }
         }
     }
 
@@ -75,7 +91,7 @@ public class SelectCoinDialog extends javax.swing.JDialog {
         return returnStatus;
     }
     
-    public ICoin getSelectedCoin() {
+    public String getSelected() {
 	return selected;
     }
 
@@ -88,21 +104,15 @@ public class SelectCoinDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        okButton = new javax.swing.JButton();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         cancelButton = new javax.swing.JButton();
-        radioGroup = new org.jdesktop.swingx.JXRadioGroup();
+        panel = new org.jdesktop.swingx.JXPanel();
 
+        setIconImage(ImageUtilities.loadImage("/resource/gourd32.png"));
         setPreferredSize(new java.awt.Dimension(664, 456));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 closeDialog(evt);
-            }
-        });
-
-        org.openide.awt.Mnemonics.setLocalizedText(okButton, org.openide.util.NbBundle.getMessage(SelectCoinDialog.class, "SelectCoinDialog.okButton.text")); // NOI18N
-        okButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                okButtonActionPerformed(evt);
             }
         });
 
@@ -113,6 +123,17 @@ public class SelectCoinDialog extends javax.swing.JDialog {
             }
         });
 
+        javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
+        panel.setLayout(panelLayout);
+        panelLayout.setHorizontalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        panelLayout.setVerticalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 545, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -120,40 +141,25 @@ public class SelectCoinDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 315, Short.MAX_VALUE)
-                        .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 809, Short.MAX_VALUE)
                         .addComponent(cancelButton))
-                    .addComponent(radioGroup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cancelButton, okButton});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(radioGroup, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancelButton)
-                    .addComponent(okButton))
+                .addComponent(cancelButton)
                 .addContainerGap())
         );
-
-        getRootPane().setDefaultButton(okButton);
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-        String selectedValue = (String)radioGroup.getSelectedValue();
-        selected = CoinManager.getDefault().getCoin(selectedValue);
-        doClose(RET_OK);
-    }//GEN-LAST:event_okButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         doClose(RET_CANCEL);
@@ -173,9 +179,9 @@ public class SelectCoinDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton cancelButton;
-    private javax.swing.JButton okButton;
-    private org.jdesktop.swingx.JXRadioGroup radioGroup;
+    private org.jdesktop.swingx.JXPanel panel;
     // End of variables declaration//GEN-END:variables
 
     private int returnStatus = RET_CANCEL;

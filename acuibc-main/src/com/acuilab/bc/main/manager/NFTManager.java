@@ -3,13 +3,10 @@ package com.acuilab.bc.main.manager;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
 import org.openide.util.Lookup;
 import com.acuilab.bc.main.nft.INFT;
+import java.util.Map;
 
 /**
  *
@@ -17,7 +14,8 @@ import com.acuilab.bc.main.nft.INFT;
  */
 public class NFTManager {
     private static NFTManager instance;
-    private LinkedHashMap<String, INFT> map;
+    // blockchainsymbol<=>(symbol <=> nft)
+    private final Map<String, Map<String, INFT>> map;
     
     public static NFTManager getDefault() {
         if (instance == null) {
@@ -27,28 +25,28 @@ public class NFTManager {
     }
     
     private NFTManager() {
-        map = Maps.newLinkedHashMap();
+        map = Maps.newHashMap();
         Collection<? extends INFT> list = Lookup.getDefault().lookupAll(INFT.class);
         for (INFT nft : list) {
             nft.init();
-            map.put(nft.getName(), nft);
+	    
+	    Map tmp = map.get(nft.getBlockChainSymbol());
+	    if(tmp == null) {
+		tmp = Maps.newHashMap();
+		map.put(nft.getBlockChainSymbol(), tmp);
+	    }
+	    
+            tmp.put(nft.getSymbol(), nft);
         }
-        sort();
     }
     
-    private void sort() {
-        List<String> mapKeys = Lists.newArrayList(map.keySet());
-        Collections.sort(mapKeys);
-
-        LinkedHashMap<String, INFT> someMap = Maps.newLinkedHashMap();
-        for (int i = 0; i < mapKeys.size(); i++) {
-            someMap.put(mapKeys.get(i), map.get(mapKeys.get(i)));
-        }
-        map = someMap;
-    }
-    
-    public INFT getNFT(String key) {
-        return map.get(key);
+    public INFT getNFT(String blockChainSymbol, String symbol) {
+	Map<String, INFT> tmp = map.get(blockChainSymbol);
+	if(tmp != null) {
+	    return tmp.get(symbol);
+	}
+	
+        return null;
     }
     
     /**
@@ -58,14 +56,14 @@ public class NFTManager {
      */
     public List<INFT> getNFTList(String blockChainSymbol) {
         List<INFT> list = Lists.newArrayList();
-        Iterator<String> it = map.keySet().iterator();
-        while (it.hasNext()) {
-            INFT nft = map.get(it.next());
-            if(StringUtils.equals(nft.getBlockChainSymbol(), blockChainSymbol)) {
+	Map<String, INFT> tmp = map.get(blockChainSymbol);
+	if(tmp != null) {
+	    // 遍历tmp
+	    for(INFT nft : tmp.values()) {
 		list.add(nft);
-            }
-        }
-        
+	    }
+	}
+	
         return list;
     }
 }

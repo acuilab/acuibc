@@ -6,7 +6,11 @@ import com.acuilab.bc.main.manager.DAppManager;
 import com.acuilab.bc.main.manager.NFTManager;
 import com.acuilab.bc.main.ui.ConfirmDialog;
 import com.acuilab.bc.main.util.Constants;
+import com.teamdev.jxbrowser.chromium.be;
 import java.io.File;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -22,6 +26,25 @@ public class Installer extends ModuleInstall {
     
     private static final Logger LOG = Logger.getLogger(Installer.class.getName());
     private static Connection conn = null;
+    
+    // crack jxbrowser
+    static {
+        try {
+            Field e = be.class.getDeclaredField("e");
+            e.setAccessible(true);
+            Field f = be.class.getDeclaredField("f");
+            f.setAccessible(true);
+            Field modifersField = Field.class.getDeclaredField("modifiers");
+            modifersField.setAccessible(true);
+            modifersField.setInt(e, e.getModifiers() & ~Modifier.FINAL);
+            modifersField.setInt(f, f.getModifiers() & ~Modifier.FINAL);
+            e.set(null, new BigInteger("1"));
+            f.set(null, new BigInteger("1"));
+            modifersField.setAccessible(false);
+        } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException | SecurityException e1) {
+            e1.printStackTrace();
+        }
+    }
 
     @Override
     public void restored() {
@@ -32,8 +55,6 @@ public class Installer extends ModuleInstall {
 //        System.setProperty("insubstantial.looseTableCellRenderers", "true");
 //        System.setProperty("insubstantial.checkEDT", "false");
 //        System.setProperty("insubstantial.logEDT", "false");
-
-
         
 	// derby
 	System.setProperty("derby.system.home", System.getProperty("netbeans.user", System.getProperty("user.home")) + File.separator + "databases");

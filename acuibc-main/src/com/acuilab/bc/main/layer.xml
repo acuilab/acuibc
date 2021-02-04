@@ -15,6 +15,21 @@
                 <attr intvalue="210" name="position"/>
             </file>
         </folder>
+        <folder name="编辑">
+            <attr intvalue="300" name="position"/>
+            <file name="org-openide-actions-CopyAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Edit/org-openide-actions-CopyAction.instance"/>
+                <attr name="position" intvalue="1100"/>
+            </file>
+            <file name="org-openide-actions-CutAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Edit/org-openide-actions-CutAction.instance"/>
+                <attr name="position" intvalue="1000"/>
+            </file>
+            <file name="org-openide-actions-PasteAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Edit/org-openide-actions-PasteAction.instance"/>
+                <attr name="position" intvalue="1200"/>
+            </file>
+        </folder>
         <folder name="钱包">
             <attr intvalue="500" name="position"/>
             <file name="com.acuilab.bc.main.wallet.action.CreateAction.instance">

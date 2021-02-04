@@ -123,4 +123,9 @@ public class TransferRecordTableModel extends AbstractTableModel {
         fireTableDataChanged();
     }
 
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return !(columnIndex == INDEX_COLUMN || columnIndex == STATUS_COLUMN); 
+    }
+
 }

@@ -56,9 +56,9 @@ public abstract class ERC20Coin implements ICoin {
     @Override
     public List<TransferRecord> getTransferRecords(Wallet wallet, ICoin coin, String address, int limit) throws Exception {
         List<TransferRecord> transferRecords = Lists.newArrayList();
-        if(limit > 100) {
+        if(limit > 50) {
             // "query.pageSize" do not match condition "<=100", got: 140
-            limit = 100;
+            limit = 50;
         }
 	// transferType: {ERC20,ERC721,ERC777,ERC1155}
         String url = TRANSFER_LIST_URL + "?skip=0&reverse=true&limit=" + limit + "&transferType=ERC20&address=" + getContractAddress() + "&accountAddress=" + address;
@@ -78,7 +78,8 @@ public abstract class ERC20Coin implements ICoin {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(body.string());
             JsonNode list = root.get("list");
-            for (final JsonNode objNode : list) {
+            if(list != null){
+                for (final JsonNode objNode : list) {
                 TransferRecord transferRecord = new TransferRecord();
                 transferRecord.setWalletName(wallet.getName());
                 transferRecord.setWalletAddress(wallet.getAddress());
@@ -95,6 +96,7 @@ public abstract class ERC20Coin implements ICoin {
                 transferRecord.setTimestamp(new Date(timestamp.asLong()*1000));
 
                 transferRecords.add(transferRecord);
+                }
             }
         }
 

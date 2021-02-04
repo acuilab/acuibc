@@ -137,12 +137,12 @@ public class CFXCoin implements ICFXCoin {
     @Override
     public List<TransferRecord> getTransferRecords(Wallet wallet, ICoin coin, String address, int limit) throws Exception {
         List<TransferRecord> transferRecords = Lists.newArrayList();
-        if(limit > 100) {
+        if(limit > 50) {
             // "query.pageSize" do not match condition "<=100", got: 140
-            limit = 100;
+            limit = 50;
         }
         String url = TRANSACTION_LIST_URL + "?skip=0&reverse=true&limit=" + limit + "&accountAddress=" + address;
-
+        System.out.println(url);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)
@@ -157,8 +157,11 @@ public class CFXCoin implements ICFXCoin {
             // 解析json
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(body.string());
+            
             JsonNode list = root.get("list");
-            for (final JsonNode objNode : list) {
+            if(list != null){
+                for (final JsonNode objNode : list) {
+                
                 TransferRecord transferRecord = new TransferRecord();
                 transferRecord.setWalletName(wallet.getName());
                 transferRecord.setWalletAddress(wallet.getAddress());
@@ -183,7 +186,9 @@ public class CFXCoin implements ICFXCoin {
                 transferRecord.setTimestamp(new Date(timestamp.asLong()*1000));
 
                 transferRecords.add(transferRecord);
+                }
             }
+            
         }
 
         return transferRecords;

@@ -15,6 +15,7 @@ import com.acuilab.bc.main.util.Constants;
 import com.google.common.collect.Lists;
 import org.openide.util.Lookup;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.admin.Admin;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 
 /**
@@ -62,8 +63,8 @@ public class ETHCoin implements ICoin {
     @Override
     public BigInteger balanceOf(String address) throws Exception {
         ETHBlockChain bc = Lookup.getDefault().lookup(ETHBlockChain.class);
-        Web3j web3 = bc.getWeb3j();
-        return web3.ethGetBalance(address, DefaultBlockParameterName.LATEST).send().getBalance();
+        Admin admin = bc.getAdmin();
+        return admin.ethGetBalance(address, DefaultBlockParameterName.LATEST).send().getBalance();
     }
     
     /**
@@ -76,7 +77,7 @@ public class ETHCoin implements ICoin {
     @Override
     public String transfer(String privateKey, String to, BigInteger value, BigInteger gas) throws Exception {
         ETHBlockChain bc = Lookup.getDefault().lookup(ETHBlockChain.class);
-        Web3j web3 = bc.getWeb3j();
+        Admin admin = bc.getAdmin();
 	
 	return "";
     }

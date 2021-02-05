@@ -18,6 +18,7 @@ import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.admin.Admin;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Numeric;
 import party.loveit.bip44forjava.utils.Bip44Utils;
@@ -35,10 +36,10 @@ public class ETHBlockChain implements BlockChain {
     public static final String DEFAULT_NODE = "https://kovan.infura.io/v3/678dd3d98e8b4122b7bcb3e963bb54c8";	// https://infura.io/
     public static final String BIP44PATH = "m/44'/60'/0'/0/0";  // 通用的以太坊基于bip44协议的助记词路径
 
-    private Web3j web3;
+    private Admin admin;    // Admin连接
     
-    public Web3j getWeb3j() {
-        return web3;
+    public Admin getAdmin() {
+        return admin;
     }
     
     @Override
@@ -48,18 +49,10 @@ public class ETHBlockChain implements BlockChain {
 
     @Override
     public void setNode(String node) {
-	if(web3 != null) {
-	    web3.shutdown();
-	}
-	
-	web3 = Web3j.build(new HttpService(node));
-//	try {
-//	    Web3ClientVersion web3ClientVersion = web3.web3ClientVersion().send();
-//	    String clientVersion = web3ClientVersion.getWeb3ClientVersion();
-//	    System.out.println("clientVersion=" + clientVersion);
-//	} catch (IOException ex) {
-//	    LOG.log(Level.WARNING, null, ex);
-//	}
+        if(admin != null) {
+            admin.shutdown();
+        }
+        admin = Admin.build(new HttpService(node));
     }
 
     @Override
@@ -74,8 +67,8 @@ public class ETHBlockChain implements BlockChain {
 
     @Override
     public void close() {
-	if(web3 != null) {
-	    web3.shutdown();
+	if(admin != null) {
+	    admin.shutdown();
 	}
     }
 
@@ -124,7 +117,6 @@ public class ETHBlockChain implements BlockChain {
 //        String publicKey = Numeric.toHexStringWithPrefix(ecKeyPair.getPublicKey());
         String privateKey = Numeric.toHexStringWithPrefix(ecKeyPair.getPrivateKey());
 	String address = "0x" + Keys.getAddress(ecKeyPair);
-	System.out.println("createWalletByMnemonic: " + address);
         return new Pair<>(address, privateKey);
     }
 
@@ -136,7 +128,6 @@ public class ETHBlockChain implements BlockChain {
     @Override
     public String importWalletByPrivateKey(String privateKey) {
 	Credentials credentials = Credentials.create(privateKey);
-	System.out.println("importWalletByPrivateKey: " + credentials.getAddress());
 	return credentials.getAddress();
     }
 

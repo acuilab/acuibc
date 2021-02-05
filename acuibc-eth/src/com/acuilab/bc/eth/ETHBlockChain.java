@@ -6,11 +6,9 @@ import java.util.logging.Logger;
 import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.util.Constants;
 import java.awt.Image;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
 import javax.swing.Icon;
 import org.apache.commons.lang3.StringUtils;
 import org.javatuples.Pair;
@@ -20,7 +18,6 @@ import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
-import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Numeric;
 import party.loveit.bip44forjava.utils.Bip44Utils;
@@ -34,7 +31,8 @@ public class ETHBlockChain implements BlockChain {
     private static final Logger LOG = Logger.getLogger(ETHBlockChain.class.getName());
     
 //    public static final String DEFAULT_NODE = "https://mainnet-eth.token.im"; // 默认结点地址
-    public static final String DEFAULT_NODE = "https://rinkeby.infura.io/v3/678dd3d98e8b4122b7bcb3e963bb54c8";	// https://infura.io/
+    // kovan水龙头地址(需用github账号登录)：https://faucet.kovan.network/
+    public static final String DEFAULT_NODE = "https://kovan.infura.io/v3/678dd3d98e8b4122b7bcb3e963bb54c8";	// https://infura.io/
     public static final String BIP44PATH = "m/44'/60'/0'/0/0";  // 通用的以太坊基于bip44协议的助记词路径
 
     private Web3j web3;

@@ -34,7 +34,7 @@ public class ETHBlockChain implements BlockChain {
     private static final Logger LOG = Logger.getLogger(ETHBlockChain.class.getName());
     
 //    public static final String DEFAULT_NODE = "https://mainnet-eth.token.im"; // 默认结点地址
-    public static final Sttring DEFAULT_NODE = "https://rinkeby.infura.io/v3/678dd3d98e8b4122b7bcb3e963bb54c8";	// https://infura.io/
+    public static final String DEFAULT_NODE = "https://rinkeby.infura.io/v3/678dd3d98e8b4122b7bcb3e963bb54c8";	// https://infura.io/
     public static final String BIP44PATH = "m/44'/60'/0'/0/0";  // 通用的以太坊基于bip44协议的助记词路径
 
     private Web3j web3;

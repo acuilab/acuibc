@@ -30,8 +30,6 @@ public class ETHCoin implements ICoin {
     // http://scan-dev-service.conflux-chain.org:8885/api/transaction/list?pageSize=10&page=1&accountAddress=0x176c45928d7c26b0175dec8bf6051108563c62c5
     public static final String TRANSACTION_LIST_URL = "https://confluxscan.io/v1/transaction";
     
-    public static final String STAKING_CONTRACT_ADDRESS = "0x0888000000000000000000000000000000000002";
-
     @Override
     public void init() {
     }

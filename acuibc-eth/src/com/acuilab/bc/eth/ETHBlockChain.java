@@ -54,13 +54,13 @@ public class ETHBlockChain implements BlockChain {
 	}
 	
 	web3 = Web3j.build(new HttpService(node));
-	try {
-	    Web3ClientVersion web3ClientVersion = web3.web3ClientVersion().send();
-	    String clientVersion = web3ClientVersion.getWeb3ClientVersion();
-	    System.out.println("clientVersion=" + clientVersion);
-	} catch (IOException ex) {
-	    LOG.log(Level.WARNING, null, ex);
-	}
+//	try {
+//	    Web3ClientVersion web3ClientVersion = web3.web3ClientVersion().send();
+//	    String clientVersion = web3ClientVersion.getWeb3ClientVersion();
+//	    System.out.println("clientVersion=" + clientVersion);
+//	} catch (IOException ex) {
+//	    LOG.log(Level.WARNING, null, ex);
+//	}
     }
 
     @Override
@@ -82,7 +82,7 @@ public class ETHBlockChain implements BlockChain {
 
     @Override
     public String getName() {
-        return "Ethereum(开发中)";
+        return "Ethereum(开发中勿用)";
     }
 
     @Override

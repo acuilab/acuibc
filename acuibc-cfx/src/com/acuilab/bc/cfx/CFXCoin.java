@@ -72,7 +72,7 @@ public class CFXCoin implements ICFXCoin {
     }
 
     @Override
-    public BigInteger balanceOf(String address) {
+    public BigInteger balanceOf(String address) throws Exception {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         return cfx.getBalance(address).sendAndGet();
@@ -83,6 +83,7 @@ public class CFXCoin implements ICFXCoin {
      * @param to        接收地址
      * @param value     转账数量
      * @param gas       矿工费: 21000~100000000drip
+     * @return 转账哈希
      */
     @Override
     public String transfer(String privateKey, String to, BigInteger value, BigInteger gas) throws Exception {

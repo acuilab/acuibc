@@ -86,7 +86,7 @@ public interface ICoin {
 //    public Type getType();
     
     // 返回某个地址的账户余额
-    public BigInteger balanceOf(String address);
+    public BigInteger balanceOf(String address) throws Exception;
     
     /**
      * 转账

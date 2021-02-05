@@ -151,55 +151,26 @@ public class CFXBlockChain implements BlockChain {
 
         return new Pair<>(account.getAddress(), privateKey);
     }
-
-//    @Override
-//    public Wallet createWalletByMnemonic(String name, String pwd, List<String> mnemonicWords) {
-//        // 1 根据助记词生成私钥
-//        BigInteger pathPrivateKey = Bip44Utils.getPathPrivateKey(mnemonicWords, BIP44PATH);
-//        
-//        ECKeyPair ecKeyPair = ECKeyPair.create(pathPrivateKey);
-////        String publicKey = Numeric.toHexStringWithPrefix(ecKeyPair.getPublicKey());
-//        String privateKey = Numeric.toHexStringWithPrefix(ecKeyPair.getPrivateKey());
-//        Account account = Account.create(cfx, privateKey);
-//
-//        // 2 密码取md5并保存
-//        String pwdMD5 = DigestUtils.md5DigestAsHex(pwd.getBytes()); 
-//
-//        // 3 助记词和私钥加密保存
-//        String mnemonicAES = AESUtil.encrypt(StringUtils.join(mnemonicWords, " "), pwd);
-//        String privateKeyAES = AESUtil.encrypt(privateKey, pwd);
-//
-//        return new Wallet(name, pwdMD5, SYMBOL, account.getAddress(), privateKeyAES, mnemonicAES, new Date());
-//    }
     
+    /**
+     * 通过私钥导入钱包
+     * @param privateKey
+     * @return 
+     */
     @Override
     public String importWalletByPrivateKey(String privateKey) {
         return Account.create(cfx, privateKey).getAddress();
     }
-
-//    @Override
-//    public Wallet importWalletByPrivateKey(String name, String pwd, String privateKey) {
-//        Account account = Account.create(cfx, privateKey);
-//        
-//        // 2 密码取md5并保存
-//        String pwdMD5 = DigestUtils.md5DigestAsHex(pwd.getBytes()); 
-//
-//        // 3 私钥加密保存
-//        String privateKeyAES = AESUtil.encrypt(privateKey, pwd);
-//
-//        return new Wallet(name, pwdMD5, SYMBOL, account.getAddress(), privateKeyAES, new Date());
-//    }
     
+    /**
+     * 通过助记词导入钱包
+     * @param mnemonic 空格分隔的助记词字符串
+     * @return 返回地址和私钥对
+     */
     @Override
     public Pair<String, String>  importWalletByMnemonic(String mnemonic) {
         return createWalletByMnemonic(Arrays.asList(StringUtils.split(mnemonic, " ")));
     }
-
-//    @Override
-//    public Wallet importWalletByMnemonic(String name, String pwd, String mnemonic) {
-//        List<String> mnemonicWords = Arrays.asList(StringUtils.split(mnemonic, " "));
-//        return createWalletByMnemonic(name, pwd, mnemonicWords);
-//    }
 
     @Override
     public boolean isValidAddress(String address) {
@@ -208,14 +179,14 @@ public class CFXBlockChain implements BlockChain {
             Address.validate(address);
             return true;
         } catch(AddressException e) {
-            // ignore
-            return false;
+	    LOG.log(Level.WARNING, null, e);
         }
+	
+	return false;
     }
     @Override
     public String getAddressFromDomain(String cns) {
         try {
-            
             //域名解析合约地址CNS Alan SKY, 之后应该改为由读取合约得到
             ContractCall contract = new ContractCall(cfx, "0x88fb20bd7e08d8d7333be177d584ca8779ae0a3a");
             String nameHash = NameHash.nameHash(cns);
@@ -229,9 +200,10 @@ public class CFXBlockChain implements BlockChain {
             System.out.println("addresDecode:"+addresDecode);
             return addresDecode;
         } catch(AddressException e) {
-            // ignore
-            return null;
+	    LOG.log(Level.WARNING, null, e);
         }
+	
+	return null;
     }
 
     @Override

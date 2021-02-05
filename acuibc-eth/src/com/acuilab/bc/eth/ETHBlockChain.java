@@ -4,12 +4,26 @@ package com.acuilab.bc.eth;
 
 import java.util.logging.Logger;
 import com.acuilab.bc.main.BlockChain;
+import com.acuilab.bc.main.util.Constants;
 import java.awt.Image;
+import java.io.IOException;
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 import javax.swing.Icon;
+import org.apache.commons.lang3.StringUtils;
 import org.javatuples.Pair;
 import org.openide.util.ImageUtilities;
+import org.web3j.crypto.Credentials;
+import org.web3j.crypto.ECKeyPair;
+import org.web3j.crypto.Keys;
+import org.web3j.crypto.WalletUtils;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.methods.response.Web3ClientVersion;
+import org.web3j.protocol.http.HttpService;
+import org.web3j.utils.Numeric;
+import party.loveit.bip44forjava.utils.Bip44Utils;
 
 /**
  *
@@ -19,16 +33,34 @@ public class ETHBlockChain implements BlockChain {
     
     private static final Logger LOG = Logger.getLogger(ETHBlockChain.class.getName());
     
-    public static final String DEFAULT_NODE = "http://mainnet-jsonrpc.conflux-chain.org:12537"; // 默认结点地址
+    public static final String DEFAULT_NODE = "https://mainnet-eth.token.im"; // 默认结点地址
     public static final String BIP44PATH = "m/44'/60'/0'/0/0";  // 通用的以太坊基于bip44协议的助记词路径
-    public static final String SYMBOL = "ETH(暂不可用)";
 
+    private Web3j web3;
+    
+    public Web3j getWeb3j() {
+        return web3;
+    }
+    
     @Override
     public void setDefaultNode() {
+	setNode(DEFAULT_NODE);
     }
 
     @Override
     public void setNode(String node) {
+	if(web3 != null) {
+	    web3.shutdown();
+	}
+	
+	web3 = Web3j.build(new HttpService(node));
+	try {
+	    Web3ClientVersion web3ClientVersion = web3.web3ClientVersion().send();
+	    String clientVersion = web3ClientVersion.getWeb3ClientVersion();
+	    System.out.println("clientVersion=" + clientVersion);
+	} catch (IOException ex) {
+	    LOG.log(Level.WARNING, null, ex);
+	}
     }
 
     @Override
@@ -43,47 +75,35 @@ public class ETHBlockChain implements BlockChain {
 
     @Override
     public void close() {
+	if(web3 != null) {
+	    web3.shutdown();
+	}
     }
 
     @Override
     public String getName() {
-        return "Ethereum";
+        return "Ethereum(开发中)";
     }
 
     @Override
     public String getSymbol() {
-        return SYMBOL;
+        return Constants.ETH_BLOCKCHAIN_SYMBAL;
     }
 
     @Override
     public Icon getIcon(int size) {
-        return ImageUtilities.loadImageIcon("/resource/cfx" + size + ".png", true);
+        return ImageUtilities.loadImageIcon("/resource/eth" + size + ".png", true);
     }
     
 
     @Override
     public Image getIconImage(int size) {
-        return ImageUtilities.loadImage("/resource/cfx" + size + ".png", true);
+        return ImageUtilities.loadImage("/resource/eth" + size + ".png", true);
     }
-
-//    @Override
-//    public Wallet createWalletByMnemonic(String name, String pwd, List<String> mnemonicWords) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public Wallet importWalletByPrivateKey(String name, String pwd, String privateKey) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public Wallet importWalletByMnemonic(String name, String pwd, String mnemonic) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
 
     @Override
     public boolean isValidAddress(String address) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return WalletUtils.isValidAddress(address);
     }
 
     @Override
@@ -91,31 +111,55 @@ public class ETHBlockChain implements BlockChain {
         return null;
     }
 
+    /**
+     * 通过助记词创建钱包
+     * @param mnemonicWords
+     * @return 返回地址和私钥对
+     */
     @Override
     public Pair<String, String> createWalletByMnemonic(List<String> mnemonicWords) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // 1 根据助记词生成私钥
+        BigInteger pathPrivateKey = Bip44Utils.getPathPrivateKey(mnemonicWords, BIP44PATH);
+        
+        ECKeyPair ecKeyPair = ECKeyPair.create(pathPrivateKey);
+//        String publicKey = Numeric.toHexStringWithPrefix(ecKeyPair.getPublicKey());
+        String privateKey = Numeric.toHexStringWithPrefix(ecKeyPair.getPrivateKey());
+	String address = "0x" + Keys.getAddress(ecKeyPair);
+	System.out.println("createWalletByMnemonic: " + address);
+        return new Pair<>(address, privateKey);
     }
 
+    /**
+     * 通过私钥导入钱包
+     * @param privateKey
+     * @return 返回钱包地址
+     */
     @Override
     public String importWalletByPrivateKey(String privateKey) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	Credentials credentials = Credentials.create(privateKey);
+	System.out.println("importWalletByPrivateKey: " + credentials.getAddress());
+	return credentials.getAddress();
     }
 
+    /**
+     * 通过助记词导入钱包
+     * @param mnemonic
+     * @return 
+     */
     @Override
     public Pair<String, String> importWalletByMnemonic(String mnemonic) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	return createWalletByMnemonic(Arrays.asList(StringUtils.split(mnemonic, " ")));
     }
 
     @Override
     public TransactionStatus getTransactionStatusByHash(String hash) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	return TransactionStatus.SUCCESS;
     }
     
     @Override
     public String getAddressFromDomain(String ens) {
         
-        return ens;
-        
+        return null;
     }
     
 }

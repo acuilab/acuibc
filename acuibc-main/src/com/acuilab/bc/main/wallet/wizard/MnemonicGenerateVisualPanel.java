@@ -1,9 +1,38 @@
 package com.acuilab.bc.main.wallet.wizard;
 
+import com.google.common.collect.Maps;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
+import java.awt.image.BufferedImage;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
 import java.util.List;
+import java.util.Map;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintException;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.ServiceUI;
+import javax.print.SimpleDoc;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.Copies;
+import javax.print.attribute.standard.JobName;
+import javax.print.attribute.standard.MediaPrintableArea;
+import javax.print.attribute.standard.OrientationRequested;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import net.java.balloontip.BalloonTip;
@@ -11,7 +40,6 @@ import net.java.balloontip.examples.complete.Utils;
 import net.java.balloontip.utils.TimingUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.util.Exceptions;
-import org.openide.util.ImageUtilities;
 import party.loveit.bip44forjava.utils.Bip44Utils;
 
 public final class MnemonicGenerateVisualPanel extends JPanel {
@@ -77,6 +105,7 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
         mnemonicLbl12 = new org.jdesktop.swingx.JXLabel();
         copyBtn = new org.jdesktop.swingx.JXButton();
         jXLabel3 = new org.jdesktop.swingx.JXLabel();
+        printBtn = new org.jdesktop.swingx.JXButton();
 
         setMinimumSize(new java.awt.Dimension(760, 540));
         setPreferredSize(new java.awt.Dimension(760, 540));
@@ -138,6 +167,7 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
         jXPanel1.add(mnemonicLbl12);
 
         org.openide.awt.Mnemonics.setLocalizedText(copyBtn, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.copyBtn.text")); // NOI18N
+        copyBtn.setToolTipText(org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.copyBtn.toolTipText")); // NOI18N
         copyBtn.setDefaultCapable(false);
         copyBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,6 +176,14 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel3, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.jXLabel3.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(printBtn, org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.printBtn.text")); // NOI18N
+        printBtn.setToolTipText(org.openide.util.NbBundle.getMessage(MnemonicGenerateVisualPanel.class, "MnemonicGenerateVisualPanel.printBtn.toolTipText")); // NOI18N
+        printBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -162,8 +200,10 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 242, Short.MAX_VALUE)
+                        .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(printBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -172,13 +212,14 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
                 .addContainerGap()
                 .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+                .addComponent(jXPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(printBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -201,6 +242,69 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
         }
     }//GEN-LAST:event_copyBtnActionPerformed
 
+    private void printBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printBtnActionPerformed
+
+        PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
+        DocFlavor flavor = DocFlavor.SERVICE_FORMATTED.PRINTABLE;
+        PrintService printService[] = PrintServiceLookup.lookupPrintServices(flavor, pras);//用户可选用的PrintService实例数组。
+        PrintService defaultService = PrintServiceLookup.lookupDefaultPrintService(); //默认的PrintService 
+        /*为用户提供一个选择 PrintService（打印机）的对话框。
+            gc - 用于选择屏幕。null 意味着主屏幕或默认屏幕。
+            x - 对话框在屏幕坐标中的位置，包括边框
+            y - 对话框在屏幕坐标中的位置，包括边框
+            services - 可浏览的服务，必须不为 null。
+            defaultService - 要显示的初始 PrintService。
+            flavor - 要打印的 flavor，或者为 null。
+            attributes - 输入时为应用程序最初提供的首选项。这不能为 null，但可以为空。输出时为反映用户所作的更改的属性。
+        */ 
+        PrintService service = ServiceUI.printDialog(null, 200, 200,printService, defaultService, flavor, pras);
+        if (service != null) {
+            try {
+                // create a print job for the chosen service
+                DocPrintJob job = service.createPrintJob();
+                PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+                aset.add(OrientationRequested.PORTRAIT);
+                aset.add(new Copies(1));
+                aset.add(new JobName("Mnemonic print job", null));
+                aset.add(new MediaPrintableArea(0, 0, 240, 480, MediaPrintableArea.MM));
+                job.print(new SimpleDoc(new Printable() {
+                    @Override
+                    public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
+                        if(pageIndex < 1) {
+                            // 助记词二维码图像
+                            String mnemonic = StringUtils.join(mnemonicWords, " ");
+                            try {  
+                                Map hints = Maps.newHashMap();  
+                                hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");  
+                                hints.put(EncodeHintType.MARGIN, 0);  
+                                BitMatrix byteMatrix = new MultiFormatWriter().encode(mnemonic, BarcodeFormat.QR_CODE, 128, 128, hints);
+                                BufferedImage image = MatrixToImageWriter.toBufferedImage(byteMatrix);
+                                // @see http://blog.163.com/laowu_000/blog/static/47198890200962144032793/
+                                // 360*360dpi，约相当于1毫米14像素，宽24*14=336，高50*14=700
+                                Graphics2D g2d = (Graphics2D) graphics;
+//                                g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+                                g2d.drawImage(image, 10, 20, 128, 128, null);
+
+                                g2d.setColor(Color.black);
+                                g2d.setFont(new Font("宋体", Font.BOLD, 7));
+                                g2d.drawString(mnemonic, 10, 10);
+
+                                return Printable.PAGE_EXISTS;
+                            } catch (WriterException ex) {
+                                Exceptions.printStackTrace(ex);
+                            }
+                        }
+                        
+                        return Printable.NO_SUCH_PAGE;
+                    }
+                    
+                }, flavor, null), aset);
+            } catch (PrintException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+    }//GEN-LAST:event_printBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXButton copyBtn;
     private org.jdesktop.swingx.JXLabel jXLabel1;
@@ -219,5 +323,6 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
     private org.jdesktop.swingx.JXLabel mnemonicLbl7;
     private org.jdesktop.swingx.JXLabel mnemonicLbl8;
     private org.jdesktop.swingx.JXLabel mnemonicLbl9;
+    private org.jdesktop.swingx.JXButton printBtn;
     // End of variables declaration//GEN-END:variables
 }

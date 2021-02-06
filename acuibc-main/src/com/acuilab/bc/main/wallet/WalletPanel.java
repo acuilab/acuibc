@@ -18,6 +18,7 @@ import org.openide.util.Exceptions;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import com.acuilab.bc.main.coin.ICoin;
+import com.acuilab.bc.main.ui.ConfirmDialog;
 import com.acuilab.bc.main.util.Utils;
 import java.math.BigDecimal;
 
@@ -235,9 +236,9 @@ public class WalletPanel extends JXPanel implements Observer {
     }//GEN-LAST:event_openBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-        PasswordVerifyDialog passwordVerifyDialog = new PasswordVerifyDialog(null, wallet);
-        passwordVerifyDialog.setVisible(true);
-        if(passwordVerifyDialog.getReturnStatus() == PasswordVerifyDialog.RET_OK) {
+        ConfirmDialog dlg = new ConfirmDialog(null, "删除钱包确认", "是否删除钱包？");
+        dlg.setVisible(true);
+        if(dlg.getReturnStatus() == ConfirmDialog.RET_OK) {
             try {
                 // 先删除数据库记录
                 WalletDAO.delete(wallet.getName());
@@ -258,7 +259,6 @@ public class WalletPanel extends JXPanel implements Observer {
             } catch (SQLException ex) {
                 Exceptions.printStackTrace(ex);
             }
-            
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 

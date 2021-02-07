@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: true
+OpenIDE-Module: com.github.goodforgod
+OpenIDE-Module-Localizing-Bundle: com/github/goodforgod/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

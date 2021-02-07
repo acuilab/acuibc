@@ -1,7 +1,5 @@
 package com.acuilab.bc.eth;
 
-
-
 import java.util.logging.Logger;
 import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.util.Constants;

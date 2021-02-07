@@ -1,5 +1,6 @@
 package com.acuilab.bc.main.wallet.wizard;
 
+import com.acuilab.bc.main.ui.MessageDialog;
 import com.google.common.collect.Maps;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -200,7 +201,7 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 242, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(printBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -247,6 +248,13 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
         PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
         DocFlavor flavor = DocFlavor.SERVICE_FORMATTED.PRINTABLE;
         PrintService printService[] = PrintServiceLookup.lookupPrintServices(flavor, pras);//用户可选用的PrintService实例数组。
+	if ((printService == null) || (printService.length == 0)) {
+	    // throw new IllegalArgumentException("services must be non-null " + "and non-empty")
+	    MessageDialog msg = new MessageDialog(null,"打印助记词","未发现打印机，无法打印。");
+	    msg.setVisible(true);
+	    return;
+	}
+	
         PrintService defaultService = PrintServiceLookup.lookupDefaultPrintService(); //默认的PrintService 
         /*为用户提供一个选择 PrintService（打印机）的对话框。
             gc - 用于选择屏幕。null 意味着主屏幕或默认屏幕。

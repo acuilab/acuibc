@@ -12,6 +12,14 @@ import org.openide.util.ImageUtilities;
 import com.acuilab.bc.main.coin.ICoin;
 import com.acuilab.bc.main.util.Constants;
 import com.google.common.collect.Lists;
+import io.api.etherscan.core.impl.EtherScanApi;
+import io.api.etherscan.model.EthNetwork;
+import io.api.etherscan.model.Tx;
+import java.math.RoundingMode;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.util.Date;
+import java.util.TimeZone;
 import org.openide.util.Lookup;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.RawTransaction;
@@ -159,6 +167,31 @@ public class ETHCoin implements ICoin {
     public List<TransferRecord> getTransferRecords(Wallet wallet, ICoin coin, String address, int limit) throws Exception {
         List<TransferRecord> transferRecords = Lists.newArrayList();
 
+        EtherScanApi api = new EtherScanApi("EH2VSUF39PWJG4RP36W8DIV741SUID1JHX", EthNetwork.KOVAN);
+        
+        System.out.println("baseUrl=" + "https://" + EthNetwork.KOVAN.getDomain() + ".etherscan." + (EthNetwork.TOBALABA.equals(EthNetwork.KOVAN) ? "com" : "io") + "/api" + "?apikey=EH2VSUF39PWJG4RP36W8DIV741SUID1JHX");
+        List<Tx> txList = api.account().txs(address);
+        for(Tx tx : txList) {
+            TransferRecord transferRecord = new TransferRecord();
+            transferRecord.setWalletName(wallet.getName());
+            transferRecord.setWalletAddress(wallet.getAddress());
+            transferRecord.setCoinName(coin.getName());
+            transferRecord.setValue(coin.minUnit2MainUint(tx.getValue()).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).stripTrailingZeros().toPlainString());
+            transferRecord.setGasPrice(tx.getGasPrice().toString());
+            transferRecord.setGas(tx.getGas().toString());
+            // 交易状态(0 代表成功，1 代表发生错误，当交易被跳过或未打包时为null)
+            transferRecord.setStatus(tx.haveError() ? "1" : "0");
+            transferRecord.setBlockHash(tx.getBlockHash());
+            transferRecord.setSendAddress(tx.getFrom());
+            transferRecord.setRecvAddress(tx.getTo());
+            transferRecord.setHash(tx.getHash());
+            // 获取 JVM 启动时获取的时区
+            Instant instant = tx.getTimeStamp().atZone(TimeZone.getDefault().toZoneId()).toInstant();  // 时区
+            transferRecord.setTimestamp(Date.from(instant));
+
+            transferRecords.add(transferRecord);
+        }
+        
         return transferRecords;
     }
 

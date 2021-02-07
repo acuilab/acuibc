@@ -39,7 +39,7 @@ public class CITFCoin extends ERC20Coin {
     
     @Override
     public Icon getIcon(int size) {
-        return ImageUtilities.loadImageIcon("/resource/cfx" + size + ".png", true);
+        return ImageUtilities.loadImageIcon("/resource/itf" + size + ".png", true);
     }
 
     @Override

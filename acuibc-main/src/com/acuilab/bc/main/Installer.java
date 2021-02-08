@@ -6,6 +6,7 @@ import com.acuilab.bc.main.manager.DAppManager;
 import com.acuilab.bc.main.manager.NFTManager;
 import com.acuilab.bc.main.ui.ConfirmDialog;
 import com.acuilab.bc.main.util.Constants;
+import com.acuilab.bc.main.util.Utils;
 import com.teamdev.jxbrowser.chromium.be;
 import java.io.File;
 import java.lang.reflect.Field;
@@ -17,7 +18,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import org.openide.modules.ModuleInstall;
 import org.openide.util.Exceptions;
 import org.openide.windows.WindowManager;
@@ -48,10 +52,9 @@ public class Installer extends ModuleInstall {
 
     @Override
     public void restored() {
-        // 在配置文件gourd.conf中指定
+	// 在配置文件gourd.conf中指定
 //        System.setProperty("sun.java2d.noddraw", "true");
-        
-        // java.lang.IllegalArgumentException: Renderer extends the SubstanceDefaultTableCellRenderer but does not return one in its getTableCellRendererComponent() method
+	// java.lang.IllegalArgumentException: Renderer extends the SubstanceDefaultTableCellRenderer but does not return one in its getTableCellRendererComponent() method
 //        System.setProperty("insubstantial.looseTableCellRenderers", "true");
 //        System.setProperty("insubstantial.checkEDT", "false");
 //        System.setProperty("insubstantial.logEDT", "false");
@@ -71,13 +74,25 @@ public class Installer extends ModuleInstall {
         WindowManager.getDefault().invokeWhenUIReady(new Runnable() {
             @Override
             public void run() {
-		// 设置标题
-                WindowManager.getDefault().getMainWindow().setTitle(Constants.TITLE);
-		// 最大化显示
-		WindowManager.getDefault().getMainWindow().setExtendedState(JFrame.MAXIMIZED_BOTH);
-                
-                //chy：广告位，有广告则用，无广告则隐藏
-                //new ADDialog(null, false).setVisible(true);
+		try {
+		    // 设置皮肤
+		    JFrame.setDefaultLookAndFeelDecorated(true);
+		    JDialog.setDefaultLookAndFeelDecorated(true);
+		    String skinClassName = Utils.getSkinClassName();
+		    LOG.log(Level.INFO, "skinName={0}", skinClassName);
+		    UIManager.setLookAndFeel(skinClassName);
+		    Utils.applyUIChanges(null);
+		    
+		    // 设置标题
+		    WindowManager.getDefault().getMainWindow().setTitle(Constants.TITLE);
+		    // 最大化显示
+		    WindowManager.getDefault().getMainWindow().setExtendedState(JFrame.MAXIMIZED_BOTH);
+		    
+		    //chy：广告位，有广告则用，无广告则隐藏
+		    //new ADDialog(null, false).setVisible(true);
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+		    Exceptions.printStackTrace(ex);
+		}
             }
         });
     }

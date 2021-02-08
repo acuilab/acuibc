@@ -11,6 +11,8 @@ import javax.swing.Icon;
 import org.openide.util.ImageUtilities;
 import com.acuilab.bc.main.coin.ICoin;
 import com.acuilab.bc.main.util.Constants;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import io.api.etherscan.core.impl.EtherScanApi;
 import io.api.etherscan.model.EthNetwork;
@@ -20,6 +22,11 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.openide.util.Lookup;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.RawTransaction;
@@ -41,8 +48,8 @@ public class ETHCoin implements ICoin {
 
     public static final String NAME = "ETH";
     public static final String SYMBOL = "ETH";
-    // http://scan-dev-service.conflux-chain.org:8885/api/transaction/list?pageSize=10&page=1&accountAddress=0x176c45928d7c26b0175dec8bf6051108563c62c5
-    public static final String TRANSACTION_LIST_URL = "https://confluxscan.io/v1/transaction";
+    // https://api-cn.etherscan.com/api?module=account&action=txlist&address=0xddbd2b932c763ba5b1b7ae3b362eac3e8d40121a&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=YourApiKeyToken
+    public static final String TRANSACTION_LIST_URL = "https://api-cn.etherscan.com/api";
 
     @Override
     public void init() {
@@ -166,31 +173,84 @@ public class ETHCoin implements ICoin {
     @Override
     public List<TransferRecord> getTransferRecords(Wallet wallet, ICoin coin, String address, int limit) throws Exception {
         List<TransferRecord> transferRecords = Lists.newArrayList();
-
-        EtherScanApi api = new EtherScanApi("EH2VSUF39PWJG4RP36W8DIV741SUID1JHX", EthNetwork.KOVAN);
-        
-        System.out.println("baseUrl=" + "https://" + EthNetwork.KOVAN.getDomain() + ".etherscan." + (EthNetwork.TOBALABA.equals(EthNetwork.KOVAN) ? "com" : "io") + "/api" + "?apikey=EH2VSUF39PWJG4RP36W8DIV741SUID1JHX");
-        List<Tx> txList = api.account().txs(address);
-        for(Tx tx : txList) {
-            TransferRecord transferRecord = new TransferRecord();
-            transferRecord.setWalletName(wallet.getName());
-            transferRecord.setWalletAddress(wallet.getAddress());
-            transferRecord.setCoinName(coin.getName());
-            transferRecord.setValue(coin.minUnit2MainUint(tx.getValue()).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).stripTrailingZeros().toPlainString());
-            transferRecord.setGasPrice(tx.getGasPrice().toString());
-            transferRecord.setGas(tx.getGas().toString());
-            // 交易状态(0 代表成功，1 代表发生错误，当交易被跳过或未打包时为null)
-            transferRecord.setStatus(tx.haveError() ? "1" : "0");
-            transferRecord.setBlockHash(tx.getBlockHash());
-            transferRecord.setSendAddress(tx.getFrom());
-            transferRecord.setRecvAddress(tx.getTo());
-            transferRecord.setHash(tx.getHash());
-            // 获取 JVM 启动时获取的时区
-            Instant instant = tx.getTimeStamp().atZone(TimeZone.getDefault().toZoneId()).toInstant();  // 时区
-            transferRecord.setTimestamp(Date.from(instant));
-
-            transferRecords.add(transferRecord);
+	
+        if(limit > 50) {
+            // "query.pageSize" do not match condition "<=100", got: 140
+            limit = 50;
         }
+        String url = TRANSACTION_LIST_URL + "?module=account&action=txlist&startblock=0&endblock=99999999&sort=desc&apikey=EH2VSUF39PWJG4RP36W8DIV741SUID1JHX&page=1&offset=" + limit + "" + "&address=" + address;
+        System.out.println(url);
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .build();
+        final okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .build();
+        final Call call = okHttpClient.newCall(request);
+        okhttp3.Response response = call.execute();             // java.net.SocketTimeoutException
+        ResponseBody body = response.body();
+        if(body != null) {
+            // 解析json
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(body.string());
+            
+            JsonNode list = root.get("result");
+            if(list != null){
+                for (final JsonNode objNode : list) {
+                
+                TransferRecord transferRecord = new TransferRecord();
+                transferRecord.setWalletName(wallet.getName());
+                transferRecord.setWalletAddress(wallet.getAddress());
+                transferRecord.setCoinName(coin.getName());
+                JsonNode value = objNode.get("value");
+                transferRecord.setValue(coin.minUnit2MainUint(new BigInteger(value.asText("0"))).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).stripTrailingZeros().toPlainString());
+                JsonNode gasPrice = objNode.get("gasPrice");
+                transferRecord.setGasPrice(gasPrice.asText());
+                JsonNode gas = objNode.get("gas");
+                transferRecord.setGas(gas.asText());
+                JsonNode status = objNode.get("isError");
+                transferRecord.setStatus("" + status.asInt());
+                JsonNode blockHash = objNode.get("blockHash");
+                transferRecord.setBlockHash(blockHash.asText());
+                JsonNode from = objNode.get("from");
+                transferRecord.setSendAddress(from.asText());
+                JsonNode to = objNode.get("to");
+                transferRecord.setRecvAddress(to.asText());
+                JsonNode hash = objNode.get("hash");
+                transferRecord.setHash(hash.asText());
+                JsonNode timestamp = objNode.get("timeStamp");
+                transferRecord.setTimestamp(new Date(NumberUtils.toLong(timestamp.asText())*1000));
+
+                transferRecords.add(transferRecord);
+                }
+            }
+            
+        }
+
+//        EtherScanApi api = new EtherScanApi("EH2VSUF39PWJG4RP36W8DIV741SUID1JHX", EthNetwork.KOVAN);
+//        
+//        List<Tx> txList = api.account().txs(address);
+//        for(Tx tx : txList) {
+//            TransferRecord transferRecord = new TransferRecord();
+//            transferRecord.setWalletName(wallet.getName());
+//            transferRecord.setWalletAddress(wallet.getAddress());
+//            transferRecord.setCoinName(coin.getName());
+//            transferRecord.setValue(coin.minUnit2MainUint(tx.getValue()).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).stripTrailingZeros().toPlainString());
+//            transferRecord.setGasPrice(tx.getGasPrice().toString());
+//            transferRecord.setGas(tx.getGas().toString());
+//            // 交易状态(0 代表成功，1 代表发生错误，当交易被跳过或未打包时为null)
+//            transferRecord.setStatus(tx.haveError() ? "1" : "0");
+//            transferRecord.setBlockHash(tx.getBlockHash());
+//            transferRecord.setSendAddress(tx.getFrom());
+//            transferRecord.setRecvAddress(tx.getTo());
+//            transferRecord.setHash(tx.getHash());
+//            // 获取 JVM 启动时获取的时区
+//            Instant instant = tx.getTimeStamp().atZone(TimeZone.getDefault().toZoneId()).toInstant();  // 时区
+//            transferRecord.setTimestamp(Date.from(instant));
+//
+//            transferRecords.add(transferRecord);
+//        }
         
         return transferRecords;
     }

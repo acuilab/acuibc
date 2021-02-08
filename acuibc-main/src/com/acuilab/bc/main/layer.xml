@@ -60,17 +60,15 @@
                 <attr intvalue="610" name="position"/>
             </file>
         </folder>-->
-        <folder name="窗口">
+        <folder name="外观">
             <attr intvalue="700" name="position"/>
-            <folder name="外观">
-                <attr name="position" intvalue="710"/>
-                <file name="com.acuilab.bc.main.skin.MetalSkinAction.instance"/>
-                <file name="com.acuilab.bc.main.skin.WindowsSkinAction.instance"/>
-                <file name="com.acuilab.bc.main.skin.WindowsClassicSkinAction.instance"/>
-                <file name="com.acuilab.bc.main.skin.MotifSkinAction.instance"/>
-                <file name="com.acuilab.bc.main.skin.MacSkinAction.instance"/>
-<!--                <file name="com.acuilab.bc.main.skin.NimbusSkinAction.instance"/>-->
-            </folder>
+            <attr name="position" intvalue="710"/>
+            <file name="com.acuilab.bc.main.skin.MetalSkinAction.instance"/>
+            <file name="com.acuilab.bc.main.skin.WindowsSkinAction.instance"/>
+            <file name="com.acuilab.bc.main.skin.WindowsClassicSkinAction.instance"/>
+            <file name="com.acuilab.bc.main.skin.MotifSkinAction.instance"/>
+            <file name="com.acuilab.bc.main.skin.MacSkinAction.instance"/>
+<!--        <file name="com.acuilab.bc.main.skin.NimbusSkinAction.instance"/>-->
         </folder>
         <folder name="帮助">
             <attr intvalue="800" name="position"/>

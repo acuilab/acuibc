@@ -16,6 +16,8 @@ import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.admin.Admin;
+import org.web3j.protocol.core.methods.response.EthTransaction;
+import org.web3j.protocol.core.methods.response.Transaction;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Numeric;
 import party.loveit.bip44forjava.utils.Bip44Utils;
@@ -28,10 +30,12 @@ public class ETHBlockChain implements BlockChain {
     
     private static final Logger LOG = Logger.getLogger(ETHBlockChain.class.getName());
     
-//    public static final String DEFAULT_NODE = "https://mainnet-eth.token.im"; // 默认结点地址
+    public static final String DEFAULT_NODE = "https://mainnet-eth.token.im"; // 默认结点地址
     // kovan水龙头地址(需用github账号登录)：https://faucet.kovan.network/
-    public static final String DEFAULT_NODE = "https://kovan.infura.io/v3/678dd3d98e8b4122b7bcb3e963bb54c8";	// https://infura.io/
+//    public static final String DEFAULT_NODE = "https://kovan.infura.io/v3/678dd3d98e8b4122b7bcb3e963bb54c8";	// https://infura.io/
     public static final String BIP44PATH = "m/44'/60'/0'/0/0";  // 通用的以太坊基于bip44协议的助记词路径
+    
+    public static final String TRANSACTIONS_DETAIL_URL = "https://cn.etherscan.com/tx/";
 
     private Admin admin;    // Admin连接
     
@@ -97,7 +101,7 @@ public class ETHBlockChain implements BlockChain {
 
     @Override
     public String getTransactionDetailUrl(String hash) {
-        return null;
+        return TRANSACTIONS_DETAIL_URL + hash;
     }
 
     /**
@@ -139,8 +143,9 @@ public class ETHBlockChain implements BlockChain {
     }
 
     @Override
-    public TransactionStatus getTransactionStatusByHash(String hash) {
-	return TransactionStatus.SUCCESS;
+    public TransactionStatus getTransactionStatusByHash(String hash) throws Exception {
+	// TODO:
+        return TransactionStatus.SUCCESS;
     }
     
     @Override

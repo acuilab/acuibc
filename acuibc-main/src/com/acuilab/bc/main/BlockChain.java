@@ -111,7 +111,7 @@ public interface BlockChain {
      * @param hash
      * @return 
      */
-    TransactionStatus getTransactionStatusByHash(String hash);
+    TransactionStatus getTransactionStatusByHash(String hash) throws Exception;
     
     enum TransactionStatus {
         UNKNOWN, SUCCESS, FAILED

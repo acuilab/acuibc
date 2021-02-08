@@ -212,7 +212,7 @@ public class CFXBlockChain implements BlockChain {
     }
 
     @Override
-    public TransactionStatus getTransactionStatusByHash(String hash) {
+    public TransactionStatus getTransactionStatusByHash(String hash) throws Exception {
         
         int count = 8;
         while(count > 0) {

@@ -151,7 +151,7 @@ public class ETHBlockChain implements BlockChain {
     @Override
     public String getAddressFromDomain(String ens) {
         
-        return null;
+        return ens;
     }
     
 }

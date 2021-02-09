@@ -1,25 +1,12 @@
 package com.acuilab.bc.main.welcome;
 
 import com.teamdev.jxbrowser.chromium.Browser;
+import com.teamdev.jxbrowser.chromium.BrowserType;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Desktop;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import org.apache.commons.io.FileUtils;
-import org.jdesktop.swingx.JXHyperlink;
-import org.jdesktop.swingx.JXPanel;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
-import org.openide.util.Exceptions;
-import org.openide.util.ImageUtilities;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 
@@ -61,7 +48,9 @@ public final class WelcomeTopComponent extends TopComponent {
         putClientProperty(TopComponent.PROP_MAXIMIZATION_DISABLED, Boolean.TRUE);
         putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.TRUE);
 
-	browser = new Browser();
+	// http://acuilab.com:8080/articles/2021/02/09/1612840191556.html
+	// 解决JxBrowser中BrowserView控件覆盖其他控件的办法 
+	browser = new Browser(BrowserType.LIGHTWEIGHT);
 	view = new BrowserView(browser);
 	this.add(view, BorderLayout.CENTER);
 	

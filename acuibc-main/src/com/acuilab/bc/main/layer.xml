@@ -70,6 +70,10 @@
             <file name="com.acuilab.bc.main.skin.MacSkinAction.instance"/>
 <!--        <file name="com.acuilab.bc.main.skin.NimbusSkinAction.instance"/>-->
         </folder>
+        <folder name="窗口">
+            <attr intvalue="750" name="position"/>
+            <file name="com.acuilab.bc.main.action.WalletListTopComponentAction.instance"/>
+        </folder>
         <folder name="帮助">
             <attr intvalue="800" name="position"/>
             <file name="com.acuilab.bc.main.action.CheckForUpdatesAction.instance">

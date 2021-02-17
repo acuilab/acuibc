@@ -324,7 +324,6 @@ public final class TransferInputVisualPanel extends JPanel {
     }//GEN-LAST:event_selectBtnActionPerformed
 
     private void maxBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maxBtnActionPerformed
-        // TODO add your handling code here:
         // 设置为最大数
         // 求余额
         valueFld.setPrompt("正在请求余额，请稍候...");
@@ -354,11 +353,12 @@ public final class TransferInputVisualPanel extends JPanel {
 				Exceptions.printStackTrace(ex);
 			    }
 			} else{
+                            // 主网币：保留固定数量的小数
 			    valueFld.setText(coin.minUnit2MainUint(balance.subtract(gasFee)).setScale(coin.getMainUnitScale(), RoundingMode.FLOOR).toPlainString());
 			}
 		    } else {
-			// 代币
-			valueFld.setText(coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.FLOOR).toPlainString());
+			// 代币：全部转走
+			valueFld.setText(coin.minUnit2MainUint(balance).toPlainString());
 		    }
               
                 } catch (InterruptedException | ExecutionException ex) {

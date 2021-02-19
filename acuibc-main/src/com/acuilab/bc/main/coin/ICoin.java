@@ -160,5 +160,13 @@ public interface ICoin {
         return getContractAddress() == null;
     }
     
+    /**
+     * 将gas转换为最小单位（以太坊的gas单位太贵，一般以gwei为单位）
+     * @param gas
+     * @return 
+     */
+    default BigInteger gas2MinUnit(long gas) {
+	return BigInteger.valueOf(gas);
+    }
     
 }

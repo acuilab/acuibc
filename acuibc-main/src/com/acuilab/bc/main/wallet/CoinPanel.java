@@ -127,7 +127,7 @@ public class CoinPanel extends JXPanel {
                     String pwd = (String) wiz.getProperty("password");
 
                     try {
-                        String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), recvAddress, coin.mainUint2MinUint(NumberUtils.toDouble(value)), BigInteger.valueOf(gas));
+                        String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), recvAddress, coin.mainUint2MinUint(NumberUtils.toDouble(value)), coin.gas2MinUnit(gas));
                         JXHyperlink hashLink = parent.getHashLink();
                         hashLink.setText(hash);
                         hashLink.setToolTipText(hash);

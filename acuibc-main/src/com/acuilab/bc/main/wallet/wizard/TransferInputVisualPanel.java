@@ -339,7 +339,8 @@ public final class TransferInputVisualPanel extends JPanel {
                     balance = get();
 		    if(coin.isBaseCoin()) {
 			// 主网币
-			BigInteger gasFee = BigInteger.valueOf(gasSlider.getValue() * coin.gasLimit());
+//			BigInteger gasFee = BigInteger.valueOf(gasSlider.getValue() * coin.gasLimit());
+			BigInteger gasFee = coin.gas2MinUnit(gasSlider.getValue()).multiply(BigInteger.valueOf(coin.gasLimit()));
 			if(balance.compareTo(gasFee)<=0){
 			    try {
 				JLabel lbl = new JLabel("账户余额不足。");

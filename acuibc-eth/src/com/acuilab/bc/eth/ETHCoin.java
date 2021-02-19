@@ -14,14 +14,8 @@ import com.acuilab.bc.main.util.Constants;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import io.api.etherscan.core.impl.EtherScanApi;
-import io.api.etherscan.model.EthNetwork;
-import io.api.etherscan.model.Tx;
 import java.math.RoundingMode;
-import java.time.Instant;
-import java.time.ZoneOffset;
 import java.util.Date;
-import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
@@ -92,7 +86,7 @@ public class ETHCoin implements ICoin {
      *
      * @param to 接收地址
      * @param value 转账数量
-     * @param gas price，单位gwei
+     * @param gas price，单位wei, 调用方负责转换gas2MinUnit
      * @return 转账哈希
      */
     @Override
@@ -113,7 +107,7 @@ public class ETHCoin implements ICoin {
 //        BigInteger value
         RawTransaction rawTransaction = RawTransaction.createEtherTransaction(
                 nonce, 
-                Convert.toWei(new BigDecimal(gas), Convert.Unit.GWEI).toBigIntegerExact(),
+                gas,
                 BigInteger.valueOf(gasLimit()), 
                 to, 
                 value);
@@ -161,6 +155,16 @@ public class ETHCoin implements ICoin {
     @Override
     public BigInteger mainUint2MinUint(long mainUnitValue) {
         return Convert.toWei(new BigDecimal(mainUnitValue), Convert.Unit.ETHER).toBigInteger(); // .toBigIntegerExact()
+    }
+    
+    /**
+     * 将gas转换为最小单位（以太坊的gas单位太贵，一般以gwei为单位）
+     * @param gas
+     * @return 
+     */
+    @Override
+    public BigInteger gas2MinUnit(long gas) {
+	return Convert.toWei(new BigDecimal(gas), Convert.Unit.GWEI).toBigIntegerExact();
     }
 
     /**
@@ -255,24 +259,24 @@ public class ETHCoin implements ICoin {
         return transferRecords;
     }
 
-    // 单位drip
+    // 单位gwei
     @Override
     public int gasMin() {
         // gwei
         return 100;
     }
 
-    // 单位drip
+    // 单位gwei
     @Override
     public int gasMax() {
         // gwei
         return 300;
     }
 
-    // 单位drip
+    // 单位gwei
     @Override
     public int gasDefault() {
-        // 1drip
+        // gwei
         return 121;
     }
 

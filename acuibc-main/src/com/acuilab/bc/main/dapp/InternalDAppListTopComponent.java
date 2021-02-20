@@ -35,7 +35,7 @@ import org.openide.util.NbBundle.Messages;
 @TopComponent.Description(
 	preferredID = "InternalDAppListTopComponent",
 	//iconBase="SET/PATH/TO/ICON/HERE", 
-	persistenceType = TopComponent.PERSISTENCE_ALWAYS
+	persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
 @ActionID(category = "Window", id = "com.acuilab.bc.main.dapp.InternalDAppListTopComponent")

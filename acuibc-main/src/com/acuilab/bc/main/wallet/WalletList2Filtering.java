@@ -122,7 +122,7 @@ public class WalletList2Filtering extends AbstractBean {
     }
     
     private boolean match(Pattern p, Wallet wallet) {
-        return match(p, wallet.getBlockChainSymbol()) || match(p, wallet.getName());
+	    return match(p, wallet.getBlockChainSymbol()) || match(p, wallet.getName()) || match(p, wallet.getAddress());
     }
      
     private boolean match(Pattern p, String input) {

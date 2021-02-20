@@ -31,7 +31,7 @@ public class Utils {
     public static String getSkinClassName() {
 	String defaultSkinClassName = "javax.swing.plaf.metal.MetalLookAndFeel";
 	if(OSinfo.isMacOS() || OSinfo.isMacOSX()) {
-	    defaultSkinClassName = "com.sun.java.swing.plaf.mac.MacLookAndFeel";
+//	    defaultSkinClassName = "com.sun.java.swing.plaf.mac.MacLookAndFeel";
 	} else if(OSinfo.isWindows()) {
 	    defaultSkinClassName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
 	}

@@ -4,6 +4,8 @@ import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.BrowserType;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 import java.awt.BorderLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -35,7 +37,7 @@ import org.openide.util.NbBundle.Messages;
     "HINT_WelcomeTopComponent=欢迎"
 })
 public final class WelcomeTopComponent extends TopComponent {
-    
+    private static final Logger LOG = Logger.getLogger(WelcomeTopComponent.class.getName());
     private final Browser browser;
     private final BrowserView view;
 
@@ -88,11 +90,19 @@ public final class WelcomeTopComponent extends TopComponent {
     @Override
     public void componentOpened() {
         // TODO add custom code on component opening
+        LOG.log(Level.INFO, "componentOpened");
     }
 
     @Override
     public void componentClosed() {
         // TODO add custom code on component closing
+        LOG.log(Level.INFO, "componentClosed");
+    }
+    
+    public void disposeBrowser() {
+        if(browser != null) {
+            browser.dispose();
+        }
     }
 
     void writeProperties(java.util.Properties p) {

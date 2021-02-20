@@ -37,7 +37,6 @@ import net.java.balloontip.BalloonTip;
 import net.java.balloontip.examples.complete.Utils;
 import net.java.balloontip.utils.TimingUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.javatuples.Pair;
 import static org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ;
 import org.jdesktop.beansbinding.BeanProperty;
@@ -127,7 +126,7 @@ public class CoinPanel extends JXPanel {
                     String pwd = (String) wiz.getProperty("password");
 
                     try {
-                        String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), recvAddress, coin.mainUint2MinUint(NumberUtils.toDouble(value)), coin.gas2MinUnit(gas));
+                        String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), recvAddress, coin.mainUint2MinUint(new BigDecimal(value)), coin.gas2MinUnit(gas));
                         JXHyperlink hashLink = parent.getHashLink();
                         hashLink.setText(hash);
                         hashLink.setToolTipText(hash);

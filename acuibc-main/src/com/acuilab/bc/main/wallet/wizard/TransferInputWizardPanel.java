@@ -13,6 +13,7 @@ import org.openide.WizardValidationException;
 import org.openide.util.HelpCtx;
 import com.acuilab.bc.main.coin.ICoin;
 import com.acuilab.bc.main.ui.MessageDialog;
+import java.math.BigDecimal;
 
 public class TransferInputWizardPanel implements WizardDescriptor.ValidatingPanel<WizardDescriptor> {
 
@@ -155,8 +156,12 @@ public class TransferInputWizardPanel implements WizardDescriptor.ValidatingPane
        if(!component.balanceAvailable()) {
            throw new WizardValidationException(null, "正在请求余额，请稍候...", null);
        }
+       
        BigInteger balance = component.getBalance();
-       BigInteger valueDrip = coin.mainUint2MinUint(NumberUtils.toDouble(component.getValueFld().getText()));
+       BigInteger valueDrip = coin.mainUint2MinUint(new BigDecimal(component.getValueFld().getText()));
+       System.out.println("balance=" + balance.toString());
+       System.out.println("valueDrip=" + valueDrip.toString());
+       System.out.println();
        if(balance.compareTo(valueDrip) < 0) {
            component.getValueFld().requestFocus();
            throw new WizardValidationException(null, "余额不足【" + "可用：" + coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit() + "】", null);

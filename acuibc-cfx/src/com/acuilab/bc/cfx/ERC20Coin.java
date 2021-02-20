@@ -20,6 +20,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import org.openide.util.Lookup;
 import com.acuilab.bc.main.coin.ICoin;
+import conflux.web3j.CfxUnit;
 
 /**
  *
@@ -130,5 +131,4 @@ public abstract class ERC20Coin implements ICoin {
     public String gasDesc(int gas) {
         return gas + "drip";
     }
-
 }

@@ -60,6 +60,8 @@ public interface ICoin {
      * 主单位转换为最小单位
      * @param mainUnitValue
      * @return 
+     * 
+     * @deprecated 文本转成doube，可能会有精度损失；建议使用BigInteger mainUint2MinUint(BigInteger mainUnitValue);
      */
     BigInteger mainUint2MinUint(double mainUnitValue);
     
@@ -169,4 +171,13 @@ public interface ICoin {
 	return BigInteger.valueOf(gas);
     }
     
+    /**
+     * 主单位转换为最小单位
+     * @param mainUnitValue
+     * @return 
+     * 
+     */
+    default BigInteger mainUint2MinUint(BigDecimal mainUnitValue) {
+	return mainUnitValue.multiply(new BigDecimal(BigInteger.TEN.pow(getScale()))).toBigIntegerExact();
+    }
 }

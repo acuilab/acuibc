@@ -1,6 +1,7 @@
 package com.acuilab.bc.main.wallet.wizard;
 
 import com.acuilab.bc.main.ui.MessageDialog;
+import com.acuilab.bc.main.util.DateUtil;
 import com.google.common.collect.Maps;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -19,6 +20,7 @@ import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.print.DocFlavor;
@@ -279,6 +281,25 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
                     @Override
                     public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
                         if(pageIndex < 1) {
+			    Graphics2D g2d = (Graphics2D) graphics;
+			    // 前六个单词放第一行
+			    g2d.setColor(Color.black);
+			    g2d.setFont(new Font("宋体", Font.BOLD, 7));
+			    g2d.drawString(mnemonicWords.get(0) + " " + 
+				    mnemonicWords.get(1) + " " + 
+				    mnemonicWords.get(2) + " " + 
+				    mnemonicWords.get(3) + " " + 
+				    mnemonicWords.get(4) + " " + 
+				    mnemonicWords.get(5), 10, 10);
+			    
+			    // 后六个单词放第二行
+			    g2d.drawString(mnemonicWords.get(6) + " " + 
+				    mnemonicWords.get(7) + " " + 
+				    mnemonicWords.get(8) + " " + 
+				    mnemonicWords.get(9) + " " + 
+				    mnemonicWords.get(10) + " " + 
+				    mnemonicWords.get(11), 10, 20);
+			    
                             // 助记词二维码图像
                             String mnemonic = StringUtils.join(mnemonicWords, " ");
                             try {  
@@ -289,13 +310,13 @@ public final class MnemonicGenerateVisualPanel extends JPanel {
                                 BufferedImage image = MatrixToImageWriter.toBufferedImage(byteMatrix);
                                 // @see http://blog.163.com/laowu_000/blog/static/47198890200962144032793/
                                 // 360*360dpi，约相当于1毫米14像素，宽24*14=336，高50*14=700
-                                Graphics2D g2d = (Graphics2D) graphics;
 //                                g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
-                                g2d.drawImage(image, 10, 20, 128, 128, null);
+                                g2d.drawImage(image, 10, 30, 128, 128, null);
 
+				// 打印时间
                                 g2d.setColor(Color.black);
                                 g2d.setFont(new Font("宋体", Font.BOLD, 7));
-                                g2d.drawString(mnemonic, 10, 10);
+                                g2d.drawString(DateUtil.commonDateFormat(new Date(), "yyyy-MM-dd HH:mm:ss"), 10, 178);
 
                                 return Printable.PAGE_EXISTS;
                             } catch (WriterException ex) {

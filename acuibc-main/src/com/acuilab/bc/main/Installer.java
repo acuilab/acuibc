@@ -7,7 +7,10 @@ import com.acuilab.bc.main.manager.NFTManager;
 import com.acuilab.bc.main.ui.ConfirmDialog;
 import com.acuilab.bc.main.util.Constants;
 import com.acuilab.bc.main.util.Utils;
+import com.acuilab.bc.main.welcome.WelcomeTopComponent;
+import com.teamdev.jxbrowser.chromium.BrowserCore;
 import com.teamdev.jxbrowser.chromium.be;
+import com.teamdev.jxbrowser.chromium.internal.Environment;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -33,6 +36,8 @@ public class Installer extends ModuleInstall {
     
     // crack jxbrowser
     static {
+        LOG.log(Level.INFO, "static thread name: {0}", Thread.currentThread().getName());
+
         try {
             Field e = be.class.getDeclaredField("e");
             e.setAccessible(true);
@@ -48,6 +53,7 @@ public class Installer extends ModuleInstall {
         } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException | SecurityException e1) {
             e1.printStackTrace();
         }
+
     }
 
     @Override
@@ -58,7 +64,22 @@ public class Installer extends ModuleInstall {
 //        System.setProperty("insubstantial.looseTableCellRenderers", "true");
 //        System.setProperty("insubstantial.checkEDT", "false");
 //        System.setProperty("insubstantial.logEDT", "false");
+
+        // @see https://jxbrowser.support.teamdev.com/support/solutions/articles/9000013071-using-jxbrowser-in-javafx
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                
+                // jxBrowser
+                if(Environment.isMac()) {
+                    LOG.log(Level.INFO, "BrowserCore.initialize thread name: {0}", Thread.currentThread().getName());
+                    BrowserCore.initialize();
+                    LOG.log(Level.INFO, "BrowserCore.initialize completed");
+                }            
+            }
         
+        }).start();
+
 	// derby
 	System.setProperty("derby.system.home", System.getProperty("netbeans.user", System.getProperty("user.home")) + File.separator + "databases");
 	LOG.log(Level.INFO, "derby.system.home={0}", System.getProperty("derby.system.home"));
@@ -131,6 +152,18 @@ public class Installer extends ModuleInstall {
     @Override
     public void close() {
         BlockChainManager.getDefault().close();
+        
+        // jxBrowser dispose
+        WelcomeTopComponent welcomeTC = (WelcomeTopComponent)WindowManager.getDefault().findTopComponent("WelcomeTopComponent");
+        if(welcomeTC != null) {
+            welcomeTC.disposeBrowser();
+        }
+        
+        if(Environment.isMac()) {
+            LOG.log(Level.INFO, "BrowserCore.shutdown thread name: {0}", Thread.currentThread().getName());
+            BrowserCore.shutdown();
+            LOG.log(Level.INFO, "BrowserCore.shutdown completed");
+        }
     }
 
     @Override

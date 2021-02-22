@@ -29,7 +29,7 @@ public class ConfluxGuardianNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-	return "3 Conflux Guardian NFT";
+	return "Conflux Guardian NFT";
     }
 
     @Override

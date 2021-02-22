@@ -32,7 +32,7 @@ public class ConFiNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-	return "1 ConFi NFT";
+	return "ConFi NFT";
     }
 
     @Override

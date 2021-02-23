@@ -51,7 +51,8 @@ import com.acuilab.bc.main.coin.ICoin;
     "HINT_WalletListTopComponent=钱包列表"
 })
 public final class WalletListTopComponent extends TopComponent {
-    private final Map<String, JXTaskPane> taskPaneMap = Maps.newHashMap();  // blockChainSysbol
+    private final Map<String, JXTaskPane> taskPaneMap = Maps.newHashMap();  // blockChainSymbol, JXTaskPane
+    private final Map<String, Integer> walletPanelCountMap = Maps.newHashMap();  // blockChainSymbol, WalletPanel的数量
     private final Map<String, WalletPanel> walletPanelMap = Maps.newHashMap();  // walletName, WalletPanel
     private final Map<String, Component> strutMap = Maps.newHashMap();          // walletName, strut
 
@@ -77,10 +78,8 @@ public final class WalletListTopComponent extends TopComponent {
             Map<String,List<Wallet>> walletGroupMap = list.stream().collect(Collectors.groupingBy(Wallet::getBlockChainSymbol));
             walletGroupMap.entrySet().forEach(entry -> {
 		List<Wallet> wallets = entry.getValue();
-		System.out.println("wallets:" + wallets.size());
                 BlockChain bc = BlockChainManager.getDefault().getBlockChain(entry.getKey());
                 JXTaskPane taskPane = new JXTaskPane(bc.getName() + "(" + wallets.size() + ")", bc.getIcon(16));
-//                taskPane.setFont(new java.awt.Font("宋体", Font.BOLD, 24));
                 taskPane.setLayout(new BoxLayout(taskPane.getContentPane(), BoxLayout.Y_AXIS));
                 
                 for(int i=0; i<wallets.size(); i++) {
@@ -95,6 +94,7 @@ public final class WalletListTopComponent extends TopComponent {
                 }
                 jXTaskPaneContainer1.add(taskPane);
                 taskPaneMap.put(bc.getSymbol(), taskPane);
+                walletPanelCountMap.put(bc.getSymbol(), wallets.size());
             });
             
             // 获得余额
@@ -178,22 +178,30 @@ public final class WalletListTopComponent extends TopComponent {
             taskPane.getContentPane().add(strut);
             strutMap.put(wallet.getName(), strut);
             taskPane.add(walletPanel);
+
+            // 设置taskPane当前钱包数并更新标题
+            Integer currentCount = walletPanelCountMap.get(wallet.getBlockChainSymbol()) + 1;
+            walletPanelCountMap.put(wallet.getBlockChainSymbol(), currentCount);
+            BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
+            taskPane.setTitle(bc.getName() + "(" + currentCount + ")");
         } else {
             // 新建任务面板并插入钱包面板
             BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
             taskPane = new JXTaskPane(bc.getSymbol(), bc.getIcon(16));
-//            taskPane.setFont(new java.awt.Font("宋体", Font.BOLD, 24));
             taskPane.setLayout(new BoxLayout(taskPane.getContentPane(), BoxLayout.Y_AXIS));
             taskPane.add(walletPanel);
                 
             jXTaskPaneContainer1.add(taskPane);
             taskPaneMap.put(bc.getSymbol(), taskPane);
+            
+            walletPanelCountMap.put(wallet.getBlockChainSymbol(), 1);
+            taskPane.setTitle(bc.getName() + "(1)");
         }
         walletPanelMap.put(wallet.getName(), walletPanel);
     }
     
     public void deleteWallet(Wallet wallet) {
-        
+        // FIXME: 删除taskPane第一个钱包时，顶部多了一个strut，需要去掉
         JXTaskPane taskPane = taskPaneMap.get(wallet.getBlockChainSymbol());
         if(taskPane != null) {
             WalletPanel walletPanel = walletPanelMap.get(wallet.getName());
@@ -205,10 +213,18 @@ public final class WalletListTopComponent extends TopComponent {
             }
             walletPanelMap.remove(wallet.getName());
             strutMap.remove(wallet.getName());
-            if(walletPanelMap.isEmpty()) {
+            
+            Integer currentCount = walletPanelCountMap.get(wallet.getBlockChainSymbol()) - 1;
+            if(currentCount > 0) {
+                // 更新标题
+                BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
+                taskPane.setTitle(bc.getName() + "(" + currentCount + ")");
+            } else {
+                // 直接移除taskPane
                 jXTaskPaneContainer1.remove(taskPane);
                 taskPaneMap.remove(wallet.getBlockChainSymbol());
             }
+            walletPanelCountMap.put(wallet.getBlockChainSymbol(), currentCount);
             
             // 移除监听器(在wallet的构造函数中增加监听器)
             wallet.deleteObserver(walletPanel);

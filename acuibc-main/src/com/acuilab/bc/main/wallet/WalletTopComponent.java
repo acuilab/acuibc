@@ -232,6 +232,7 @@ public final class WalletTopComponent extends TopComponent implements Observer {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel4, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.jXLabel4.text")); // NOI18N
+        jXLabel4.setToolTipText(org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.jXLabel4.toolTipText")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(hashLink, org.openide.util.NbBundle.getMessage(WalletTopComponent.class, "WalletTopComponent.hashLink.text")); // NOI18N
         hashLink.setMaximumSize(new java.awt.Dimension(100, 18));
@@ -282,7 +283,7 @@ public final class WalletTopComponent extends TopComponent implements Observer {
                                     .addComponent(jXLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(walletNameFld, javax.swing.GroupLayout.DEFAULT_SIZE, 801, Short.MAX_VALUE)
+                                    .addComponent(walletNameFld, javax.swing.GroupLayout.DEFAULT_SIZE, 885, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(walletAddressFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

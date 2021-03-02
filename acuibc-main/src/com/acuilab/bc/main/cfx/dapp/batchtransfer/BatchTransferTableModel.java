@@ -1,9 +1,11 @@
 package com.acuilab.bc.main.cfx.dapp.batchtransfer;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.jdesktop.swingx.JXTable;
 
 /**
@@ -66,6 +68,10 @@ public class BatchTransferTableModel extends AbstractTableModel {
 
     @Override
     public Class<?> getColumnClass(int column) {
+        switch (column) {
+            case VALUE_COLUMN:
+                return Double.class;
+        }
         return getValueAt(0, column).getClass();
     }
 
@@ -83,7 +89,7 @@ public class BatchTransferTableModel extends AbstractTableModel {
             case ADDRESS_COLUMN:
                 return StringUtils.trimToEmpty(obj.getAddress());
             case VALUE_COLUMN:
-                return "";
+                return NumberUtils.toDouble(obj.getValue());
             case RESULT_COLUMN:
                 return "";
         }
@@ -113,5 +119,29 @@ public class BatchTransferTableModel extends AbstractTableModel {
 	return !(columnIndex == INDEX_COLUMN || columnIndex == RESULT_COLUMN);
     }
 
-    
+    @Override
+    public void setValueAt(Object val, int row, int column) {
+	BatchTransfer obj = getBatchTransfer(row);
+        switch (column) {
+            case INDEX_COLUMN:
+		return;
+            case ADDRESS_COLUMN:
+		obj.setAddress((String)val);
+		break;
+            case VALUE_COLUMN:
+		// 在前端不以科学计数方法显示
+		Double valDouble = NumberUtils.toDouble((String)val);
+		NumberFormat nf = NumberFormat.getInstance();
+		// 是否以逗号隔开, 默认true以逗号隔开,如[123,456,789.128]
+		nf.setGroupingUsed(false);
+		nf.setMaximumFractionDigits(18);    // 保留18位小数
+		// 结果未做任何处理
+		obj.setValue(nf.format(valDouble));
+//		obj.setValue((String)val);
+		break;
+            case RESULT_COLUMN:
+                return;
+        }
+	fireTableCellUpdated(row, column); // informe any object about changes
+    }
 }

@@ -19,8 +19,9 @@ public class BatchTransferTableModel extends AbstractTableModel {
     public static final int INDEX_COLUMN = 0;
     public static final int ADDRESS_COLUMN = 1;
     public static final int VALUE_COLUMN = 2;
-    public static final int RESULT_COLUMN = 3;
-    public static final int COLUMN_COUNT = 4;
+    public static final int REMARK_COLUMN = 3;
+    public static final int RESULT_COLUMN = 4;
+    public static final int COLUMN_COUNT = 5;
     
     private final List<BatchTransfer> list = new ArrayList<>();
     
@@ -28,6 +29,7 @@ public class BatchTransferTableModel extends AbstractTableModel {
         "",
         "地址",
         "数量",
+        "备注",
         "结果"
     };
     
@@ -90,6 +92,8 @@ public class BatchTransferTableModel extends AbstractTableModel {
                 return StringUtils.trimToEmpty(obj.getAddress());
             case VALUE_COLUMN:
                 return NumberUtils.toDouble(obj.getValue());
+            case REMARK_COLUMN:
+                return StringUtils.trimToEmpty(obj.getRemark());
             case RESULT_COLUMN:
                 return "";
         }
@@ -137,7 +141,9 @@ public class BatchTransferTableModel extends AbstractTableModel {
 		nf.setMaximumFractionDigits(18);    // 保留18位小数
 		// 结果未做任何处理
 		obj.setValue(nf.format(valDouble));
-//		obj.setValue((String)val);
+		break;
+            case REMARK_COLUMN:
+		obj.setRemark((String)val);
 		break;
             case RESULT_COLUMN:
                 return;

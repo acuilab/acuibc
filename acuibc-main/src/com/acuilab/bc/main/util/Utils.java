@@ -5,7 +5,6 @@ import java.awt.Component;
 import java.awt.Window;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.logging.Level;
 import javax.swing.SwingUtilities;
 import org.openide.util.NbPreferences;
 

@@ -7,6 +7,7 @@ package com.acuilab.bc.main.cfx.dapp.batchtransfer;
 public class BatchTransfer {
     private String address;
     private String value;
+    private String remark;
     private String result;
 
     public String getAddress() {
@@ -31,5 +32,13 @@ public class BatchTransfer {
 
     public void setResult(String result) {
 	this.result = result;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

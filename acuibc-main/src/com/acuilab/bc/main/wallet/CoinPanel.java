@@ -79,8 +79,6 @@ public class CoinPanel extends JXPanel {
      * @param parent
      * @param wallet
      * @param coin
-     * @param balance
-     * @param transferRecords
      */
     public CoinPanel(WalletTopComponent parent, Wallet wallet, ICoin coin) {
         initComponents();

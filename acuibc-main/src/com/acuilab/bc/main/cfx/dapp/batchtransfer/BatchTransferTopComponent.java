@@ -5,6 +5,7 @@ import com.acuilab.bc.main.coin.ICoin;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
 import com.acuilab.bc.main.ui.ConfirmDialog;
+import com.acuilab.bc.main.ui.MyFindBar;
 import com.acuilab.bc.main.util.Constants;
 import com.acuilab.bc.main.wallet.TransferRecordTableModel;
 import com.acuilab.bc.main.wallet.Wallet;
@@ -12,6 +13,8 @@ import com.acuilab.bc.main.wallet.common.SelectCoinDialog;
 import com.acuilab.bc.main.wallet.common.SelectWalletDialog;
 import com.csvreader.CsvReader;
 import java.awt.Color;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -19,11 +22,13 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 import javax.swing.event.ListSelectionEvent;
@@ -35,6 +40,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import org.apache.commons.lang3.StringUtils;
+import org.jdesktop.swingx.JXTextField;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
@@ -84,6 +90,8 @@ public final class BatchTransferTopComponent extends TopComponent {
         initComponents();
         setName(Bundle.CTL_BatchTransferTopComponent());
         setToolTipText(Bundle.HINT_BatchTransferTopComponent());
+        
+        findBar.setSearchable(table.getSearchable());
 
         tableModel = new BatchTransferTableModel(table);
         tableModel.addTableModelListener((TableModelEvent e) -> {
@@ -137,11 +145,28 @@ public final class BatchTransferTopComponent extends TopComponent {
         indexColumn.setSortable(false);
 	
 //        TableColumn addressColumn = table.getColumn(BatchTransferTableModel.ADDRESS_COLUMN);
-//	addressColumn.setCellEditor(new AddressTableCellEditor());
+//        JTextField fld = new JXTextField();
+//        fld.setHorizontalAlignment(JTextField.RIGHT);
+//	addressColumn.setCellEditor(new DefaultCellEditor(fld));
 	
         TableColumn valueColumn = table.getColumn(BatchTransferTableModel.VALUE_COLUMN);
-        valueColumn.setCellRenderer(new com.acuilab.bc.main.cfx.dapp.batchtransfer.ValueTableCellRenderer());
-	valueColumn.setCellEditor(new ValueTableCellEditor());
+        valueColumn.setCellRenderer(new com.acuilab.bc.main.cfx.dapp.batchtransfer.ValueTableCellRenderer());   // 数字按文本显示效果
+        JTextField valueTextField = new JXTextField();
+        valueTextField.setHorizontalAlignment(JTextField.RIGHT);    // 数字靠右对齐
+        valueTextField.addFocusListener(new FocusListener( ) {
+            @Override
+            public void focusGained(FocusEvent e) {
+                // 获得焦点后，光标移动到末尾
+                Document doc = valueTextField.getDocument();
+                valueTextField.setCaretPosition(doc.getLength());
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+            }
+            
+        });
+	valueColumn.setCellEditor(new ValueTableCellEditor(valueTextField));
 
 	ColorHighlighter evenHighlighter = new ColorHighlighter(HighlightPredicate.EVEN, Color.WHITE, null);
 	ColorHighlighter oddHighlighter = new HighlighterFactory.UIColorHighlighter(HighlightPredicate.ODD);
@@ -172,6 +197,9 @@ public final class BatchTransferTopComponent extends TopComponent {
         clearBtn = new org.jdesktop.swingx.JXButton();
         stopBtn = new org.jdesktop.swingx.JXButton();
         startBtn = new org.jdesktop.swingx.JXButton();
+        findBar = new MyFindBar();
+        jSeparator1 = new javax.swing.JSeparator();
+        checkBtn = new org.jdesktop.swingx.JXButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         logPane = new javax.swing.JTextPane();
         jXLabel1 = new org.jdesktop.swingx.JXLabel();
@@ -252,6 +280,27 @@ public final class BatchTransferTopComponent extends TopComponent {
             }
         });
 
+        javax.swing.GroupLayout findBarLayout = new javax.swing.GroupLayout(findBar);
+        findBar.setLayout(findBarLayout);
+        findBarLayout.setHorizontalGroup(
+            findBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 371, Short.MAX_VALUE)
+        );
+        findBarLayout.setVerticalGroup(
+            findBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 33, Short.MAX_VALUE)
+        );
+
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        org.openide.awt.Mnemonics.setLocalizedText(checkBtn, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.checkBtn.text")); // NOI18N
+        checkBtn.setToolTipText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.checkBtn.toolTipText")); // NOI18N
+        checkBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jXPanel1Layout = new javax.swing.GroupLayout(jXPanel1);
         jXPanel1.setLayout(jXPanel1Layout);
         jXPanel1Layout.setHorizontalGroup(
@@ -264,27 +313,38 @@ public final class BatchTransferTopComponent extends TopComponent {
                 .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(importBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(startBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(stopBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tableRowsLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(stopBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 821, Short.MAX_VALUE)
+            .addGroup(jXPanel1Layout.createSequentialGroup()
+                .addComponent(findBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tableRowsLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jXPanel1Layout.setVerticalGroup(
             jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jXPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
+                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(findBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tableRowsLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(importBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tableRowsLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(stopBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(startBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(startBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jSplitPane1.setLeftComponent(jXPanel1);
@@ -470,22 +530,6 @@ public final class BatchTransferTopComponent extends TopComponent {
                     batchTransfer.setValue(csvReader.get(1));
                     batchTransfer.setRemark(csvReader.get(2));
                     tableModel.add(batchTransfer);
-                    
-                    BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
-                    if(bc.isValidAddress(address)) {
-                        // TODO: 转账地址无效，记入日志
-                        try {
-                            Document doc = logPane.getDocument();
-                            logPane.setCaretPosition(doc.getLength());  // 移动光标到最后
-                            logPane.setParagraphAttributes(Constants.ALIGNMENT_CENTER_ATTRIBUTE_SET, false);    // 设置居中
-                            doc.insertString(doc.getLength(), "\n", null);   // 换行重启一段落
-                            logPane.insertIcon(flagIcon);   // 插入通知标志
-                            doc.insertString(doc.getLength(), "", Constants.TEXT_HEADER_ATTRIBUTE_SET);
-                            doc.insertString(doc.getLength(), address + "地址无效\n", null);   // 换行重启一段落
-                        } catch (BadLocationException ex) {
-                            LOG.log(Level.WARNING, "BadLocationException", ex);
-                        }
-                    }
                 }
 
             } catch (IOException ex) {
@@ -498,14 +542,46 @@ public final class BatchTransferTopComponent extends TopComponent {
         // TODO add your handling code here:
     }//GEN-LAST:event_startBtnActionPerformed
 
+    private void checkBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBtnActionPerformed
+        // TODO: 检查转账地址及数量是否有效
+        List<BatchTransfer> list = tableModel.getBatchTransfers();
+        for(BatchTransfer bt : list) {
+            // 1检查转账地址
+            String address = bt.getAddress();
+            BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
+            if(bc.isValidAddress(address)) {
+                // 转账地址无效，记入日志
+                try {
+                    Document doc = logPane.getDocument();
+                    logPane.setCaretPosition(doc.getLength());  // 移动光标到最后
+                    logPane.setParagraphAttributes(Constants.ALIGNMENT_CENTER_ATTRIBUTE_SET, false);    // 设置居中
+                    doc.insertString(doc.getLength(), "\n", null);   // 换行重启一段落
+                    logPane.insertIcon(flagIcon);   // 插入通知标志
+                    doc.insertString(doc.getLength(), "", Constants.TEXT_HEADER_ATTRIBUTE_SET);
+                    doc.insertString(doc.getLength(), address + "地址无效\n", null);   // 换行重启一段落
+                } catch (BadLocationException ex) {
+                    LOG.log(Level.WARNING, "BadLocationException", ex);
+                }
+            }         
+            
+            // 2 检查数量
+            String value = bt.getValue();
+            
+            
+        }
+    }//GEN-LAST:event_checkBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXButton addBtn;
+    private org.jdesktop.swingx.JXButton checkBtn;
     private org.jdesktop.swingx.JXButton clearBtn;
     private org.jdesktop.swingx.JXTextField coinFld;
     private org.jdesktop.swingx.JXButton deleteBtn;
+    private org.jdesktop.swingx.JXFindBar findBar;
     private org.jdesktop.swingx.JXButton importBtn;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSplitPane jSplitPane1;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel2;

@@ -5,7 +5,6 @@ import java.text.NumberFormat;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import org.jdesktop.swingx.JXTextField;
 
 /**
  *
@@ -13,8 +12,8 @@ import org.jdesktop.swingx.JXTextField;
  */
 public class ValueTableCellEditor extends DefaultCellEditor {
     
-    public ValueTableCellEditor() {
-	super(new JXTextField());
+    public ValueTableCellEditor(final JTextField textField) {
+	super(textField);
     }
 
     @Override

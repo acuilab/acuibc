@@ -18,16 +18,8 @@ public class ValueTableCellRenderer extends DefaultTableCellRenderer {
 	if(column == BatchTransferTableModel.VALUE_COLUMN){
 	    BatchTransferTableModel tableModel = (BatchTransferTableModel)table.getModel();
 	    BatchTransfer batchTransfer = tableModel.getBatchTransfer(table.convertRowIndexToModel(row));
-//	    String val = batchTransfer.getValue();
-//	    // 在前端不以科学计数方法显示
-//	    NumberFormat nf = NumberFormat.getInstance();
-//	    // 是否以逗号隔开, 默认true以逗号隔开,如[123,456,789.128]
-//	    nf.setGroupingUsed(false);
-//	    // 结果未做任何处理
-//	    System.out.println("batchTransfer.getValue()======" + val);
-//	    label.setText(nf.format(NumberUtils.toDouble(val)));
-	    
-	    label.setText(batchTransfer.getValue());
+	    String val = batchTransfer.getValue();
+	    label.setText(val);
 	}
 	
 	return label;

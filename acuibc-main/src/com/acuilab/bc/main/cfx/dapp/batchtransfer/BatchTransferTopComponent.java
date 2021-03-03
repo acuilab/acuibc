@@ -616,7 +616,7 @@ public final class BatchTransferTopComponent extends TopComponent {
         ICoin baseCoin = CoinManager.getDefault().getBaseCoin(Constants.CFX_BLOCKCHAIN_SYMBAL);
         try {
             BigInteger balance = baseCoin.balanceOf(wallet.getAddress());
-            if(balance.compareTo(baseCoin.mainUint2MinUint(BigDecimal.ONE)) < 0) {
+            if(balance.compareTo(baseCoin.mainUint2MinUint(1l)) < 0) {
 		MessageDialog msg = new MessageDialog(null,"注意","cfx数量必须大于1");
 		msg.setVisible(true);
 		return;
@@ -641,6 +641,7 @@ public final class BatchTransferTopComponent extends TopComponent {
             Exceptions.printStackTrace(ex);
         }
 
+        // TODO: 请求密码
         final ProgressHandle ph = ProgressHandle.createHandle("正在转账，请稍候");
         SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
 	    @Override

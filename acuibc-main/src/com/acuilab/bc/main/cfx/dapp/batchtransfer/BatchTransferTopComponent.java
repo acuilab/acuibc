@@ -171,7 +171,9 @@ public final class BatchTransferTopComponent extends TopComponent {
 	ColorHighlighter evenHighlighter = new ColorHighlighter(HighlightPredicate.EVEN, Color.WHITE, null);
 	ColorHighlighter oddHighlighter = new HighlighterFactory.UIColorHighlighter(HighlightPredicate.ODD);
 	ColorHighlighter indexHighlighter = new ColorHighlighter(new HighlightPredicate.ColumnHighlightPredicate(TransferRecordTableModel.INDEX_COLUMN), table.getTableHeader().getBackground(), null);
-	table.setHighlighters(evenHighlighter, oddHighlighter, indexHighlighter);
+	ColorHighlighter addressInvalidHighlighter = new AddressInvalidColorHighlighter(tableModel, new HighlightPredicate.ColumnHighlightPredicate(BatchTransferTableModel.ADDRESS_COLUMN), Color.RED);
+	ColorHighlighter valueInvalidHighlighter = new ValueInvalidColorHighlighter(tableModel, new HighlightPredicate.ColumnHighlightPredicate(BatchTransferTableModel.VALUE_COLUMN), Color.RED);
+	table.setHighlighters(evenHighlighter, oddHighlighter, indexHighlighter, addressInvalidHighlighter, valueInvalidHighlighter);
 	
 	table.setHorizontalScrollEnabled(true);
     }

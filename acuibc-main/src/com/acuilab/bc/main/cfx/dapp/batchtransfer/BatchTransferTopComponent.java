@@ -5,6 +5,7 @@ import com.acuilab.bc.main.coin.ICoin;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
 import com.acuilab.bc.main.ui.ConfirmDialog;
+import com.acuilab.bc.main.ui.MessageDialog;
 import com.acuilab.bc.main.ui.MyFindBar;
 import com.acuilab.bc.main.util.Constants;
 import com.acuilab.bc.main.wallet.TransferRecordTableModel;
@@ -40,6 +41,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.jdesktop.swingx.JXTextField;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
@@ -124,7 +126,7 @@ public final class BatchTransferTopComponent extends TopComponent {
             }
         });
         
-        // TODO: 控制deleteBtn、clearBtn是否启用
+        // 控制deleteBtn、clearBtn是否启用
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -200,14 +202,15 @@ public final class BatchTransferTopComponent extends TopComponent {
         stopBtn = new org.jdesktop.swingx.JXButton();
         startBtn = new org.jdesktop.swingx.JXButton();
         findBar = new MyFindBar();
-        jSeparator1 = new javax.swing.JSeparator();
-        checkBtn = new org.jdesktop.swingx.JXButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         logPane = new javax.swing.JTextPane();
         jXLabel1 = new org.jdesktop.swingx.JXLabel();
         jXLabel2 = new org.jdesktop.swingx.JXLabel();
         coinFld = new org.jdesktop.swingx.JXTextField();
         selectCoinBtn = new org.jdesktop.swingx.JXButton();
+        jXLabel3 = new org.jdesktop.swingx.JXLabel();
+        gasFld = new org.jdesktop.swingx.JXTextField();
+        selectGasBtn = new org.jdesktop.swingx.JXButton();
 
         walletFld.setEditable(false);
         walletFld.setText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.walletFld.text")); // NOI18N
@@ -275,6 +278,11 @@ public final class BatchTransferTopComponent extends TopComponent {
 
         org.openide.awt.Mnemonics.setLocalizedText(stopBtn, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.stopBtn.text")); // NOI18N
         stopBtn.setEnabled(false);
+        stopBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stopBtnActionPerformed(evt);
+            }
+        });
 
         org.openide.awt.Mnemonics.setLocalizedText(startBtn, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.startBtn.text")); // NOI18N
         startBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -294,16 +302,6 @@ public final class BatchTransferTopComponent extends TopComponent {
             .addGap(0, 33, Short.MAX_VALUE)
         );
 
-        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-
-        org.openide.awt.Mnemonics.setLocalizedText(checkBtn, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.checkBtn.text")); // NOI18N
-        checkBtn.setToolTipText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.checkBtn.toolTipText")); // NOI18N
-        checkBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkBtnActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jXPanel1Layout = new javax.swing.GroupLayout(jXPanel1);
         jXPanel1.setLayout(jXPanel1Layout);
         jXPanel1Layout.setHorizontalGroup(
@@ -316,10 +314,6 @@ public final class BatchTransferTopComponent extends TopComponent {
                 .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(importBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(checkBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(startBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -339,16 +333,13 @@ public final class BatchTransferTopComponent extends TopComponent {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(importBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(stopBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(startBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(checkBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(importBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(stopBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(startBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jSplitPane1.setLeftComponent(jXPanel1);
@@ -376,6 +367,15 @@ public final class BatchTransferTopComponent extends TopComponent {
             }
         });
 
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel3, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.jXLabel3.text")); // NOI18N
+
+        gasFld.setEditable(false);
+        gasFld.setText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.gasFld.text")); // NOI18N
+        gasFld.setPrompt(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.gasFld.prompt")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(selectGasBtn, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.selectGasBtn.text")); // NOI18N
+        selectGasBtn.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -385,19 +385,20 @@ public final class BatchTransferTopComponent extends TopComponent {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSplitPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(coinFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(walletFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jXLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jXLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jXLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(gasFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(coinFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(walletFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(selectWalletBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(selectCoinBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(selectCoinBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(selectGasBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -414,7 +415,12 @@ public final class BatchTransferTopComponent extends TopComponent {
                     .addComponent(coinFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(selectCoinBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(gasFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(selectGasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -456,7 +462,7 @@ public final class BatchTransferTopComponent extends TopComponent {
         // 选择代币前先选择钱包
         SelectCoinDialog dlg = new SelectCoinDialog(null, Constants.CFX_BLOCKCHAIN_SYMBAL, coin != null ? coin.getSymbol() : null);
         dlg.setVisible(true);
-        if(dlg.getReturnStatus() == SelectWalletDialog.RET_OK) {
+        if(dlg.getReturnStatus() == SelectCoinDialog.RET_OK) {
 	    coin = CoinManager.getDefault().getCoin(Constants.CFX_BLOCKCHAIN_SYMBAL, dlg.getSelected());
             
             // 求余额
@@ -472,6 +478,9 @@ public final class BatchTransferTopComponent extends TopComponent {
                     try {
                         BigInteger balance = get();
                         coinFld.setText(coin.getName() + "(余额：" + coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.FLOOR).toPlainString() + " " + coin.getMainUnit() + ")");
+			
+			gasFld.setText(coin.gasDesc(coin.gasDefault()));
+			selectGasBtn.setEnabled(true);
                     } catch (InterruptedException | ExecutionException ex) {
                         Exceptions.printStackTrace(ex);
                     }
@@ -481,12 +490,84 @@ public final class BatchTransferTopComponent extends TopComponent {
 	}
     }//GEN-LAST:event_selectCoinBtnActionPerformed
 
-    private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
+    private void startBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startBtnActionPerformed
 
-	BatchTransfer bt = new BatchTransfer();
-	bt.setValue("0");
-	tableModel.add(bt);
-    }//GEN-LAST:event_addBtnActionPerformed
+	// 选择钱包
+	if(wallet == null) {
+	    MessageDialog msg = new MessageDialog(null,"注意","请选择钱包");
+	    msg.setVisible(true);
+	    return;
+	}
+	
+	// 选择币种
+	if(coin == null) {
+	    MessageDialog msg = new MessageDialog(null,"注意","请选择币种");
+	    msg.setVisible(true);
+	    return;
+	}
+	
+	// TODO: 设置矿工费
+	
+	
+	List<BatchTransfer> list = tableModel.getBatchTransfers();
+	double total = 0d;
+	for(BatchTransfer bt : list) {
+	    // 1.检查是否有无效转账地址
+	    String address = bt.getAddress();
+            BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
+            if(!bc.isValidAddress(address)) {
+		MessageDialog msg = new MessageDialog(null,"注意","无效转账地址：" + address);
+		msg.setVisible(true);
+		return;
+	    }
+	    
+	    // 2.检查数量是否无效
+	    String value = bt.getValue();
+	    if(!NumberUtils.isParsable(value)) {
+		MessageDialog msg = new MessageDialog(null,"注意","无效数量：" + value);
+		msg.setVisible(true);
+		return;
+	    } else {
+		total += NumberUtils.toDouble(value);
+	    }
+	}
+	
+	// 2.检查余额是否足够(不考虑gas)
+	final Double dTotal = total;
+	SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
+	    @Override
+	    protected BigInteger doInBackground() throws Exception {
+		return coin.balanceOf(wallet.getAddress());
+	    }
+
+	    @Override
+	    protected void done() {
+		try {
+		    BigInteger balance = get();
+		    BigInteger biTotal = coin.mainUint2MinUint(dTotal);
+		    if(balance.compareTo(biTotal) < 0) {
+			MessageDialog msg = new MessageDialog(null,"注意","余额不足：" + balance.toString() + "<" + biTotal.toString());
+			msg.setVisible(true);
+			return;
+		    }
+		    
+		    // TODO: 转账
+		} catch (InterruptedException | ExecutionException ex) {
+		    Exceptions.printStackTrace(ex);
+		}
+	    }
+	};
+	worker.execute();
+    }//GEN-LAST:event_startBtnActionPerformed
+
+    private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
+        ConfirmDialog dlg = new ConfirmDialog(null, "删除记录确认", "是否删除记录？");
+        dlg.setVisible(true);
+        if(dlg.getReturnStatus() == ConfirmDialog.RET_OK) {
+            tableModel.clear();
+            table.repaint();
+        }
+    }//GEN-LAST:event_clearBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         ConfirmDialog dlg = new ConfirmDialog(null, "删除记录确认", "是否删除记录？");
@@ -501,14 +582,12 @@ public final class BatchTransferTopComponent extends TopComponent {
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
-    private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
-        ConfirmDialog dlg = new ConfirmDialog(null, "删除记录确认", "是否删除记录？");
-        dlg.setVisible(true);
-        if(dlg.getReturnStatus() == ConfirmDialog.RET_OK) {
-            tableModel.clear();
-            table.repaint();
-        }
-    }//GEN-LAST:event_clearBtnActionPerformed
+    private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
+
+        BatchTransfer bt = new BatchTransfer();
+        bt.setValue("0");
+        tableModel.add(bt);
+    }//GEN-LAST:event_addBtnActionPerformed
 
     private void importBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importBtnActionPerformed
         // 打开文件
@@ -525,8 +604,8 @@ public final class BatchTransferTopComponent extends TopComponent {
                 // 创建CSV读对象
                 CsvReader csvReader = new CsvReader(file.getAbsolutePath(), ',', Charset.forName("UTF-8"));
 
-//                // 读表头
-//                csvReader.readHeaders();
+                //                // 读表头
+                //                csvReader.readHeaders();
                 while (csvReader.readRecord()){
                     String address = csvReader.get(0);
                     BatchTransfer batchTransfer = new BatchTransfer();
@@ -542,56 +621,35 @@ public final class BatchTransferTopComponent extends TopComponent {
         }
     }//GEN-LAST:event_importBtnActionPerformed
 
-    private void startBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_startBtnActionPerformed
+    private void stopBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopBtnActionPerformed
 
-    private void checkBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBtnActionPerformed
-        // TODO: 检查转账地址及数量是否有效
-        List<BatchTransfer> list = tableModel.getBatchTransfers();
-        for(BatchTransfer bt : list) {
-            // 1检查转账地址
-            String address = bt.getAddress();
-            BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
-            if(bc.isValidAddress(address)) {
-                // 转账地址无效，记入日志
-                try {
-                    Document doc = logPane.getDocument();
-                    logPane.setCaretPosition(doc.getLength());  // 移动光标到最后
-                    logPane.setParagraphAttributes(Constants.ALIGNMENT_CENTER_ATTRIBUTE_SET, false);    // 设置居中
-                    doc.insertString(doc.getLength(), "\n", null);   // 换行重启一段落
-                    logPane.insertIcon(flagIcon);   // 插入通知标志
-                    doc.insertString(doc.getLength(), "", Constants.TEXT_HEADER_ATTRIBUTE_SET);
-                    doc.insertString(doc.getLength(), address + "地址无效\n", null);   // 换行重启一段落
-                } catch (BadLocationException ex) {
-                    LOG.log(Level.WARNING, "BadLocationException", ex);
-                }
-            }         
-            
-            // 2 检查数量
-            String value = bt.getValue();
-            
-            
-        }
-    }//GEN-LAST:event_checkBtnActionPerformed
+	
+	
+	
+	
+	
+	
+	
+    }//GEN-LAST:event_stopBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXButton addBtn;
-    private org.jdesktop.swingx.JXButton checkBtn;
     private org.jdesktop.swingx.JXButton clearBtn;
     private org.jdesktop.swingx.JXTextField coinFld;
     private org.jdesktop.swingx.JXButton deleteBtn;
     private org.jdesktop.swingx.JXFindBar findBar;
+    private org.jdesktop.swingx.JXTextField gasFld;
     private org.jdesktop.swingx.JXButton importBtn;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSplitPane jSplitPane1;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel2;
+    private org.jdesktop.swingx.JXLabel jXLabel3;
     private org.jdesktop.swingx.JXPanel jXPanel1;
     private javax.swing.JTextPane logPane;
     private org.jdesktop.swingx.JXButton selectCoinBtn;
+    private org.jdesktop.swingx.JXButton selectGasBtn;
     private org.jdesktop.swingx.JXButton selectWalletBtn;
     private org.jdesktop.swingx.JXButton startBtn;
     private org.jdesktop.swingx.JXButton stopBtn;

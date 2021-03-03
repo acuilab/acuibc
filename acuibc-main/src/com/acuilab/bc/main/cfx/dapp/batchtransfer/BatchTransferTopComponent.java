@@ -10,6 +10,7 @@ import com.acuilab.bc.main.ui.MyFindBar;
 import com.acuilab.bc.main.util.Constants;
 import com.acuilab.bc.main.wallet.TransferRecordTableModel;
 import com.acuilab.bc.main.wallet.Wallet;
+import com.acuilab.bc.main.wallet.WalletPanel;
 import com.acuilab.bc.main.wallet.common.SelectCoinDialog;
 import com.acuilab.bc.main.wallet.common.SelectWalletDialog;
 import com.csvreader.CsvReader;
@@ -20,16 +21,20 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
+import javax.swing.JFormattedTextField;
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 import javax.swing.event.ListSelectionEvent;
@@ -38,15 +43,18 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
-import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.Document;
+import javax.swing.text.NumberFormatter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.javatuples.Triplet;
 import org.jdesktop.swingx.JXTextField;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
 import org.jdesktop.swingx.table.TableColumnExt;
+import org.netbeans.api.progress.ProgressHandle;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -208,9 +216,13 @@ public final class BatchTransferTopComponent extends TopComponent {
         jXLabel2 = new org.jdesktop.swingx.JXLabel();
         coinFld = new org.jdesktop.swingx.JXTextField();
         selectCoinBtn = new org.jdesktop.swingx.JXButton();
+        jXPanel2 = new org.jdesktop.swingx.JXPanel();
+        gasSlider = new javax.swing.JSlider();
+        gasSpinner = new javax.swing.JSpinner();
+        slowLbl = new org.jdesktop.swingx.JXLabel();
+        fastLbl = new org.jdesktop.swingx.JXLabel();
+        gasLbl = new org.jdesktop.swingx.JXLabel();
         jXLabel3 = new org.jdesktop.swingx.JXLabel();
-        gasFld = new org.jdesktop.swingx.JXTextField();
-        selectGasBtn = new org.jdesktop.swingx.JXButton();
 
         walletFld.setEditable(false);
         walletFld.setText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.walletFld.text")); // NOI18N
@@ -295,11 +307,11 @@ public final class BatchTransferTopComponent extends TopComponent {
         findBar.setLayout(findBarLayout);
         findBarLayout.setHorizontalGroup(
             findBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 589, Short.MAX_VALUE)
+            .addGap(0, 371, Short.MAX_VALUE)
         );
         findBarLayout.setVerticalGroup(
             findBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 33, Short.MAX_VALUE)
+            .addGap(0, 43, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jXPanel1Layout = new javax.swing.GroupLayout(jXPanel1);
@@ -331,7 +343,7 @@ public final class BatchTransferTopComponent extends TopComponent {
                     .addComponent(findBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tableRowsLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(importBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -367,14 +379,66 @@ public final class BatchTransferTopComponent extends TopComponent {
             }
         });
 
+        jXPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.jXPanel2.border.title"))); // NOI18N
+
+        gasSlider.setPaintTicks(true);
+        gasSlider.setSnapToTicks(true);
+        gasSlider.setEnabled(false);
+        gasSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                gasSliderStateChanged(evt);
+            }
+        });
+
+        gasSpinner.setEnabled(false);
+        gasSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                gasSpinnerStateChanged(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(slowLbl, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.slowLbl.text")); // NOI18N
+
+        fastLbl.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        org.openide.awt.Mnemonics.setLocalizedText(fastLbl, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.fastLbl.text")); // NOI18N
+
+        gasLbl.setForeground(new java.awt.Color(0, 0, 255));
+        gasLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        org.openide.awt.Mnemonics.setLocalizedText(gasLbl, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.gasLbl.text")); // NOI18N
+        gasLbl.setEnabled(false);
+
+        javax.swing.GroupLayout jXPanel2Layout = new javax.swing.GroupLayout(jXPanel2);
+        jXPanel2.setLayout(jXPanel2Layout);
+        jXPanel2Layout.setHorizontalGroup(
+            jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel2Layout.createSequentialGroup()
+                .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jXPanel2Layout.createSequentialGroup()
+                        .addComponent(slowLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(gasLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(fastLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(gasSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(gasSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jXPanel2Layout.setVerticalGroup(
+            jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jXPanel2Layout.createSequentialGroup()
+                .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(gasSpinner)
+                    .addComponent(gasSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(slowLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(gasLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fastLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel3, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.jXLabel3.text")); // NOI18N
-
-        gasFld.setEditable(false);
-        gasFld.setText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.gasFld.text")); // NOI18N
-        gasFld.setPrompt(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.gasFld.prompt")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(selectGasBtn, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.selectGasBtn.text")); // NOI18N
-        selectGasBtn.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -384,21 +448,22 @@ public final class BatchTransferTopComponent extends TopComponent {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSplitPane1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jXLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jXLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jXLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(gasFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(coinFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(walletFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(selectWalletBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(selectCoinBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(selectGasBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(coinFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(walletFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(selectWalletBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(selectCoinBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jXPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -415,12 +480,11 @@ public final class BatchTransferTopComponent extends TopComponent {
                     .addComponent(coinFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(selectCoinBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(gasFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(selectGasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -478,9 +542,27 @@ public final class BatchTransferTopComponent extends TopComponent {
                     try {
                         BigInteger balance = get();
                         coinFld.setText(coin.getName() + "(余额：" + coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.FLOOR).toPlainString() + " " + coin.getMainUnit() + ")");
-			
-			gasFld.setText(coin.gasDesc(coin.gasDefault()));
-			selectGasBtn.setEnabled(true);
+
+                        // 矿工费初始化
+                        int gasMin = coin.gasMin();
+                        int gasMax = coin.gasMax();
+                        int defaultValue = coin.gasDefault();
+                        gasSlider.setMinimum(gasMin);
+                        gasSlider.setMaximum(gasMax);
+                        gasSlider.setValue(defaultValue);
+                        gasSpinner.setModel(new SpinnerNumberModel(defaultValue, gasMin, gasMax, 1));
+                        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(gasSpinner, "#");
+                        final JFormattedTextField textField = editor.getTextField();
+                        final DefaultFormatterFactory factory = (DefaultFormatterFactory)textField.getFormatterFactory();
+                        final NumberFormatter formatter = (NumberFormatter)factory.getDefaultFormatter();
+                        formatter.setCommitsOnValidEdit(true);
+                        gasSpinner.setEditor(editor);
+                        gasLbl.setText(coin.gasDesc(coin.gasDefault()));
+                        
+                        gasSlider.setEnabled(true);
+                        gasSpinner.setEnabled(true);
+                        gasLbl.setEnabled(true);
+                        
                     } catch (InterruptedException | ExecutionException ex) {
                         Exceptions.printStackTrace(ex);
                     }
@@ -506,58 +588,129 @@ public final class BatchTransferTopComponent extends TopComponent {
 	    return;
 	}
 	
-	// TODO: 设置矿工费
-	
-	
-	List<BatchTransfer> list = tableModel.getBatchTransfers();
+	final List<BatchTransfer> list = tableModel.getBatchTransfers();
 	double total = 0d;
 	for(BatchTransfer bt : list) {
-	    // 1.检查是否有无效转账地址
+	    // 检查是否有无效转账地址
 	    String address = bt.getAddress();
             BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
             if(!bc.isValidAddress(address)) {
-		MessageDialog msg = new MessageDialog(null,"注意","无效转账地址：" + address);
+		MessageDialog msg = new MessageDialog(null,"注意","无效转账地址：\"" + address + "\"");
 		msg.setVisible(true);
 		return;
 	    }
 	    
-	    // 2.检查数量是否无效
+	    // 检查数量是否无效
 	    String value = bt.getValue();
 	    if(!NumberUtils.isParsable(value)) {
-		MessageDialog msg = new MessageDialog(null,"注意","无效数量：" + value);
+		MessageDialog msg = new MessageDialog(null,"注意","无效数量：\"" + value + "\"");
 		msg.setVisible(true);
 		return;
 	    } else {
 		total += NumberUtils.toDouble(value);
 	    }
 	}
-	
-	// 2.检查余额是否足够(不考虑gas)
-	final Double dTotal = total;
-	SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
+        
+        // gas费是否足够(预留1cfx作为gas费)
+        // TODO：网络操作，SwingWorker线程
+        ICoin baseCoin = CoinManager.getDefault().getBaseCoin(Constants.CFX_BLOCKCHAIN_SYMBAL);
+        try {
+            BigInteger balance = baseCoin.balanceOf(wallet.getAddress());
+            if(balance.compareTo(baseCoin.mainUint2MinUint(BigDecimal.ONE)) < 0) {
+		MessageDialog msg = new MessageDialog(null,"注意","cfx数量必须大于1");
+		msg.setVisible(true);
+		return;
+            }
+            
+            // 代币数量是否足够
+            if(coin.isBaseCoin()) {
+                if(balance.multiply(coin.mainUint2MinUint(1l)).compareTo(coin.mainUint2MinUint(total)) < 0) {
+                    MessageDialog msg = new MessageDialog(null,"注意","代币数量不足");
+                    msg.setVisible(true);
+                    return;
+                }
+            } else {
+                BigInteger coinBalance = coin.balanceOf(wallet.getAddress());
+                if(coinBalance.compareTo(coin.mainUint2MinUint(total)) < 0) {
+                    MessageDialog msg = new MessageDialog(null,"注意","代币数量不足");
+                    msg.setVisible(true);
+                    return;
+                }
+            }
+        } catch (Exception ex) {
+            Exceptions.printStackTrace(ex);
+        }
+
+        final ProgressHandle ph = ProgressHandle.createHandle("正在转账，请稍候");
+        SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
 	    @Override
 	    protected BigInteger doInBackground() throws Exception {
-		return coin.balanceOf(wallet.getAddress());
+                ph.start(list.size());  // 两项检查+list.size次转账
+                // 1 检查gas费是否足够(预留1个cfx用于gas费)
+                
+                // 2 检查余额是否足够
+                
+                // 3 若上述检查通过，则开始批量转账
+                for(BatchTransfer bt : list) {
+                    // 根据地址和余额进行转账，并等待转账结果
+                    coin.transfer(TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, BigInteger.ONE, BigInteger.ONE);
+                }
+                
+                return null;
 	    }
+
+            @Override
+            protected void process(List<Void> chunks) {
+                // ph.progress
+                
+            }
+            
 
 	    @Override
 	    protected void done() {
-		try {
-		    BigInteger balance = get();
-		    BigInteger biTotal = coin.mainUint2MinUint(dTotal);
-		    if(balance.compareTo(biTotal) < 0) {
-			MessageDialog msg = new MessageDialog(null,"注意","余额不足：" + balance.toString() + "<" + biTotal.toString());
-			msg.setVisible(true);
-			return;
-		    }
-		    
-		    // TODO: 转账
-		} catch (InterruptedException | ExecutionException ex) {
-		    Exceptions.printStackTrace(ex);
-		}
+                ph.finish();
 	    }
 	};
 	worker.execute();
+        
+        
+        
+        
+//        // 检查gas费是否足够（预留1cfx）
+//        if(!coin.isBaseCoin()) {
+//            // 非主网币
+//            
+//        } else {
+//            // 主网币
+//            
+//        }
+//	
+//	// 检查余额是否足够(预留1个cfx作为gas)
+//	final Double dTotal = total;
+//	SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
+//	    @Override
+//	    protected BigInteger doInBackground() throws Exception {
+//		return coin.balanceOf(wallet.getAddress());
+//	    }
+//
+//	    @Override
+//	    protected void done() {
+//		try {
+//		    BigInteger balance = get();
+//		    BigInteger biTotal = coin.mainUint2MinUint(dTotal);
+//		    if(balance.compareTo(biTotal) < 0) {
+//			MessageDialog msg = new MessageDialog(null,"注意","余额不足：" + balance.toString() + "<" + biTotal.toString());
+//			msg.setVisible(true);
+//			return;
+//		    }
+//		    
+//		    // TODO: 转账
+//		} catch (InterruptedException | ExecutionException ex) {
+//		    Exceptions.printStackTrace(ex);
+//		}
+//	    }
+//	};
+//	worker.execute();
     }//GEN-LAST:event_startBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
@@ -632,13 +785,28 @@ public final class BatchTransferTopComponent extends TopComponent {
 	
     }//GEN-LAST:event_stopBtnActionPerformed
 
+    private void gasSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_gasSliderStateChanged
+        int value = ((JSlider) evt.getSource()).getValue();
+        gasLbl.setText(coin.gasDesc(value));
+        gasSpinner.setValue(value);
+    }//GEN-LAST:event_gasSliderStateChanged
+
+    private void gasSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_gasSpinnerStateChanged
+        int value = (Integer)((JSpinner) evt.getSource()).getValue();
+        gasLbl.setText(coin.gasDesc(value));
+        gasSlider.setValue(value);
+    }//GEN-LAST:event_gasSpinnerStateChanged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXButton addBtn;
     private org.jdesktop.swingx.JXButton clearBtn;
     private org.jdesktop.swingx.JXTextField coinFld;
     private org.jdesktop.swingx.JXButton deleteBtn;
+    private org.jdesktop.swingx.JXLabel fastLbl;
     private org.jdesktop.swingx.JXFindBar findBar;
-    private org.jdesktop.swingx.JXTextField gasFld;
+    private org.jdesktop.swingx.JXLabel gasLbl;
+    private javax.swing.JSlider gasSlider;
+    private javax.swing.JSpinner gasSpinner;
     private org.jdesktop.swingx.JXButton importBtn;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -647,10 +815,11 @@ public final class BatchTransferTopComponent extends TopComponent {
     private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXLabel jXLabel3;
     private org.jdesktop.swingx.JXPanel jXPanel1;
+    private org.jdesktop.swingx.JXPanel jXPanel2;
     private javax.swing.JTextPane logPane;
     private org.jdesktop.swingx.JXButton selectCoinBtn;
-    private org.jdesktop.swingx.JXButton selectGasBtn;
     private org.jdesktop.swingx.JXButton selectWalletBtn;
+    private org.jdesktop.swingx.JXLabel slowLbl;
     private org.jdesktop.swingx.JXButton startBtn;
     private org.jdesktop.swingx.JXButton stopBtn;
     private org.jdesktop.swingx.JXTable table;

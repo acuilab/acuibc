@@ -20,23 +20,26 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jSplitPane1" max="32767" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jXLabel3" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="jXLabel2" alignment="1" min="-2" max="-2" attributes="0"/>
                           <Component id="jXLabel1" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jXLabel3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="gasFld" alignment="0" max="32767" attributes="0"/>
-                          <Component id="coinFld" alignment="0" max="32767" attributes="0"/>
-                          <Component id="walletFld" alignment="0" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="selectWalletBtn" max="32767" attributes="0"/>
-                          <Component id="selectCoinBtn" max="32767" attributes="0"/>
-                          <Component id="selectGasBtn" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="coinFld" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="walletFld" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="selectWalletBtn" max="32767" attributes="0"/>
+                                  <Component id="selectCoinBtn" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Component id="jXPanel2" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -60,13 +63,12 @@
                   <Component id="selectCoinBtn" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jXLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="gasFld" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="selectGasBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jXLabel3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jXPanel2" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="43" max="32767" attributes="0"/>
-              <Component id="jSplitPane1" min="-2" pref="542" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jSplitPane1" pref="418" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -158,7 +160,7 @@
                           <Component id="tableRowsLbl" pref="43" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="307" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="177" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="importBtn" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -272,12 +274,12 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="589" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="371" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="33" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="43" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -347,30 +349,109 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="selectCoinBtnActionPerformed"/>
       </Events>
     </Component>
+    <Container class="org.jdesktop.swingx.JXPanel" name="jXPanel2">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder title="">
+              <ResourceString PropertyName="titleX" bundle="com/acuilab/bc/main/cfx/dapp/batchtransfer/Bundle.properties" key="BatchTransferTopComponent.jXPanel2.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </TitledBorder>
+          </Border>
+        </Property>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="slowLbl" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="gasLbl" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="fastLbl" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="gasSlider" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="gasSpinner" min="-2" pref="100" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="gasSpinner" max="32767" attributes="0"/>
+                      <Component id="gasSlider" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                          <Component id="slowLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="gasLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="fastLbl" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JSlider" name="gasSlider">
+          <Properties>
+            <Property name="paintTicks" type="boolean" value="true"/>
+            <Property name="snapToTicks" type="boolean" value="true"/>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="gasSliderStateChanged"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JSpinner" name="gasSpinner">
+          <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="gasSpinnerStateChanged"/>
+          </Events>
+        </Component>
+        <Component class="org.jdesktop.swingx.JXLabel" name="slowLbl">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/batchtransfer/Bundle.properties" key="BatchTransferTopComponent.slowLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="org.jdesktop.swingx.JXLabel" name="fastLbl">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/batchtransfer/Bundle.properties" key="BatchTransferTopComponent.fastLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="org.jdesktop.swingx.JXLabel" name="gasLbl">
+          <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="0" red="0" type="rgb"/>
+            </Property>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/batchtransfer/Bundle.properties" key="BatchTransferTopComponent.gasLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
     <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel3">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/batchtransfer/Bundle.properties" key="BatchTransferTopComponent.jXLabel3.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
-      </Properties>
-    </Component>
-    <Component class="org.jdesktop.swingx.JXTextField" name="gasFld">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/batchtransfer/Bundle.properties" key="BatchTransferTopComponent.gasFld.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-        <Property name="prompt" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/batchtransfer/Bundle.properties" key="BatchTransferTopComponent.gasFld.prompt" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="org.jdesktop.swingx.JXButton" name="selectGasBtn">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/batchtransfer/Bundle.properties" key="BatchTransferTopComponent.selectGasBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
   </SubComponents>

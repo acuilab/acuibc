@@ -74,7 +74,7 @@ public class SelectCoinDialog extends javax.swing.JDialog {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
 			selected = radioBtn.getText();
-			doClose(RET_OK);
+//			doClose(RET_OK);
 		    }
 		});
 		
@@ -107,6 +107,8 @@ public class SelectCoinDialog extends javax.swing.JDialog {
         buttonGroup1 = new javax.swing.ButtonGroup();
         cancelButton = new javax.swing.JButton();
         panel = new org.jdesktop.swingx.JXPanel();
+        okButton = new javax.swing.JButton();
+        infoLbl = new org.jdesktop.swingx.JXLabel();
 
         setIconImage(ImageUtilities.loadImage("/resource/gourd32.png"));
         setPreferredSize(new java.awt.Dimension(664, 456));
@@ -131,8 +133,18 @@ public class SelectCoinDialog extends javax.swing.JDialog {
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 545, Short.MAX_VALUE)
+            .addGap(0, 402, Short.MAX_VALUE)
         );
+
+        org.openide.awt.Mnemonics.setLocalizedText(okButton, org.openide.util.NbBundle.getMessage(SelectCoinDialog.class, "SelectCoinDialog.okButton.text")); // NOI18N
+        okButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                okButtonActionPerformed(evt);
+            }
+        });
+
+        infoLbl.setForeground(java.awt.Color.red);
+        org.openide.awt.Mnemonics.setLocalizedText(infoLbl, org.openide.util.NbBundle.getMessage(SelectCoinDialog.class, "SelectCoinDialog.infoLbl.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -142,7 +154,10 @@ public class SelectCoinDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 809, Short.MAX_VALUE)
+                        .addComponent(infoLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cancelButton))
                     .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -153,9 +168,14 @@ public class SelectCoinDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cancelButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cancelButton)
+                    .addComponent(okButton)
+                    .addComponent(infoLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
+
+        getRootPane().setDefaultButton(okButton);
 
         pack();
         setLocationRelativeTo(null);
@@ -171,6 +191,15 @@ public class SelectCoinDialog extends javax.swing.JDialog {
     private void closeDialog(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_closeDialog
         doClose(RET_CANCEL);
     }//GEN-LAST:event_closeDialog
+
+    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+        if(selected == null) {
+            infoLbl.setText("请选择币种");
+            return;
+        }
+
+        doClose(RET_OK);
+    }//GEN-LAST:event_okButtonActionPerformed
     
     private void doClose(int retStatus) {
         returnStatus = retStatus;
@@ -181,6 +210,8 @@ public class SelectCoinDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton cancelButton;
+    private org.jdesktop.swingx.JXLabel infoLbl;
+    private javax.swing.JButton okButton;
     private org.jdesktop.swingx.JXPanel panel;
     // End of variables declaration//GEN-END:variables
 

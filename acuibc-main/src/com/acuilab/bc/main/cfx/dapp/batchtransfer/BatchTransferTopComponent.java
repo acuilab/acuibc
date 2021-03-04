@@ -7,10 +7,11 @@ import com.acuilab.bc.main.manager.CoinManager;
 import com.acuilab.bc.main.ui.ConfirmDialog;
 import com.acuilab.bc.main.ui.MessageDialog;
 import com.acuilab.bc.main.ui.MyFindBar;
+import com.acuilab.bc.main.util.AESUtil;
 import com.acuilab.bc.main.util.Constants;
 import com.acuilab.bc.main.wallet.TransferRecordTableModel;
 import com.acuilab.bc.main.wallet.Wallet;
-import com.acuilab.bc.main.wallet.WalletPanel;
+import com.acuilab.bc.main.wallet.common.PasswordVerifyDialog;
 import com.acuilab.bc.main.wallet.common.SelectCoinDialog;
 import com.acuilab.bc.main.wallet.common.SelectWalletDialog;
 import com.csvreader.CsvReader;
@@ -48,6 +49,7 @@ import javax.swing.text.Document;
 import javax.swing.text.NumberFormatter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import org.jdesktop.swingx.JXTextField;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
@@ -95,6 +97,8 @@ public final class BatchTransferTopComponent extends TopComponent {
 
     private Wallet wallet;
     private ICoin coin;
+    
+    private SwingWorker<String, Triplet<Integer, String, String>> innerWorker;	// 序号、描述、哈希
     
     public BatchTransferTopComponent() {
         initComponents();
@@ -177,6 +181,9 @@ public final class BatchTransferTopComponent extends TopComponent {
             
         });
 	valueColumn.setCellEditor(new ValueTableCellEditor(valueTextField));
+	
+        TableColumn hashColumn = table.getColumn(BatchTransferTableModel.HASH_COLUMN);
+        hashColumn.setCellRenderer(new com.acuilab.bc.main.cfx.dapp.batchtransfer.HashTableCellRenderer());   // 显示超链接
 
 	ColorHighlighter evenHighlighter = new ColorHighlighter(HighlightPredicate.EVEN, Color.WHITE, null);
 	ColorHighlighter oddHighlighter = new HighlighterFactory.UIColorHighlighter(HighlightPredicate.ODD);
@@ -297,6 +304,8 @@ public final class BatchTransferTopComponent extends TopComponent {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(startBtn, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.startBtn.text")); // NOI18N
+        startBtn.setToolTipText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.startBtn.toolTipText")); // NOI18N
+        startBtn.setEnabled(false);
         startBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 startBtnActionPerformed(evt);
@@ -307,7 +316,7 @@ public final class BatchTransferTopComponent extends TopComponent {
         findBar.setLayout(findBarLayout);
         findBarLayout.setHorizontalGroup(
             findBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 371, Short.MAX_VALUE)
+            .addGap(0, 589, Short.MAX_VALUE)
         );
         findBarLayout.setVerticalGroup(
             findBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -330,7 +339,7 @@ public final class BatchTransferTopComponent extends TopComponent {
                 .addComponent(startBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(stopBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 821, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 855, Short.MAX_VALUE)
             .addGroup(jXPanel1Layout.createSequentialGroup()
                 .addComponent(findBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -343,7 +352,7 @@ public final class BatchTransferTopComponent extends TopComponent {
                     .addComponent(findBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tableRowsLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(importBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -484,7 +493,7 @@ public final class BatchTransferTopComponent extends TopComponent {
                     .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jXPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -610,108 +619,92 @@ public final class BatchTransferTopComponent extends TopComponent {
 		total += NumberUtils.toDouble(value);
 	    }
 	}
-        
-        // gas费是否足够(预留1cfx作为gas费)
-        // TODO：网络操作，SwingWorker线程
-        ICoin baseCoin = CoinManager.getDefault().getBaseCoin(Constants.CFX_BLOCKCHAIN_SYMBAL);
-        try {
-            BigInteger balance = baseCoin.balanceOf(wallet.getAddress());
-            if(balance.compareTo(baseCoin.mainUint2MinUint(1l)) < 0) {
-		MessageDialog msg = new MessageDialog(null,"注意","cfx数量必须大于1");
-		msg.setVisible(true);
-		return;
-            }
-            
-            // 代币数量是否足够
-            if(coin.isBaseCoin()) {
-                if(balance.multiply(coin.mainUint2MinUint(1l)).compareTo(coin.mainUint2MinUint(total)) < 0) {
-                    MessageDialog msg = new MessageDialog(null,"注意","代币数量不足");
-                    msg.setVisible(true);
-                    return;
-                }
-            } else {
-                BigInteger coinBalance = coin.balanceOf(wallet.getAddress());
-                if(coinBalance.compareTo(coin.mainUint2MinUint(total)) < 0) {
-                    MessageDialog msg = new MessageDialog(null,"注意","代币数量不足");
-                    msg.setVisible(true);
-                    return;
-                }
-            }
-        } catch (Exception ex) {
-            Exceptions.printStackTrace(ex);
-        }
-
-        // TODO: 请求密码
-        final ProgressHandle ph = ProgressHandle.createHandle("正在转账，请稍候");
-        SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
+	
+        // 外层SwingWorker用于验证矿工费及余额是否足够；内层SwingWorker用于执行实际的转账
+	final Double totalWrapped = total;
+        SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
 	    @Override
-	    protected BigInteger doInBackground() throws Exception {
-                ph.start(list.size());  // 两项检查+list.size次转账
+	    protected String doInBackground() throws Exception {
                 // 1 检查gas费是否足够(预留1个cfx用于gas费)
-                
                 // 2 检查余额是否足够
-                
-                // 3 若上述检查通过，则开始批量转账
-                for(BatchTransfer bt : list) {
-                    // 根据地址和余额进行转账，并等待转账结果
-                    coin.transfer(TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, BigInteger.ONE, BigInteger.ONE);
-                }
-                
-                return null;
-	    }
+		ICoin baseCoin = CoinManager.getDefault().getBaseCoin(Constants.CFX_BLOCKCHAIN_SYMBAL);
+		BigInteger balance = baseCoin.balanceOf(wallet.getAddress());
+		if(balance.compareTo(baseCoin.mainUint2MinUint(1l)) < 0) {
+		    // cfx数量必须大于1
+		    return coin.getName() + "数量必须大于1";
+		}
 
-            @Override
-            protected void process(List<Void> chunks) {
-                // ph.progress
+		// 代币数量是否足够
+		if(coin.isBaseCoin()) {
+		    if(balance.multiply(coin.mainUint2MinUint(1l)).compareTo(coin.mainUint2MinUint(totalWrapped)) < 0) {
+			return coin.getName() + "扣除预留的矿工费后数量不足";
+		    }
+		} else {
+		    BigInteger coinBalance = coin.balanceOf(wallet.getAddress());
+		    if(coinBalance.compareTo(coin.mainUint2MinUint(totalWrapped)) < 0) {
+			return coin.getName() + "数量不足";
+		    }
+		}
                 
-            }
-            
+                return "";
+	    }
 
 	    @Override
 	    protected void done() {
-                ph.finish();
+		try {
+		    String ret = get();
+		    if(StringUtils.isNotBlank(ret)) {
+			MessageDialog msg = new MessageDialog(null,"注意",ret);
+			msg.setVisible(true);
+		    } else {
+			// 请求密码获得私钥
+			PasswordVerifyDialog passwordVerifyDialog = new PasswordVerifyDialog(null, wallet);
+			passwordVerifyDialog.setVisible(true);
+			if(passwordVerifyDialog.getReturnStatus() == PasswordVerifyDialog.RET_OK) {
+			    // 内层SwingWorker
+			    final ProgressHandle ph = ProgressHandle.createHandle("正在转账，请稍候");
+			    innerWorker = new SwingWorker<String, Triplet<Integer, String, String>>() {	// 序号、描述、哈希
+				@Override
+				protected String doInBackground() throws Exception {
+				    ph.start(list.size());
+				    int i=0;
+				    for(BatchTransfer bt : list) {
+					// 根据地址和余额进行转账，并等待转账结果
+					String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), passwordVerifyDialog.getPassword()), bt.getAddress(), coin.mainUint2MinUint(new BigDecimal(bt.getValue())), coin.gas2MinUnit(gasSlider.getValue()));
+					publish(new Triplet<>(i, bt.getAddress() + "：" + bt.getValue() + coin.getMainUnit(), hash));
+					
+					i++;
+				    }
+				    
+				    return "";
+				}
+
+				@Override
+				protected void process(List<Triplet<Integer, String, String>> chunks) {
+				    for(Triplet<Integer, String, String> triplet : chunks) {
+					String hash = triplet.getValue2();
+					// TODO: 根据hash更新表格
+					
+					ph.progress(triplet.getValue1(), triplet.getValue0()+1);
+				    }
+				}
+				
+				
+				
+				@Override
+				protected void done() {
+				    
+				}
+			    };
+			    innerWorker.execute();
+			}
+		    }
+		} catch (InterruptedException | ExecutionException ex) {
+		    Exceptions.printStackTrace(ex);
+		}
 	    }
 	};
 	worker.execute();
-        
-        
-        
-        
-//        // 检查gas费是否足够（预留1cfx）
-//        if(!coin.isBaseCoin()) {
-//            // 非主网币
-//            
-//        } else {
-//            // 主网币
-//            
-//        }
-//	
-//	// 检查余额是否足够(预留1个cfx作为gas)
-//	final Double dTotal = total;
-//	SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
-//	    @Override
-//	    protected BigInteger doInBackground() throws Exception {
-//		return coin.balanceOf(wallet.getAddress());
-//	    }
-//
-//	    @Override
-//	    protected void done() {
-//		try {
-//		    BigInteger balance = get();
-//		    BigInteger biTotal = coin.mainUint2MinUint(dTotal);
-//		    if(balance.compareTo(biTotal) < 0) {
-//			MessageDialog msg = new MessageDialog(null,"注意","余额不足：" + balance.toString() + "<" + biTotal.toString());
-//			msg.setVisible(true);
-//			return;
-//		    }
-//		    
-//		    // TODO: 转账
-//		} catch (InterruptedException | ExecutionException ex) {
-//		    Exceptions.printStackTrace(ex);
-//		}
-//	    }
-//	};
-//	worker.execute();
     }//GEN-LAST:event_startBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
@@ -766,6 +759,7 @@ public final class BatchTransferTopComponent extends TopComponent {
                     batchTransfer.setAddress(address);
                     batchTransfer.setValue(csvReader.get(1));
                     batchTransfer.setRemark(csvReader.get(2));
+		    batchTransfer.setHash("0xa94019cbfc32572243af66d4812c960a4eeb8169670e9a82afffbcfa5fd27f6a");
                     tableModel.add(batchTransfer);
                 }
 

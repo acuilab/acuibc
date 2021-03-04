@@ -20,7 +20,7 @@ public class BatchTransferTableModel extends AbstractTableModel {
     public static final int ADDRESS_COLUMN = 1;
     public static final int VALUE_COLUMN = 2;
     public static final int REMARK_COLUMN = 3;
-    public static final int RESULT_COLUMN = 4;
+    public static final int HASH_COLUMN = 4;
     public static final int COLUMN_COUNT = 5;
     
     private final List<BatchTransfer> list = new ArrayList<>();
@@ -30,7 +30,7 @@ public class BatchTransferTableModel extends AbstractTableModel {
         "地址",
         "数量",
         "备注",
-        "结果"
+        "交易哈希"
     };
     
     public BatchTransferTableModel(JXTable table) {
@@ -94,8 +94,8 @@ public class BatchTransferTableModel extends AbstractTableModel {
                 return NumberUtils.toDouble(obj.getValue());
             case REMARK_COLUMN:
                 return StringUtils.trimToEmpty(obj.getRemark());
-            case RESULT_COLUMN:
-                return "";
+            case HASH_COLUMN:
+                return StringUtils.trimToEmpty(obj.getHash());
         }
         return null;
     }
@@ -120,7 +120,7 @@ public class BatchTransferTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-	return !(columnIndex == INDEX_COLUMN || columnIndex == RESULT_COLUMN);
+	return !(columnIndex == INDEX_COLUMN || columnIndex == HASH_COLUMN);
     }
 
     @Override
@@ -145,7 +145,7 @@ public class BatchTransferTableModel extends AbstractTableModel {
             case REMARK_COLUMN:
 		obj.setRemark((String)val);
 		break;
-            case RESULT_COLUMN:
+            case HASH_COLUMN:
                 return;
         }
 	fireTableCellUpdated(row, column); // informe any object about changes

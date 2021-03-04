@@ -8,7 +8,7 @@ public class BatchTransfer {
     private String address;
     private String value;
     private String remark;
-    private String result;
+    private String hash;
 
     public String getAddress() {
 	return address;
@@ -26,16 +26,16 @@ public class BatchTransfer {
 	this.value = value;
     }
 
-    public String getResult() {
-	return result;
-    }
-
-    public void setResult(String result) {
-	this.result = result;
-    }
-
     public String getRemark() {
         return remark;
+    }
+
+    public String getHash() {
+	return hash;
+    }
+
+    public void setHash(String hash) {
+	this.hash = hash;
     }
 
     public void setRemark(String remark) {

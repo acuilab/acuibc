@@ -179,9 +179,8 @@ public class CFXBlockChain implements BlockChain {
             Address.validate(address);
             return true;
         } catch(AddressException e) {
-//	    LOG.log(Level.WARNING, null, e);
-	    e.printStackTrace();
-        }
+	    // igonre
+	}
 	
 	return false;
     }

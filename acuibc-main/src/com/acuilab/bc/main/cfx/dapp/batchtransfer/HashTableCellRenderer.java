@@ -1,82 +1,42 @@
 package com.acuilab.bc.main.cfx.dapp.batchtransfer;
 
+import com.acuilab.bc.main.BlockChain;
+import com.acuilab.bc.main.manager.BlockChainManager;
+import com.acuilab.bc.main.util.Constants;
 import java.awt.Component;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import javax.swing.JLabel;
+import java.net.URI;
+import javax.swing.JButton;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
+import org.jdesktop.swingx.JXHyperlink;
+import org.jdesktop.swingx.JXPanel;
 
 /**
  *
  * @author admin
  */
-public class HashTableCellRenderer extends DefaultTableCellRenderer {
+public class HashTableCellRenderer implements TableCellRenderer {
+    private final JXPanel panel;
+    private final JButton link;
     
+    public HashTableCellRenderer() {
+        this.link = new JButton();
+        // 设置按钮的大小及位置。
+        this.link.setBounds(0, 0, 50, 15);
+        // 这里不要添加事件，在渲染器里边添加按钮的事件是不会触发的
+        
+        this.panel = new JXPanel();
+        this.panel.setLayout(null);         // panel使用绝对定位，这样link就不会充满整个单元格；这里正好需要link充满整个单元格
+        
+        this.panel.add(this.link);
+    }
+
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-	
-	
-	JLabel label = (JLabel)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-	if(column == BatchTransferTableModel.VALUE_COLUMN){
-	    BatchTransferTableModel tableModel = (BatchTransferTableModel)table.getModel();
-	    BatchTransfer batchTransfer = tableModel.getBatchTransfer(table.convertRowIndexToModel(row));
-	    String val = batchTransfer.getValue();
-	    label.setText(val);
-	    label.addMouseListener(new MouseListener() {
-		@Override
-		public void mouseClicked(MouseEvent e) {
-		    System.out.println("mouseClicked...................................");
-		}
+        
+        // 只为按钮赋值即可。也可以作其它操作，如绘背景等。
+        this.link.setText(value == null ? "" : String.valueOf(value));
 
-		@Override
-		public void mousePressed(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-		}
-	    });
-	}
-	
-	return label;
-	
-	
-//	JXHyperlink link = (JXHyperlink)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-//	JXHyperlink link = new JXHyperlink();
-//	if(column == BatchTransferTableModel.HASH_COLUMN){
-//	    BatchTransferTableModel tableModel = (BatchTransferTableModel)table.getModel();
-//	    BatchTransfer batchTransfer = tableModel.getBatchTransfer(table.convertRowIndexToModel(row));
-//	    link.setText(batchTransfer.getHash());
-//	    BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
-//	    link.addActionListener(new ActionListener() {
-//		@Override
-//		public void actionPerformed(ActionEvent e) {
-//		    BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
-//		    
-//		    if(Desktop.isDesktopSupported()) {
-//			try {
-//			    if(Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-//				// 打开默认浏览器
-//				Desktop.getDesktop().browse(URI.create(bc.getTransactionDetailUrl(batchTransfer.getHash())));
-//			    }
-//			} catch (IOException ex) {
-//			    Exceptions.printStackTrace(ex);
-//			}
-//		    }
-//		}
-//	    });
-//	}
-//	
-//	return link;
+        return this.panel;
     }
-    
 }

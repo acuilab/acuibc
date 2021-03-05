@@ -265,8 +265,24 @@ public class SingleNFTPanel extends JXPanel {
 		    @Override
 		    protected BlockChain.TransactionStatus doInBackground() throws Exception {
 			ph.start();
-			// 获得交易状态
-			return bc.getTransactionStatusByHash(hash);
+			// 获得交易状态（最多请求8次）
+			Thread.sleep(3000l);
+
+			int count = 8;
+			BlockChain.TransactionStatus status = BlockChain.TransactionStatus.UNKNOWN;
+			while(status == BlockChain.TransactionStatus.UNKNOWN && count > 0) {
+			    status = bc.getTransactionStatusByHash(hash);
+
+			    // 这里不直接跳出，而是等待延时结束，给区块链留一点时间更新状态
+//			    if(status != BlockChain.TransactionStatus.UNKNOWN) {
+//				break;
+//			    }
+
+			    count--;
+			    // 延时2秒
+			    Thread.sleep(2000l);
+			}
+			return status;
 		    }
 
 		    @Override

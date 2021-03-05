@@ -712,7 +712,7 @@ public final class BatchTransferTopComponent extends TopComponent {
 					bt.setHash(hash);
 					publish(new Triplet<>(i, bt.getAddress() + "：" + bt.getValue() + coin.getMainUnit(), hash));
 					
-					// 获得交易状态
+					// TODO: 获得交易状态
 					
 					
 					i++;

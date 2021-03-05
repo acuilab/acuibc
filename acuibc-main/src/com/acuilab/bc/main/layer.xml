@@ -78,6 +78,15 @@
             <file name="com.acuilab.bc.main.action.InternalDAppListTopComponentAction.instance">
                 <attr intvalue="20" name="position"/>
             </file>
+            <file name="Separator1.instance">
+	        <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+	        <attr name="position" intvalue="80"/>
+            </file>
+            <file name="org-netbeans-core-windows-actions-ResetWindowsAction.shadow">
+                <!--org.netbeans.core.windows.actions.ResetWindowsAction.reset()-->
+                <attr name="originalFile" stringvalue="Actions/Window/org-netbeans-core-windows-actions-ResetWindowsAction.instance"/>
+                <attr intvalue="100" name="position"/>
+            </file>
         </folder>
         <folder name="帮助">
             <attr intvalue="800" name="position"/>

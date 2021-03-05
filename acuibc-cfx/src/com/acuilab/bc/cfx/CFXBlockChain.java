@@ -17,6 +17,7 @@ import org.openide.util.ImageUtilities;
 import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.util.Constants;
 import conflux.web3j.contract.abi.DecodeUtil;
+import conflux.web3j.request.Epoch;
 import conflux.web3j.response.Status;
 import conflux.web3j.response.Transaction;
 import conflux.web3j.types.Address;
@@ -211,41 +212,32 @@ public class CFXBlockChain implements BlockChain {
         return TRANSACTIONS_DETAIL_URL + hash;
     }
 
+    // @see https://zh-hans.developer.conflux-chain.org/docs/conflux-doc/json_rpc
+    // @see http://acuilab.com:8080/articles/2021/03/05/1614930971725.html
     @Override
     public TransactionStatus getTransactionStatusByHash(String hash) throws Exception {
         
-        int count = 8;
-        while(count > 0) {
-            Transaction trans = cfx.getTransactionByHash(hash).sendAndGet().orElse(null);
-            if(trans != null) {
-                String blockHash =  trans.getBlockHash().orElse(null);
-                if(blockHash != null) {
-                    
-                    BigInteger result = trans.getStatus().orElse(null);
-                    
-                    // '0x0'成功执行; '0x1'异常发生，但是nonce值增加; '0x2' 异常发生，并且nonce值没有增加.
-                    if(result != null && result.equals(BigInteger.ZERO)) {
-                        // 成功执行: 延时，以便服务器准备交易记录和余额
-                        try {
-                            Thread.sleep(REFRESH_DELAY_MILLISECONDS);
-                        } catch (InterruptedException ex) {
-                        }
-                        
-                        return TransactionStatus.SUCCESS;
-                    }
-                    
-                    return TransactionStatus.FAILED;
-                }
-            }
-            
-            count--;
-            
-            // 休眠2秒钟
-            try {
-                Thread.sleep(GET_TRANSACTION_STATUS_INTERVAL_MILLISECONDS);
-            } catch (InterruptedException ex) {
-            }
-        }
+	Transaction trans = cfx.getTransactionByHash(hash).sendAndGet().orElse(null);
+	if(trans != null) {
+	    //  0 代表成功，1 代表发生错误，当交易被跳过或未打包时为null
+	    BigInteger status = trans.getStatus().orElse(null);
+
+	    // '0x0'成功执行; '0x1'异常发生，但是nonce值增加; '0x2' 异常发生，并且nonce值没有增加.
+	    if(status != null) {
+		if(status.equals(BigInteger.ZERO)) {
+		    return TransactionStatus.SUCCESS;
+		} else {
+		    return TransactionStatus.FAILED;
+		}
+	    } else {
+		// 交易被跳过或未打包(交易被跳过认为交易失败了)
+		// 看所在block的epochNumber如果离当前很远了就是跳过了，印象中一个tx被打包了5 epoch内会被执行，如果不执行就被跳过了
+//		HEX String - 整型的纪元号
+//		String "earliest" - 创世区块所在的最早纪元
+//		String "latest_mined" - 最新挖出的区块所在的纪元
+//		String "latest_state" - 可执行状态的最新区块所在的纪元
+	    }
+	}
 
         return TransactionStatus.UNKNOWN;
     }

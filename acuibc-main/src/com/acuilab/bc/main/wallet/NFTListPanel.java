@@ -60,6 +60,7 @@ public class NFTListPanel extends JXPanel {
     
     // 重新加载nft列表(后台线程执行)
     public void reload() {
+	firstOpen=false;
 	refreshBtn.setEnabled(false);
         nftDisplayPanel.removeAll(); 
         final ProgressHandle ph = ProgressHandle.createHandle("正在请求NFT列表，请稍候");
@@ -101,7 +102,6 @@ public class NFTListPanel extends JXPanel {
 		    Integer count = get();
 		    parent.setNftPaneTitleAt(index, nft.getName() + "(" + count + ")");
 		    ph.finish();
-		    firstOpen=false;
 		    NFTListPanel.this.repaint();
 		} catch (InterruptedException | ExecutionException ex) {
 		    Exceptions.printStackTrace(ex);

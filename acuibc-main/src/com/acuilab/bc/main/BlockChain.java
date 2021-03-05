@@ -108,13 +108,15 @@ public interface BlockChain {
     
     /**
      * 获得交易状态
+     * 该方法应执行一次简单的查询并给出结果，可能成功，可能失败，也可能尚不明确
+     * 对于结果不明确的调用，是否继续查询以及查询次数，应由调用者决定
      * @param hash
      * @return 
      */
     TransactionStatus getTransactionStatusByHash(String hash) throws Exception;
     
     enum TransactionStatus {
-        UNKNOWN,    // 超时未返回
+        UNKNOWN,    // 结果尚不明确
 	SUCCESS,    // 交易成功
 	FAILED	    // 交易失败
     }

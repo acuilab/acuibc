@@ -558,7 +558,7 @@ public final class WalletTopComponent extends TopComponent implements Observer {
     }//GEN-LAST:event_copyAddressBtnActionPerformed
 
     private void coinPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_coinPaneStateChanged
-        // 代币被选中
+	// 代币被选中
         tabbedPane1StateChanged(evt);
     }//GEN-LAST:event_coinPaneStateChanged
 
@@ -568,12 +568,13 @@ public final class WalletTopComponent extends TopComponent implements Observer {
     }//GEN-LAST:event_nftPaneStateChanged
 
     private void tabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabbedPane1StateChanged
-        switch (tabbedPane1.getSelectedIndex()) {
+	switch (tabbedPane1.getSelectedIndex()) {
             case 0:
                 // 代币被选中
                 CoinPanel selectedCoinPanel = (CoinPanel)coinPane.getSelectedComponent();
                 if(selectedCoinPanel != null) {
                     if(selectedCoinPanel.isFirstOpen()){
+			System.out.println("selectedCoinPanel.refreshBtnActionPerformed()");
                         selectedCoinPanel.refreshBtnActionPerformed();
                     }
                 }

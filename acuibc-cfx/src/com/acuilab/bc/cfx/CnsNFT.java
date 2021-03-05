@@ -150,10 +150,7 @@ public class CnsNFT extends AbstractNFT {
 
         for (int i = 0; i < balanceDecode; i++) {
             String tokenOfOwnerByIndexStr = contract.call("tokenOfOwnerByIndex", new org.web3j.abi.datatypes.Address(address), new org.web3j.abi.datatypes.generated.Uint256(BigInteger.valueOf(i))).sendAndGet();
-
             ret[i] = DecodeUtil.decode(tokenOfOwnerByIndexStr, org.web3j.abi.datatypes.generated.Uint256.class);
-
-            //System.out.println("id:" + ret[i]);
         }
 
         return ret;

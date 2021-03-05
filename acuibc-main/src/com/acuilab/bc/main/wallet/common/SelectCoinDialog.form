@@ -41,7 +41,7 @@
                   <Group type="102" attributes="0">
                       <Component id="infoLbl" min="-2" pref="489" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="okButton" min="-2" pref="67" max="-2" attributes="0"/>
+                      <Component id="okButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cancelButton" min="-2" max="-2" attributes="0"/>
                   </Group>

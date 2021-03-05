@@ -16,7 +16,6 @@ import com.acuilab.bc.main.wallet.common.SelectCoinDialog;
 import com.acuilab.bc.main.wallet.common.SelectWalletDialog;
 import com.csvreader.CsvReader;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -149,8 +148,15 @@ public final class BatchTransferTopComponent extends TopComponent {
 		deleteBtn.setEnabled(selectedRows.length > 0);
                 if(selectedRows.length == 1) {
                     BatchTransfer bt = tableModel.getBatchTransfer(table.convertRowIndexToModel(selectedRows[0]));
-                    scanBtn.setEnabled(StringUtils.isNotBlank(bt.getHash()));
+		    if(StringUtils.isNotBlank(bt.getHash())) {
+			scanBtn.setText("confluxscan:" + bt.getHash());
+		    } else {
+			scanBtn.setText("confluxscan");
+		    }
+		    scanBtn.setEnabled(StringUtils.isNotBlank(bt.getHash()));
+                    
                 } else {
+		    scanBtn.setText("confluxscan");
                     scanBtn.setEnabled(false);
                 }
             }
@@ -317,7 +323,6 @@ public final class BatchTransferTopComponent extends TopComponent {
 
         org.openide.awt.Mnemonics.setLocalizedText(startBtn, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.startBtn.text")); // NOI18N
         startBtn.setToolTipText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.startBtn.toolTipText")); // NOI18N
-        startBtn.setEnabled(false);
         startBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 startBtnActionPerformed(evt);
@@ -328,7 +333,7 @@ public final class BatchTransferTopComponent extends TopComponent {
         findBar.setLayout(findBarLayout);
         findBarLayout.setHorizontalGroup(
             findBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 371, Short.MAX_VALUE)
+            .addGap(0, 589, Short.MAX_VALUE)
         );
         findBarLayout.setVerticalGroup(
             findBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -361,8 +366,8 @@ public final class BatchTransferTopComponent extends TopComponent {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scanBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(scanBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(startBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(stopBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -379,17 +384,17 @@ public final class BatchTransferTopComponent extends TopComponent {
                     .addComponent(findBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tableRowsLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(scanBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(importBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(stopBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(startBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(scanBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(startBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSeparator1)))
         );
 
@@ -701,7 +706,10 @@ public final class BatchTransferTopComponent extends TopComponent {
 				    for(BatchTransfer bt : list) {
 					// 根据地址和余额进行转账，并等待转账结果
 					String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), passwordVerifyDialog.getPassword()), bt.getAddress(), coin.mainUint2MinUint(new BigDecimal(bt.getValue())), coin.gas2MinUnit(gasSlider.getValue()));
+					bt.setHash(hash);
 					publish(new Triplet<>(i, bt.getAddress() + "：" + bt.getValue() + coin.getMainUnit(), hash));
+					
+					Thread.sleep(16000);
 					
 					i++;
 				    }
@@ -712,18 +720,24 @@ public final class BatchTransferTopComponent extends TopComponent {
 				@Override
 				protected void process(List<Triplet<Integer, String, String>> chunks) {
 				    for(Triplet<Integer, String, String> triplet : chunks) {
-					String hash = triplet.getValue2();
-					// TODO: 根据hash更新表格
+					// 刷新表格
+					table.repaint();
 					
 					ph.progress(triplet.getValue1(), triplet.getValue0()+1);
 				    }
 				}
 				
-				
-				
 				@Override
 				protected void done() {
+				    ph.finish();
 				    
+				    // 更新超链scanBtn
+				    if(table.getSelectedRow() != -1) {
+					BatchTransfer bt = tableModel.getBatchTransfer(table.convertRowIndexToModel(table.getSelectedRow()));
+					scanBtn.setText("confluxscan: " + bt.getHash());
+				    } else {
+					scanBtn.setText("confluxscan");
+				    }
 				}
 			    };
 			    innerWorker.execute();

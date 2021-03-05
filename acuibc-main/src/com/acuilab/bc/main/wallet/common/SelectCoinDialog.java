@@ -70,13 +70,16 @@ public class SelectCoinDialog extends javax.swing.JDialog {
 	    for(ICoin coin : coins) {
 		final JRadioButton radioBtn = new JRadioButton(coin.getSymbol());
 		radioBtn.setSelected(StringUtils.equals(coin.getSymbol(), symbol));
-		radioBtn.addActionListener(new ActionListener() {
+		radioBtn.addMouseListener(new java.awt.event.MouseAdapter() {
 		    @Override
-		    public void actionPerformed(ActionEvent e) {
+		    public void mouseClicked(java.awt.event.MouseEvent evt) {
 			selected = radioBtn.getText();
-//			doClose(RET_OK);
+			if(evt.getClickCount() > 1) {
+			    // 多击
+			    doClose(RET_OK);
+			}
 		    }
-		});
+		});		
 		
 		buttonGroup1.add(radioBtn);
 		panel.add(radioBtn);
@@ -156,7 +159,7 @@ public class SelectCoinDialog extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(infoLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(okButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cancelButton))
                     .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))

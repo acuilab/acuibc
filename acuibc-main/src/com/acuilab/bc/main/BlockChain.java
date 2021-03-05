@@ -114,6 +114,8 @@ public interface BlockChain {
     TransactionStatus getTransactionStatusByHash(String hash) throws Exception;
     
     enum TransactionStatus {
-        UNKNOWN, SUCCESS, FAILED
+        UNKNOWN,    // 超时未返回
+	SUCCESS,    // 交易成功
+	FAILED	    // 交易失败
     }
 }

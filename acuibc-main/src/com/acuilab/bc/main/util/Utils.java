@@ -6,6 +6,7 @@ import java.awt.Window;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import javax.swing.SwingUtilities;
+import org.apache.commons.lang3.StringUtils;
 import org.openide.util.NbPreferences;
 
 /**
@@ -52,5 +53,19 @@ public class Utils {
 		}
 	    }
 	}
+    }
+    
+    /***
+     * 简化哈希值，首尾各保留reservedCount位，中间部分用...代替
+     * @param hash
+     * @return 
+     */
+    public static String simplifyHash(String hash, int reservedCount) {
+	int length = StringUtils.length(hash);
+	if(length > 2*reservedCount) {
+	    return StringUtils.substring(hash, 0, reservedCount) + "..." + StringUtils.substring(hash, length-reservedCount);
+	}
+	
+	return hash;
     }
 }

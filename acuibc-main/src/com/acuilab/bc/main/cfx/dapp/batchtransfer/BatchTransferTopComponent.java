@@ -9,6 +9,7 @@ import com.acuilab.bc.main.ui.MessageDialog;
 import com.acuilab.bc.main.ui.MyFindBar;
 import com.acuilab.bc.main.util.AESUtil;
 import com.acuilab.bc.main.util.Constants;
+import com.acuilab.bc.main.util.Utils;
 import com.acuilab.bc.main.wallet.TransferRecordTableModel;
 import com.acuilab.bc.main.wallet.Wallet;
 import com.acuilab.bc.main.wallet.common.PasswordVerifyDialog;
@@ -149,9 +150,11 @@ public final class BatchTransferTopComponent extends TopComponent {
                 if(selectedRows.length == 1) {
                     BatchTransfer bt = tableModel.getBatchTransfer(table.convertRowIndexToModel(selectedRows[0]));
 		    if(StringUtils.isNotBlank(bt.getHash())) {
-			scanBtn.setText("confluxscan:" + bt.getHash());
+			scanBtn.setText("confluxscan: " + Utils.simplifyHash(bt.getHash(), 6));
+			scanBtn.setToolTipText("confluxscan: " + bt.getHash());
 		    } else {
 			scanBtn.setText("confluxscan");
+			scanBtn.setToolTipText("confluxscan: 打开浏览器查看交易详情");
 		    }
 		    scanBtn.setEnabled(StringUtils.isNotBlank(bt.getHash()));
                     
@@ -704,12 +707,13 @@ public final class BatchTransferTopComponent extends TopComponent {
 				    ph.start(list.size());
 				    int i=0;
 				    for(BatchTransfer bt : list) {
-					// 根据地址和余额进行转账，并等待转账结果
+					// 根据地址和余额进行转账
 					String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), passwordVerifyDialog.getPassword()), bt.getAddress(), coin.mainUint2MinUint(new BigDecimal(bt.getValue())), coin.gas2MinUnit(gasSlider.getValue()));
 					bt.setHash(hash);
 					publish(new Triplet<>(i, bt.getAddress() + "：" + bt.getValue() + coin.getMainUnit(), hash));
 					
-					Thread.sleep(16000);
+					// 获得交易状态
+					
 					
 					i++;
 				    }
@@ -734,9 +738,11 @@ public final class BatchTransferTopComponent extends TopComponent {
 				    // 更新超链scanBtn
 				    if(table.getSelectedRow() != -1) {
 					BatchTransfer bt = tableModel.getBatchTransfer(table.convertRowIndexToModel(table.getSelectedRow()));
-					scanBtn.setText("confluxscan: " + bt.getHash());
+					scanBtn.setText("confluxscan: " + Utils.simplifyHash(bt.getHash(), 6));
+					scanBtn.setToolTipText("confluxscan: " + bt.getHash());
 				    } else {
 					scanBtn.setText("confluxscan");
+					scanBtn.setToolTipText("confluxscan: 打开浏览器查看交易详情");
 				    }
 				}
 			    };

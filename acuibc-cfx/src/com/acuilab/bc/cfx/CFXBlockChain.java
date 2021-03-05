@@ -247,7 +247,6 @@ public class CFXBlockChain implements BlockChain {
             }
         }
 
-        
         return TransactionStatus.UNKNOWN;
     }
 }

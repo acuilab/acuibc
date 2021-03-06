@@ -746,7 +746,7 @@ public final class BatchTransferTopComponent extends TopComponent {
 					// 刷新表格
 					table.repaint();
 					
-					ph.progress(triplet.getValue1(), triplet.getValue0()+1);
+//					ph.progress(triplet.getValue1(), triplet.getValue0()+1);
 				    }
 				}
 				

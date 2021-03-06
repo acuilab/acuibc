@@ -149,6 +149,7 @@ public final class WalletListTopComponent extends TopComponent {
         JXTaskPane taskPane = taskPaneMap.get(wallet.getBlockChainSymbol());
         WalletPanel walletPanel = new WalletPanel(wallet);
         // 获得余额
+	System.out.println("wallet.getBlockChainSymbol()=============" + wallet.getBlockChainSymbol());
         final ICoin baseCoin = CoinManager.getDefault().getBaseCoin(wallet.getBlockChainSymbol());
         final ProgressHandle ph = ProgressHandle.createHandle("正在请求余额，请稍候");
         SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {

@@ -1,6 +1,5 @@
 package com.acuilab.bc.cfx;
 
-import static com.acuilab.bc.cfx.MoonGenesisNFT.CONTRACT_ADDRESS;
 import com.acuilab.bc.main.nft.INFT;
 import conflux.web3j.Account;
 import conflux.web3j.Cfx;

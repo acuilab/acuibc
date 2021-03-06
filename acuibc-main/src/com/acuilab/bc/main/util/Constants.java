@@ -20,6 +20,7 @@ public class Constants {
     
     public static final String CFX_BLOCKCHAIN_SYMBAL = "CFX";
     public static final String ETH_BLOCKCHAIN_SYMBAL = "ETH";
+    public static final String BSC_BLOCKCHAIN_SYMBAL = "BSC";
     
     public static final int TEXT_HEADER_FONT_SIZE = 16;     // 消息头字体大小
     public static final Color TEXT_HEADER_COLOR = new Color(0, 128, 64);

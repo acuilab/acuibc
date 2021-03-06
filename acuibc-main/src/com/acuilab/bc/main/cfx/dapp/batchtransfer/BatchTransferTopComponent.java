@@ -52,6 +52,7 @@ import javax.swing.text.Document;
 import javax.swing.text.NumberFormatter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import org.jdesktop.swingx.JXTextField;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
@@ -100,7 +101,7 @@ public final class BatchTransferTopComponent extends TopComponent {
     private Wallet wallet;
     private ICoin coin;
     
-    private SwingWorker<String, Triplet<Integer, String, String>> innerWorker;	// 序号、描述、哈希
+    private SwingWorker<String, Pair<Integer, BatchTransfer>> innerWorker;	// 序号、BatchTransfer
     
     public BatchTransferTopComponent() {
         initComponents();
@@ -701,19 +702,37 @@ public final class BatchTransferTopComponent extends TopComponent {
 			if(passwordVerifyDialog.getReturnStatus() == PasswordVerifyDialog.RET_OK) {
 			    // 内层SwingWorker
 			    final ProgressHandle ph = ProgressHandle.createHandle("正在转账，请稍候");
-			    innerWorker = new SwingWorker<String, Triplet<Integer, String, String>>() {	// 序号、描述、哈希
+			    innerWorker = new SwingWorker<String, Pair<Integer, BatchTransfer>>() {	// 序号、描述、哈希
 				@Override
 				protected String doInBackground() throws Exception {
 				    ph.start(list.size());
 				    int i=0;
+                                    BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
 				    for(BatchTransfer bt : list) {
 					// 根据地址和余额进行转账
 					String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), passwordVerifyDialog.getPassword()), bt.getAddress(), coin.mainUint2MinUint(new BigDecimal(bt.getValue())), coin.gas2MinUnit(gasSlider.getValue()));
 					bt.setHash(hash);
-					publish(new Triplet<>(i, bt.getAddress() + "：" + bt.getValue() + coin.getMainUnit(), hash));
 					
-					// TODO: 获得交易状态
+                                        // ### 获得交易状态（最多请求8次） ###
+                                        Thread.sleep(3000l);
+
+                                        int count = 8;
+                                        BlockChain.TransactionStatus status = BlockChain.TransactionStatus.UNKNOWN;
+                                        while(status == BlockChain.TransactionStatus.UNKNOWN && count > 0) {
+                                            status = bc.getTransactionStatusByHash(hash);
+
+                                            // 直接跳出
+                                            if(status != BlockChain.TransactionStatus.UNKNOWN) {
+                                                break;
+                                            }
+
+                                            count--;
+                                            // 延时2秒
+                                            Thread.sleep(2000l);
+                                        }
 					
+//                                        publish(new Triplet<>(i, bt.getAddress() + "：" + bt.getValue() + coin.getMainUnit(), hash));
+                                        publish(new Pair<>(i, bt));
 					
 					i++;
 				    }
@@ -722,8 +741,8 @@ public final class BatchTransferTopComponent extends TopComponent {
 				}
 
 				@Override
-				protected void process(List<Triplet<Integer, String, String>> chunks) {
-				    for(Triplet<Integer, String, String> triplet : chunks) {
+				protected void process(List<Pair<Integer, BatchTransfer>> chunks) {
+				    for(Pair<Integer, BatchTransfer> pair : chunks) {
 					// 刷新表格
 					table.repaint();
 					

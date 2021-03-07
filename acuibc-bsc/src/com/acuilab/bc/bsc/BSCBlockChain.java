@@ -72,7 +72,7 @@ public class BSCBlockChain implements BlockChain {
 
     @Override
     public String getName() {
-        return "Binance Smart Chain(开发中勿用)";
+        return "Binance Smart Chain(alpha)";
     }
 
     @Override

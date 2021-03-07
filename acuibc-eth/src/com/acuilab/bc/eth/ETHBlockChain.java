@@ -73,7 +73,7 @@ public class ETHBlockChain implements BlockChain {
 
     @Override
     public String getName() {
-        return "Ethereum(开发中勿用)";
+        return "Ethereum(alpha)";
     }
 
     @Override

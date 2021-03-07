@@ -718,7 +718,7 @@ public final class BatchTransferTopComponent extends TopComponent {
 //					publish(new Pair<>(i, bt));
 					
                                         // ### 获得交易状态（最多请求8次） ###
-                                        Thread.sleep(3000l);
+//                                        Thread.sleep(3000l);
 
                                         int count = 8;
                                         BlockChain.TransactionStatus status = BlockChain.TransactionStatus.UNKNOWN;
@@ -732,7 +732,7 @@ public final class BatchTransferTopComponent extends TopComponent {
 
                                             count--;
                                             // 延时2秒
-                                            Thread.sleep(2000l);
+//                                            Thread.sleep(2000l);
                                         }
 					bt.setStatus(status);
 					
@@ -760,8 +760,8 @@ public final class BatchTransferTopComponent extends TopComponent {
 				
 				@Override
 				protected void done() {
-				    // TODO: repaint talbe
-				    ph.finish();
+				    // repaint talbe
+				    table.repaint();
 				    
 				    // 更新超链scanBtn
 				    if(table.getSelectedRow() != -1) {
@@ -772,6 +772,8 @@ public final class BatchTransferTopComponent extends TopComponent {
 					scanBtn.setText("confluxscan");
 					scanBtn.setToolTipText("confluxscan: 打开浏览器查看交易详情");
 				    }
+				    
+				    ph.finish();
 				}
 			    };
 			    innerWorker.execute();

@@ -32,7 +32,7 @@ public class BSCBlockChain implements BlockChain {
 //    public static final String DEFAULT_NODE = "https://data-seed-prebsc-1-s1.binance.org:8545"; // 默认结点地址
     public static final String BIP44PATH = "m/44'/714'/0'/0/0";  // 通用的以太坊基于bip44协议的助记词路径
     
-    public static final String TRANSACTIONS_DETAIL_URL = "https://testnet.bscscan.com/tx/";
+    public static final String TRANSACTIONS_DETAIL_URL = "https://bscscan.com/tx/";
 
     private Admin admin;    // Admin连接
     

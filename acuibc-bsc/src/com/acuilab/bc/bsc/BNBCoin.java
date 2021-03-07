@@ -42,7 +42,7 @@ public class BNBCoin implements ICoin {
 
     public static final String NAME = "BNB";
     public static final String SYMBOL = "BNB";
-    public static final String TRANSACTION_LIST_URL = "https://api-cn.etherscan.com/api";
+    public static final String TRANSACTION_LIST_URL = "https://api.bscscan.com/api";
 
     @Override
     public void init() {
@@ -262,21 +262,21 @@ public class BNBCoin implements ICoin {
     @Override
     public int gasMin() {
         // gwei
-        return 100;
+        return 70;
     }
 
     // 单位gwei
     @Override
     public int gasMax() {
         // gwei
-        return 300;
+        return 78;
     }
 
     // 单位gwei
     @Override
     public int gasDefault() {
         // gwei
-        return 121;
+        return 70;
     }
 
     @Override

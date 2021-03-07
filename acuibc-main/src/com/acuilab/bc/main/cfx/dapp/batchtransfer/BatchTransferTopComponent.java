@@ -201,8 +201,8 @@ public final class BatchTransferTopComponent extends TopComponent {
         });
 	valueColumn.setCellEditor(new ValueTableCellEditor(valueTextField));
 	
-//        TableColumn hashColumn = table.getColumn(BatchTransferTableModel.HASH_COLUMN);
-//        hashColumn.setCellRenderer(new com.acuilab.bc.main.cfx.dapp.batchtransfer.HashTableCellRenderer());
+        TableColumn hashColumn = table.getColumn(BatchTransferTableModel.HASH_COLUMN);
+        hashColumn.setCellRenderer(new com.acuilab.bc.main.cfx.dapp.batchtransfer.HashTableCellRenderer());
 //        hashColumn.setCellEditor(new com.acuilab.bc.main.cfx.dapp.batchtransfer.HashTableCellEditor());
 
 	ColorHighlighter evenHighlighter = new ColorHighlighter(HighlightPredicate.EVEN, Color.WHITE, null);
@@ -659,43 +659,43 @@ public final class BatchTransferTopComponent extends TopComponent {
 	    }
 	}
 	
-        // 外层SwingWorker用于验证矿工费及余额是否足够；内层SwingWorker用于执行实际的转账
-	final Double totalWrapped = total;
-        SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
-	    @Override
-	    protected String doInBackground() throws Exception {
-                // 1 检查gas费是否足够(预留1个cfx用于gas费)
-                // 2 检查余额是否足够
-		ICoin baseCoin = CoinManager.getDefault().getBaseCoin(Constants.CFX_BLOCKCHAIN_SYMBAL);
-		BigInteger balance = baseCoin.balanceOf(wallet.getAddress());
-		if(balance.compareTo(baseCoin.mainUint2MinUint(1l)) < 0) {
-		    // cfx数量必须大于1
-		    return coin.getName() + "数量必须大于1";
-		}
-
-		// 代币数量是否足够
-		if(coin.isBaseCoin()) {
-		    if(balance.multiply(coin.mainUint2MinUint(1l)).compareTo(coin.mainUint2MinUint(totalWrapped)) < 0) {
-			return coin.getName() + "扣除预留的矿工费后数量不足";
-		    }
-		} else {
-		    BigInteger coinBalance = coin.balanceOf(wallet.getAddress());
-		    if(coinBalance.compareTo(coin.mainUint2MinUint(totalWrapped)) < 0) {
-			return coin.getName() + "数量不足";
-		    }
-		}
-                
-                return "";
-	    }
-
-	    @Override
-	    protected void done() {
-		try {
-		    String ret = get();
-		    if(StringUtils.isNotBlank(ret)) {
-			MessageDialog msg = new MessageDialog(null,"注意",ret);
-			msg.setVisible(true);
-		    } else {
+//        // 外层SwingWorker用于验证矿工费及余额是否足够；内层SwingWorker用于执行实际的转账
+//	final Double totalWrapped = total;
+//        SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
+//	    @Override
+//	    protected String doInBackground() throws Exception {
+//                // 1 检查gas费是否足够(预留1个cfx用于gas费)
+//                // 2 检查余额是否足够
+//		ICoin baseCoin = CoinManager.getDefault().getBaseCoin(Constants.CFX_BLOCKCHAIN_SYMBAL);
+//		BigInteger balance = baseCoin.balanceOf(wallet.getAddress());
+//		if(balance.compareTo(baseCoin.mainUint2MinUint(1l)) < 0) {
+//		    // cfx数量必须大于1
+//		    return coin.getName() + "数量必须大于1";
+//		}
+//
+//		// 代币数量是否足够
+//		if(coin.isBaseCoin()) {
+//		    if(balance.multiply(coin.mainUint2MinUint(1l)).compareTo(coin.mainUint2MinUint(totalWrapped)) < 0) {
+//			return coin.getName() + "扣除预留的矿工费后数量不足";
+//		    }
+//		} else {
+//		    BigInteger coinBalance = coin.balanceOf(wallet.getAddress());
+//		    if(coinBalance.compareTo(coin.mainUint2MinUint(totalWrapped)) < 0) {
+//			return coin.getName() + "数量不足";
+//		    }
+//		}
+//                
+//                return "";
+//	    }
+//
+//	    @Override
+//	    protected void done() {
+//		try {
+//		    String ret = get();
+//		    if(StringUtils.isNotBlank(ret)) {
+//			MessageDialog msg = new MessageDialog(null,"注意",ret);
+//			msg.setVisible(true);
+//		    } else {
 			// 请求密码获得私钥
 			PasswordVerifyDialog passwordVerifyDialog = new PasswordVerifyDialog(null, wallet);
 			passwordVerifyDialog.setVisible(true);
@@ -709,9 +709,13 @@ public final class BatchTransferTopComponent extends TopComponent {
 				    int i=0;
                                     BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
 				    for(BatchTransfer bt : list) {
+					System.out.println("i=============================" + i);
 					// 根据地址和余额进行转账
 					String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), passwordVerifyDialog.getPassword()), bt.getAddress(), coin.mainUint2MinUint(new BigDecimal(bt.getValue())), coin.gas2MinUnit(gasSlider.getValue()));
 					bt.setHash(hash);
+					
+//					// 哈希值更新
+//					publish(new Pair<>(i, bt));
 					
                                         // ### 获得交易状态（最多请求8次） ###
                                         Thread.sleep(3000l);
@@ -730,8 +734,9 @@ public final class BatchTransferTopComponent extends TopComponent {
                                             // 延时2秒
                                             Thread.sleep(2000l);
                                         }
+					bt.setStatus(status);
 					
-//                                        publish(new Triplet<>(i, bt.getAddress() + "：" + bt.getValue() + coin.getMainUnit(), hash));
+					// 交易状态更新
                                         publish(new Pair<>(i, bt));
 					
 					i++;
@@ -743,15 +748,19 @@ public final class BatchTransferTopComponent extends TopComponent {
 				@Override
 				protected void process(List<Pair<Integer, BatchTransfer>> chunks) {
 				    for(Pair<Integer, BatchTransfer> pair : chunks) {
+					System.out.println("i===========================================" + pair.getValue0());
 					// 刷新表格
 					table.repaint();
 					
-//					ph.progress(triplet.getValue1(), triplet.getValue0()+1);
+//					BatchTransfer bt = pair.getValue1();
+//					ph.progress(bt.getAddress() + "：" + bt.getValue() + coin.getMainUnit(), pair.getValue0()+1);
+					ph.progress(pair.getValue0()+1);
 				    }
 				}
 				
 				@Override
 				protected void done() {
+				    // TODO: repaint talbe
 				    ph.finish();
 				    
 				    // 更新超链scanBtn
@@ -767,13 +776,13 @@ public final class BatchTransferTopComponent extends TopComponent {
 			    };
 			    innerWorker.execute();
 			}
-		    }
-		} catch (InterruptedException | ExecutionException ex) {
-		    Exceptions.printStackTrace(ex);
-		}
-	    }
-	};
-	worker.execute();
+//		    }
+//		} catch (InterruptedException | ExecutionException ex) {
+//		    Exceptions.printStackTrace(ex);
+//		}
+//	    }
+//	};
+//	worker.execute();
     }//GEN-LAST:event_startBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed

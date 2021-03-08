@@ -1,5 +1,6 @@
 package com.acuilab.bc.cfx;
 
+import static com.acuilab.bc.cfx.CFXCoin.TRANSACTION_LIST_URL;
 import conflux.web3j.Account;
 import conflux.web3j.Cfx;
 import conflux.web3j.contract.ContractCall;
@@ -16,15 +17,23 @@ import javax.swing.Icon;
 import org.openide.util.ImageUtilities;
 import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.util.Constants;
+import com.acuilab.bc.main.wallet.TransferRecord;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import conflux.web3j.contract.abi.DecodeUtil;
-import conflux.web3j.request.Epoch;
 import conflux.web3j.response.Status;
-import conflux.web3j.response.Transaction;
 import conflux.web3j.types.Address;
 import conflux.web3j.types.AddressException;
 import conflux.web3j.types.RawTransaction;
 import java.awt.Image;
+import java.math.RoundingMode;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import org.javatuples.Pair;
 import org.web3j.ens.NameHash;
 
@@ -40,7 +49,8 @@ public class CFXBlockChain implements BlockChain {
     public static final String DEFAULT_NODE = "http://wallet-main.confluxrpc.org"; // 默认结点地址
     public static final String BIP44PATH = "m/44'/503'/0'/0/0";
     
-    public static final String TRANSACTIONS_DETAIL_URL = "http://www.confluxscan.io/transaction/";
+    public static final String TRANSACTION_DETAIL_URL = "http://www.confluxscan.io/transaction/";
+    public static final String TRANSACTION_DETAIL_JSON_URL = "https://confluxscan.io/v1/transaction/";
     public static final int REFRESH_DELAY_MILLISECONDS = 2000;  // 延时毫秒数，以便服务器准备交易记录和余额
     public static final int GET_TRANSACTION_STATUS_INTERVAL_MILLISECONDS = 2000;  // 获得交易状态的时间间隔
     
@@ -209,7 +219,7 @@ public class CFXBlockChain implements BlockChain {
 
     @Override
     public String getTransactionDetailUrl(String hash) {
-        return TRANSACTIONS_DETAIL_URL + hash;
+        return TRANSACTION_DETAIL_URL + hash;
     }
 
     // @see https://zh-hans.developer.conflux-chain.org/docs/conflux-doc/json_rpc
@@ -217,27 +227,60 @@ public class CFXBlockChain implements BlockChain {
     @Override
     public TransactionStatus getTransactionStatusByHash(String hash) throws Exception {
         
-	Transaction trans = cfx.getTransactionByHash(hash).sendAndGet().orElse(null);
-	if(trans != null) {
-	    //  0 代表成功，1 代表发生错误，当交易被跳过或未打包时为null
-	    BigInteger status = trans.getStatus().orElse(null);
+//	Transaction trans = cfx.getTransactionByHash(hash).sendAndGet().orElse(null);
+//	if(trans != null) {
+//	    //  0 代表成功，1 代表发生错误，当交易被跳过或未打包时为null
+//	    BigInteger status = trans.getStatus().orElse(null);
+//
+//	    // '0x0'成功执行; '0x1'异常发生，但是nonce值增加; '0x2' 异常发生，并且nonce值没有增加.
+//	    if(status != null) {
+//		if(status.equals(BigInteger.ZERO)) {
+//		    return TransactionStatus.SUCCESS;
+//		} else {
+//		    return TransactionStatus.FAILED;
+//		}
+//	    } else {
+//		// 交易被跳过或未打包(交易被跳过认为交易失败了)
+//		// 看所在block的epochNumber如果离当前很远了就是跳过了，印象中一个tx被打包了5 epoch内会被执行，如果不执行就被跳过了
+////		HEX String - 整型的纪元号
+////		String "earliest" - 创世区块所在的最早纪元
+////		String "latest_mined" - 最新挖出的区块所在的纪元
+////		String "latest_state" - 可执行状态的最新区块所在的纪元
+//	    }
+//	}
 
-	    // '0x0'成功执行; '0x1'异常发生，但是nonce值增加; '0x2' 异常发生，并且nonce值没有增加.
-	    if(status != null) {
-		if(status.equals(BigInteger.ZERO)) {
-		    return TransactionStatus.SUCCESS;
-		} else {
-		    return TransactionStatus.FAILED;
-		}
-	    } else {
-		// 交易被跳过或未打包(交易被跳过认为交易失败了)
-		// 看所在block的epochNumber如果离当前很远了就是跳过了，印象中一个tx被打包了5 epoch内会被执行，如果不执行就被跳过了
-//		HEX String - 整型的纪元号
-//		String "earliest" - 创世区块所在的最早纪元
-//		String "latest_mined" - 最新挖出的区块所在的纪元
-//		String "latest_state" - 可执行状态的最新区块所在的纪元
-	    }
-	}
+        long l = System.currentTimeMillis();
+        // 改为由scan查询
+        String url = TRANSACTION_DETAIL_JSON_URL + hash;
+        System.out.println("url===============================" + url);
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .build();
+        final okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .build();
+        final Call call = okHttpClient.newCall(request);
+        okhttp3.Response response = call.execute();             // java.net.SocketTimeoutException
+        ResponseBody body = response.body();
+        System.out.println("l===================================" + (System.currentTimeMillis() - l));
+        if(body != null) {
+            // 解析json
+            ObjectMapper mapper = new ObjectMapper();
+            Map map = mapper.readValue(body.string(), Map.class);
+            
+            Integer status = (Integer)map.get("status");
+            
+            if(null == status) {
+                return TransactionStatus.UNKNOWN;
+            } else switch (status) {
+                case 0:
+                    return TransactionStatus.SUCCESS;
+                default:
+                    return TransactionStatus.FAILED;
+            }
+        }
+        
 
         return TransactionStatus.UNKNOWN;
     }

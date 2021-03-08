@@ -705,42 +705,44 @@ public final class BatchTransferTopComponent extends TopComponent {
 			    innerWorker = new SwingWorker<String, Pair<Integer, BatchTransfer>>() {	// 序号、描述、哈希
 				@Override
 				protected String doInBackground() throws Exception {
-				    ph.start(list.size());
+				    ph.start(list.size()*10);
 				    int i=0;
                                     BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
-				    for(BatchTransfer bt : list) {
-					System.out.println("i=============================" + i);
-					// 根据地址和余额进行转账
-					String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), passwordVerifyDialog.getPassword()), bt.getAddress(), coin.mainUint2MinUint(new BigDecimal(bt.getValue())), coin.gas2MinUnit(gasSlider.getValue()));
-					bt.setHash(hash);
-					
-//					// 哈希值更新
-//					publish(new Pair<>(i, bt));
-					
-                                        // ### 获得交易状态（最多请求8次） ###
-//                                        Thread.sleep(3000l);
+                                    try {
+                                        for(BatchTransfer bt : list) {
+                                            // 根据地址和余额进行转账
+                                            String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), passwordVerifyDialog.getPassword()), bt.getAddress(), coin.mainUint2MinUint(new BigDecimal(bt.getValue())), coin.gas2MinUnit(gasSlider.getValue()));
+                                            bt.setHash(hash);
+                                            // 哈希值更新
+                                            publish(new Pair<>(4+i*10, bt));
 
-                                        int count = 8;
-                                        BlockChain.TransactionStatus status = BlockChain.TransactionStatus.UNKNOWN;
-                                        while(status == BlockChain.TransactionStatus.UNKNOWN && count > 0) {
-                                            status = bc.getTransactionStatusByHash(hash);
+                                            // ### 获得交易状态（最多请求8次） ###
+                                            Thread.sleep(2000l);
+                                            
+                                            int count = 8;
+                                            BlockChain.TransactionStatus status = BlockChain.TransactionStatus.UNKNOWN;
+                                            while(status == BlockChain.TransactionStatus.UNKNOWN && count > 0) {
+                                                status = bc.getTransactionStatusByHash(hash);
+                                                // 直接跳出
+                                                if(status != BlockChain.TransactionStatus.UNKNOWN) {
+                                                    break;
+                                                }
 
-                                            // 直接跳出
-                                            if(status != BlockChain.TransactionStatus.UNKNOWN) {
-                                                break;
+                                                count--;
+                                                // 延时2秒
+                                                Thread.sleep(2000l);
                                             }
+                                            bt.setStatus(status);
 
-                                            count--;
-                                            // 延时2秒
-//                                            Thread.sleep(2000l);
+                                            // 交易状态更新
+                                            publish(new Pair<>(10+i*10, bt));
+
+                                            i++;
                                         }
-					bt.setStatus(status);
-					
-					// 交易状态更新
-                                        publish(new Pair<>(i, bt));
-					
-					i++;
-				    }
+                                    } catch(Exception e) {
+                                        e.printStackTrace();
+                                    }
+
 				    
 				    return "";
 				}
@@ -748,13 +750,12 @@ public final class BatchTransferTopComponent extends TopComponent {
 				@Override
 				protected void process(List<Pair<Integer, BatchTransfer>> chunks) {
 				    for(Pair<Integer, BatchTransfer> pair : chunks) {
-					System.out.println("i===========================================" + pair.getValue0());
 					// 刷新表格
 					table.repaint();
 					
 //					BatchTransfer bt = pair.getValue1();
 //					ph.progress(bt.getAddress() + "：" + bt.getValue() + coin.getMainUnit(), pair.getValue0()+1);
-					ph.progress(pair.getValue0()+1);
+					ph.progress(pair.getValue0());
 				    }
 				}
 				

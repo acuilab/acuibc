@@ -139,6 +139,27 @@ public abstract class ERC20Coin implements ICoin {
     
     @Override
     public void batchTransfer(String privateKey, String[] tos, BigInteger[] values, BigInteger gas, BatchTransferCallback callback) throws Exception {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	if(tos.length != values.length) {
+	    throw new java.lang.IllegalArgumentException("tos.length must equal with values.length");
+	}
+	
+	CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
+	Cfx cfx = bc.getCfx();
+
+	Account account = Account.create(cfx, privateKey);
+	BigInteger nonce = account.getNonce();
+	
+	ERC20 erc20 = new ERC20(cfx, getContractAddress(), account);
+	
+	for(int i=0; i<tos.length; i++) {
+	    String to = tos[i];
+	    BigInteger value = values[i];
+	    
+	    account.setNonce(nonce);
+	    String hash = erc20.transfer(new Account.Option().withGasPrice(gas).withGasLimit(this.gasLimit()), to, value);
+	    callback.transferFinished(to, hash, i, tos.length);
+	    
+	    nonce = nonce.add(BigInteger.ONE);
+	}
     }
 }

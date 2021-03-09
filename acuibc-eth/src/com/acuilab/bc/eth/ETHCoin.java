@@ -294,4 +294,9 @@ public class ETHCoin implements ICoin {
     public boolean isDivisible() {
         return true;
     }
+
+    @Override
+    public void batchTransfer(String privateKey, String[] to, BigInteger[] value, BigInteger gas, BatchTransferCallback callback) throws Exception {
+	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

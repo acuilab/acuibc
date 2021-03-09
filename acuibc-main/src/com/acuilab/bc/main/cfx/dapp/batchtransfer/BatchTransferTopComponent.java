@@ -16,6 +16,7 @@ import com.acuilab.bc.main.wallet.common.PasswordVerifyDialog;
 import com.acuilab.bc.main.wallet.common.SelectCoinDialog;
 import com.acuilab.bc.main.wallet.common.SelectWalletDialog;
 import com.csvreader.CsvReader;
+import com.google.common.collect.Sets;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.event.FocusEvent;
@@ -30,6 +31,8 @@ import java.math.RoundingMode;
 import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 import javax.swing.Icon;
@@ -53,7 +56,6 @@ import javax.swing.text.NumberFormatter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.javatuples.Pair;
-import org.javatuples.Triplet;
 import org.jdesktop.swingx.JXTextField;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
@@ -101,7 +103,7 @@ public final class BatchTransferTopComponent extends TopComponent {
     private Wallet wallet;
     private ICoin coin;
     
-    private SwingWorker<String, Pair<Integer, BatchTransfer>> innerWorker;	// 序号、BatchTransfer
+    private InnerSwingWorker<String, Pair<Integer, BatchTransfer>> innerWorker;	// 序号、BatchTransfer
     
     public BatchTransferTopComponent() {
         initComponents();
@@ -648,6 +650,16 @@ public final class BatchTransferTopComponent extends TopComponent {
 		return;
 	    }
 	    
+	    // 检查是否有重复地址（重复地址会导致重复发送，同时表格更新会有问题）
+	    Set<String> set = Sets.newHashSet();
+	    if(!set.contains(bt.getAddress())) {
+		set.add(bt.getAddress());
+	    } else {
+		MessageDialog msg = new MessageDialog(null,"注意","转账地址重复：\"" + address + "\"");
+		msg.setVisible(true);
+		return;
+	    }
+
 	    // 检查数量是否无效
 	    String value = bt.getValue();
 	    if(!NumberUtils.isParsable(value)) {
@@ -702,43 +714,67 @@ public final class BatchTransferTopComponent extends TopComponent {
 			if(passwordVerifyDialog.getReturnStatus() == PasswordVerifyDialog.RET_OK) {
 			    // 内层SwingWorker
 			    final ProgressHandle ph = ProgressHandle.createHandle("正在转账，请稍候");
-			    innerWorker = new SwingWorker<String, Pair<Integer, BatchTransfer>>() {	// 序号、描述、哈希
+			    innerWorker = new InnerSwingWorker<String, Pair<Integer, BatchTransfer>>() {	// 序号、描述、哈希
+				
 				@Override
 				protected String doInBackground() throws Exception {
-				    ph.start(list.size()*10);
-				    int i=0;
+				    ph.start(list.size());
+//				    int i=0;
                                     BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
                                     try {
-                                        for(BatchTransfer bt : list) {
-                                            // 根据地址和余额进行转账
-                                            String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), passwordVerifyDialog.getPassword()), bt.getAddress(), coin.mainUint2MinUint(new BigDecimal(bt.getValue())), coin.gas2MinUnit(gasSlider.getValue()));
-                                            bt.setHash(hash);
-                                            // 哈希值更新
-                                            publish(new Pair<>(4+i*10, bt));
-
-                                            // ### 获得交易状态（最多请求8次） ###
-                                            Thread.sleep(2000l);
-                                            
-                                            int count = 8;
-                                            BlockChain.TransactionStatus status = BlockChain.TransactionStatus.UNKNOWN;
-                                            while(status == BlockChain.TransactionStatus.UNKNOWN && count > 0) {
-                                                status = bc.getTransactionStatusByHash(hash);
-                                                // 直接跳出
-                                                if(status != BlockChain.TransactionStatus.UNKNOWN) {
-                                                    break;
-                                                }
-
-                                                count--;
-                                                // 延时2秒
-                                                Thread.sleep(2000l);
-                                            }
-                                            bt.setStatus(status);
-
-                                            // 交易状态更新
-                                            publish(new Pair<>(10+i*10, bt));
-
-                                            i++;
-                                        }
+					String[] tos = new String[list.size()];
+					BigInteger[] values = new BigInteger[list.size()];
+					for(int i=0; i<list.size(); i++) {
+					    final BatchTransfer bt = list.get(i);
+					    tos[i] = bt.getAddress();
+					    values[i] = coin.mainUint2MinUint(new BigDecimal(bt.getValue()));
+					}
+					String privateKey = AESUtil.decrypt(wallet.getPrivateKeyAES(), passwordVerifyDialog.getPassword());
+					BigInteger gas = coin.gas2MinUnit(gasSlider.getValue());
+					final Map<String, BatchTransfer> map = tableModel.generateMap();
+					coin.batchTransfer(privateKey, tos, values, gas, new ICoin.BatchTransferCallback() {
+					    @Override
+					    public void transferFinished(String address, String hash, int index, int size) {
+						// TODO: 从tableModel中找到batchTransfer对象，更新ui
+						BatchTransfer bt = map.get(address);
+						bt.setHash(hash);
+						innerWorker.publish0(new Pair<>(index+1, bt));
+					    }
+					});
+					
+					// TODO: 更新交易状态
+					
+					
+//                                        for(BatchTransfer bt : list) {
+//                                            // 根据地址和余额进行转账
+//                                            String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), passwordVerifyDialog.getPassword()), bt.getAddress(), coin.mainUint2MinUint(new BigDecimal(bt.getValue())), coin.gas2MinUnit(gasSlider.getValue()));
+//                                            bt.setHash(hash);
+//                                            // 哈希值更新
+//                                            publish(new Pair<>(4+i*10, bt));
+//
+//                                            // ### 获得交易状态（最多请求8次） ###
+//                                            Thread.sleep(2000l);
+//                                            
+//                                            int count = 8;
+//                                            BlockChain.TransactionStatus status = BlockChain.TransactionStatus.UNKNOWN;
+//                                            while(status == BlockChain.TransactionStatus.UNKNOWN && count > 0) {
+//                                                status = bc.getTransactionStatusByHash(hash);
+//                                                // 直接跳出
+//                                                if(status != BlockChain.TransactionStatus.UNKNOWN) {
+//                                                    break;
+//                                                }
+//
+//                                                count--;
+//                                                // 延时2秒
+//                                                Thread.sleep(2000l);
+//                                            }
+//                                            bt.setStatus(status);
+//
+//                                            // 交易状态更新
+//                                            publish(new Pair<>(10+i*10, bt));
+//
+//                                            i++;
+//                                        }
                                     } catch(Exception e) {
                                         e.printStackTrace();
                                     }
@@ -811,7 +847,6 @@ public final class BatchTransferTopComponent extends TopComponent {
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
-
         BatchTransfer bt = new BatchTransfer();
         bt.setValue("0");
         tableModel.add(bt);
@@ -953,5 +988,13 @@ public final class BatchTransferTopComponent extends TopComponent {
 
     private void updateStatusBar() {
 	tableRowsLbl.setText("共" + tableModel.getRowCount() + "条");
+    }
+    
+    abstract class InnerSwingWorker<T, V> extends SwingWorker<T, V> {
+
+	public final void publish0(V... chunks) {
+	    this.publish(chunks);
+	}
+	
     }
 }

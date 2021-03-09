@@ -253,4 +253,37 @@ public class CFXCoin implements ICFXCoin {
         Cfx cfx = bc.getCfx();
         return cfx.getStakingBalance(address).sendAndGet();
     }
+
+    /**
+     * 批量转账
+     * @param privateKey    私钥
+     * @param to        接收地址列表
+     * @param value     转账数量列表
+     * @param gas       矿工费
+     * @throws java.lang.Exception
+     */
+    @Override
+    public void batchTransfer(String privateKey, String[] tos, BigInteger[] values, BigInteger gas, BatchTransferCallback callback) throws Exception {
+	
+	if(tos.length != values.length) {
+	    throw new java.lang.IllegalArgumentException("tos.length must equal with values.length");
+	}
+	
+        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
+        Cfx cfx = bc.getCfx();
+        
+        Account account = Account.create(cfx, privateKey);
+	BigInteger nonce = account.getNonce();
+	
+	for(int i=0; i<tos.length; i++) {
+	    String to = tos[i];
+	    BigInteger value = values[i];
+	    
+	    account.setNonce(nonce);
+	    String hash = account.transfer(new Option().withGasPrice(gas).withGasLimit(gasLimit()), to, value);
+	    callback.transferFinished(to, hash, i, tos.length);
+	    
+	    nonce = nonce.add(BigInteger.ONE);
+	}
+    }
 }

@@ -1,8 +1,10 @@
 package com.acuilab.bc.main.cfx.dapp.batchtransfer;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.swing.table.AbstractTableModel;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -23,7 +25,7 @@ public class BatchTransferTableModel extends AbstractTableModel {
     public static final int HASH_COLUMN = 4;
     public static final int COLUMN_COUNT = 5;
     
-    private final List<BatchTransfer> list = new ArrayList<>();
+    private final List<BatchTransfer> list = Lists.newArrayList();
     
     public static final String[] COLUMNIDS = {
         "",
@@ -109,7 +111,7 @@ public class BatchTransferTableModel extends AbstractTableModel {
     }
 
     public void removeRow(int row) {
-        list.remove(row);
+        BatchTransfer bt = list.remove(row);
         fireTableRowsDeleted(row, row);
     }
 
@@ -149,5 +151,13 @@ public class BatchTransferTableModel extends AbstractTableModel {
                 return;
         }
 	fireTableCellUpdated(row, column); // informe any object about changes
+    }
+    
+    public Map<String, BatchTransfer> generateMap() {
+	Map<String, BatchTransfer> map = Maps.newHashMap();
+	for(BatchTransfer bt : list) {
+	    map.put(bt.getAddress(), bt);
+	}
+	return map;
     }
 }

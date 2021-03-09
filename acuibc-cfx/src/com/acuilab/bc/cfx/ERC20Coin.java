@@ -7,8 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import conflux.web3j.Account;
 import conflux.web3j.Cfx;
-import conflux.web3j.contract.ERC20Call;
-import conflux.web3j.contract.ERC20Executor;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.Date;
@@ -20,6 +18,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import org.openide.util.Lookup;
 import com.acuilab.bc.main.coin.ICoin;
+import conflux.web3j.contract.ERC20;
 
 /**
  *
@@ -40,8 +39,11 @@ public abstract class ERC20Coin implements ICoin {
     public BigInteger balanceOf(String address) {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
-        ERC20Call call = new ERC20Call(cfx, getContractAddress());
-        return call.balanceOf(address);
+	
+	ERC20 erc20 = new ERC20(cfx, getContractAddress());
+	return erc20.balanceOf(address);
+//        ERC20Call call = new ERC20Call(cfx, getContractAddress());
+//        return call.balanceOf(address);
     }
 
     @Override
@@ -49,8 +51,12 @@ public abstract class ERC20Coin implements ICoin {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         Account account = Account.create(cfx, privateKey);
-        ERC20Executor exec = new ERC20Executor(account, getContractAddress());
-        return exec.transfer(new Account.Option().withGasPrice(gas).withGasLimit(this.gasLimit()), to, value);
+	
+	ERC20 erc20 = new ERC20(cfx, getContractAddress(), account);
+	return erc20.transfer(new Account.Option().withGasPrice(gas).withGasLimit(this.gasLimit()), to, value);
+//	
+//        ERC20Executor exec = new ERC20Executor(account, getContractAddress());
+//        return exec.transfer(new Account.Option().withGasPrice(gas).withGasLimit(this.gasLimit()), to, value);
     }
 
     @Override
@@ -129,5 +135,10 @@ public abstract class ERC20Coin implements ICoin {
     @Override
     public String gasDesc(int gas) {
         return gas + "drip";
+    }
+    
+    @Override
+    public void batchTransfer(String privateKey, String[] tos, BigInteger[] values, BigInteger gas, BatchTransferCallback callback) throws Exception {
+	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -100,6 +100,16 @@ public interface ICoin {
      * @throws java.lang.Exception
      */
     public String transfer(String privateKey, String to, BigInteger value, BigInteger gas) throws Exception;
+    
+    /**
+     * 批量转账
+     * @param privateKey    私钥
+     * @param to        接收地址列表
+     * @param value     转账数量列表
+     * @param gas       矿工费
+     * @throws java.lang.Exception
+     */
+    public void batchTransfer(String privateKey, String[] tos, BigInteger[] values, BigInteger gas, BatchTransferCallback callback) throws Exception;
 
     /**
      * 根据某个地址获得交易记录
@@ -179,5 +189,16 @@ public interface ICoin {
      */
     default BigInteger mainUint2MinUint(BigDecimal mainUnitValue) {
 	return mainUnitValue.multiply(new BigDecimal(BigInteger.TEN.pow(getScale()))).toBigIntegerExact();
+    }
+    
+    interface BatchTransferCallback {
+	/**
+	 * 
+	 * @param address   转账地址
+	 * @param hash	    交易哈希
+	 * @param index	    当前转账第几个
+	 * @param size    一共需要转账数量
+	 */
+	void transferFinished(String address, String hash, int index, int size);
     }
 }

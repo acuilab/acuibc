@@ -1,6 +1,5 @@
 package com.acuilab.bc.cfx;
 
-import static com.acuilab.bc.cfx.CFXCoin.TRANSACTION_LIST_URL;
 import conflux.web3j.Account;
 import conflux.web3j.Cfx;
 import conflux.web3j.contract.ContractCall;
@@ -17,8 +16,6 @@ import javax.swing.Icon;
 import org.openide.util.ImageUtilities;
 import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.util.Constants;
-import com.acuilab.bc.main.wallet.TransferRecord;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import conflux.web3j.contract.abi.DecodeUtil;
 import conflux.web3j.response.Status;
@@ -26,9 +23,7 @@ import conflux.web3j.types.Address;
 import conflux.web3j.types.AddressException;
 import conflux.web3j.types.RawTransaction;
 import java.awt.Image;
-import java.math.RoundingMode;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Call;
@@ -252,7 +247,6 @@ public class CFXBlockChain implements BlockChain {
         long l = System.currentTimeMillis();
         // 改为由scan查询
         String url = TRANSACTION_DETAIL_JSON_URL + hash;
-        System.out.println("url===============================" + url);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)

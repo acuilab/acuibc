@@ -38,6 +38,7 @@ import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -53,6 +54,8 @@ import javax.swing.table.TableColumn;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.Document;
 import javax.swing.text.NumberFormatter;
+import net.java.balloontip.BalloonTip;
+import net.java.balloontip.utils.TimingUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.javatuples.Pair;
@@ -241,6 +244,8 @@ public final class BatchTransferTopComponent extends TopComponent {
         findBar = new MyFindBar();
         jSeparator1 = new javax.swing.JSeparator();
         scanBtn = new org.jdesktop.swingx.JXHyperlink();
+        statusBtn = new org.jdesktop.swingx.JXButton();
+        jSeparator2 = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
         logPane = new javax.swing.JTextPane();
         jXLabel1 = new org.jdesktop.swingx.JXLabel();
@@ -357,6 +362,16 @@ public final class BatchTransferTopComponent extends TopComponent {
             }
         });
 
+        org.openide.awt.Mnemonics.setLocalizedText(statusBtn, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.statusBtn.text")); // NOI18N
+        statusBtn.setToolTipText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.statusBtn.toolTipText")); // NOI18N
+        statusBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                statusBtnActionPerformed(evt);
+            }
+        });
+
+        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
         javax.swing.GroupLayout jXPanel1Layout = new javax.swing.GroupLayout(jXPanel1);
         jXPanel1.setLayout(jXPanel1Layout);
         jXPanel1Layout.setHorizontalGroup(
@@ -374,10 +389,14 @@ public final class BatchTransferTopComponent extends TopComponent {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scanBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(statusBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(startBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(stopBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 855, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1117, Short.MAX_VALUE)
             .addGroup(jXPanel1Layout.createSequentialGroup()
                 .addComponent(findBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -393,7 +412,9 @@ public final class BatchTransferTopComponent extends TopComponent {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(scanBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(scanBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(statusBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(importBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -401,7 +422,8 @@ public final class BatchTransferTopComponent extends TopComponent {
                         .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(stopBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(startBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jSeparator1)))
+                    .addComponent(jSeparator1)
+                    .addComponent(jSeparator2)))
         );
 
         jSplitPane1.setLeftComponent(jXPanel1);
@@ -671,43 +693,44 @@ public final class BatchTransferTopComponent extends TopComponent {
 	    }
 	}
 	
-//        // 外层SwingWorker用于验证矿工费及余额是否足够；内层SwingWorker用于执行实际的转账
-//	final Double totalWrapped = total;
-//        SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
-//	    @Override
-//	    protected String doInBackground() throws Exception {
-//                // 1 检查gas费是否足够(预留1个cfx用于gas费)
-//                // 2 检查余额是否足够
-//		ICoin baseCoin = CoinManager.getDefault().getBaseCoin(Constants.CFX_BLOCKCHAIN_SYMBAL);
-//		BigInteger balance = baseCoin.balanceOf(wallet.getAddress());
-//		if(balance.compareTo(baseCoin.mainUint2MinUint(1l)) < 0) {
-//		    // cfx数量必须大于1
-//		    return coin.getName() + "数量必须大于1";
-//		}
-//
-//		// 代币数量是否足够
-//		if(coin.isBaseCoin()) {
-//		    if(balance.multiply(coin.mainUint2MinUint(1l)).compareTo(coin.mainUint2MinUint(totalWrapped)) < 0) {
-//			return coin.getName() + "扣除预留的矿工费后数量不足";
-//		    }
-//		} else {
-//		    BigInteger coinBalance = coin.balanceOf(wallet.getAddress());
-//		    if(coinBalance.compareTo(coin.mainUint2MinUint(totalWrapped)) < 0) {
-//			return coin.getName() + "数量不足";
-//		    }
-//		}
-//                
-//                return "";
-//	    }
-//
-//	    @Override
-//	    protected void done() {
-//		try {
-//		    String ret = get();
-//		    if(StringUtils.isNotBlank(ret)) {
-//			MessageDialog msg = new MessageDialog(null,"注意",ret);
-//			msg.setVisible(true);
-//		    } else {
+        // 外层SwingWorker用于验证矿工费及余额是否足够；内层SwingWorker用于执行实际的转账
+	final Double totalWrapped = total;
+        SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
+	    @Override
+	    protected String doInBackground() throws Exception {
+                // 1 检查gas费是否足够(预留1个cfx用于gas费)
+                // 2 检查余额是否足够
+		ICoin baseCoin = CoinManager.getDefault().getBaseCoin(Constants.CFX_BLOCKCHAIN_SYMBAL);
+		BigInteger balance = baseCoin.balanceOf(wallet.getAddress());
+		if(balance.compareTo(baseCoin.mainUint2MinUint(1l)) < 0) {
+		    // cfx数量必须大于1
+		    return coin.getName() + "数量必须大于1";
+		}
+
+		// 代币数量是否足够
+		if(coin.isBaseCoin()) {
+		    if(balance.subtract(coin.mainUint2MinUint(1l)).compareTo(coin.mainUint2MinUint(totalWrapped)) < 0) {
+			return coin.getName() + "扣除预留的矿工费后数量不足以完成全部转账";
+		    }
+		} else {
+		    BigInteger coinBalance = coin.balanceOf(wallet.getAddress());
+		    if(coinBalance.compareTo(coin.mainUint2MinUint(totalWrapped)) < 0) {
+			return coin.getName() + "数量不足以完成全部转账";
+		    }
+		}
+                
+                return "";
+	    }
+
+	    @Override
+	    protected void done() {
+		try {
+		    String ret = get();
+		    
+		    if(StringUtils.isNotBlank(ret)) {
+			MessageDialog msg = new MessageDialog(null,"注意",ret);
+			msg.setVisible(true);
+		    } else {
 			// 请求密码获得私钥
 			PasswordVerifyDialog passwordVerifyDialog = new PasswordVerifyDialog(null, wallet);
 			passwordVerifyDialog.setVisible(true);
@@ -719,13 +742,18 @@ public final class BatchTransferTopComponent extends TopComponent {
 				@Override
 				protected String doInBackground() throws Exception {
 				    ph.start(list.size());
-//				    int i=0;
-                                    BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
                                     try {
 					String[] tos = new String[list.size()];
 					BigInteger[] values = new BigInteger[list.size()];
 					for(int i=0; i<list.size(); i++) {
 					    final BatchTransfer bt = list.get(i);
+					    
+					    // 仅
+					    if(bt.getStatus() == BlockChain.TransactionStatus.SUCCESS) {
+						// 已发送成功
+						innerWorker.publish0(new Pair<>(i+1, bt));
+					    }
+					    
 					    tos[i] = bt.getAddress();
 					    values[i] = coin.mainUint2MinUint(new BigDecimal(bt.getValue()));
 					}
@@ -735,51 +763,16 @@ public final class BatchTransferTopComponent extends TopComponent {
 					coin.batchTransfer(privateKey, tos, values, gas, new ICoin.BatchTransferCallback() {
 					    @Override
 					    public void transferFinished(String address, String hash, int index, int size) {
-						// TODO: 从tableModel中找到batchTransfer对象，更新ui
+						// 从tableModel中找到batchTransfer对象，更新ui
 						BatchTransfer bt = map.get(address);
 						bt.setHash(hash);
 						innerWorker.publish0(new Pair<>(index+1, bt));
 					    }
 					});
-					
-					// TODO: 更新交易状态
-					
-					
-//                                        for(BatchTransfer bt : list) {
-//                                            // 根据地址和余额进行转账
-//                                            String hash = coin.transfer(AESUtil.decrypt(wallet.getPrivateKeyAES(), passwordVerifyDialog.getPassword()), bt.getAddress(), coin.mainUint2MinUint(new BigDecimal(bt.getValue())), coin.gas2MinUnit(gasSlider.getValue()));
-//                                            bt.setHash(hash);
-//                                            // 哈希值更新
-//                                            publish(new Pair<>(4+i*10, bt));
-//
-//                                            // ### 获得交易状态（最多请求8次） ###
-//                                            Thread.sleep(2000l);
-//                                            
-//                                            int count = 8;
-//                                            BlockChain.TransactionStatus status = BlockChain.TransactionStatus.UNKNOWN;
-//                                            while(status == BlockChain.TransactionStatus.UNKNOWN && count > 0) {
-//                                                status = bc.getTransactionStatusByHash(hash);
-//                                                // 直接跳出
-//                                                if(status != BlockChain.TransactionStatus.UNKNOWN) {
-//                                                    break;
-//                                                }
-//
-//                                                count--;
-//                                                // 延时2秒
-//                                                Thread.sleep(2000l);
-//                                            }
-//                                            bt.setStatus(status);
-//
-//                                            // 交易状态更新
-//                                            publish(new Pair<>(10+i*10, bt));
-//
-//                                            i++;
-//                                        }
                                     } catch(Exception e) {
                                         e.printStackTrace();
                                     }
 
-				    
 				    return "";
 				}
 
@@ -789,8 +782,6 @@ public final class BatchTransferTopComponent extends TopComponent {
 					// 刷新表格
 					table.repaint();
 					
-//					BatchTransfer bt = pair.getValue1();
-//					ph.progress(bt.getAddress() + "：" + bt.getValue() + coin.getMainUnit(), pair.getValue0()+1);
 					ph.progress(pair.getValue0());
 				    }
 				}
@@ -810,18 +801,31 @@ public final class BatchTransferTopComponent extends TopComponent {
 					scanBtn.setToolTipText("confluxscan: 打开浏览器查看交易详情");
 				    }
 				    
+				    // 气泡提示
+				    try {
+					JLabel lbl = new JLabel("转账已全部完成，单击此按钮更新交易状态");
+					BalloonTip balloonTip = new BalloonTip(statusBtn, 
+							lbl,
+							net.java.balloontip.examples.complete.Utils.createBalloonTipStyle(),
+							net.java.balloontip.examples.complete.Utils.createBalloonTipPositioner(), 
+							null);
+					TimingUtils.showTimedBalloon(balloonTip, 2000);
+				    } catch (Exception ex) {
+					Exceptions.printStackTrace(ex);
+				    }
+				    
 				    ph.finish();
 				}
 			    };
 			    innerWorker.execute();
 			}
-//		    }
-//		} catch (InterruptedException | ExecutionException ex) {
-//		    Exceptions.printStackTrace(ex);
-//		}
-//	    }
-//	};
-//	worker.execute();
+		    }
+		} catch (InterruptedException | ExecutionException ex) {
+		    Exceptions.printStackTrace(ex);
+		}
+	    }
+	};
+	worker.execute();
     }//GEN-LAST:event_startBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
@@ -922,6 +926,51 @@ public final class BatchTransferTopComponent extends TopComponent {
         }
     }//GEN-LAST:event_scanBtnActionPerformed
 
+    private void statusBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusBtnActionPerformed
+	final List<BatchTransfer> list = tableModel.getBatchTransfers();
+	final ProgressHandle ph = ProgressHandle.createHandle("正在刷新交易状态，请稍候");
+	SwingWorker<Void, Pair<Integer, BatchTransfer>> worker = new SwingWorker<Void, Pair<Integer, BatchTransfer>>() {
+	    @Override
+	    protected Void doInBackground() throws Exception {
+		ph.start(list.size());
+		BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
+		for(int i=0; i<list.size(); i++) {
+		    final BatchTransfer bt = list.get(i);
+		    String hash = bt.getHash();
+		    
+		    if(StringUtils.isNotBlank(hash) && (bt.getStatus() == null || bt.getStatus() == BlockChain.TransactionStatus.UNKNOWN)) {
+			
+			bt.setStatus(bc.getTransactionStatusByHash(hash));
+
+			publish(new Pair<>(i+1, bt));
+		    }
+		}
+		
+		return null;
+	    }
+
+	    @Override
+	    protected void process(List<Pair<Integer, BatchTransfer>> chunks) {
+		for(Pair<Integer, BatchTransfer> pair : chunks) {
+		    // 刷新表格
+		    table.repaint();
+
+		    ph.progress(pair.getValue0());
+		}
+	    }
+
+	    @Override
+	    protected void done() {
+		// repaint talbe
+		table.repaint();
+
+		ph.finish();
+	    }
+	    
+	};
+	worker.execute();
+    }//GEN-LAST:event_statusBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXButton addBtn;
     private org.jdesktop.swingx.JXButton clearBtn;
@@ -936,6 +985,7 @@ public final class BatchTransferTopComponent extends TopComponent {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSplitPane jSplitPane1;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel2;
@@ -948,6 +998,7 @@ public final class BatchTransferTopComponent extends TopComponent {
     private org.jdesktop.swingx.JXButton selectWalletBtn;
     private org.jdesktop.swingx.JXLabel slowLbl;
     private org.jdesktop.swingx.JXButton startBtn;
+    private org.jdesktop.swingx.JXButton statusBtn;
     private org.jdesktop.swingx.JXButton stopBtn;
     private org.jdesktop.swingx.JXTable table;
     private org.jdesktop.swingx.JXLabel tableRowsLbl;

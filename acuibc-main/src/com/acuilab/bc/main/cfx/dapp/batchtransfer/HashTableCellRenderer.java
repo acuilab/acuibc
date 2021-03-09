@@ -22,8 +22,8 @@ public class HashTableCellRenderer extends DefaultTableCellRenderer {
 	JLabel label = (JLabel)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 	if(column == BatchTransferTableModel.HASH_COLUMN){
 	    label.setText((String)value);
-	    // 根据checkType判断
-	    BatchTransferTableModel tableModel = (BatchTransferTableModel)table.getModel();
+
+            BatchTransferTableModel tableModel = (BatchTransferTableModel)table.getModel();
 	    BatchTransfer bt = tableModel.getBatchTransfer(table.convertRowIndexToModel(row));
 	    if(bt.getStatus() == BlockChain.TransactionStatus.SUCCESS) {
 		label.setIcon(okIcon);

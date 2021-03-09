@@ -113,6 +113,11 @@ public final class BatchTransferTopComponent extends TopComponent {
         setName(Bundle.CTL_BatchTransferTopComponent());
         setToolTipText(Bundle.HINT_BatchTransferTopComponent());
         
+        // TODO: 初始化日志
+        // 1 转账前将交易状态更新到最新
+        // 2 开始按钮可重复执行，仅对交易状态为空或失败的记录进行转账
+        // 3 ...
+        
         findBar.setSearchable(table.getSearchable());
 
         tableModel = new BatchTransferTableModel(table);
@@ -264,6 +269,11 @@ public final class BatchTransferTopComponent extends TopComponent {
         walletFld.setText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.walletFld.text")); // NOI18N
         walletFld.setToolTipText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.walletFld.toolTipText")); // NOI18N
         walletFld.setPrompt(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.walletFld.prompt")); // NOI18N
+        walletFld.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                walletFldMouseClicked(evt);
+            }
+        });
 
         org.openide.awt.Mnemonics.setLocalizedText(selectWalletBtn, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.selectWalletBtn.text")); // NOI18N
         selectWalletBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -344,7 +354,7 @@ public final class BatchTransferTopComponent extends TopComponent {
         findBar.setLayout(findBarLayout);
         findBarLayout.setHorizontalGroup(
             findBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 589, Short.MAX_VALUE)
+            .addGap(0, 371, Short.MAX_VALUE)
         );
         findBarLayout.setVerticalGroup(
             findBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -441,6 +451,11 @@ public final class BatchTransferTopComponent extends TopComponent {
         coinFld.setText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.coinFld.text")); // NOI18N
         coinFld.setToolTipText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.coinFld.toolTipText")); // NOI18N
         coinFld.setPrompt(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.coinFld.prompt")); // NOI18N
+        coinFld.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                coinFldMouseClicked(evt);
+            }
+        });
 
         org.openide.awt.Mnemonics.setLocalizedText(selectCoinBtn, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.selectCoinBtn.text")); // NOI18N
         selectCoinBtn.setToolTipText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.selectCoinBtn.toolTipText")); // NOI18N
@@ -659,19 +674,45 @@ public final class BatchTransferTopComponent extends TopComponent {
 	    msg.setVisible(true);
 	    return;
 	}
-	
-	final List<BatchTransfer> list = tableModel.getBatchTransfers();
+        
+        // 转账信息列表不能为空
+        final List<BatchTransfer> list = tableModel.getBatchTransfers();
+        if(list.isEmpty()) {
+	    MessageDialog msg = new MessageDialog(null,"注意","转账信息列表不能为空");
+	    msg.setVisible(true);
+	    return;
+        }
+        
+        // 强制刷新状态
+        
 	double total = 0d;
 	for(BatchTransfer bt : list) {
-	    // 检查是否有无效转账地址
+	    
 	    String address = bt.getAddress();
+            
+            // 已经转账成功的记录可以忽略了
+            if(bt.getStatus() == BlockChain.TransactionStatus.SUCCESS) {
+                continue;
+            }
+            
+            // 是否有转账结果不确定的bt(提示用户刷新状态)
+            if(bt.getStatus() == BlockChain.TransactionStatus.UNKNOWN) {
+		MessageDialog msg = new MessageDialog(null,"注意","交易状态不确定，请更新交易状态并等待：\"" + address + "\"");
+		msg.setVisible(true);
+                
+                showRefreshTooltip("单击此按钮更新交易状态");
+                
+		return;
+            }
+            
+            // 检查是否有无效转账地址
             BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
             if(!bc.isValidAddress(address)) {
 		MessageDialog msg = new MessageDialog(null,"注意","无效转账地址：\"" + address + "\"");
 		msg.setVisible(true);
 		return;
 	    }
-	    
+            
 	    // 检查是否有重复地址（重复地址会导致重复发送，同时表格更新会有问题）
 	    Set<String> set = Sets.newHashSet();
 	    if(!set.contains(bt.getAddress())) {
@@ -681,7 +722,7 @@ public final class BatchTransferTopComponent extends TopComponent {
 		msg.setVisible(true);
 		return;
 	    }
-
+            
 	    // 检查数量是否无效
 	    String value = bt.getValue();
 	    if(!NumberUtils.isParsable(value)) {
@@ -689,6 +730,7 @@ public final class BatchTransferTopComponent extends TopComponent {
 		msg.setVisible(true);
 		return;
 	    } else {
+                // 状态为空或失败的才重新发送（上面已经对转账成功和不确定状态进行了过滤）
 		total += NumberUtils.toDouble(value);
 	    }
 	}
@@ -704,7 +746,7 @@ public final class BatchTransferTopComponent extends TopComponent {
 		BigInteger balance = baseCoin.balanceOf(wallet.getAddress());
 		if(balance.compareTo(baseCoin.mainUint2MinUint(1l)) < 0) {
 		    // cfx数量必须大于1
-		    return coin.getName() + "数量必须大于1";
+		    return "预留矿工费：" + coin.getName() + "数量必须大于1";
 		}
 
 		// 代币数量是否足够
@@ -748,14 +790,12 @@ public final class BatchTransferTopComponent extends TopComponent {
 					for(int i=0; i<list.size(); i++) {
 					    final BatchTransfer bt = list.get(i);
 					    
-					    // 仅
-					    if(bt.getStatus() == BlockChain.TransactionStatus.SUCCESS) {
-						// 已发送成功
-						innerWorker.publish0(new Pair<>(i+1, bt));
-					    }
-					    
-					    tos[i] = bt.getAddress();
-					    values[i] = coin.mainUint2MinUint(new BigDecimal(bt.getValue()));
+					    // 理论上这里不会出现交易状态不确定的情况，跳过交易成功的bt
+                                            // 交易状态为空或失败，加入转账列表
+                                            if(bt.getStatus() == null || bt.getStatus() == BlockChain.TransactionStatus.FAILED) {
+                                                tos[i] = bt.getAddress();
+                                                values[i] = coin.mainUint2MinUint(new BigDecimal(bt.getValue()));
+                                            }
 					}
 					String privateKey = AESUtil.decrypt(wallet.getPrivateKeyAES(), passwordVerifyDialog.getPassword());
 					BigInteger gas = coin.gas2MinUnit(gasSlider.getValue());
@@ -770,7 +810,9 @@ public final class BatchTransferTopComponent extends TopComponent {
 					    }
 					});
                                     } catch(Exception e) {
+                                        // SwingWorker.doInBackground里面需要捕获异常才会在控制台输出堆栈信息
                                         e.printStackTrace();
+                                        return e.getMessage();
                                     }
 
 				    return "";
@@ -788,33 +830,32 @@ public final class BatchTransferTopComponent extends TopComponent {
 				
 				@Override
 				protected void done() {
-				    // repaint talbe
-				    table.repaint();
-				    
+//				    // repaint talbe
+//				    table.repaint();
+//				    
 				    // 更新超链scanBtn
 				    if(table.getSelectedRow() != -1) {
 					BatchTransfer bt = tableModel.getBatchTransfer(table.convertRowIndexToModel(table.getSelectedRow()));
 					scanBtn.setText("confluxscan: " + Utils.simplifyHash(bt.getHash(), 6));
 					scanBtn.setToolTipText("confluxscan: " + bt.getHash());
+                                        scanBtn.setEnabled(true);
 				    } else {
 					scanBtn.setText("confluxscan");
 					scanBtn.setToolTipText("confluxscan: 打开浏览器查看交易详情");
-				    }
-				    
-				    // 气泡提示
-				    try {
-					JLabel lbl = new JLabel("转账已全部完成，单击此按钮更新交易状态");
-					BalloonTip balloonTip = new BalloonTip(statusBtn, 
-							lbl,
-							net.java.balloontip.examples.complete.Utils.createBalloonTipStyle(),
-							net.java.balloontip.examples.complete.Utils.createBalloonTipPositioner(), 
-							null);
-					TimingUtils.showTimedBalloon(balloonTip, 2000);
-				    } catch (Exception ex) {
-					Exceptions.printStackTrace(ex);
+                                        scanBtn.setEnabled(false);
 				    }
 				    
 				    ph.finish();
+                                    
+                                    try {
+                                        // 等待1秒钟更新交易状态
+                                        Thread.sleep(1000);
+                                    } catch (InterruptedException ex) {
+                                    }
+                                    statusBtnActionPerformed(null);
+                                    
+				    // 气泡提示
+                                    showRefreshTooltip("转账已全部完成，单击此按钮更新交易状态");
 				}
 			    };
 			    innerWorker.execute();
@@ -828,6 +869,21 @@ public final class BatchTransferTopComponent extends TopComponent {
 	worker.execute();
     }//GEN-LAST:event_startBtnActionPerformed
 
+    private void showRefreshTooltip(String msg) {
+        // 气泡提示
+        try {
+            JLabel lbl = new JLabel(msg);
+            BalloonTip balloonTip = new BalloonTip(statusBtn, 
+                            lbl,
+                            net.java.balloontip.examples.complete.Utils.createBalloonTipStyle(),
+                            net.java.balloontip.examples.complete.Utils.createBalloonTipPositioner(), 
+                            null);
+            TimingUtils.showTimedBalloon(balloonTip, 2000);
+        } catch (Exception ex) {
+            Exceptions.printStackTrace(ex);
+        }
+    }
+    
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
         ConfirmDialog dlg = new ConfirmDialog(null, "删除记录确认", "是否删除记录？");
         dlg.setVisible(true);
@@ -862,7 +918,7 @@ public final class BatchTransferTopComponent extends TopComponent {
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.setAcceptAllFileFilterUsed(false);
         chooser.setMultiSelectionEnabled(false);    // 可以同时新建多个
-        chooser.setFileFilter(new FileNameExtensionFilter("支持文件(*.csv)", "csv"));
+        chooser.setFileFilter(new FileNameExtensionFilter("CSV(逗号分隔)(*.csv)", "csv"));
         int returnVal = chooser.showOpenDialog(WindowManager.getDefault().getMainWindow());
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             final File file = chooser.getSelectedFile();
@@ -881,7 +937,7 @@ public final class BatchTransferTopComponent extends TopComponent {
                     batchTransfer.setRemark(csvReader.get(2));
                     tableModel.add(batchTransfer);
                 }
-
+                csvReader.close();
             } catch (IOException ex) {
                 Exceptions.printStackTrace(ex);
             }
@@ -971,6 +1027,14 @@ public final class BatchTransferTopComponent extends TopComponent {
 	worker.execute();
     }//GEN-LAST:event_statusBtnActionPerformed
 
+    private void walletFldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_walletFldMouseClicked
+        selectWalletBtnActionPerformed(null);
+    }//GEN-LAST:event_walletFldMouseClicked
+
+    private void coinFldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_coinFldMouseClicked
+        selectCoinBtnActionPerformed(null);
+    }//GEN-LAST:event_coinFldMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXButton addBtn;
     private org.jdesktop.swingx.JXButton clearBtn;
@@ -1042,7 +1106,7 @@ public final class BatchTransferTopComponent extends TopComponent {
     }
     
     abstract class InnerSwingWorker<T, V> extends SwingWorker<T, V> {
-
+        // 将publish暴露给外部
 	public final void publish0(V... chunks) {
 	    this.publish(chunks);
 	}

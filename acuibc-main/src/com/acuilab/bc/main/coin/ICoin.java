@@ -104,9 +104,10 @@ public interface ICoin {
     /**
      * 批量转账
      * @param privateKey    私钥
-     * @param to        接收地址列表
-     * @param value     转账数量列表
+     * @param tos        接收地址列表
+     * @param values     转账数量列表
      * @param gas       矿工费
+     * @param callback
      * @throws java.lang.Exception
      */
     public void batchTransfer(String privateKey, String[] tos, BigInteger[] values, BigInteger gas, BatchTransferCallback callback) throws Exception;

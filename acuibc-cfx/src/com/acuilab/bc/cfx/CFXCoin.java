@@ -278,12 +278,15 @@ public class CFXCoin implements ICFXCoin {
 	for(int i=0; i<tos.length; i++) {
 	    String to = tos[i];
 	    BigInteger value = values[i];
-	    
-	    account.setNonce(nonce);
-	    String hash = account.transfer(new Option().withGasPrice(gas).withGasLimit(gasLimit()), to, value);
-	    callback.transferFinished(to, hash, i, tos.length);
-	    
-	    nonce = nonce.add(BigInteger.ONE);
+            
+            // 过滤掉非法地址
+            if(bc.isValidAddress(to)) {
+                account.setNonce(nonce);
+                String hash = account.transfer(new Option().withGasPrice(gas).withGasLimit(gasLimit()), to, value);
+                callback.transferFinished(to, hash, i, tos.length);
+
+                nonce = nonce.add(BigInteger.ONE);
+            }
 	}
     }
 }

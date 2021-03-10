@@ -9,6 +9,7 @@ import com.acuilab.bc.main.ui.MessageDialog;
 import com.acuilab.bc.main.ui.MyFindBar;
 import com.acuilab.bc.main.util.AESUtil;
 import com.acuilab.bc.main.util.Constants;
+import com.acuilab.bc.main.util.DateUtil;
 import com.acuilab.bc.main.util.Utils;
 import com.acuilab.bc.main.wallet.TransferRecordTableModel;
 import com.acuilab.bc.main.wallet.Wallet;
@@ -19,6 +20,8 @@ import com.csvreader.CsvReader;
 import com.google.common.collect.Sets;
 import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
@@ -30,6 +33,7 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.net.URI;
 import java.nio.charset.Charset;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -51,6 +55,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.Document;
 import javax.swing.text.NumberFormatter;
@@ -59,6 +64,7 @@ import net.java.balloontip.utils.TimingUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.javatuples.Pair;
+import org.jdesktop.swingx.JXHyperlink;
 import org.jdesktop.swingx.JXTextField;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
@@ -101,6 +107,7 @@ import org.openide.windows.WindowManager;
 public final class BatchTransferTopComponent extends TopComponent {
     private static final Logger LOG = Logger.getLogger(BatchTransferTopComponent.class.getName());
     private final Icon flagIcon = ImageUtilities.loadImageIcon("/resource/flag16.png", false);
+    private final Icon chromeIcon = ImageUtilities.loadImageIcon("/resource/chrome16.png", false);
     private final BatchTransferTableModel tableModel;
 
     private Wallet wallet;
@@ -113,12 +120,15 @@ public final class BatchTransferTopComponent extends TopComponent {
         setName(Bundle.CTL_BatchTransferTopComponent());
         setToolTipText(Bundle.HINT_BatchTransferTopComponent());
         
-        // TODO: 初始化日志
+        // 初始化日志
         // 1 转账前将交易状态更新到最新
         // 2 开始按钮可重复执行，仅对交易状态为空或失败的记录进行转账
         // 3 导入格式为CSV(逗号分隔)(*.csv)，可通过excel另存为CSV(逗号分隔)(*.csv)
-        // 4 
-        
+        insertNotice("1.当存在交易状态不确定的记录时不允许转账，请将交易状态更新到最新");
+        insertNotice("2.开始按钮可重复执行，仅对交易状态为空或失败的记录进行转账");
+        insertNotice("3.转账地址不可重复");
+        insertNotice("4.转账进行时不要进行其他转账或调用合约的操作");
+        insertNotice("5.导入格式为CSV(逗号分隔)(*.csv)，可通过excel另存为CSV(逗号分隔)(*.csv)");
         
         findBar.setSearchable(table.getSearchable());
 
@@ -163,7 +173,7 @@ public final class BatchTransferTopComponent extends TopComponent {
                 if(selectedRows.length == 1) {
                     BatchTransfer bt = tableModel.getBatchTransfer(table.convertRowIndexToModel(selectedRows[0]));
 		    if(StringUtils.isNotBlank(bt.getHash())) {
-			scanBtn.setText("confluxscan: " + Utils.simplifyHash(bt.getHash(), 6));
+			scanBtn.setText("confluxscan: " + Utils.simplifyString(bt.getHash(), 6));
 			scanBtn.setToolTipText("confluxscan: " + bt.getHash());
 		    } else {
 			scanBtn.setText("confluxscan");
@@ -173,6 +183,7 @@ public final class BatchTransferTopComponent extends TopComponent {
                     
                 } else {
 		    scanBtn.setText("confluxscan");
+                    scanBtn.setToolTipText("confluxscan: 打开浏览器查看交易详情");
                     scanBtn.setEnabled(false);
                 }
             }
@@ -410,7 +421,7 @@ public final class BatchTransferTopComponent extends TopComponent {
                 .addComponent(startBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(stopBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1117, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 859, Short.MAX_VALUE)
             .addGroup(jXPanel1Layout.createSequentialGroup()
                 .addComponent(findBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -605,13 +616,33 @@ public final class BatchTransferTopComponent extends TopComponent {
             refreshBalance();
 	}
     }//GEN-LAST:event_selectWalletBtnActionPerformed
-
+    
     private void selectCoinBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectCoinBtnActionPerformed
         // 选择代币前先选择钱包
         SelectCoinDialog dlg = new SelectCoinDialog(null, Constants.CFX_BLOCKCHAIN_SYMBAL, coin != null ? coin.getSymbol() : null);
         dlg.setVisible(true);
         if(dlg.getReturnStatus() == SelectCoinDialog.RET_OK) {
 	    coin = CoinManager.getDefault().getCoin(Constants.CFX_BLOCKCHAIN_SYMBAL, dlg.getSelected());
+            
+            // 矿工费初始化
+            int gasMin = coin.gasMin();
+            int gasMax = coin.gasMax();
+            int defaultValue = coin.gasDefault();
+            gasSlider.setMinimum(gasMin);
+            gasSlider.setMaximum(gasMax);
+            gasSlider.setValue(defaultValue);
+            gasSpinner.setModel(new SpinnerNumberModel(defaultValue, gasMin, gasMax, 1));
+            JSpinner.NumberEditor editor = new JSpinner.NumberEditor(gasSpinner, "#");
+            final JFormattedTextField textField = editor.getTextField();
+            final DefaultFormatterFactory factory = (DefaultFormatterFactory)textField.getFormatterFactory();
+            final NumberFormatter formatter = (NumberFormatter)factory.getDefaultFormatter();
+            formatter.setCommitsOnValidEdit(true);
+            gasSpinner.setEditor(editor);
+            gasLbl.setText(coin.gasDesc(coin.gasDefault()));
+
+            gasSlider.setEnabled(true);
+            gasSpinner.setEnabled(true);
+            gasLbl.setEnabled(true);
             
             // 求余额
             coinFld.setPrompt(coin.getName() + "(正在请求余额，请稍候...)");
@@ -626,27 +657,6 @@ public final class BatchTransferTopComponent extends TopComponent {
                     try {
                         BigInteger balance = get();
                         coinFld.setText(coin.getName() + "(余额：" + coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.FLOOR).toPlainString() + " " + coin.getMainUnit() + ")");
-
-                        // 矿工费初始化
-                        int gasMin = coin.gasMin();
-                        int gasMax = coin.gasMax();
-                        int defaultValue = coin.gasDefault();
-                        gasSlider.setMinimum(gasMin);
-                        gasSlider.setMaximum(gasMax);
-                        gasSlider.setValue(defaultValue);
-                        gasSpinner.setModel(new SpinnerNumberModel(defaultValue, gasMin, gasMax, 1));
-                        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(gasSpinner, "#");
-                        final JFormattedTextField textField = editor.getTextField();
-                        final DefaultFormatterFactory factory = (DefaultFormatterFactory)textField.getFormatterFactory();
-                        final NumberFormatter formatter = (NumberFormatter)factory.getDefaultFormatter();
-                        formatter.setCommitsOnValidEdit(true);
-                        gasSpinner.setEditor(editor);
-                        gasLbl.setText(coin.gasDesc(coin.gasDefault()));
-                        
-                        gasSlider.setEnabled(true);
-                        gasSpinner.setEnabled(true);
-                        gasLbl.setEnabled(true);
-                        
                     } catch (InterruptedException | ExecutionException ex) {
                         Exceptions.printStackTrace(ex);
                     }
@@ -656,6 +666,56 @@ public final class BatchTransferTopComponent extends TopComponent {
 	}
     }//GEN-LAST:event_selectCoinBtnActionPerformed
 
+    public void initWalletAndCoin(Wallet wallet, ICoin coin) {
+        this.wallet = wallet;
+        this.coin = coin;
+        
+        // wallet
+        walletFld.setText(wallet.getName() + "(地址：" + wallet.getAddress() + ")");
+        selectCoinBtn.setEnabled(true);
+        refreshBalanceBtn.setEnabled(true);        
+        
+        // 矿工费初始化
+        int gasMin = coin.gasMin();
+        int gasMax = coin.gasMax();
+        int defaultValue = coin.gasDefault();
+        gasSlider.setMinimum(gasMin);
+        gasSlider.setMaximum(gasMax);
+        gasSlider.setValue(defaultValue);
+        gasSpinner.setModel(new SpinnerNumberModel(defaultValue, gasMin, gasMax, 1));
+        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(gasSpinner, "#");
+        final JFormattedTextField textField = editor.getTextField();
+        final DefaultFormatterFactory factory = (DefaultFormatterFactory)textField.getFormatterFactory();
+        final NumberFormatter formatter = (NumberFormatter)factory.getDefaultFormatter();
+        formatter.setCommitsOnValidEdit(true);
+        gasSpinner.setEditor(editor);
+        gasLbl.setText(coin.gasDesc(coin.gasDefault()));
+
+        gasSlider.setEnabled(true);
+        gasSpinner.setEnabled(true);
+        gasLbl.setEnabled(true);
+        
+        // 求余额
+        coinFld.setPrompt(coin.getName() + "(正在请求余额，请稍候...)");
+        SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
+            @Override
+            protected BigInteger doInBackground() throws Exception {
+                return coin.balanceOf(wallet.getAddress());
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    BigInteger balance = get();
+                    coinFld.setText(coin.getName() + "(余额：" + coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.FLOOR).toPlainString() + " " + coin.getMainUnit() + ")");
+                } catch (InterruptedException | ExecutionException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+            }
+        };
+        worker.execute();
+    }
+            
     private void startBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startBtnActionPerformed
         startBtn.setEnabled(false);
         
@@ -684,8 +744,6 @@ public final class BatchTransferTopComponent extends TopComponent {
 	    return;
         }
         
-        // 强制刷新状态
-        
 	double total = 0d;
 	for(BatchTransfer bt : list) {
 	    
@@ -698,7 +756,7 @@ public final class BatchTransferTopComponent extends TopComponent {
             
             // 是否有转账结果不确定的bt(提示用户刷新状态)
             if(bt.getStatus() == BlockChain.TransactionStatus.UNKNOWN) {
-		MessageDialog msg = new MessageDialog(null,"注意","交易状态不确定，请更新交易状态：\"" + address + "\"");
+		MessageDialog msg = new MessageDialog(null,"注意","交易状态不确定，请更新交易状态：\"" + Utils.simplifyString(address, 18) + "\"");
 		msg.setVisible(true);
                 showRefreshTooltip("单击此按钮更新交易状态");
                 startBtn.setEnabled(true);
@@ -709,7 +767,7 @@ public final class BatchTransferTopComponent extends TopComponent {
             // 检查是否有无效转账地址
             BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
             if(!bc.isValidAddress(address)) {
-		MessageDialog msg = new MessageDialog(null,"注意","无效转账地址：\"" + address + "\"");
+		MessageDialog msg = new MessageDialog(null,"注意","无效转账地址：\"" + Utils.simplifyString(address, 18) + "\"");
 		msg.setVisible(true);
                 startBtn.setEnabled(true);
 		return;
@@ -720,7 +778,7 @@ public final class BatchTransferTopComponent extends TopComponent {
 	    if(!set.contains(bt.getAddress())) {
 		set.add(bt.getAddress());
 	    } else {
-		MessageDialog msg = new MessageDialog(null,"注意","转账地址重复：\"" + address + "\"");
+		MessageDialog msg = new MessageDialog(null,"注意","转账地址重复：\"" + Utils.simplifyString(address, 18) + "\"");
 		msg.setVisible(true);
                 startBtn.setEnabled(true);
 		return;
@@ -728,7 +786,8 @@ public final class BatchTransferTopComponent extends TopComponent {
             
 	    // 检查数量是否无效
 	    String value = bt.getValue();
-	    if(!NumberUtils.isParsable(value)) {
+//	    if(!NumberUtils.isParsable(value)) {
+            if(NumberUtils.toDouble(value) <= 0d) {
 		MessageDialog msg = new MessageDialog(null,"注意","无效数量：\"" + value + "\"");
 		msg.setVisible(true);
                 startBtn.setEnabled(true);
@@ -738,6 +797,14 @@ public final class BatchTransferTopComponent extends TopComponent {
 		total += NumberUtils.toDouble(value);
 	    }
 	}
+        
+        // 总数大于0
+        if(total <= 0d) {
+            MessageDialog msg = new MessageDialog(null,"注意",coin.getName() + "待转账总数无效(" + total + ")");
+            msg.setVisible(true);
+            startBtn.setEnabled(true);
+            return;
+        }
 	
         // 外层SwingWorker用于验证矿工费及余额是否足够；内层SwingWorker用于执行实际的转账
 	final Double totalWrapped = total;
@@ -783,6 +850,7 @@ public final class BatchTransferTopComponent extends TopComponent {
 			passwordVerifyDialog.setVisible(true);
 			if(passwordVerifyDialog.getReturnStatus() == PasswordVerifyDialog.RET_OK) {
 			    // 内层SwingWorker
+                            insertLine();
 			    final ProgressHandle ph = ProgressHandle.createHandle("正在转账，请稍候");
 			    innerWorker = new InnerSwingWorker<String, Pair<Integer, BatchTransfer>>() {	// 序号、描述、哈希
 				
@@ -811,7 +879,8 @@ public final class BatchTransferTopComponent extends TopComponent {
 						// 从tableModel中找到batchTransfer对象，更新ui
 						BatchTransfer bt = map.get(address);
 						bt.setHash(hash);
-						innerWorker.publish0(new Pair<>(index+1, bt));
+                                                
+						innerWorker.publish0(new Pair<>(index, bt));
 					    }
 					});
                                     } catch(Exception e) {
@@ -829,7 +898,11 @@ public final class BatchTransferTopComponent extends TopComponent {
 					// 刷新表格
 					table.repaint();
 					
-					ph.progress(pair.getValue0());
+                                        int index = pair.getValue0();
+                                        BatchTransfer bt = pair.getValue1();
+                                        insertResult(bt.getAddress(), bt.getHash(), index);
+                                        
+					ph.progress(index+1);
 				    }
 				}
 				
@@ -841,7 +914,7 @@ public final class BatchTransferTopComponent extends TopComponent {
 				    // 更新超链scanBtn
 				    if(table.getSelectedRow() != -1) {
 					BatchTransfer bt = tableModel.getBatchTransfer(table.convertRowIndexToModel(table.getSelectedRow()));
-					scanBtn.setText("confluxscan: " + Utils.simplifyHash(bt.getHash(), 6));
+					scanBtn.setText("confluxscan: " + Utils.simplifyString(bt.getHash(), 6));
 					scanBtn.setToolTipText("confluxscan: " + bt.getHash());
                                         scanBtn.setEnabled(true);
 				    } else {
@@ -987,7 +1060,8 @@ public final class BatchTransferTopComponent extends TopComponent {
     }//GEN-LAST:event_scanBtnActionPerformed
 
     private void statusBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusBtnActionPerformed
-	final List<BatchTransfer> list = tableModel.getBatchTransfers();
+	statusBtn.setEnabled(false);
+        final List<BatchTransfer> list = tableModel.getBatchTransfers();
 	final ProgressHandle ph = ProgressHandle.createHandle("正在刷新交易状态，请稍候");
 	SwingWorker<Void, Pair<Integer, BatchTransfer>> worker = new SwingWorker<Void, Pair<Integer, BatchTransfer>>() {
 	    @Override
@@ -1150,6 +1224,70 @@ public final class BatchTransferTopComponent extends TopComponent {
                 }
             };
             worker.execute();
+        }
+    }
+    
+    public void insertNotice(String notice) {
+        try {
+            Document doc = logPane.getDocument();
+            logPane.setCaretPosition(doc.getLength());  // 移动光标到最后
+            logPane.setParagraphAttributes(Constants.ALIGNMENT_LEFT_ATTRIBUTE_SET, false);
+            doc.insertString(doc.getLength(), "\n", null);   // 换行重启一段落
+            logPane.insertIcon(flagIcon);   // 插入通知标志
+            doc.insertString(doc.getLength(), notice, Constants.TEXT_NOTICE_ATTRIBUTE_SET);
+            doc.insertString(doc.getLength(), "\n", null);   // 换行重启一段落
+        } catch (BadLocationException ex) {
+        }
+    }
+    
+    public void insertResult(String address, String hash, int index) {
+        try {
+            Document doc = logPane.getDocument();
+            logPane.setCaretPosition(doc.getLength());  // 移动光标到最后
+            logPane.setParagraphAttributes(Constants.ALIGNMENT_LEFT_ATTRIBUTE_SET, false);
+            doc.insertString(doc.getLength(), "\n", null);   // 换行重启一段落
+            doc.insertString(doc.getLength(), 
+                    index + "\t" + DateUtil.commonDateFormat(new Date(), "yyyy-MM-dd HH:mm:ss") + "\t" + address + "\t" + hash + "\t", 
+                    Constants.TEXT_RESULT_ATTRIBUTE_SET);
+            // 插入按钮
+            JXHyperlink link = new JXHyperlink();
+            link.setIcon(chromeIcon);
+            link.setText("查看");
+            link.setToolTipText("打开浏览器查看交易详情");
+            link.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(Desktop.isDesktopSupported()) {
+                        try {
+                            if(Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                                // 打开默认浏览器
+                                BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
+                                Desktop.getDesktop().browse(URI.create(bc.getTransactionDetailUrl(hash)));
+                            }
+                        } catch (IOException ex) {
+                            Exceptions.printStackTrace(ex);
+                        }
+                    }
+                }
+            });
+            link.setAlignmentY(0.95f);
+            logPane.insertComponent(link);
+            doc.insertString(doc.getLength(), "\n", null);   // 换行重启一段落
+        } catch (BadLocationException ex) {
+        }
+    }
+    
+    public void insertLine() {
+        try {
+            Document doc = logPane.getDocument();
+            logPane.setCaretPosition(doc.getLength());  // 移动光标到最后
+            logPane.setParagraphAttributes(Constants.ALIGNMENT_LEFT_ATTRIBUTE_SET, false);
+            doc.insertString(doc.getLength(), "\n", null);   // 换行重启一段落
+            doc.insertString(doc.getLength(), 
+                    "—————————————————————————————————————————————————————————————", 
+                    Constants.TEXT_LINE_ATTRIBUTE_SET);
+            doc.insertString(doc.getLength(), "\n", null);   // 换行重启一段落
+        } catch (BadLocationException ex) {
         }
     }
     

@@ -57,15 +57,16 @@ public class Utils {
     
     /***
      * 简化哈希值，首尾各保留reservedCount位，中间部分用...代替
-     * @param hash
+     * @param str
+     * @param reservedCount
      * @return 
      */
-    public static String simplifyHash(String hash, int reservedCount) {
-	int length = StringUtils.length(hash);
+    public static String simplifyString(String str, int reservedCount) {
+	int length = StringUtils.length(str);
 	if(length > 2*reservedCount) {
-	    return StringUtils.substring(hash, 0, reservedCount) + "..." + StringUtils.substring(hash, length-reservedCount);
+	    return StringUtils.substring(str, 0, reservedCount) + "..." + StringUtils.substring(str, length-reservedCount);
 	}
 	
-	return hash;
+	return str;
     }
 }

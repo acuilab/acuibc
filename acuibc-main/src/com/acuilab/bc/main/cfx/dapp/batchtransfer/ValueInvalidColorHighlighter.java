@@ -22,7 +22,8 @@ public class ValueInvalidColorHighlighter extends ColorHighlighter {
     @Override
     protected void applyBackground(Component renderer, ComponentAdapter adapter) {
         BatchTransfer bt = tableModel.getBatchTransfer(adapter.convertRowIndexToModel(adapter.row));
-        if(!NumberUtils.isParsable(bt.getValue())) {
+//        if(!NumberUtils.isParsable(bt.getValue())) {
+        if(NumberUtils.toDouble(bt.getValue()) <= 0d) {
 	    super.applyBackground(renderer, adapter); //To change body of generated methods, choose Tools | Templates.
         }
     }

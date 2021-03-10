@@ -58,7 +58,10 @@ import org.openide.windows.WindowManager;
 import org.jdesktop.swingx.JXButton;
 import org.openide.awt.ToolbarWithOverflow;
 import com.acuilab.bc.main.coin.ICoin;
+import com.acuilab.bc.main.util.Constants;
 import java.math.BigDecimal;
+import javax.swing.ImageIcon;
+import org.openide.windows.TopComponent;
 
 /**
  *
@@ -215,6 +218,7 @@ public class CoinPanel extends JXPanel {
         // Coin个性化扩展
         if (coin instanceof ICFXCoin) {
             JXButton stakingBtn = new JXButton("质押");
+            stakingBtn.setToolTipText("质押cfx");
             stakingBtn.setIcon(ImageUtilities.loadImageIcon("/resource/staking16.png", false));
             stakingBtn.addActionListener(new ActionListener() {
                 @Override

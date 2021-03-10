@@ -264,6 +264,7 @@ public final class BatchTransferTopComponent extends TopComponent {
         fastLbl = new org.jdesktop.swingx.JXLabel();
         gasLbl = new org.jdesktop.swingx.JXLabel();
         jXLabel3 = new org.jdesktop.swingx.JXLabel();
+        refreshBalanceBtn = new org.jdesktop.swingx.JXButton();
 
         walletFld.setEditable(false);
         walletFld.setText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.walletFld.text")); // NOI18N
@@ -374,6 +375,7 @@ public final class BatchTransferTopComponent extends TopComponent {
 
         org.openide.awt.Mnemonics.setLocalizedText(statusBtn, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.statusBtn.text")); // NOI18N
         statusBtn.setToolTipText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.statusBtn.toolTipText")); // NOI18N
+        statusBtn.setEnabled(false);
         statusBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 statusBtnActionPerformed(evt);
@@ -527,6 +529,14 @@ public final class BatchTransferTopComponent extends TopComponent {
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel3, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.jXLabel3.text")); // NOI18N
 
+        org.openide.awt.Mnemonics.setLocalizedText(refreshBalanceBtn, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.refreshBalanceBtn.text")); // NOI18N
+        refreshBalanceBtn.setEnabled(false);
+        refreshBalanceBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshBalanceBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -544,8 +554,11 @@ public final class BatchTransferTopComponent extends TopComponent {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(coinFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(walletFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(walletFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(coinFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(refreshBalanceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(selectWalletBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -565,7 +578,8 @@ public final class BatchTransferTopComponent extends TopComponent {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(coinFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(selectCoinBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(selectCoinBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(refreshBalanceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -583,29 +597,10 @@ public final class BatchTransferTopComponent extends TopComponent {
 	    wallet = dlg.getSelectedWallet();
 	    walletFld.setText(wallet.getName() + "(地址：" + wallet.getAddress() + ")");
             selectCoinBtn.setEnabled(true);
+            refreshBalanceBtn.setEnabled(true);
 	    
 	    // 若coin存在，则刷新其余额
-	    if(coin != null) {
-		// 求余额
-		coinFld.setPrompt(coin.getName() + "(正在请求余额，请稍候...)");
-		SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
-		    @Override
-		    protected BigInteger doInBackground() throws Exception {
-			return coin.balanceOf(wallet.getAddress());
-		    }
-
-		    @Override
-		    protected void done() {
-			try {
-			    BigInteger balance = get();
-			    coinFld.setText(coin.getName() + "(余额：" + coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.FLOOR).toPlainString() + " " + coin.getMainUnit() + ")");
-			} catch (InterruptedException | ExecutionException ex) {
-			    Exceptions.printStackTrace(ex);
-			}
-		    }
-		};
-		worker.execute();
-	    }
+            refreshBalance();
 	}
     }//GEN-LAST:event_selectWalletBtnActionPerformed
 
@@ -660,11 +655,13 @@ public final class BatchTransferTopComponent extends TopComponent {
     }//GEN-LAST:event_selectCoinBtnActionPerformed
 
     private void startBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startBtnActionPerformed
-
+        startBtn.setEnabled(false);
+        
 	// 选择钱包
 	if(wallet == null) {
 	    MessageDialog msg = new MessageDialog(null,"注意","请选择钱包");
 	    msg.setVisible(true);
+            startBtn.setEnabled(true);
 	    return;
 	}
 	
@@ -672,6 +669,7 @@ public final class BatchTransferTopComponent extends TopComponent {
 	if(coin == null) {
 	    MessageDialog msg = new MessageDialog(null,"注意","请选择币种");
 	    msg.setVisible(true);
+            startBtn.setEnabled(true);
 	    return;
 	}
         
@@ -680,6 +678,7 @@ public final class BatchTransferTopComponent extends TopComponent {
         if(list.isEmpty()) {
 	    MessageDialog msg = new MessageDialog(null,"注意","转账信息列表不能为空");
 	    msg.setVisible(true);
+            startBtn.setEnabled(true);
 	    return;
         }
         
@@ -697,12 +696,12 @@ public final class BatchTransferTopComponent extends TopComponent {
             
             // 是否有转账结果不确定的bt(提示用户刷新状态)
             if(bt.getStatus() == BlockChain.TransactionStatus.UNKNOWN) {
-		MessageDialog msg = new MessageDialog(null,"注意","交易状态不确定，请更新交易状态并等待：\"" + address + "\"");
+		MessageDialog msg = new MessageDialog(null,"注意","交易状态不确定，请更新交易状态：\"" + address + "\"");
 		msg.setVisible(true);
-                
                 showRefreshTooltip("单击此按钮更新交易状态");
-                
-		return;
+                startBtn.setEnabled(true);
+
+                return;
             }
             
             // 检查是否有无效转账地址
@@ -710,6 +709,7 @@ public final class BatchTransferTopComponent extends TopComponent {
             if(!bc.isValidAddress(address)) {
 		MessageDialog msg = new MessageDialog(null,"注意","无效转账地址：\"" + address + "\"");
 		msg.setVisible(true);
+                startBtn.setEnabled(true);
 		return;
 	    }
             
@@ -720,6 +720,7 @@ public final class BatchTransferTopComponent extends TopComponent {
 	    } else {
 		MessageDialog msg = new MessageDialog(null,"注意","转账地址重复：\"" + address + "\"");
 		msg.setVisible(true);
+                startBtn.setEnabled(true);
 		return;
 	    }
             
@@ -728,6 +729,7 @@ public final class BatchTransferTopComponent extends TopComponent {
 	    if(!NumberUtils.isParsable(value)) {
 		MessageDialog msg = new MessageDialog(null,"注意","无效数量：\"" + value + "\"");
 		msg.setVisible(true);
+                startBtn.setEnabled(true);
 		return;
 	    } else {
                 // 状态为空或失败的才重新发送（上面已经对转账成功和不确定状态进行了过滤）
@@ -772,6 +774,7 @@ public final class BatchTransferTopComponent extends TopComponent {
 		    if(StringUtils.isNotBlank(ret)) {
 			MessageDialog msg = new MessageDialog(null,"注意",ret);
 			msg.setVisible(true);
+                        startBtn.setEnabled(true);
 		    } else {
 			// 请求密码获得私钥
 			PasswordVerifyDialog passwordVerifyDialog = new PasswordVerifyDialog(null, wallet);
@@ -853,9 +856,6 @@ public final class BatchTransferTopComponent extends TopComponent {
                                     } catch (InterruptedException ex) {
                                     }
                                     statusBtnActionPerformed(null);
-                                    
-				    // 气泡提示
-                                    showRefreshTooltip("转账已全部完成，单击此按钮更新交易状态");
 				}
 			    };
 			    innerWorker.execute();
@@ -1019,8 +1019,19 @@ public final class BatchTransferTopComponent extends TopComponent {
 	    protected void done() {
 		// repaint talbe
 		table.repaint();
-
+                
 		ph.finish();
+                
+                // 启用开始按钮
+                if(!startBtn.isEnabled()) {
+                    startBtn.setEnabled(true);
+                }
+                if(!statusBtn.isEnabled()) {
+                    statusBtn.setEnabled(true);
+                }
+                
+                // 气泡提示
+                showRefreshTooltip("单击此按钮更新交易状态");
 	    }
 	    
 	};
@@ -1034,6 +1045,10 @@ public final class BatchTransferTopComponent extends TopComponent {
     private void coinFldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_coinFldMouseClicked
         selectCoinBtnActionPerformed(null);
     }//GEN-LAST:event_coinFldMouseClicked
+
+    private void refreshBalanceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBalanceBtnActionPerformed
+        refreshBalance();
+    }//GEN-LAST:event_refreshBalanceBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXButton addBtn;
@@ -1057,6 +1072,7 @@ public final class BatchTransferTopComponent extends TopComponent {
     private org.jdesktop.swingx.JXPanel jXPanel1;
     private org.jdesktop.swingx.JXPanel jXPanel2;
     private javax.swing.JTextPane logPane;
+    private org.jdesktop.swingx.JXButton refreshBalanceBtn;
     private org.jdesktop.swingx.JXHyperlink scanBtn;
     private org.jdesktop.swingx.JXButton selectCoinBtn;
     private org.jdesktop.swingx.JXButton selectWalletBtn;
@@ -1103,6 +1119,34 @@ public final class BatchTransferTopComponent extends TopComponent {
 
     private void updateStatusBar() {
 	tableRowsLbl.setText("共" + tableModel.getRowCount() + "条");
+    }
+    
+    private void refreshBalance() {
+        // 若coin存在，则刷新其余额
+        if(coin != null) {
+            // 求余额
+            refreshBalanceBtn.setEnabled(false);
+            coinFld.setPrompt(coin.getName() + "(正在请求余额，请稍候...)");
+            SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
+                @Override
+                protected BigInteger doInBackground() throws Exception {
+                    return coin.balanceOf(wallet.getAddress());
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        BigInteger balance = get();
+                        coinFld.setText(coin.getName() + "(余额：" + coin.minUnit2MainUint(balance).setScale(coin.getMainUnitScale(), RoundingMode.FLOOR).toPlainString() + " " + coin.getMainUnit() + ")");
+                    } catch (InterruptedException | ExecutionException ex) {
+                        Exceptions.printStackTrace(ex);
+                    } finally {
+                        refreshBalanceBtn.setEnabled(true);
+                    }
+                }
+            };
+            worker.execute();
+        }
     }
     
     abstract class InnerSwingWorker<T, V> extends SwingWorker<T, V> {

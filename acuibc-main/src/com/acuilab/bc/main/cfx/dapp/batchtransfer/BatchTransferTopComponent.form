@@ -30,8 +30,12 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="coinFld" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="walletFld" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="walletFld" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="coinFld" max="32767" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="refreshBalanceBtn" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -61,6 +65,7 @@
                   <Component id="jXLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="coinFld" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="selectCoinBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="refreshBalanceBtn" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -333,6 +338,7 @@
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/batchtransfer/Bundle.properties" key="BatchTransferTopComponent.statusBtn.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="statusBtnActionPerformed"/>
@@ -515,6 +521,17 @@
           <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/batchtransfer/Bundle.properties" key="BatchTransferTopComponent.jXLabel3.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXButton" name="refreshBalanceBtn">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/batchtransfer/Bundle.properties" key="BatchTransferTopComponent.refreshBalanceBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="refreshBalanceBtnActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -12,7 +12,7 @@ import org.openide.windows.WindowManager;
 public class InternalDAppListTopComponentAction extends AbstractAction {
     
     public InternalDAppListTopComponentAction() {
-        putValue(NAME, "DApp列表");
+        putValue(NAME, "DappStore");
 //        putValue(SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/resource/wallet16.png")));
     }
     

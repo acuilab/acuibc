@@ -116,7 +116,9 @@ public final class BatchTransferTopComponent extends TopComponent {
         // TODO: 初始化日志
         // 1 转账前将交易状态更新到最新
         // 2 开始按钮可重复执行，仅对交易状态为空或失败的记录进行转账
-        // 3 ...
+        // 3 导入格式为CSV(逗号分隔)(*.csv)，可通过excel另存为CSV(逗号分隔)(*.csv)
+        // 4 
+        
         
         findBar.setSearchable(table.getSearchable());
 
@@ -859,7 +861,9 @@ public final class BatchTransferTopComponent extends TopComponent {
 				}
 			    };
 			    innerWorker.execute();
-			}
+			} else {
+                            startBtn.setEnabled(true);
+                        }
 		    }
 		} catch (InterruptedException | ExecutionException ex) {
 		    Exceptions.printStackTrace(ex);

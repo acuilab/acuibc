@@ -5,14 +5,12 @@ import com.acuilab.bc.main.util.Constants;
 import conflux.web3j.Cfx;
 import conflux.web3j.contract.ContractCall;
 import conflux.web3j.contract.abi.DecodeUtil;
+import conflux.web3j.types.Address;
 import java.awt.Image;
 import java.math.BigInteger;
-import java.util.List;
 import javax.swing.Icon;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
-import org.web3j.abi.TypeReference;
-import org.web3j.abi.datatypes.DynamicArray;
 
 /**
  *
@@ -20,7 +18,7 @@ import org.web3j.abi.datatypes.DynamicArray;
  */
 public class ConfluxGuardianNFT extends AbstractNFT {
     
-    public static final String CONTRACT_ADDRESS = "0x8fd17cadc3931d94afff8543005637f3fffeb769";
+    public static final String CONTRACT_ADDRESS = "cfx:ach7c9fr2skv5fft98cygac0g93999z1refedecnn1";
     public static final String WEBSITE = "https://fccfx.confluxscan.io/";
 
     @Override
@@ -66,7 +64,7 @@ public class ConfluxGuardianNFT extends AbstractNFT {
     public MetaData getMetaData(BigInteger tokenId) throws Exception {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
-	ContractCall contract = new ContractCall(cfx, CONTRACT_ADDRESS);
+	ContractCall contract = new ContractCall(cfx, new Address(CONTRACT_ADDRESS));
         // passing method name and parameter to `contract.call`
         // note: parameters should use web3j.abi.datatypes type
         String value = contract.call("uri", new org.web3j.abi.datatypes.Uint(tokenId)).sendAndGet();

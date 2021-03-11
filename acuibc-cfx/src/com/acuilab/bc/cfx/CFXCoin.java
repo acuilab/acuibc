@@ -20,6 +20,7 @@ import com.acuilab.bc.main.util.Constants;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import conflux.web3j.Account.Option;
+import conflux.web3j.types.Address;
 import java.math.RoundingMode;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -40,7 +41,7 @@ public class CFXCoin implements ICFXCoin {
     // http://scan-dev-service.conflux-chain.org:8885/api/transaction/list?pageSize=10&page=1&accountAddress=0x176c45928d7c26b0175dec8bf6051108563c62c5
     public static final String TRANSACTION_LIST_URL = "https://confluxscan.io/v1/transaction";
     
-    public static final String STAKING_CONTRACT_ADDRESS = "0x0888000000000000000000000000000000000002";
+    public static final String STAKING_CONTRACT_ADDRESS = "cfx:aaejuaaaaaaaaaaaaaaaaaaaaaaaaaaaajrwuc9jnb";
 
     @Override
     public void init() {
@@ -75,7 +76,7 @@ public class CFXCoin implements ICFXCoin {
     public BigInteger balanceOf(String address) throws Exception {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
-        return cfx.getBalance(address).sendAndGet();
+        return cfx.getBalance(new Address(address)).sendAndGet();
     }
     
     /**
@@ -91,7 +92,7 @@ public class CFXCoin implements ICFXCoin {
         Cfx cfx = bc.getCfx();
         
         Account account = Account.create(cfx, privateKey);
-	return account.transfer(new Option().withGasPrice(gas).withGasLimit(gasLimit()), to, value);
+	return account.transfer(new Option().withGasPrice(gas).withGasLimit(gasLimit()), new Address(to), value);
     }
 
     @Override
@@ -236,7 +237,7 @@ public class CFXCoin implements ICFXCoin {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         Account account = Account.create(cfx, privateKey);
-        return account.call(STAKING_CONTRACT_ADDRESS, "deposit", new org.web3j.abi.datatypes.Uint(value));
+        return account.call(new Address(STAKING_CONTRACT_ADDRESS), "deposit", new org.web3j.abi.datatypes.Uint(value));
     }
 
     @Override
@@ -244,14 +245,14 @@ public class CFXCoin implements ICFXCoin {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         Account account = Account.create(cfx, privateKey);
-        return account.call(STAKING_CONTRACT_ADDRESS, "withdraw", new org.web3j.abi.datatypes.Uint(value));
+        return account.call(new Address(STAKING_CONTRACT_ADDRESS), "withdraw", new org.web3j.abi.datatypes.Uint(value));
     }
 
     @Override
     public BigInteger stakingBalanceOf(String address) {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
-        return cfx.getStakingBalance(address).sendAndGet();
+        return cfx.getStakingBalance(new Address(address)).sendAndGet();
     }
 
     /**
@@ -282,7 +283,7 @@ public class CFXCoin implements ICFXCoin {
             // 过滤掉非法地址
             if(bc.isValidAddress(to)) {
                 account.setNonce(nonce);
-                String hash = account.transfer(new Option().withGasPrice(gas).withGasLimit(gasLimit()), to, value);
+                String hash = account.transfer(new Option().withGasPrice(gas).withGasLimit(gasLimit()), new Address(to), value);
                 callback.transferFinished(to, hash, i, tos.length);
 
                 nonce = nonce.add(BigInteger.ONE);

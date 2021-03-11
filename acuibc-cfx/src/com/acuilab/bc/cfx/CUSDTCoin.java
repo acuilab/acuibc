@@ -17,7 +17,7 @@ public class CUSDTCoin extends ERC20Coin {
     
     private static final Logger LOG = Logger.getLogger(CUSDTCoin.class.getName());
 
-    public static final String CONTRACT_ADDRESS = "0x8b8689c7f3014a4d86e4d1d0daaf74a47f5e0f27";
+    public static final String CONTRACT_ADDRESS = "cfx:acf2rcsh8payyxpg6xj7b0ztswwh81ute60tsw35j7";
 
     public static final String NAME = "conflux USDT";
     public static final String SYMBOL = "cUSDT";

@@ -17,7 +17,7 @@ public class CBTCCoin extends ERC20Coin {
     
     private static final Logger LOG = Logger.getLogger(CBTCCoin.class.getName());
 
-    public static final String CONTRACT_ADDRESS = "0x821c636dfc85d0612fb8ebf34acf84771ba4c344";
+    public static final String CONTRACT_ADDRESS = "cfx:acbb225r9wc7a2kt1dz9gw0tuv5v1kgdjuh5akdh3t";
 
     public static final String NAME = "conflux BTC";
     public static final String SYMBOL = "cBTC";

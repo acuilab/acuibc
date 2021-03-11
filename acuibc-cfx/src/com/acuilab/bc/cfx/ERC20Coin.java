@@ -19,6 +19,8 @@ import okhttp3.ResponseBody;
 import org.openide.util.Lookup;
 import com.acuilab.bc.main.coin.ICoin;
 import conflux.web3j.contract.ERC20;
+import conflux.web3j.types.Address;
+import conflux.web3j.types.CfxAddress;
 
 /**
  *
@@ -40,10 +42,8 @@ public abstract class ERC20Coin implements ICoin {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
 	
-	ERC20 erc20 = new ERC20(cfx, getContractAddress());
-	return erc20.balanceOf(address);
-//        ERC20Call call = new ERC20Call(cfx, getContractAddress());
-//        return call.balanceOf(address);
+	ERC20 erc20 = new ERC20(cfx, new CfxAddress(getContractAddress()));
+	return erc20.balanceOf(new Address(address).getABIAddress());
     }
 
     @Override
@@ -52,11 +52,8 @@ public abstract class ERC20Coin implements ICoin {
         Cfx cfx = bc.getCfx();
         Account account = Account.create(cfx, privateKey);
 	
-	ERC20 erc20 = new ERC20(cfx, getContractAddress(), account);
-	return erc20.transfer(new Account.Option().withGasPrice(gas).withGasLimit(this.gasLimit()), to, value);
-//	
-//        ERC20Executor exec = new ERC20Executor(account, getContractAddress());
-//        return exec.transfer(new Account.Option().withGasPrice(gas).withGasLimit(this.gasLimit()), to, value);
+	ERC20 erc20 = new ERC20(cfx, new CfxAddress(getContractAddress()), account);
+	return erc20.transfer(new Account.Option().withGasPrice(gas).withGasLimit(this.gasLimit()), new Address(to).getABIAddress(), value);
     }
 
     @Override
@@ -149,7 +146,7 @@ public abstract class ERC20Coin implements ICoin {
 	Account account = Account.create(cfx, privateKey);
 	BigInteger nonce = account.getNonce();
 	
-	ERC20 erc20 = new ERC20(cfx, getContractAddress(), account);
+	ERC20 erc20 = new ERC20(cfx, new CfxAddress(getContractAddress()), account);
 	
 	for(int i=0; i<tos.length; i++) {
 	    String to = tos[i];
@@ -158,7 +155,7 @@ public abstract class ERC20Coin implements ICoin {
             // 过滤掉非法地址
             if(bc.isValidAddress(to)) {
                 account.setNonce(nonce);
-                String hash = erc20.transfer(new Account.Option().withGasPrice(gas).withGasLimit(this.gasLimit()), to, value);
+                String hash = erc20.transfer(new Account.Option().withGasPrice(gas).withGasLimit(this.gasLimit()), new Address(to).getABIAddress(), value);
                 callback.transferFinished(to, hash, i, tos.length);
 
                 nonce = nonce.add(BigInteger.ONE);

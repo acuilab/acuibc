@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import conflux.web3j.Cfx;
 import conflux.web3j.contract.ContractCall;
 import conflux.web3j.contract.abi.DecodeUtil;
+import conflux.web3j.types.Address;
 import java.awt.Image;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -21,7 +22,7 @@ import java.net.URL;
  */
 public class MoonGenesisNFT extends AbstractNFT {
     
-    public static final String CONTRACT_ADDRESS = "0x89c9ec494607ae96ae2a36c8c3d0220bc3a51819";
+    public static final String CONTRACT_ADDRESS = "cfx:ace6x5ckj2d47fzsfj5pvu8uejf6hkj2denccrga1x";
     public static final String WEBSITE = "https://nft.moonswap.fi/";
 
     @Override
@@ -67,7 +68,7 @@ public class MoonGenesisNFT extends AbstractNFT {
     public MetaData getMetaData(BigInteger tokenId) throws IOException {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
-	ContractCall contract = new ContractCall(cfx, CONTRACT_ADDRESS);
+	ContractCall contract = new ContractCall(cfx, new Address(CONTRACT_ADDRESS));
         // passing method name and parameter to `contract.call`
         // note: parameters should use web3j.abi.datatypes type
         String value = contract.call("uri", new org.web3j.abi.datatypes.Uint(tokenId)).sendAndGet();

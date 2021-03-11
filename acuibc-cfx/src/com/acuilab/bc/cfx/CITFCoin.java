@@ -17,7 +17,7 @@ public class CITFCoin extends ERC20Coin {
     
     private static final Logger LOG = Logger.getLogger(CITFCoin.class.getName());
 
-    public static final String CONTRACT_ADDRESS = "0x85edfff07c3ab0511bb4b3fc9282aacf1d131936";
+    public static final String CONTRACT_ADDRESS = "cfx:acc8599utu7nayj50w393eycznhv4e23g2ys6xmvf5";
 
     public static final String NAME = "conflux ITF";
     public static final String SYMBOL = "cITF";

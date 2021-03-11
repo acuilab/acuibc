@@ -17,6 +17,7 @@ import java.lang.reflect.Modifier;
 import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -25,6 +26,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import org.apache.commons.lang3.StringUtils;
 import org.openide.modules.ModuleInstall;
 import org.openide.util.Exceptions;
 import org.openide.windows.WindowManager;
@@ -132,6 +134,26 @@ public class Installer extends ModuleInstall {
 	    } catch(SQLException ex) {
 		Exceptions.printStackTrace(ex);
 	    }
+	}
+	
+	// conflux CIP37新地址升级
+	try {
+	    try (Statement stmt = getConnection().createStatement()) {
+		ResultSet rs = stmt.executeQuery("select wname, waddress from wallet where blockChainSymbol='" + Constants.CFX_BLOCKCHAIN_SYMBAL + "'");
+		while(rs.next()) {
+		    String name = rs.getString("wname");
+		    String address = rs.getString("waddress");
+		    if(StringUtils.startsWith(address, "0x1")) {
+			BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
+			try (Statement stmt2 = getConnection().createStatement()) {
+			    stmt2.execute("UPDATE wallet set waddress='" + bc.convertAddress(address) + "' where wname='" + name + "'");
+			}
+		    }
+		}
+		rs.close();
+	    }
+	} catch (SQLException ex) {
+	    Exceptions.printStackTrace(ex);
 	}
         
 	try {

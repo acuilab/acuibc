@@ -16,7 +16,7 @@ public class CPICoin extends ERC20Coin {
     
     private static final Logger LOG = Logger.getLogger(CPICoin.class.getName());
 
-    public static final String CONTRACT_ADDRESS = "0x8f50e31a4e3201b2f7aa720b3754dfa585b4dbfa";
+    public static final String CONTRACT_ADDRESS = "cfx:achzb224k23adp11zk3a0r4y58w2nrg59je6ckjkee";
 
     public static final String NAME = "CPI Coin";
     public static final String SYMBOL = "CPI";

@@ -148,8 +148,12 @@ public class ETHBlockChain implements BlockChain {
     
     @Override
     public String getAddressFromDomain(String ens) {
-        
         return ens;
+    }
+
+    @Override
+    public String convertAddress(String oldAddress) {
+	return oldAddress;
     }
     
 }

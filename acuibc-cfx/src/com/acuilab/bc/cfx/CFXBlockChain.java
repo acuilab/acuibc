@@ -41,7 +41,7 @@ public class CFXBlockChain implements BlockChain {
     
     private static final Logger LOG = Logger.getLogger(CFXBlockChain.class.getName());
     
-    public static final String DEFAULT_NODE = "http://wallet-main.confluxrpc.org"; // 默认结点地址
+    public static final String DEFAULT_NODE = "https://mainnet-rpc.conflux-chain.org.cn/v2"; // 默认结点地址
     public static final String BIP44PATH = "m/44'/503'/0'/0/0";
     
     public static final String TRANSACTION_DETAIL_URL = "http://www.confluxscan.io/transaction/";
@@ -155,7 +155,7 @@ public class CFXBlockChain implements BlockChain {
         String privateKey = Numeric.toHexStringWithPrefix(ecKeyPair.getPrivateKey());
         Account account = Account.create(cfx, privateKey);
 
-        return new Pair<>(account.getAddress(), privateKey);
+        return new Pair<>(account.getAddress().getAddress(), privateKey);
     }
     
     /**
@@ -165,7 +165,7 @@ public class CFXBlockChain implements BlockChain {
      */
     @Override
     public String importWalletByPrivateKey(String privateKey) {
-        return Account.create(cfx, privateKey).getAddress();
+        return Account.create(cfx, privateKey).getAddress().getAddress();
     }
     
     /**
@@ -180,31 +180,27 @@ public class CFXBlockChain implements BlockChain {
 
     @Override
     public boolean isValidAddress(String address) {
-        try {
-            // 合约地址也可以转账
-            Address.validate(address);
-            return true;
-        } catch(AddressException e) {
-	    // igonre
-	}
-	
-	return false;
+	return Address.isValid(address);
+//        try {
+//            // 合约地址也可以转账
+//            Address.validate(address);
+//            return true;
+//        } catch(AddressException e) {
+//	    // igonre
+//	}
+//	
+//	return false;
     }
     @Override
     public String getAddressFromDomain(String cns) {
         try {
             //域名解析合约地址CNS Alan SKY, 之后应该改为由读取合约得到
-            ContractCall contract = new ContractCall(cfx, "0x88fb20bd7e08d8d7333be177d584ca8779ae0a3a");
+            ContractCall contract = new ContractCall(cfx, new Address("cfx:acet0jf7t2ervz3xhtu1tzpe3md1xnumhjbud0t0yb"));
             String nameHash = NameHash.nameHash(cns);
-            System.out.println("nameHash:"+nameHash);
             BigInteger tokenId = new BigInteger(StringUtils.substringAfter(nameHash, "0x"),16);
 
-            System.out.println("tokenId:"+tokenId);
             String address = contract.call("get", new org.web3j.abi.datatypes.generated.Uint256(tokenId), new org.web3j.abi.datatypes.Utf8String("wallet.CFX.address")).sendAndGet();
-            String addresDecode = DecodeUtil.decode(address, org.web3j.abi.datatypes.Utf8String.class);
-          
-            System.out.println("addresDecode:"+addresDecode);
-            return addresDecode;
+             return DecodeUtil.decode(address, org.web3j.abi.datatypes.Utf8String.class);
         } catch(AddressException e) {
 	    LOG.log(Level.WARNING, null, e);
         }
@@ -257,7 +253,6 @@ public class CFXBlockChain implements BlockChain {
         final Call call = okHttpClient.newCall(request);
         okhttp3.Response response = call.execute();             // java.net.SocketTimeoutException
         ResponseBody body = response.body();
-        System.out.println("l===================================" + (System.currentTimeMillis() - l));
         if(body != null) {
             // 解析json
             ObjectMapper mapper = new ObjectMapper();
@@ -277,5 +272,19 @@ public class CFXBlockChain implements BlockChain {
         
 
         return TransactionStatus.UNKNOWN;
+    }
+
+    /**
+     * 通常用于区块链地址升级，将旧地址转换为新地址(如果是新地址，则原样返回)
+     * @param address
+     * @return 
+     */
+    @Override
+    public String convertAddress(String address) {
+	if(!Address.isValid(address)) {
+	    return new Address(address, new Address("cfx:aajg4wt2mbmbb44sp6szd783ry0jtad5bea80xdy7p").getNetworkId()).getAddress();
+	}
+	
+	return address;
     }
 }

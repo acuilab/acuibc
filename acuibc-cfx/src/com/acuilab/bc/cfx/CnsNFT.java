@@ -2,29 +2,18 @@ package com.acuilab.bc.cfx;
 
 import com.acuilab.bc.main.nft.MetaData;
 import com.acuilab.bc.main.util.Constants;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import conflux.web3j.Account;
 import conflux.web3j.Cfx;
 import conflux.web3j.contract.ContractCall;
 import conflux.web3j.contract.abi.DecodeUtil;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
+import conflux.web3j.types.Address;
 import java.awt.Image;
-import java.awt.Paint;
-import java.io.File;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
-import java.util.List;
-import java.util.Map;
-import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
-import org.web3j.abi.TypeReference;
-import org.web3j.abi.datatypes.DynamicArray;
 
 /**
  *
@@ -32,7 +21,7 @@ import org.web3j.abi.datatypes.DynamicArray;
  */
 public class CnsNFT extends AbstractNFT {
 
-    public static final String CONTRACT_ADDRESS = "0x875abd038da229e2b8aadf8ff29c70f47821d220";
+    public static final String CONTRACT_ADDRESS = "cfx:acdzztjdv0vcx2z2znt296y6sd4hujswean18n0gxy";
     public static final String WEBSITE = "https://trustdomains.org/";
 
     @Override
@@ -78,7 +67,7 @@ public class CnsNFT extends AbstractNFT {
     public MetaData getMetaData(BigInteger tokenId) throws Exception {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
-        ContractCall contract = new ContractCall(cfx, CONTRACT_ADDRESS);
+        ContractCall contract = new ContractCall(cfx, new Address(CONTRACT_ADDRESS));
         // passing method name and parameter to `contract.call`
         // note: parameters should use web3j.abi.datatypes type
         //System.out.println("tokneId:"+tokenId);
@@ -93,49 +82,20 @@ public class CnsNFT extends AbstractNFT {
         md.setPlatform("Trust Domains");
         md.setDesc(json);
 
-        Image image = ImageUtilities.loadImage("/resource/cns" + "178" + ".png", true);
-        //Image image = ImageIO.read(new File("/resource/cns" + "178" + ".png"));
-//        Graphics2D g2d = (Graphics2D) image.getGraphics();
-//        //int width = (int)(getPreferredSize().getWidth());
-//        //int height = (int)(getPreferredSize().getHeight());
-//        Paint oldPaint = g2d.getPaint();
-//        g2d.setPaint(Color.BLACK);
-//        //g2d.fillRect(0, 0, width, height);
-//        //g2d.drawImage(image, 0, 0, width, height, this);
-//
-//        g2d.setPaint(Color.WHITE);
-//        Font font = g2d.getFont();
-//        Font newFont = new Font(font.getName(), Font.BOLD, font.getSize());
-//
-//        // 计算字体宽度和高度
-//        // @see https://zhidao.baidu.com/question/685805523016097932.html
-//        String content = "域名：" + json;
-//        FontMetrics fm = g2d.getFontMetrics(font);
-//        int fWidth = fm.stringWidth(content);
-//        int fHeight = fm.getHeight();
-//        g2d.setBackground(Color.BLACK);//设置背景色
-//        g2d.clearRect(0, 0, fWidth, fHeight);//通过使用当前绘图表面的背景色进行填充来清除指定的矩形。
-//        g2d.setFont(newFont);
-//        g2d.drawString(content, 0, fm.getAscent());
-//
-//        g2d.setPaint(oldPaint);
+        Image image = ImageUtilities.loadImage("/resource/cns178.png", true);
 
         md.setImage(image);
 
         String id = tokenId.toString();
         md.setId(id);
 
-//	ObjectMapper mapper = new ObjectMapper();
-//	Map<String, String> map = mapper.readValue(StringUtils.substringAfter(json, id), Map.class);
-//	md.setImageUrl("http://cdn.tspace.online/image/finish/" + map.get("url"));
-//	String title = map.get("title");
         return md;
     }
 
     public BigInteger[] tokensOf(String address) {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
-        ContractCall contract = new ContractCall(cfx, getContractAddress());
+        ContractCall contract = new ContractCall(cfx, new Address(CONTRACT_ADDRESS));
         // passing method name and parameter to `contract.call`
         // note: parameters should use web3j.abi.datatypes type
 
@@ -161,7 +121,7 @@ public class CnsNFT extends AbstractNFT {
         Cfx cfx = bc.getCfx();
 	
         Account account = Account.create(cfx, privateKey);
-	return account.call(new Account.Option().withGasPrice(gas).withGasLimit(this.gasLimit()), getContractAddress(), "safeTransferFrom", 
+	return account.call(new Account.Option().withGasPrice(gas).withGasLimit(this.gasLimit()), new Address(CONTRACT_ADDRESS), "safeTransferFrom", 
             new org.web3j.abi.datatypes.Address(from), 
 	    new org.web3j.abi.datatypes.Address(to), 
 	    new org.web3j.abi.datatypes.Uint(tokenId), 

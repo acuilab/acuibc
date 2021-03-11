@@ -115,6 +115,13 @@ public interface BlockChain {
      */
     TransactionStatus getTransactionStatusByHash(String hash) throws Exception;
     
+    /**
+     * 通常用于区块链地址升级，将旧地址转换为新地址(如果是新地址，则原样返回)
+     * @param address
+     * @return 
+     */
+    String convertAddress(String address);
+    
     enum TransactionStatus {
         UNKNOWN,    // 结果尚不明确
 	SUCCESS,    // 交易成功

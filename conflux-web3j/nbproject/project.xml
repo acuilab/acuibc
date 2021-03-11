@@ -5,15 +5,27 @@
         <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
             <code-name-base>conflux.web3j</code-name-base>
             <suite-component/>
-            <module-dependencies/>
+            <module-dependencies>
+                <dependency>
+                    <code-name-base>com.google.guava</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.0</specification-version>
+                    </run-dependency>
+                </dependency>
+            </module-dependencies>
             <public-packages>
                 <package>com.fasterxml.jackson.annotation</package>
                 <package>com.fasterxml.jackson.core</package>
+                <package>com.fasterxml.jackson.core.async</package>
                 <package>com.fasterxml.jackson.core.base</package>
+                <package>com.fasterxml.jackson.core.exc</package>
                 <package>com.fasterxml.jackson.core.filter</package>
                 <package>com.fasterxml.jackson.core.format</package>
                 <package>com.fasterxml.jackson.core.io</package>
                 <package>com.fasterxml.jackson.core.json</package>
+                <package>com.fasterxml.jackson.core.json.async</package>
                 <package>com.fasterxml.jackson.core.sym</package>
                 <package>com.fasterxml.jackson.core.type</package>
                 <package>com.fasterxml.jackson.core.util</package>
@@ -26,6 +38,7 @@
                 <package>com.fasterxml.jackson.databind.exc</package>
                 <package>com.fasterxml.jackson.databind.ext</package>
                 <package>com.fasterxml.jackson.databind.introspect</package>
+                <package>com.fasterxml.jackson.databind.json</package>
                 <package>com.fasterxml.jackson.databind.jsonFormatVisitors</package>
                 <package>com.fasterxml.jackson.databind.jsonschema</package>
                 <package>com.fasterxml.jackson.databind.jsontype</package>
@@ -37,11 +50,17 @@
                 <package>com.fasterxml.jackson.databind.ser.std</package>
                 <package>com.fasterxml.jackson.databind.type</package>
                 <package>com.fasterxml.jackson.databind.util</package>
+                <package>com.kenai.constantine</package>
+                <package>com.kenai.constantine.platform</package>
+                <package>com.kenai.jffi</package>
+                <package>com.kenai.jffi.internal</package>
+                <package>com.kenai.jnr.x86asm</package>
                 <package>conflux.web3j</package>
                 <package>conflux.web3j.contract</package>
                 <package>conflux.web3j.contract.abi</package>
                 <package>conflux.web3j.contract.diagnostics</package>
                 <package>conflux.web3j.contract.internals</package>
+                <package>conflux.web3j.crypto</package>
                 <package>conflux.web3j.request</package>
                 <package>conflux.web3j.response</package>
                 <package>conflux.web3j.response.events</package>
@@ -76,8 +95,101 @@
                 <package>io.reactivex.schedulers</package>
                 <package>io.reactivex.subjects</package>
                 <package>io.reactivex.subscribers</package>
+                <package>jnr.a64asm</package>
+                <package>jnr.constants</package>
+                <package>jnr.constants.platform</package>
+                <package>jnr.constants.platform.aix</package>
+                <package>jnr.constants.platform.darwin</package>
+                <package>jnr.constants.platform.fake</package>
+                <package>jnr.constants.platform.freebsd</package>
+                <package>jnr.constants.platform.linux</package>
+                <package>jnr.constants.platform.openbsd</package>
+                <package>jnr.constants.platform.solaris</package>
+                <package>jnr.constants.platform.windows</package>
+                <package>jnr.enxio.channels</package>
+                <package>jnr.ffi</package>
+                <package>jnr.ffi.annotations</package>
+                <package>jnr.ffi.byref</package>
+                <package>jnr.ffi.mapper</package>
+                <package>jnr.ffi.provider</package>
+                <package>jnr.ffi.provider.converters</package>
+                <package>jnr.ffi.provider.jffi</package>
+                <package>jnr.ffi.provider.jffi.platform.aarch64.linux</package>
+                <package>jnr.ffi.provider.jffi.platform.arm.linux</package>
+                <package>jnr.ffi.provider.jffi.platform.i386.darwin</package>
+                <package>jnr.ffi.provider.jffi.platform.i386.freebsd</package>
+                <package>jnr.ffi.provider.jffi.platform.i386.linux</package>
+                <package>jnr.ffi.provider.jffi.platform.i386.openbsd</package>
+                <package>jnr.ffi.provider.jffi.platform.i386.solaris</package>
+                <package>jnr.ffi.provider.jffi.platform.i386.windows</package>
+                <package>jnr.ffi.provider.jffi.platform.mips.linux</package>
+                <package>jnr.ffi.provider.jffi.platform.mipsel.linux</package>
+                <package>jnr.ffi.provider.jffi.platform.ppc.aix</package>
+                <package>jnr.ffi.provider.jffi.platform.ppc.darwin</package>
+                <package>jnr.ffi.provider.jffi.platform.ppc.linux</package>
+                <package>jnr.ffi.provider.jffi.platform.ppc64.linux</package>
+                <package>jnr.ffi.provider.jffi.platform.ppc64le.linux</package>
+                <package>jnr.ffi.provider.jffi.platform.s390.linux</package>
+                <package>jnr.ffi.provider.jffi.platform.s390x.linux</package>
+                <package>jnr.ffi.provider.jffi.platform.sparc.solaris</package>
+                <package>jnr.ffi.provider.jffi.platform.sparcv9.linux</package>
+                <package>jnr.ffi.provider.jffi.platform.sparcv9.solaris</package>
+                <package>jnr.ffi.provider.jffi.platform.x86_64.darwin</package>
+                <package>jnr.ffi.provider.jffi.platform.x86_64.freebsd</package>
+                <package>jnr.ffi.provider.jffi.platform.x86_64.linux</package>
+                <package>jnr.ffi.provider.jffi.platform.x86_64.openbsd</package>
+                <package>jnr.ffi.provider.jffi.platform.x86_64.solaris</package>
+                <package>jnr.ffi.provider.jffi.platform.x86_64.windows</package>
+                <package>jnr.ffi.types</package>
+                <package>jnr.ffi.util</package>
+                <package>jnr.ffi.util.ref</package>
+                <package>jnr.ffi.util.ref.internal</package>
+                <package>jnr.posix</package>
+                <package>jnr.posix.util</package>
+                <package>jnr.posix.windows</package>
+                <package>jnr.unixsocket</package>
+                <package>jnr.x86asm</package>
+                <package>kotlin</package>
+                <package>kotlin.annotation</package>
+                <package>kotlin.collections</package>
+                <package>kotlin.collections.builders</package>
+                <package>kotlin.collections.jdk8</package>
+                <package>kotlin.collections.unsigned</package>
+                <package>kotlin.comparisons</package>
+                <package>kotlin.concurrent</package>
+                <package>kotlin.contracts</package>
+                <package>kotlin.coroutines</package>
+                <package>kotlin.coroutines.cancellation</package>
+                <package>kotlin.coroutines.intrinsics</package>
+                <package>kotlin.coroutines.jvm.internal</package>
+                <package>kotlin.experimental</package>
+                <package>kotlin.internal</package>
+                <package>kotlin.internal.jdk7</package>
+                <package>kotlin.internal.jdk8</package>
+                <package>kotlin.io</package>
+                <package>kotlin.jdk7</package>
+                <package>kotlin.js</package>
+                <package>kotlin.jvm</package>
+                <package>kotlin.jvm.functions</package>
+                <package>kotlin.jvm.internal</package>
+                <package>kotlin.jvm.internal.markers</package>
+                <package>kotlin.jvm.internal.unsafe</package>
+                <package>kotlin.math</package>
+                <package>kotlin.properties</package>
+                <package>kotlin.random</package>
+                <package>kotlin.random.jdk8</package>
+                <package>kotlin.ranges</package>
+                <package>kotlin.reflect</package>
+                <package>kotlin.sequences</package>
+                <package>kotlin.streams.jdk8</package>
+                <package>kotlin.system</package>
+                <package>kotlin.text</package>
+                <package>kotlin.text.jdk8</package>
+                <package>kotlin.time</package>
+                <package>kotlin.time.jdk8</package>
                 <package>okhttp3</package>
                 <package>okhttp3.internal</package>
+                <package>okhttp3.internal.authenticator</package>
                 <package>okhttp3.internal.cache</package>
                 <package>okhttp3.internal.cache2</package>
                 <package>okhttp3.internal.concurrent</package>
@@ -92,6 +204,7 @@
                 <package>okhttp3.internal.publicsuffix</package>
                 <package>okhttp3.internal.tls</package>
                 <package>okhttp3.internal.ws</package>
+                <package>okhttp3.logging</package>
                 <package>okio</package>
                 <package>okio.internal</package>
                 <package>org.bouncycastle</package>
@@ -252,6 +365,24 @@
                 <package>org.bouncycastle.x509</package>
                 <package>org.bouncycastle.x509.extension</package>
                 <package>org.bouncycastle.x509.util</package>
+                <package>org.intellij.lang.annotations</package>
+                <package>org.java_websocket</package>
+                <package>org.java_websocket.client</package>
+                <package>org.java_websocket.drafts</package>
+                <package>org.java_websocket.exceptions</package>
+                <package>org.java_websocket.extensions</package>
+                <package>org.java_websocket.framing</package>
+                <package>org.java_websocket.handshake</package>
+                <package>org.java_websocket.protocols</package>
+                <package>org.java_websocket.server</package>
+                <package>org.java_websocket.util</package>
+                <package>org.jetbrains.annotations</package>
+                <package>org.objectweb.asm</package>
+                <package>org.objectweb.asm.commons</package>
+                <package>org.objectweb.asm.signature</package>
+                <package>org.objectweb.asm.tree</package>
+                <package>org.objectweb.asm.tree.analysis</package>
+                <package>org.objectweb.asm.util</package>
                 <package>org.reactivestreams</package>
                 <package>org.slf4j</package>
                 <package>org.slf4j.event</package>
@@ -293,76 +424,148 @@
                 <package>org.web3j.utils</package>
             </public-packages>
             <class-path-extension>
-                <runtime-relative-path>ext/utils-4.6.3.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/utils-4.6.3.jar</binary-origin>
+                <runtime-relative-path>ext/jnr-posix-3.0.47.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/jnr-posix-3.0.47.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/jackson-annotations-2.8.0.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/jackson-annotations-2.8.0.jar</binary-origin>
+                <runtime-relative-path>ext/jnr-constants-0.9.11.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/jnr-constants-0.9.11.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/okio-2.4.1.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/okio-2.4.1.jar</binary-origin>
+                <runtime-relative-path>ext/jnr-x86asm-1.0.2.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/jnr-x86asm-1.0.2.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/tuples-4.6.3.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/tuples-4.6.3.jar</binary-origin>
+                <runtime-relative-path>ext/logging-interceptor-4.9.0.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/logging-interceptor-4.9.0.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/jackson-databind-2.8.11.6.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/jackson-databind-2.8.11.6.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
-                <runtime-relative-path>ext/okhttp-4.3.1.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/okhttp-4.3.1.jar</binary-origin>
+                <runtime-relative-path>ext/utils-4.8.4.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/utils-4.8.4.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/reactive-streams-1.0.2.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/reactive-streams-1.0.2.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
+                <runtime-relative-path>ext/jffi-1.2.17.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/jffi-1.2.17.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/jnr-ffi-2.1.9.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/jnr-ffi-2.1.9.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/kotlin-stdlib-jdk7-1.4.10.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/kotlin-stdlib-jdk7-1.4.10.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/okhttp-4.9.0.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/okhttp-4.9.0.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/conflux-web3j-v1.0.5.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/conflux-web3j-v1.0.5.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/Java-WebSocket-1.3.8.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/Java-WebSocket-1.3.8.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/abi-4.8.4.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/abi-4.8.4.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/crypto-4.8.4.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/crypto-4.8.4.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/jackson-databind-2.10.0.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/jackson-databind-2.10.0.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/asm-analysis-5.0.3.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/asm-analysis-5.0.3.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/jnr-enxio-0.19.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/jnr-enxio-0.19.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/jackson-annotations-2.10.0.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/jackson-annotations-2.10.0.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/okio-2.8.0.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/okio-2.8.0.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/rlp-4.8.4.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/rlp-4.8.4.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/asm-util-5.0.3.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/asm-util-5.0.3.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/asm-5.0.3.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/asm-5.0.3.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/jnr-a64asm-1.0.0.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/jnr-a64asm-1.0.0.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/slf4j-api-1.7.30.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/slf4j-api-1.7.30.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/asm-commons-5.0.3.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/asm-commons-5.0.3.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/tuples-4.8.4.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/tuples-4.8.4.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/annotations-13.0.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/annotations-13.0.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
                 <runtime-relative-path>ext/bcprov-jdk15on-1.65.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/bcprov-jdk15on-1.65.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/abi-4.6.3.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/abi-4.6.3.jar</binary-origin>
+                <runtime-relative-path>ext/asm-tree-5.0.3.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/asm-tree-5.0.3.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/jackson-core-2.10.0.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/jackson-core-2.10.0.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/rxjava-2.2.2.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/rxjava-2.2.2.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/conflux-web3j.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/conflux-web3j.jar</binary-origin>
+                <runtime-relative-path>ext/kotlin-stdlib-1.4.10.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/kotlin-stdlib-1.4.10.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/rlp-4.6.3.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/rlp-4.6.3.jar</binary-origin>
+                <runtime-relative-path>ext/kotlin-stdlib-jdk8-1.4.10.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/kotlin-stdlib-jdk8-1.4.10.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/kotlin-stdlib-common-1.3.61.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/kotlin-stdlib-common-1.3.61.jar</binary-origin>
+                <runtime-relative-path>ext/kotlin-stdlib-common-1.4.0.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/kotlin-stdlib-common-1.4.0.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/jackson-core-2.8.10.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/jackson-core-2.8.10.jar</binary-origin>
+                <runtime-relative-path>ext/jnr-unixsocket-0.21.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/jnr-unixsocket-0.21.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/crypto-4.6.3.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/crypto-4.6.3.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
-                <runtime-relative-path>ext/core-4.6.3.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/core-4.6.3.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
-                <runtime-relative-path>ext/kotlin-stdlib-1.3.61.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/kotlin-stdlib-1.3.61.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
-                <runtime-relative-path>ext/slf4j-api-1.7.25.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/slf4j-api-1.7.25.jar</binary-origin>
+                <runtime-relative-path>ext/core-4.8.4.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/core-4.8.4.jar</binary-origin>
             </class-path-extension>
         </data>
     </configuration>

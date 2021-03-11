@@ -6,16 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import conflux.web3j.Cfx;
 import conflux.web3j.contract.ContractCall;
 import conflux.web3j.contract.abi.DecodeUtil;
+import conflux.web3j.types.Address;
 import java.awt.Image;
 import java.math.BigInteger;
-import java.util.List;
 import java.util.Map;
 import javax.swing.Icon;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
-import org.web3j.abi.TypeReference;
-import org.web3j.abi.datatypes.DynamicArray;
 
 /**
  *
@@ -23,7 +21,7 @@ import org.web3j.abi.datatypes.DynamicArray;
  */
 public class ConFiNFT extends AbstractNFT {
     
-    public static final String CONTRACT_ADDRESS = "0x859ed8d97707be2c62679fc3505cdf5a77b2c5af";
+    public static final String CONTRACT_ADDRESS = "cfx:acc370g3s6d56ndcp8t6gyc657rhtp0fz6ytc8j9d2";
     public static final String WEBSITE = "http://nft.tspace.io";
 
     @Override
@@ -69,7 +67,7 @@ public class ConFiNFT extends AbstractNFT {
     public MetaData getMetaData(BigInteger tokenId) throws Exception {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
-	ContractCall contract = new ContractCall(cfx, CONTRACT_ADDRESS);
+	ContractCall contract = new ContractCall(cfx, new Address(CONTRACT_ADDRESS));
         // passing method name and parameter to `contract.call`
         // note: parameters should use web3j.abi.datatypes type
         String value = contract.call("uri", new org.web3j.abi.datatypes.Uint(tokenId)).sendAndGet();

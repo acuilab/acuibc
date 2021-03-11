@@ -17,7 +17,7 @@ public interface INFT {
     // 简称（外键）
     public String getSymbol();
     
-    // 合约地址
+    // 合约地址(base37格式)
     public String getContractAddress();
     
     // 合约地址

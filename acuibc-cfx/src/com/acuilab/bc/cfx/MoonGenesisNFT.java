@@ -91,9 +91,9 @@ public class MoonGenesisNFT extends AbstractNFT {
 
         String imageUrl = map.get("image");
         String imageUrl1 = StringUtils.replace(imageUrl, "\\", "");
-        String imageUrl2 = StringUtils.replace(imageUrl1, "/genesis", "", 1);
+        //String imageUrl2 = StringUtils.replace(imageUrl1, "/genesis", "", 1);
 
-	md.setImageUrl(imageUrl2);
+	md.setImageUrl(imageUrl1);
         md.setDesc(map.get("description"));
         md.setName(map.get("name"));
 	md.setPlatform("MoonSwap");

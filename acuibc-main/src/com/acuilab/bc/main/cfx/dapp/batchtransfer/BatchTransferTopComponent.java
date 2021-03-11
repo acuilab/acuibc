@@ -128,7 +128,8 @@ public final class BatchTransferTopComponent extends TopComponent {
         insertNotice("2.开始按钮可重复执行，仅对交易状态为空或失败的记录进行转账");
         insertNotice("3.转账地址不可重复，双击转账信息列表的地址、数量和备注列可编辑对应单元格");
         insertNotice("4.转账进行时不要进行其他转账或调用合约的操作");
-        insertNotice("5.导入格式为CSV(逗号分隔)(*.csv)，可通过excel另存为CSV(逗号分隔)(*.csv)");
+        insertNotice("5.导入格式为CSV(逗号分隔)(*.csv)，可通过excel另存为CSV(逗号分隔)(*.csv)。第一列为新版账户地址，第二列为待转账数量");
+        
         
         findBar.setSearchable(table.getSearchable());
 

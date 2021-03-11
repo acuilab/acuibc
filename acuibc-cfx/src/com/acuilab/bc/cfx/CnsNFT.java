@@ -99,7 +99,9 @@ public class CnsNFT extends AbstractNFT {
         // passing method name and parameter to `contract.call`
         // note: parameters should use web3j.abi.datatypes type
 
-        String balanceStr = contract.call("balanceOf", new org.web3j.abi.datatypes.Address(address)).sendAndGet();
+        String balanceStr = contract.call("balanceOf", new Address(address).getABIAddress()).sendAndGet();
+        
+        
         int balanceDecode = DecodeUtil.decode(balanceStr, org.web3j.abi.datatypes.Uint.class).intValue();
 
         if (balanceDecode <= 0) {
@@ -109,7 +111,7 @@ public class CnsNFT extends AbstractNFT {
         BigInteger[] ret = new BigInteger[balanceDecode];
 
         for (int i = 0; i < balanceDecode; i++) {
-            String tokenOfOwnerByIndexStr = contract.call("tokenOfOwnerByIndex", new org.web3j.abi.datatypes.Address(address), new org.web3j.abi.datatypes.generated.Uint256(BigInteger.valueOf(i))).sendAndGet();
+            String tokenOfOwnerByIndexStr = contract.call("tokenOfOwnerByIndex", new Address(address).getABIAddress(), new org.web3j.abi.datatypes.generated.Uint256(BigInteger.valueOf(i))).sendAndGet();
             ret[i] = DecodeUtil.decode(tokenOfOwnerByIndexStr, org.web3j.abi.datatypes.generated.Uint256.class);
         }
 
@@ -122,8 +124,8 @@ public class CnsNFT extends AbstractNFT {
 	
         Account account = Account.create(cfx, privateKey);
 	return account.call(new Account.Option().withGasPrice(gas).withGasLimit(this.gasLimit()), new Address(CONTRACT_ADDRESS), "safeTransferFrom", 
-            new org.web3j.abi.datatypes.Address(from), 
-	    new org.web3j.abi.datatypes.Address(to), 
+            new Address(from).getABIAddress(), 
+	    new Address(to).getABIAddress(), 
 	    new org.web3j.abi.datatypes.Uint(tokenId), 
             //new org.web3j.abi.datatypes.Uint(BigInteger.ONE), 
 	    new org.web3j.abi.datatypes.DynamicBytes(StringUtils.getBytes(data, Charset.forName("UTF-8"))));

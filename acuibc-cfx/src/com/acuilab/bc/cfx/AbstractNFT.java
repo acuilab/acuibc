@@ -27,7 +27,7 @@ public abstract class AbstractNFT implements INFT {
 	ContractCall contract = new ContractCall(cfx, new Address(getContractAddress()));
         // passing method name and parameter to `contract.call`
         // note: parameters should use web3j.abi.datatypes type
-        String value = contract.call("tokensOf", new org.web3j.abi.datatypes.Address(address)).sendAndGet();
+        String value = contract.call("tokensOf", new Address(address).getABIAddress()).sendAndGet();
         
         List<org.web3j.abi.datatypes.Uint> valueDecode = DecodeUtil.decode(value, new TypeReference<DynamicArray<org.web3j.abi.datatypes.Uint>>() {});
 	// 转成BigInteger数组
@@ -45,8 +45,8 @@ public abstract class AbstractNFT implements INFT {
 	
         Account account = Account.create(cfx, privateKey);
 	return account.call(new Account.Option().withGasPrice(gas).withGasLimit(this.gasLimit()), new Address(getContractAddress()), "safeTransferFrom", 
-            new org.web3j.abi.datatypes.Address(from), 
-	    new org.web3j.abi.datatypes.Address(to), 
+            new Address(from).getABIAddress(),
+	    new Address(to).getABIAddress(), 
 	    new org.web3j.abi.datatypes.Uint(tokenId), 
             new org.web3j.abi.datatypes.Uint(BigInteger.ONE), 
 	    new org.web3j.abi.datatypes.DynamicBytes(StringUtils.getBytes(data, Charset.forName("UTF-8"))));

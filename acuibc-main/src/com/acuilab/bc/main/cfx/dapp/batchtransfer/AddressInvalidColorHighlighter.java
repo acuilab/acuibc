@@ -25,7 +25,6 @@ public class AddressInvalidColorHighlighter extends ColorHighlighter {
     protected void applyBackground(Component renderer, ComponentAdapter adapter) {
 	BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
         BatchTransfer bt = tableModel.getBatchTransfer(adapter.convertRowIndexToModel(adapter.row));
-        System.out.println("bt.getAddress(): " + bt.getAddress());
         if(!bc.isValidAddress(bt.getAddress())) {
 	    super.applyBackground(renderer, adapter); //To change body of generated methods, choose Tools | Templates.
         }

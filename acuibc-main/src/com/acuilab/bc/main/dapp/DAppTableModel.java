@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.jdesktop.swingx.JXTable;
 
 /**
@@ -19,8 +18,9 @@ public class DAppTableModel extends AbstractTableModel {
     public static final int ICON_COLUMN = 1;
     public static final int BLOCK_CHAIN_SYMBOL_COLUMN = 2;
     public static final int NAME_COLUMN = 3;
-    public static final int DESC_COLUMN = 4;
-    public static final int COLUMN_COUNT = 5;
+    public static final int TYPE_COLUMN = 4;
+    public static final int DESC_COLUMN = 5;
+    public static final int COLUMN_COUNT = 6;
     
     private final List<IDApp> list = new ArrayList<>();
     
@@ -29,6 +29,7 @@ public class DAppTableModel extends AbstractTableModel {
         "#",
         "链",
         "名称",
+	"类型",
         "描述"
     };
     
@@ -89,6 +90,8 @@ public class DAppTableModel extends AbstractTableModel {
                 return dapp.getBlockChainSymbol();
             case NAME_COLUMN:
                 return StringUtils.trimToEmpty(dapp.getName());
+	    case TYPE_COLUMN:
+		return StringUtils.trimToEmpty(dapp.getType());
             case DESC_COLUMN:
                 return StringUtils.trimToEmpty(dapp.getDesc());
         }

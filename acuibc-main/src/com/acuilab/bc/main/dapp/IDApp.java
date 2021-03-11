@@ -31,6 +31,12 @@ public interface IDApp {
     String getName();
     
     /**
+     * 返回DApp类型
+     * @return 
+     */
+    String getType();
+    
+    /**
      * 返回DApp描述
      * @return 
      */

@@ -44,4 +44,9 @@ public class FlappeeBeeGame extends FatJarDApp {
     public String getFatJarFileName() {
 	return "flappeebee.jar";
     }
+
+    @Override
+    public String getType() {
+	return "游戏";
+    }
 }

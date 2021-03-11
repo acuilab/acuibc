@@ -198,8 +198,9 @@ public interface ICoin {
 	 * @param address   转账地址
 	 * @param hash	    交易哈希
 	 * @param index	    当前转账第几个
-	 * @param size    一共需要转账数量
+	 * @param size     一共需要转账数量
+	 * @return	    是否停止转账
 	 */
-	void transferFinished(String address, String hash, int index, int size);
+	boolean transferFinished(String address, String hash, int index, int size);
     }
 }

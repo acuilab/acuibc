@@ -21,6 +21,11 @@ public class BatchTransferDApp implements IDApp {
     public String getName() {
         return "批量转账";
     }
+    
+    @Override
+    public String getType() {
+	return "工具";
+    }
 
     @Override
     public String getBlockChainSymbol() {
@@ -29,12 +34,12 @@ public class BatchTransferDApp implements IDApp {
 
     @Override
     public String getDesc() {
-        return "网上银行批量转账方法,批量转账多用于一次给同一银行账号的多人转账";
+        return "支持Conflux链上批量发送CFX及其他erc20代币";
     }
 
     @Override
     public ImageIcon getImageIcon() {
-	return ImageUtilities.loadImageIcon("/resource/dapp/bee16.png", false);
+	return ImageUtilities.loadImageIcon("/resource/dapp/batchtransfer16.png", false);
     }
 
     @Override

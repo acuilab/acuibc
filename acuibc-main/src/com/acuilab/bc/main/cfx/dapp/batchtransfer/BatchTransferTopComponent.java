@@ -89,7 +89,7 @@ import org.openide.windows.WindowManager;
 )
 @TopComponent.Description(
         preferredID = "BatchTransferTopComponent",
-        //iconBase="SET/PATH/TO/ICON/HERE", 
+        iconBase="resource/dapp/batchtransfer16.png", 
         persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
@@ -126,7 +126,7 @@ public final class BatchTransferTopComponent extends TopComponent {
         // 3 导入格式为CSV(逗号分隔)(*.csv)，可通过excel另存为CSV(逗号分隔)(*.csv)
         insertNotice("1.当存在交易状态不确定的记录时不允许转账，请将交易状态更新到最新");
         insertNotice("2.开始按钮可重复执行，仅对交易状态为空或失败的记录进行转账");
-        insertNotice("3.转账地址不可重复");
+        insertNotice("3.转账地址不可重复，双击转账信息列表的地址、数量和备注列可编辑对应单元格");
         insertNotice("4.转账进行时不要进行其他转账或调用合约的操作");
         insertNotice("5.导入格式为CSV(逗号分隔)(*.csv)，可通过excel另存为CSV(逗号分隔)(*.csv)");
         
@@ -201,11 +201,10 @@ public final class BatchTransferTopComponent extends TopComponent {
         indexColumn.setSortable(false);
 	
 //        TableColumn addressColumn = table.getColumn(BatchTransferTableModel.ADDRESS_COLUMN);
-//        JTextField fld = new JXTextField();
-//        fld.setHorizontalAlignment(JTextField.RIGHT);
-//	addressColumn.setCellEditor(new DefaultCellEditor(fld));
+//	addressColumn.setPreferredWidth(280);
 	
         TableColumn valueColumn = table.getColumn(BatchTransferTableModel.VALUE_COLUMN);
+//	valueColumn.setPreferredWidth(100);
         valueColumn.setCellRenderer(new com.acuilab.bc.main.cfx.dapp.batchtransfer.ValueTableCellRenderer());   // 数字按文本显示效果
         JTextField valueTextField = new JXTextField();
         valueTextField.setHorizontalAlignment(JTextField.RIGHT);    // 数字靠右对齐
@@ -223,6 +222,9 @@ public final class BatchTransferTopComponent extends TopComponent {
             
         });
 	valueColumn.setCellEditor(new ValueTableCellEditor(valueTextField));
+	
+//      TableColumn remarkColumn = table.getColumn(BatchTransferTableModel.REMARK_COLUMN);
+//	remarkColumn.setPreferredWidth(200);
 	
         TableColumn hashColumn = table.getColumn(BatchTransferTableModel.HASH_COLUMN);
         hashColumn.setCellRenderer(new com.acuilab.bc.main.cfx.dapp.batchtransfer.HashTableCellRenderer());
@@ -278,6 +280,7 @@ public final class BatchTransferTopComponent extends TopComponent {
         gasLbl = new org.jdesktop.swingx.JXLabel();
         jXLabel3 = new org.jdesktop.swingx.JXLabel();
         refreshBalanceBtn = new org.jdesktop.swingx.JXButton();
+        historyBtn = new org.jdesktop.swingx.JXButton();
 
         walletFld.setEditable(false);
         walletFld.setText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.walletFld.text")); // NOI18N
@@ -368,7 +371,7 @@ public final class BatchTransferTopComponent extends TopComponent {
         findBar.setLayout(findBarLayout);
         findBarLayout.setHorizontalGroup(
             findBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 371, Short.MAX_VALUE)
+            .addGap(0, 589, Short.MAX_VALUE)
         );
         findBarLayout.setVerticalGroup(
             findBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -421,7 +424,7 @@ public final class BatchTransferTopComponent extends TopComponent {
                 .addComponent(startBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(stopBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 859, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
             .addGroup(jXPanel1Layout.createSequentialGroup()
                 .addComponent(findBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -550,6 +553,14 @@ public final class BatchTransferTopComponent extends TopComponent {
             }
         });
 
+        org.openide.awt.Mnemonics.setLocalizedText(historyBtn, org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.historyBtn.text")); // NOI18N
+        historyBtn.setToolTipText(org.openide.util.NbBundle.getMessage(BatchTransferTopComponent.class, "BatchTransferTopComponent.historyBtn.toolTipText")); // NOI18N
+        historyBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                historyBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -568,10 +579,11 @@ public final class BatchTransferTopComponent extends TopComponent {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(walletFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(coinFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(refreshBalanceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(coinFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(refreshBalanceBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(historyBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(selectWalletBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -586,7 +598,8 @@ public final class BatchTransferTopComponent extends TopComponent {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(walletFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(selectWalletBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(selectWalletBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(historyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -756,7 +769,7 @@ public final class BatchTransferTopComponent extends TopComponent {
             
             // 是否有转账结果不确定的bt(提示用户刷新状态)
             if(bt.getStatus() == BlockChain.TransactionStatus.UNKNOWN) {
-		MessageDialog msg = new MessageDialog(null,"注意","交易状态不确定，请更新交易状态：\"" + Utils.simplifyString(address, 18) + "\"");
+		MessageDialog msg = new MessageDialog(null,"注意","交易状态不确定：\"" + Utils.simplifyString(address, 12) + "\"");
 		msg.setVisible(true);
                 showRefreshTooltip("单击此按钮更新交易状态");
                 startBtn.setEnabled(true);
@@ -767,7 +780,7 @@ public final class BatchTransferTopComponent extends TopComponent {
             // 检查是否有无效转账地址
             BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
             if(!bc.isValidAddress(address)) {
-		MessageDialog msg = new MessageDialog(null,"注意","无效转账地址：\"" + Utils.simplifyString(address, 18) + "\"");
+		MessageDialog msg = new MessageDialog(null,"注意","无效转账地址：\"" + Utils.simplifyString(address, 12) + "\"");
 		msg.setVisible(true);
                 startBtn.setEnabled(true);
 		return;
@@ -778,7 +791,7 @@ public final class BatchTransferTopComponent extends TopComponent {
 	    if(!set.contains(bt.getAddress())) {
 		set.add(bt.getAddress());
 	    } else {
-		MessageDialog msg = new MessageDialog(null,"注意","转账地址重复：\"" + Utils.simplifyString(address, 18) + "\"");
+		MessageDialog msg = new MessageDialog(null,"注意","转账地址重复：\"" + Utils.simplifyString(address, 12) + "\"");
 		msg.setVisible(true);
                 startBtn.setEnabled(true);
 		return;
@@ -851,6 +864,7 @@ public final class BatchTransferTopComponent extends TopComponent {
 			if(passwordVerifyDialog.getReturnStatus() == PasswordVerifyDialog.RET_OK) {
 			    // 内层SwingWorker
                             insertLine();
+			    stopBtn.setEnabled(true);
 			    final ProgressHandle ph = ProgressHandle.createHandle("正在转账，请稍候");
 			    innerWorker = new InnerSwingWorker<String, Pair<Integer, BatchTransfer>>() {	// 序号、描述、哈希
 				
@@ -875,12 +889,16 @@ public final class BatchTransferTopComponent extends TopComponent {
 					final Map<String, BatchTransfer> map = tableModel.generateMap();
 					coin.batchTransfer(privateKey, tos, values, gas, new ICoin.BatchTransferCallback() {
 					    @Override
-					    public void transferFinished(String address, String hash, int index, int size) {
+					    public boolean transferFinished(String address, String hash, int index, int size) {
 						// 从tableModel中找到batchTransfer对象，更新ui
 						BatchTransfer bt = map.get(address);
 						bt.setHash(hash);
                                                 
 						innerWorker.publish0(new Pair<>(index, bt));
+						
+						// isCancelled() returns true if the cancel() method is invoked on this class. That is the proper way
+						// to stop this thread. See the actionPerformed method.
+						return innerWorker.isCancelled();
 					    }
 					});
                                     } catch(Exception e) {
@@ -924,7 +942,8 @@ public final class BatchTransferTopComponent extends TopComponent {
 				    }
 				    
 				    ph.finish();
-                                    
+                                    stopBtn.setEnabled(false);
+				    
                                     try {
                                         // 等待1秒钟更新交易状态
                                         Thread.sleep(1000);
@@ -962,7 +981,7 @@ public final class BatchTransferTopComponent extends TopComponent {
     }
     
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
-        ConfirmDialog dlg = new ConfirmDialog(null, "删除记录确认", "是否删除记录？");
+        ConfirmDialog dlg = new ConfirmDialog(null, "清空记录确认", "是否清空所有记录？");
         dlg.setVisible(true);
         if(dlg.getReturnStatus() == ConfirmDialog.RET_OK) {
             tableModel.clear();
@@ -1002,7 +1021,7 @@ public final class BatchTransferTopComponent extends TopComponent {
 
             try {
                 // 创建CSV读对象
-                CsvReader csvReader = new CsvReader(file.getAbsolutePath(), ',', Charset.forName("UTF-8"));
+                CsvReader csvReader = new CsvReader(file.getAbsolutePath(), ',', Charset.defaultCharset());
 
                 //                // 读表头
                 //                csvReader.readHeaders();
@@ -1022,14 +1041,12 @@ public final class BatchTransferTopComponent extends TopComponent {
     }//GEN-LAST:event_importBtnActionPerformed
 
     private void stopBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopBtnActionPerformed
-
-	
-	
-	
-	
-	
-	
-	
+        ConfirmDialog dlg = new ConfirmDialog(null, "退出", "您真的要退出该应用程序吗？");
+        dlg.setVisible(true);
+        if(dlg.getReturnStatus() == ConfirmDialog.RET_OK){
+	    innerWorker.cancel(true);
+	    innerWorker = null;
+	}
     }//GEN-LAST:event_stopBtnActionPerformed
 
     private void gasSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_gasSliderStateChanged
@@ -1128,6 +1145,11 @@ public final class BatchTransferTopComponent extends TopComponent {
         refreshBalance();
     }//GEN-LAST:event_refreshBalanceBtnActionPerformed
 
+    private void historyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyBtnActionPerformed
+	MessageDialog msg = new MessageDialog(null,"注意","正在紧张有序开发中...");
+	msg.setVisible(true);
+    }//GEN-LAST:event_historyBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXButton addBtn;
     private org.jdesktop.swingx.JXButton clearBtn;
@@ -1138,6 +1160,7 @@ public final class BatchTransferTopComponent extends TopComponent {
     private org.jdesktop.swingx.JXLabel gasLbl;
     private javax.swing.JSlider gasSlider;
     private javax.swing.JSpinner gasSpinner;
+    private org.jdesktop.swingx.JXButton historyBtn;
     private org.jdesktop.swingx.JXButton importBtn;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -1247,7 +1270,7 @@ public final class BatchTransferTopComponent extends TopComponent {
             logPane.setParagraphAttributes(Constants.ALIGNMENT_LEFT_ATTRIBUTE_SET, false);
             doc.insertString(doc.getLength(), "\n", null);   // 换行重启一段落
             doc.insertString(doc.getLength(), 
-                    index + "\t" + DateUtil.commonDateFormat(new Date(), "yyyy-MM-dd HH:mm:ss") + "\t" + address + "\t" + hash + "\t", 
+                    (index+1) + " " + DateUtil.commonDateFormat(new Date(), "yyyy-MM-dd HH:mm:ss") + " " + address + " " + hash + " ", 
                     Constants.TEXT_RESULT_ATTRIBUTE_SET);
             // 插入按钮
             JXHyperlink link = new JXHyperlink();
@@ -1284,7 +1307,7 @@ public final class BatchTransferTopComponent extends TopComponent {
             logPane.setParagraphAttributes(Constants.ALIGNMENT_LEFT_ATTRIBUTE_SET, false);
             doc.insertString(doc.getLength(), "\n", null);   // 换行重启一段落
             doc.insertString(doc.getLength(), 
-                    "—————————————————————————————————————————————————————————————", 
+                    "——————————————————————————————————————————————————————————————————————", 
                     Constants.TEXT_LINE_ATTRIBUTE_SET);
             doc.insertString(doc.getLength(), "\n", null);   // 换行重启一段落
         } catch (BadLocationException ex) {

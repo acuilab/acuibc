@@ -124,7 +124,7 @@ public final class BatchTransferTopComponent extends TopComponent {
         // 1 转账前将交易状态更新到最新
         // 2 开始按钮可重复执行，仅对交易状态为空或失败的记录进行转账
         // 3 导入格式为CSV(逗号分隔)(*.csv)，可通过excel另存为CSV(逗号分隔)(*.csv)
-        insertNotice("1.当存在交易状态不确定的记录时不允许转账，请将交易状态更新到最新");
+        insertNotice("1.当存在交易状态未知的记录时不允许转账，请将交易状态更新到最新");
         insertNotice("2.开始按钮可重复执行，仅对交易状态为空或失败的记录进行转账");
         insertNotice("3.转账地址不可重复，双击转账信息列表的地址、数量和备注列可编辑对应单元格");
         insertNotice("4.转账进行时不要进行其他转账或调用合约的操作");
@@ -768,9 +768,9 @@ public final class BatchTransferTopComponent extends TopComponent {
                 continue;
             }
             
-            // 是否有转账结果不确定的bt(提示用户刷新状态)
+            // 是否有转账结果未知的bt(提示用户刷新状态)
             if(bt.getStatus() == BlockChain.TransactionStatus.UNKNOWN) {
-		MessageDialog msg = new MessageDialog(null,"注意","交易状态不确定：\"" + Utils.simplifyString(address, 12) + "\"");
+		MessageDialog msg = new MessageDialog(null,"注意","交易状态未知：\"" + Utils.simplifyString(address, 12) + "\"");
 		msg.setVisible(true);
                 showRefreshTooltip("单击此按钮更新交易状态");
                 startBtn.setEnabled(true);
@@ -807,7 +807,7 @@ public final class BatchTransferTopComponent extends TopComponent {
                 startBtn.setEnabled(true);
 		return;
 	    } else {
-                // 状态为空或失败的才重新发送（上面已经对转账成功和不确定状态进行了过滤）
+                // 状态为空或失败的才重新发送（上面已经对转账成功和未知状态进行了过滤）
 		total += NumberUtils.toDouble(value);
 	    }
 	}
@@ -878,7 +878,7 @@ public final class BatchTransferTopComponent extends TopComponent {
 					for(int i=0; i<list.size(); i++) {
 					    final BatchTransfer bt = list.get(i);
 					    
-					    // 理论上这里不会出现交易状态不确定的情况，跳过交易成功的bt
+					    // 理论上这里不会出现交易状态未知的情况，跳过交易成功的bt
                                             // 交易状态为空或失败，加入转账列表
                                             if(bt.getStatus() == null || bt.getStatus() == BlockChain.TransactionStatus.FAILED) {
                                                 tos[i] = bt.getAddress();
@@ -1078,6 +1078,7 @@ public final class BatchTransferTopComponent extends TopComponent {
     }//GEN-LAST:event_scanBtnActionPerformed
 
     private void statusBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusBtnActionPerformed
+	insertLine();
 	statusBtn.setEnabled(false);
         final List<BatchTransfer> list = tableModel.getBatchTransfers();
 	final ProgressHandle ph = ProgressHandle.createHandle("正在刷新交易状态，请稍候");
@@ -1093,8 +1094,8 @@ public final class BatchTransferTopComponent extends TopComponent {
 		    if(StringUtils.isNotBlank(hash) && (bt.getStatus() == null || bt.getStatus() == BlockChain.TransactionStatus.UNKNOWN)) {
 			
 			bt.setStatus(bc.getTransactionStatusByHash(hash));
-
-			publish(new Pair<>(i+1, bt));
+			
+			publish(new Pair<>(i, bt));
 		    }
 		}
 		
@@ -1107,7 +1108,11 @@ public final class BatchTransferTopComponent extends TopComponent {
 		    // 刷新表格
 		    table.repaint();
 
-		    ph.progress(pair.getValue0());
+		    int index = pair.getValue0();
+		    BatchTransfer bt = pair.getValue1();
+		    insertStatus(bt.getAddress(), bt.getStatus(), bt.getHash(), index);
+		    
+		    ph.progress(index+1);
 		}
 	    }
 
@@ -1272,6 +1277,53 @@ public final class BatchTransferTopComponent extends TopComponent {
             doc.insertString(doc.getLength(), "\n", null);   // 换行重启一段落
             doc.insertString(doc.getLength(), 
                     (index+1) + " " + DateUtil.commonDateFormat(new Date(), "yyyy-MM-dd HH:mm:ss") + " " + address + " " + hash + " ", 
+                    Constants.TEXT_RESULT_ATTRIBUTE_SET);
+            // 插入按钮
+            JXHyperlink link = new JXHyperlink();
+            link.setIcon(chromeIcon);
+            link.setText("查看");
+            link.setToolTipText("打开浏览器查看交易详情");
+            link.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(Desktop.isDesktopSupported()) {
+                        try {
+                            if(Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                                // 打开默认浏览器
+                                BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
+                                Desktop.getDesktop().browse(URI.create(bc.getTransactionDetailUrl(hash)));
+                            }
+                        } catch (IOException ex) {
+                            Exceptions.printStackTrace(ex);
+                        }
+                    }
+                }
+            });
+            link.setAlignmentY(0.95f);
+            logPane.insertComponent(link);
+            doc.insertString(doc.getLength(), "\n", null);   // 换行重启一段落
+        } catch (BadLocationException ex) {
+        }
+    }
+    
+    public void insertStatus(String address, BlockChain.TransactionStatus status, String hash, int index) {
+        try {
+	    String statusStr = "交易状态未知";
+	    if(status == BlockChain.TransactionStatus.SUCCESS) {
+		statusStr = "交易成功";
+	    } else if(status == BlockChain.TransactionStatus.FAILED) {
+		statusStr = "交易失败";
+	    } else {
+		// BlockChain.TransactionStatus.UNKNOWN
+		statusStr = "交易状态未知";
+	    }
+	    
+            Document doc = logPane.getDocument();
+            logPane.setCaretPosition(doc.getLength());  // 移动光标到最后
+            logPane.setParagraphAttributes(Constants.ALIGNMENT_LEFT_ATTRIBUTE_SET, false);
+            doc.insertString(doc.getLength(), "\n", null);   // 换行重启一段落
+            doc.insertString(doc.getLength(), 
+                    (index+1) + " " + DateUtil.commonDateFormat(new Date(), "yyyy-MM-dd HH:mm:ss") + " " + address + " " + hash + " " + statusStr + " ", 
                     Constants.TEXT_RESULT_ATTRIBUTE_SET);
             // 插入按钮
             JXHyperlink link = new JXHyperlink();

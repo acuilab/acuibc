@@ -90,9 +90,9 @@ public abstract class ERC20Coin implements ICoin {
                 JsonNode value = objNode.get("value");
                 transferRecord.setValue(coin.minUnit2MainUint(new BigInteger(value.asText("0"))).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).stripTrailingZeros().toPlainString());
                 JsonNode from = objNode.get("from");
-                transferRecord.setSendAddress(from.asText());
+                transferRecord.setSendAddress(new Address(from.asText()).getAddress());
                 JsonNode to = objNode.get("to");
-                transferRecord.setRecvAddress(to.asText());
+                transferRecord.setRecvAddress(new Address(to.asText()).getAddress());
                 JsonNode hash = objNode.get("transactionHash");
                 transferRecord.setHash(hash.asText());
                 JsonNode timestamp = objNode.get("timestamp");

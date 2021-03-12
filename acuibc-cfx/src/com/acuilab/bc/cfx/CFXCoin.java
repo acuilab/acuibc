@@ -179,9 +179,9 @@ public class CFXCoin implements ICFXCoin {
                 JsonNode blockHash = objNode.get("blockHash");
                 transferRecord.setBlockHash(blockHash.asText());
                 JsonNode from = objNode.get("from");
-                transferRecord.setSendAddress(from.asText());
+                transferRecord.setSendAddress(new Address(from.asText()).getAddress());
                 JsonNode to = objNode.get("to");
-                transferRecord.setRecvAddress(to.asText());
+                transferRecord.setRecvAddress(new Address(to.asText()).getAddress());
                 JsonNode hash = objNode.get("hash");
                 transferRecord.setHash(hash.asText());
                 JsonNode timestamp = objNode.get("timestamp");

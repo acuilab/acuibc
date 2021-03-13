@@ -9,16 +9,19 @@ import org.openide.WizardDescriptor;
 import org.openide.WizardValidationException;
 import org.openide.util.HelpCtx;
 import com.acuilab.bc.main.nft.INFT;
+import com.acuilab.bc.main.nft.MetaData;
 import com.acuilab.bc.main.ui.MessageDialog;
 
 public class NFTTransferInputWizardPanel implements WizardDescriptor.ValidatingPanel<WizardDescriptor> {
 
     private final Wallet wallet;
     private final INFT nft;
+    private final MetaData metaData;
     
-    public NFTTransferInputWizardPanel(Wallet wallet, INFT nft) {
+    public NFTTransferInputWizardPanel(Wallet wallet, INFT nft, MetaData metaData) {
         this.wallet = wallet;
         this.nft = nft;
+        this.metaData = metaData;
     }
     
     /**
@@ -34,7 +37,7 @@ public class NFTTransferInputWizardPanel implements WizardDescriptor.ValidatingP
     @Override
     public NFTTransferInputVisualPanel getComponent() {
         if (component == null) {
-            component = new NFTTransferInputVisualPanel(wallet, nft);
+            component = new NFTTransferInputVisualPanel(wallet, nft, metaData);
         }
         return component;
     }
@@ -74,7 +77,7 @@ public class NFTTransferInputWizardPanel implements WizardDescriptor.ValidatingP
     public void storeSettings(WizardDescriptor wiz) {
         // use wiz.putProperty to remember current panel state
         wiz.putProperty("recvAddress", component.getRecvAddressFld().getText());
-        wiz.putProperty("value", component.getValueFld().getText());
+        wiz.putProperty("value", component.getValueSpinner().getValue());
         wiz.putProperty("gas", component.getGasSlider().getValue());
     }
 

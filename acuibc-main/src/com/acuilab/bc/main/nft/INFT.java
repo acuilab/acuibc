@@ -60,12 +60,13 @@ public interface INFT {
      * @param from
      * @param to 
      * @param tokenId 
+     * @param value 
      * @param data 
      * @param gas 
      * @return  
      * @throws java.lang.Exception 
      */
-    String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId, String data, BigInteger gas) throws Exception;
+    String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId, BigInteger value, String data, BigInteger gas) throws Exception;
     
     /**
      * 
@@ -77,8 +78,8 @@ public interface INFT {
      * @return  
      * @throws java.lang.Exception  
      */
-    default String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId, BigInteger gas) throws Exception {
-	return safeTransferFrom(privateKey, from, to, tokenId, "", gas);
+    default String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId, BigInteger value, BigInteger gas) throws Exception {
+	return safeTransferFrom(privateKey, from, to, tokenId, value, "", gas);
     }
 
     /**
@@ -107,4 +108,14 @@ public interface INFT {
     String gasDesc(int gas);
     
     int gasLimit();
+    
+    /**
+     * 数量(通常是1，但是像flux这种可以有多个)
+     * @param address
+     * @param tokenId
+     * @return 
+     */
+    default BigInteger balanceOf(String address, BigInteger tokenId) {
+        return BigInteger.ONE;
+    }
 }

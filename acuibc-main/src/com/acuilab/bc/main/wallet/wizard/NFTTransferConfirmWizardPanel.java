@@ -64,7 +64,7 @@ public class NFTTransferConfirmWizardPanel implements WizardDescriptor.Panel<Wiz
     public void readSettings(WizardDescriptor wiz) {
         // use wiz.getProperty to retrieve previous panel state
         String recvAddress = (String)wiz.getProperty("recvAddress");
-        String value = (String)wiz.getProperty("value");
+        int value = (int)wiz.getProperty("value");
         int gas = (int)wiz.getProperty("gas");
 	getComponent().init(recvAddress, value, wallet.getAddress(), nft.gasDesc(gas));
     }

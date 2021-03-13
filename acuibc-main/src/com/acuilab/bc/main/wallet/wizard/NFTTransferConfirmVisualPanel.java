@@ -24,9 +24,9 @@ public final class NFTTransferConfirmVisualPanel extends JPanel {
         return "确认转账信息";
     }
     
-    public void init(String recvAddress, String value, String sendAddress, String gasDesc) {
+    public void init(String recvAddress, int value, String sendAddress, String gasDesc) {
         recvAddressFld.setText(recvAddress);
-        valueFld.setText("1");
+        valueFld.setText("" + value);
         sendAddressFld.setText(sendAddress);
         gasFld.setText(gasDesc);
     }

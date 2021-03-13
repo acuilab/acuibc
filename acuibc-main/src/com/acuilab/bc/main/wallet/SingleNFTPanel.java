@@ -11,13 +11,9 @@ import com.acuilab.bc.main.wallet.wizard.NFTTransferInputWizardPanel;
 import com.acuilab.bc.main.wallet.wizard.PasswordInputWizardPanel;
 import java.awt.Component;
 import java.awt.Desktop;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URI;
@@ -66,8 +62,7 @@ public class SingleNFTPanel extends JXPanel {
 	this.wallet = wallet;
 	this.nft = nft;
 	this.metaData = metaData;
-	
-	indexLbl.setText("#" + (index+1));
+        
         String id = metaData.getId();
         idLbl.setText("编号：" + id);
         idLbl.setToolTipText(id);
@@ -76,7 +71,30 @@ public class SingleNFTPanel extends JXPanel {
         platformLbl.setText("平台：" + metaData.getPlatform());
         descLbl.setText("描述：" + metaData.getDesc());
 	this.setToolTipText(metaData.getDesc());
+        
+        // 求余额
+        SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
+            @Override
+            protected BigInteger doInBackground() throws Exception {
+                return nft.balanceOf(wallet.getAddress(), new BigInteger(metaData.getId()));
+            }
 
+            @Override
+            protected void done() {
+                try {
+                    BigInteger balance = get();
+                    indexLbl.setText("#" + (index+1) + " 余额：" + balance.toString());
+                    transferBtn.setEnabled(balance.compareTo(BigInteger.ZERO) > 0); // 数量大于0允许转账
+                    if(!transferBtn.isEnabled()) {
+                        transferBtn.setToolTipText("余额不足，无法转账");
+                    }
+                } catch (InterruptedException | ExecutionException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+            }
+        };
+        worker.execute();
+        
 	MyJXImageView myImageView = (MyJXImageView)imageView;
 	myImageView.setToolTipText(metaData.getDesc());		// 这句必须调用，否则ImageToolTip弹不出来
 	myImageView.setMetaData(metaData);
@@ -146,6 +164,7 @@ public class SingleNFTPanel extends JXPanel {
         platformLbl.setPreferredSize(new java.awt.Dimension(178, 18));
 
         org.openide.awt.Mnemonics.setLocalizedText(transferBtn, org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.transferBtn.text")); // NOI18N
+        transferBtn.setEnabled(false);
         transferBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 transferBtnActionPerformed(evt);
@@ -167,7 +186,7 @@ public class SingleNFTPanel extends JXPanel {
             .addGap(0, 178, Short.MAX_VALUE)
         );
 
-        indexLbl.setForeground(java.awt.Color.red);
+        indexLbl.setForeground(java.awt.Color.blue);
         indexLbl.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         org.openide.awt.Mnemonics.setLocalizedText(indexLbl, org.openide.util.NbBundle.getMessage(SingleNFTPanel.class, "SingleNFTPanel.indexLbl.text")); // NOI18N
 
@@ -211,7 +230,7 @@ public class SingleNFTPanel extends JXPanel {
 
     private void transferBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transferBtnActionPerformed
 	List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<>();
-	panels.add(new NFTTransferInputWizardPanel(wallet, nft));
+	panels.add(new NFTTransferInputWizardPanel(wallet, nft, metaData));
 	panels.add(new PasswordInputWizardPanel(wallet));
 	panels.add(new NFTTransferConfirmWizardPanel(wallet, nft));
 	String[] steps = new String[panels.size()];
@@ -235,12 +254,12 @@ public class SingleNFTPanel extends JXPanel {
 	if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
 	    // do something
 	    String recvAddress = (String)wiz.getProperty("recvAddress");
-	    String value = (String)wiz.getProperty("value");
+	    int value = (int)wiz.getProperty("value");
 	    int gas = (int)wiz.getProperty("gas");
 	    String pwd = (String)wiz.getProperty("password");
 
 	    try {
-		String hash = nft.safeTransferFrom(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), wallet.getAddress(), recvAddress, new BigInteger(metaData.getId()), BigInteger.valueOf(gas));
+		String hash = nft.safeTransferFrom(AESUtil.decrypt(wallet.getPrivateKeyAES(), pwd), wallet.getAddress(), recvAddress, new BigInteger(metaData.getId()), BigInteger.valueOf(value), BigInteger.valueOf(gas));
 		JXHyperlink hashLink = parent.getWalletTopComponent().getHashLink();
 		hashLink.setText(hash);
                 hashLink.setToolTipText(hash);

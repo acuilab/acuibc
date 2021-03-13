@@ -122,6 +122,7 @@
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="com/acuilab/bc/main/wallet/Bundle.properties" key="SingleNFTPanel.transferBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="transferBtnActionPerformed"/>
@@ -159,7 +160,7 @@
     <Component class="org.jdesktop.swingx.JXLabel" name="indexLbl">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="0" id="red" palette="1" red="ff" type="palette"/>
+          <Color blue="ff" green="0" id="blue" palette="1" red="0" type="palette"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="2"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">

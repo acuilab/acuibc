@@ -22,21 +22,25 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 import org.openide.util.Exceptions;
 import com.acuilab.bc.main.nft.INFT;
+import com.acuilab.bc.main.nft.MetaData;
+import java.util.concurrent.ExecutionException;
+import javax.swing.SwingWorker;
 
 public final class NFTTransferInputVisualPanel extends JPanel {
     
     private final Wallet wallet;
     private final INFT nft;
-    private BigInteger balance;
+    private final MetaData metaData;
     
     /**
      * Creates new form TransferVisualPanel1
      */
-    public NFTTransferInputVisualPanel(Wallet wallet, INFT nft) {
+    public NFTTransferInputVisualPanel(Wallet wallet, INFT nft, MetaData metaData) {
         initComponents();
         
         this.wallet = wallet;
         this.nft = nft;
+        this.metaData = metaData;
 
         BlockChain bc = BlockChainManager.getDefault().getBlockChain(nft.getBlockChainSymbol());
         int min = nft.gasMin();
@@ -53,6 +57,29 @@ public final class NFTTransferInputVisualPanel extends JPanel {
         formatter.setCommitsOnValidEdit(true);
         gasSpinner.setEditor(editor);
         
+        SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
+            @Override
+            protected BigInteger doInBackground() throws Exception {
+                return nft.balanceOf(wallet.getAddress(), new BigInteger(metaData.getId()));
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    BigInteger balance = get();
+                    // 设置valueSpinner
+                    int max = balance.intValue();
+                    valueSpinner.setModel(new SpinnerNumberModel(1, 1, max, 1));
+                    valueSpinner.setEnabled(max > 1);
+                    maxBtn.setEnabled(max > 1);
+                    resetBtn.setEnabled(max > 1);
+                } catch (InterruptedException | ExecutionException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+            }
+        };
+        worker.execute();
+        
         gasLbl.setText(nft.gasDesc(nft.gasDefault()));
 
         sendAddressFld.setText(wallet.getAddress());
@@ -67,22 +94,14 @@ public final class NFTTransferInputVisualPanel extends JPanel {
         return recvAddressFld;
     }
     
-    public JTextField getValueFld() {
-        return valueFld;
+    public JSpinner getValueSpinner() {
+        return valueSpinner;
     }
     
     public JSlider getGasSlider() {
         return gasSlider;
     }
     
-    public BigInteger getBalance() {
-        return balance;
-    }
-    
-    public boolean balanceAvailable() {
-        return balance != null;
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -94,7 +113,6 @@ public final class NFTTransferInputVisualPanel extends JPanel {
         jXLabel1 = new org.jdesktop.swingx.JXLabel();
         jXLabel2 = new org.jdesktop.swingx.JXLabel();
         recvAddressFld = new org.jdesktop.swingx.JXTextField();
-        valueFld = new org.jdesktop.swingx.JXTextField();
         jXLabel3 = new org.jdesktop.swingx.JXLabel();
         sendAddressFld = new org.jdesktop.swingx.JXTextField();
         jXLabel4 = new org.jdesktop.swingx.JXLabel();
@@ -105,15 +123,15 @@ public final class NFTTransferInputVisualPanel extends JPanel {
         gasSpinner = new javax.swing.JSpinner();
         pasteBtn = new org.jdesktop.swingx.JXButton();
         selectBtn = new org.jdesktop.swingx.JXButton();
+        resetBtn = new org.jdesktop.swingx.JXButton();
+        maxBtn = new org.jdesktop.swingx.JXButton();
+        valueSpinner = new javax.swing.JSpinner();
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.jXLabel1.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel2, org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.jXLabel2.text")); // NOI18N
 
         recvAddressFld.setText(org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.recvAddressFld.text")); // NOI18N
-
-        valueFld.setText(org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.valueFld.text")); // NOI18N
-        valueFld.setEnabled(false);
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel3, org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.jXLabel3.text")); // NOI18N
 
@@ -160,6 +178,20 @@ public final class NFTTransferInputVisualPanel extends JPanel {
             }
         });
 
+        org.openide.awt.Mnemonics.setLocalizedText(resetBtn, org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.resetBtn.text")); // NOI18N
+        resetBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetBtnActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(maxBtn, org.openide.util.NbBundle.getMessage(NFTTransferInputVisualPanel.class, "NFTTransferInputVisualPanel.maxBtn.text")); // NOI18N
+        maxBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                maxBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -182,16 +214,23 @@ public final class NFTTransferInputVisualPanel extends JPanel {
                                 .addComponent(gasLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(fastLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(gasSlider, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE))
+                            .addComponent(gasSlider, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(gasSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(recvAddressFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(recvAddressFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(valueSpinner))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(selectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pasteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(valueFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(selectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(pasteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(maxBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(resetBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -206,7 +245,9 @@ public final class NFTTransferInputVisualPanel extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(valueFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(resetBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(maxBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(valueSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -224,7 +265,7 @@ public final class NFTTransferInputVisualPanel extends JPanel {
                                 .addComponent(slowLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(gasLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(fastLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(271, Short.MAX_VALUE))
+                .addContainerGap(269, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -272,6 +313,14 @@ public final class NFTTransferInputVisualPanel extends JPanel {
         }
     }//GEN-LAST:event_selectBtnActionPerformed
 
+    private void maxBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maxBtnActionPerformed
+        valueSpinner.setValue(nft.balanceOf(wallet.getAddress(), new BigInteger(metaData.getId())).intValue());
+    }//GEN-LAST:event_maxBtnActionPerformed
+
+    private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
+        valueSpinner.setValue(1);
+    }//GEN-LAST:event_resetBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXLabel fastLbl;
     private org.jdesktop.swingx.JXLabel gasLbl;
@@ -281,11 +330,13 @@ public final class NFTTransferInputVisualPanel extends JPanel {
     private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXLabel jXLabel3;
     private org.jdesktop.swingx.JXLabel jXLabel4;
+    private org.jdesktop.swingx.JXButton maxBtn;
     private org.jdesktop.swingx.JXButton pasteBtn;
     private org.jdesktop.swingx.JXTextField recvAddressFld;
+    private org.jdesktop.swingx.JXButton resetBtn;
     private org.jdesktop.swingx.JXButton selectBtn;
     private org.jdesktop.swingx.JXTextField sendAddressFld;
     private org.jdesktop.swingx.JXLabel slowLbl;
-    private org.jdesktop.swingx.JXTextField valueFld;
+    private javax.swing.JSpinner valueSpinner;
     // End of variables declaration//GEN-END:variables
 }

@@ -36,19 +36,30 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="fastLbl" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="gasSlider" pref="576" max="32767" attributes="0"/>
+                          <Component id="gasSlider" pref="574" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="gasSpinner" min="-2" pref="100" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="recvAddressFld" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="recvAddressFld" max="32767" attributes="0"/>
+                          <Component id="valueSpinner" max="32767" attributes="0"/>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="selectBtn" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="pasteBtn" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="selectBtn" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="pasteBtn" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="maxBtn" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="resetBtn" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
-                  <Component id="valueFld" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -67,7 +78,9 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jXLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="valueFld" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="resetBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="maxBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="valueSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -92,7 +105,7 @@
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="271" max="32767" attributes="0"/>
+              <EmptySpace pref="269" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -117,14 +130,6 @@
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="NFTTransferInputVisualPanel.recvAddressFld.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
-      </Properties>
-    </Component>
-    <Component class="org.jdesktop.swingx.JXTextField" name="valueFld">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="NFTTransferInputVisualPanel.valueFld.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel3">
@@ -211,6 +216,28 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="selectBtnActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXButton" name="resetBtn">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="NFTTransferInputVisualPanel.resetBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="resetBtnActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXButton" name="maxBtn">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/wallet/wizard/Bundle.properties" key="NFTTransferInputVisualPanel.maxBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="maxBtnActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="valueSpinner">
     </Component>
   </SubComponents>
 </Form>

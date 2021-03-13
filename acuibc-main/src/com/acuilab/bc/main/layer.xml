@@ -93,6 +93,9 @@
             <file name="com.acuilab.bc.main.action.CheckForUpdatesAction.instance">
                 <attr intvalue="810" name="position"/>
             </file>
+            <file name="com.acuilab.bc.main.action.ChangeLogTopComponentAction.instance">
+                <attr intvalue="815" name="position"/>
+            </file>
             <file name="com.acuilab.bc.main.action.AboutAction.instance">
                 <attr intvalue="820" name="position"/>
             </file>

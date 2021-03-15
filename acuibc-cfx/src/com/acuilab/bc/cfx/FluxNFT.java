@@ -25,7 +25,7 @@ import org.web3j.abi.datatypes.Type;
 public class FluxNFT extends AbstractNFT {
     
     public static final String CONTRACT_ADDRESS = "cfx:acfs5g80h7khw4mxg0pa78e92t8ywp6h8pr69bx7rb";
-    public static final String WEBSITE = "http://static.01.finance/nftop/view.html";
+    public static final String WEBSITE = "https://flux.01.finance/";
 
     @Override
     public void init() {

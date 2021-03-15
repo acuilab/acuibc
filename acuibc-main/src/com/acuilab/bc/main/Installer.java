@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.Preferences;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
@@ -29,12 +30,22 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.modules.ModuleInstall;
 import org.openide.util.Exceptions;
+import org.openide.util.NbPreferences;
 import org.openide.windows.WindowManager;
 
 public class Installer extends ModuleInstall {
     
     private static final Logger LOG = Logger.getLogger(Installer.class.getName());
     private static Connection conn = null;
+    
+    // 自动更新检查时间间隔设置为"每次启动时"
+    // @see org.netbeans.modules.autoupdate.ui.actions.AutoupdateSettings
+    static {
+        Preferences pref = NbPreferences.root ().node ("/org/netbeans/modules/autoupdate");
+        if(pref.getInt("period", 0) != 0) {
+            pref.putInt("period", 0);
+        }
+    }
     
     // crack jxbrowser
     static {

@@ -1,16 +1,48 @@
 package com.acuilab.bc.main.wallet;
 
+import com.acuilab.bc.main.ui.MessageDialog;
 import com.acuilab.bc.main.util.AESUtil;
+import com.acuilab.bc.main.util.DateUtil;
+import com.google.common.collect.Maps;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
+import java.util.Map;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintException;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.ServiceUI;
+import javax.print.SimpleDoc;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.Copies;
+import javax.print.attribute.standard.JobName;
+import javax.print.attribute.standard.MediaPrintableArea;
+import javax.print.attribute.standard.OrientationRequested;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -110,6 +142,7 @@ public class ExportMnemonicDialog extends javax.swing.JDialog {
         mnemonicLbl12 = new org.jdesktop.swingx.JXLabel();
         jXLabel3 = new org.jdesktop.swingx.JXLabel();
         copyBtn = new org.jdesktop.swingx.JXButton();
+        printBtn = new org.jdesktop.swingx.JXButton();
 
         setTitle(org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.title")); // NOI18N
         setIconImage(ImageUtilities.loadImage("/resource/gourd32.png"));
@@ -182,6 +215,13 @@ public class ExportMnemonicDialog extends javax.swing.JDialog {
             }
         });
 
+        org.openide.awt.Mnemonics.setLocalizedText(printBtn, org.openide.util.NbBundle.getMessage(ExportMnemonicDialog.class, "ExportMnemonicDialog.printBtn.text")); // NOI18N
+        printBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -193,7 +233,9 @@ public class ExportMnemonicDialog extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jXLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(printBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -205,7 +247,8 @@ public class ExportMnemonicDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(copyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(printBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -252,6 +295,96 @@ public class ExportMnemonicDialog extends javax.swing.JDialog {
             Exceptions.printStackTrace(ex);
         }
     }//GEN-LAST:event_copyBtnActionPerformed
+
+    private void printBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printBtnActionPerformed
+
+        PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
+        DocFlavor flavor = DocFlavor.SERVICE_FORMATTED.PRINTABLE;
+        PrintService printService[] = PrintServiceLookup.lookupPrintServices(flavor, pras);//用户可选用的PrintService实例数组。
+	if ((printService == null) || (printService.length == 0)) {
+	    // throw new IllegalArgumentException("services must be non-null " + "and non-empty")
+	    MessageDialog msg = new MessageDialog(null,"打印助记词","未发现打印机，无法打印。");
+	    msg.setVisible(true);
+	    return;
+	}
+	
+        PrintService defaultService = PrintServiceLookup.lookupDefaultPrintService(); //默认的PrintService 
+        /*为用户提供一个选择 PrintService（打印机）的对话框。
+            gc - 用于选择屏幕。null 意味着主屏幕或默认屏幕。
+            x - 对话框在屏幕坐标中的位置，包括边框
+            y - 对话框在屏幕坐标中的位置，包括边框
+            services - 可浏览的服务，必须不为 null。
+            defaultService - 要显示的初始 PrintService。
+            flavor - 要打印的 flavor，或者为 null。
+            attributes - 输入时为应用程序最初提供的首选项。这不能为 null，但可以为空。输出时为反映用户所作的更改的属性。
+        */ 
+        PrintService service = ServiceUI.printDialog(null, 200, 200,printService, defaultService, flavor, pras);
+        if (service != null) {
+            try {
+                // create a print job for the chosen service
+                DocPrintJob job = service.createPrintJob();
+                PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+                aset.add(OrientationRequested.PORTRAIT);
+                aset.add(new Copies(1));
+                aset.add(new JobName("Mnemonic print job", null));
+                aset.add(new MediaPrintableArea(0, 0, 240, 480, MediaPrintableArea.MM));
+                job.print(new SimpleDoc(new Printable() {
+                    @Override
+                    public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
+                        if(pageIndex < 1) {
+			    String[] mnemonicWords = StringUtils.split(mnemonic, " ");
+			    
+			    Graphics2D g2d = (Graphics2D) graphics;
+			    // 前六个单词放第一行
+			    g2d.setColor(Color.black);
+			    g2d.setFont(new Font("宋体", Font.BOLD, 7));
+			    g2d.drawString(mnemonicWords[0] + " " + 
+				    mnemonicWords[1] + " " + 
+				    mnemonicWords[2] + " " + 
+				    mnemonicWords[3] + " " + 
+				    mnemonicWords[4] + " " + 
+				    mnemonicWords[5], 10, 10);
+			    
+			    // 后六个单词放第二行
+			    g2d.drawString(mnemonicWords[6] + " " + 
+				    mnemonicWords[7] + " " + 
+				    mnemonicWords[8] + " " + 
+				    mnemonicWords[9] + " " + 
+				    mnemonicWords[10] + " " + 
+				    mnemonicWords[11], 10, 20);
+			    
+                            // 助记词二维码图像
+                            try {  
+                                Map hints = Maps.newHashMap();  
+                                hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");  
+                                hints.put(EncodeHintType.MARGIN, 0);  
+                                BitMatrix byteMatrix = new MultiFormatWriter().encode(mnemonic, BarcodeFormat.QR_CODE, 128, 128, hints);
+                                BufferedImage image = MatrixToImageWriter.toBufferedImage(byteMatrix);
+                                // @see http://blog.163.com/laowu_000/blog/static/47198890200962144032793/
+                                // 360*360dpi，约相当于1毫米14像素，宽24*14=336，高50*14=700
+//                                g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+                                g2d.drawImage(image, 10, 30, 128, 128, null);
+
+				// 打印时间
+                                g2d.setColor(Color.black);
+                                g2d.setFont(new Font("宋体", Font.BOLD, 7));
+                                g2d.drawString(DateUtil.commonDateFormat(new Date(), "yyyy-MM-dd HH:mm:ss"), 10, 178);
+
+                                return Printable.PAGE_EXISTS;
+                            } catch (WriterException ex) {
+                                Exceptions.printStackTrace(ex);
+                            }
+                        }
+                        
+                        return Printable.NO_SUCH_PAGE;
+                    }
+                    
+                }, flavor, null), aset);
+            } catch (PrintException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+    }//GEN-LAST:event_printBtnActionPerformed
     
     private void doClose(int retStatus) {
         returnStatus = retStatus;
@@ -277,6 +410,7 @@ public class ExportMnemonicDialog extends javax.swing.JDialog {
     private org.jdesktop.swingx.JXLabel mnemonicLbl7;
     private org.jdesktop.swingx.JXLabel mnemonicLbl8;
     private org.jdesktop.swingx.JXLabel mnemonicLbl9;
+    private org.jdesktop.swingx.JXButton printBtn;
     // End of variables declaration//GEN-END:variables
 
     private int returnStatus = RET_CANCEL;

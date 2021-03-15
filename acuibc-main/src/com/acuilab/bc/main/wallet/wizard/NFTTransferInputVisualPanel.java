@@ -56,6 +56,11 @@ public final class NFTTransferInputVisualPanel extends JPanel {
         final NumberFormatter formatter = (NumberFormatter)factory.getDefaultFormatter();
         formatter.setCommitsOnValidEdit(true);
         gasSpinner.setEditor(editor);
+	
+	// valueSpinner 下面几行没有作用:(
+//	editor = (JSpinner.NumberEditor)valueSpinner.getEditor();
+//	editor.getTextField().setHorizontalAlignment(JTextField.LEFT);
+//	editor.getTextField().setEditable(false);
         
         SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
             @Override

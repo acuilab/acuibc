@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 增加CHANGELOG支持
 - 增加flux nft支持
 - 增加cflux token支持
+- 增加wcfx cusdc cdai 的token支持
 
 ### Fixed
 - conflux代币交易日志发送方和接收方转换为简化形式地址

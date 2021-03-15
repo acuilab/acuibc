@@ -58,12 +58,12 @@ public class FluxNFT extends AbstractNFT {
 
     @Override
     public Icon getIcon(int size) {
-        return ImageUtilities.loadImageIcon("/resource/condragon" + size + ".png", true);
+        return ImageUtilities.loadImageIcon("/resource/flux" + size + ".png", true);
     }
 
     @Override
     public Image getIconImage(int size) {
-        return ImageUtilities.loadImage("/resource/condragon" + size + ".png", true);
+        return ImageUtilities.loadImage("/resource/flux" + size + ".png", true);
     }
 
     @Override
@@ -81,9 +81,37 @@ public class FluxNFT extends AbstractNFT {
 	md.setId(id);
         md.setImageUrl(json);
         // TODO: 设置名称、描述和平台
-        md.setName("微光nft");
-        md.setDesc("微光nft");
+        
         md.setPlatform("Flux");
+        switch (tokenId.intValue()){
+            case 1:
+                md.setName("大户NFT");
+                md.setDesc("大户NFT（内含10枚代币）");
+                break;
+            case 2:
+                md.setName("微光NFT");
+                md.setDesc("微光NFT（内含一枚代币）");
+                break;
+            case 3:
+                md.setName("守护者NFT");
+                md.setDesc("守护者NFT（特殊贡献）");
+                break;
+            case 4:
+                md.setName("Salt NFT");
+                md.setDesc("Salt NFT（专为Salt）");
+                break;
+            case 5:
+                md.setName("传播者nft");
+                md.setDesc("传播者nft（内含2枚代币）");
+                break;
+            case 6:
+                md.setName("WSB NFT");
+                md.setDesc("WSB NFT（外国社区）");
+                break;
+            default:
+                md.setName("未知nft");
+                md.setDesc("未知nft");              
+        }
 	
 	return md;
     }

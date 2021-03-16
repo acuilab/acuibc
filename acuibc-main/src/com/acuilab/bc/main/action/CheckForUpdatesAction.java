@@ -20,8 +20,6 @@ public class CheckForUpdatesAction extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         final CheckForUpdatesProvider checkForUpdatesProvider = Lookup.getDefault().lookup(CheckForUpdatesProvider.class);
         assert checkForUpdatesProvider != null : "An instance of CheckForUpdatesProvider found in Lookup: " + Lookup.getDefault();
-        if (checkForUpdatesProvider != null) {
-            checkForUpdatesProvider.openCheckForUpdatesWizard(true);
-        }
+        checkForUpdatesProvider.openCheckForUpdatesWizard(true);
     }
 }

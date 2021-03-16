@@ -12,7 +12,7 @@ import org.openide.windows.WindowManager;
 public class ChangeLogTopComponentAction extends AbstractAction {
     
     public ChangeLogTopComponentAction() {
-        putValue(NAME, "CHANGELOG");
+        putValue(NAME, "更新记录");
 //        putValue(SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/resource/wallet16.png")));
     }
     

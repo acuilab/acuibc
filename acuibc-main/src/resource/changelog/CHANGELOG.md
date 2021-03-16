@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- 自动更新检查时间间隔设置为"每次启动时"
+- 导出助记词面板增加打印操作
+
+### Changed
+- 菜单名称由"CHANGELOG"改为"更新日志"，位置调整到最下面
+
 ## [0.9.14] - 2021-03-15
 
 ### Added

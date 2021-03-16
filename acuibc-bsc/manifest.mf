@@ -2,5 +2,5 @@ Manifest-Version: 1.0
 AutoUpdate-Show-In-Client: true
 OpenIDE-Module: com.acuilab.bc.bsc
 OpenIDE-Module-Localizing-Bundle: com/acuilab/bc/bsc/Bundle.properties
-OpenIDE-Module-Specification-Version: 1.2
+OpenIDE-Module-Specification-Version: 1.3
 

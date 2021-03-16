@@ -33,7 +33,7 @@ public class FluxNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-        return "Flux NFT";
+        return "Flux";
     }
 
     @Override

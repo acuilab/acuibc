@@ -30,7 +30,7 @@ public class CnsNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-        return "CNS NFT";
+        return "CNS";
     }
 
     @Override

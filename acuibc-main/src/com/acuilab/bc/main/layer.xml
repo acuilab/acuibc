@@ -6,7 +6,7 @@
         <file name="File_hidden"/>
         <file name="GoTo_hidden"/>
         <file name="Help_hidden"/>
-        <file name="Tools_hidden"/>
+<!--        <file name="Tools_hidden"/>-->
         <file name="View_hidden"/>
         <file name="Window_hidden"/>
         <folder name="文件">

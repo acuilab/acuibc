@@ -36,7 +36,7 @@ public class Constants {
     public static final SimpleAttributeSet ALIGNMENT_CENTER_ATTRIBUTE_SET = new SimpleAttributeSet();       // 居中显示
     public static final SimpleAttributeSet ALIGNMENT_LEFT_ATTRIBUTE_SET = new SimpleAttributeSet();       // 靠左显示
     public static final int LEFT_INDENT = 18;
-
+    
     static {
         // notice
         StyleConstants.setForeground(TEXT_NOTICE_ATTRIBUTE_SET, TEXT_NOTICE_COLOR);

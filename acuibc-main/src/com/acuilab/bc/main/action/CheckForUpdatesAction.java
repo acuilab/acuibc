@@ -1,9 +1,9 @@
 package com.acuilab.bc.main.action;
 
+import com.acuilab.bc.main.ui.CheckForUpdatesDialog;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
-import org.openide.awt.CheckForUpdatesProvider;
-import org.openide.util.Lookup;
+import org.openide.util.RequestProcessor;
 
 /**
  *
@@ -18,8 +18,20 @@ public class CheckForUpdatesAction extends AbstractAction {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        final CheckForUpdatesProvider checkForUpdatesProvider = Lookup.getDefault().lookup(CheckForUpdatesProvider.class);
-        assert checkForUpdatesProvider != null : "An instance of CheckForUpdatesProvider found in Lookup: " + Lookup.getDefault();
-        checkForUpdatesProvider.openCheckForUpdatesWizard(true);
+//        final CheckForUpdatesProvider checkForUpdatesProvider = Lookup.getDefault().lookup(CheckForUpdatesProvider.class);
+//        assert checkForUpdatesProvider != null : "An instance of CheckForUpdatesProvider found in Lookup: " + Lookup.getDefault();
+//        checkForUpdatesProvider.openCheckForUpdatesWizard(true);
+        CheckForUpdatesDialog dlg = new CheckForUpdatesDialog(null);
+        dlg.setVisible(true);
+        if(dlg.getReturnStatus() == CheckForUpdatesDialog.RET_OK) {
+            // 执行更新
+            RequestProcessor.getDefault().post(new Runnable() {
+                @Override
+                public void run() {
+                    dlg.installModules();
+                }
+                
+            }, 1000);
+        }
     }
 }

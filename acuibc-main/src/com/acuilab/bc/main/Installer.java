@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -40,10 +41,23 @@ public class Installer extends ModuleInstall {
     
     // 自动更新检查时间间隔设置为"每次启动时"
     // @see org.netbeans.modules.autoupdate.ui.actions.AutoupdateSettings
+//    public static final int EVERY_STARTUP = 0;
+//    public static final int EVERY_DAY = 1;
+//    public static final int EVERY_WEEK = 2;
+//    public static final int EVERY_2WEEKS = 3;
+//    public static final int EVERY_MONTH = 4;
+//    public static final int NEVER = 5;
+//    public static final int CUSTOM_CHECK_INTERVAL = 6;
     static {
-        Preferences pref = NbPreferences.root ().node ("/org/netbeans/modules/autoupdate");
-        if(pref.getInt("period", 0) != 0) {
-            pref.putInt("period", 0);
+        Preferences pref = NbPreferences.root().node ("/org/netbeans/modules/autoupdate");
+        System.out.println("pref.getInt(\"period\", 0)======================" + pref.getInt("period", 0));
+        if(pref.getInt("period", 0) != 5) {
+            pref.putInt("period", 5);
+            try {
+                pref.flush();
+            } catch (BackingStoreException ex) {
+                // igonre
+            }
         }
     }
     

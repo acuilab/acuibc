@@ -31,7 +31,8 @@ public class CheckForUpdatesAction extends AbstractAction {
                     dlg.installModules();
                 }
                 
-            }, 1000);
+            }, 50);
         }
     }
+    
 }

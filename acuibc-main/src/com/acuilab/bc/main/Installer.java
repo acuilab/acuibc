@@ -5,6 +5,7 @@ import com.acuilab.bc.main.manager.CoinManager;
 import com.acuilab.bc.main.manager.DAppManager;
 import com.acuilab.bc.main.manager.NFTManager;
 import com.acuilab.bc.main.ui.ConfirmDialog;
+import com.acuilab.bc.main.util.AutoupdateSettings;
 import com.acuilab.bc.main.util.Constants;
 import com.acuilab.bc.main.util.Utils;
 import com.acuilab.bc.main.welcome.WelcomeTopComponent;
@@ -22,8 +23,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
@@ -31,7 +30,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.modules.ModuleInstall;
 import org.openide.util.Exceptions;
-import org.openide.util.NbPreferences;
 import org.openide.windows.WindowManager;
 
 public class Installer extends ModuleInstall {
@@ -39,26 +37,12 @@ public class Installer extends ModuleInstall {
     private static final Logger LOG = Logger.getLogger(Installer.class.getName());
     private static Connection conn = null;
     
-    // 自动更新检查时间间隔设置为"每次启动时"
+    // 自动更新检查时间间隔设置为"Never"
     // @see org.netbeans.modules.autoupdate.ui.actions.AutoupdateSettings
-//    public static final int EVERY_STARTUP = 0;
-//    public static final int EVERY_DAY = 1;
-//    public static final int EVERY_WEEK = 2;
-//    public static final int EVERY_2WEEKS = 3;
-//    public static final int EVERY_MONTH = 4;
-//    public static final int NEVER = 5;
-//    public static final int CUSTOM_CHECK_INTERVAL = 6;
     static {
-        Preferences pref = NbPreferences.root().node ("/org/netbeans/modules/autoupdate");
-        System.out.println("pref.getInt(\"period\", 0)======================" + pref.getInt("period", 0));
-        if(pref.getInt("period", 0) != 5) {
-            pref.putInt("period", 5);
-            try {
-                pref.flush();
-            } catch (BackingStoreException ex) {
-                // igonre
-            }
-        }
+	if(AutoupdateSettings.getPeriod() != AutoupdateSettings.NEVER) {
+	    AutoupdateSettings.setPeriod(AutoupdateSettings.NEVER);
+	}
     }
     
     // crack jxbrowser

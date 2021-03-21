@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -21,6 +22,7 @@ import javax.swing.SwingWorker;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import org.apache.commons.lang3.StringUtils;
+import org.javatuples.Pair;
 import org.netbeans.api.autoupdate.InstallSupport;
 import org.netbeans.api.autoupdate.OperationContainer;
 import org.netbeans.api.autoupdate.OperationException;
@@ -30,6 +32,7 @@ import org.netbeans.api.autoupdate.UpdateUnit;
 import org.netbeans.api.autoupdate.UpdateUnitProvider;
 import org.netbeans.api.autoupdate.UpdateUnitProviderFactory;
 import org.netbeans.api.progress.ProgressHandle;
+import org.netbeans.modules.autoupdate.ui.api.PluginManager;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
@@ -166,11 +169,11 @@ public class CheckForUpdatesDialog extends javax.swing.JDialog {
                 }
                 
                 okButton.setEnabled(true);
+		okButton.setToolTipText("单击执行更新");
                 ph.finish();
             }
         };
         worker.execute();
-        
 
         // Close the dialog when Esc is pressed
         String cancelName = "cancel";
@@ -235,11 +238,46 @@ public class CheckForUpdatesDialog extends javax.swing.JDialog {
     }
     
     public void installModules() {
-        OperationContainer<InstallSupport> installContainer = addToContainer(OperationContainer.createForInstall(), install);
-        installModules(installContainer);
+	try {
+	    final ProgressHandle ph = ProgressHandle.createHandle("正在更新模块，请稍候");
+	    ph.start();
 
-        OperationContainer<InstallSupport> updateContainer = addToContainer(OperationContainer.createForUpdate(), update);
-        installModules(updateContainer);
+	    // 新增模块
+	    System.out.println("新增模块");
+	    OperationContainer<InstallSupport> container = addToContainer(OperationContainer.createForInstall(), install);
+	    InstallSupport support = container.getSupport();
+	    OperationSupport.Restarter restarter = null;
+	    if (support != null) {
+		InstallSupport.Validator vali = support.doDownload(ph, true, true);
+		InstallSupport.Installer inst = support.doValidate(vali, ph);
+		restarter = support.doInstall(inst, ph);
+		if (restarter != null) {
+		    support.doRestartLater(restarter);
+		}
+	    }
+	    
+	    System.out.println("更新模块");
+	    container = addToContainer(OperationContainer.createForUpdate(), update);
+	    support = container.getSupport();
+	    if (support != null) {
+		InstallSupport.Validator vali = support.doDownload(ph, true, true);
+		InstallSupport.Installer inst = support.doValidate(vali, ph);
+		restarter = support.doInstall(inst, ph);
+		if (restarter != null) {
+		    support.doRestartLater(restarter);
+		}
+	    }
+	    
+	    NotificationDisplayer.getDefault().notify(
+		    "该应用程序已更新",
+		    ImageUtilities.loadImageIcon("resource/gourd16.png", false),
+		    "点击此处重新启动",
+		    new RestartAction(support, restarter, ph)
+	    );
+
+	} catch (OperationException ex) {
+	    Exceptions.printStackTrace(ex);
+	}
     }
     
     private OperationContainer<InstallSupport> addToContainer(OperationContainer<InstallSupport> container, List<UpdateElement> modules) {
@@ -255,53 +293,27 @@ public class CheckForUpdatesDialog extends javax.swing.JDialog {
         return container;
     }
     
-    private void installModules(OperationContainer<InstallSupport> container) {
-        try {
-            InstallSupport support = container.getSupport();
-            if (support != null) {
-
-                InstallSupport.Validator vali = support.doDownload(null, true, true);
-                InstallSupport.Installer inst = support.doValidate(vali, null);
-                OperationSupport.Restarter restarter = support.doInstall(inst, null);
-                if (restarter != null) {
-                    support.doRestartLater(restarter);
-                    if (!isRestartRequested) {
-                        NotificationDisplayer.getDefault().notify(
-                                "该应用程序已更新",
-                                ImageUtilities.loadImageIcon("resource/gourd16.png", false),
-                                "点击此处重新启动",
-                                new RestartAction(support, restarter)
-                        );
-                        isRestartRequested = true;
-                    }
-                }
-            }
-        } catch (OperationException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-    }
-    
     private static final class RestartAction implements ActionListener {
 
         private final InstallSupport support;
         private final OperationSupport.Restarter restarter;
+	private final ProgressHandle ph;
 
-        public RestartAction(InstallSupport support, OperationSupport.Restarter restarter) {
+        public RestartAction(InstallSupport support, OperationSupport.Restarter restarter, ProgressHandle ph) {
             this.support = support;
             this.restarter = restarter;
+	    this.ph = ph;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                support.doRestart(restarter, null);
+                support.doRestart(restarter, ph);
             } catch (OperationException ex) {
                 LOG.severe(ex.getMessage());
             }
         }
-
     }
-    
     
     private void insertNotice(String notice) {
         try {
@@ -351,6 +363,7 @@ public class CheckForUpdatesDialog extends javax.swing.JDialog {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(okButton, org.openide.util.NbBundle.getMessage(CheckForUpdatesDialog.class, "CheckForUpdatesDialog.okButton.text")); // NOI18N
+        okButton.setToolTipText(org.openide.util.NbBundle.getMessage(CheckForUpdatesDialog.class, "CheckForUpdatesDialog.okButton.toolTipText")); // NOI18N
         okButton.setEnabled(false);
         okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

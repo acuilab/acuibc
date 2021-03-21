@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- 自动更新检查时间间隔设置为"Never"
 - 重写检查更新逻辑，以支持新增模块更新
 
 ## [0.9.15] - 2021-03-16

@@ -21,7 +21,6 @@ import org.netbeans.api.autoupdate.UpdateUnitProviderFactory;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
-import org.openide.util.NbPreferences;
 import org.openide.util.RequestProcessor;
 
 /**
@@ -36,11 +35,41 @@ public class AutoInstaller implements Runnable {
 
     @Override
     public void run() {
-        // 20200916, cuizhf, 去掉自动更新
-//        boolean isAutoUpdate = NbPreferences.root().getBoolean("isAutoUpdate", true);   // 是否自动更新
-//        if(isAutoUpdate) {
-//            RequestProcessor.getDefault().post(new AutoInstallerImpl(), 1000);
-//        }
+	
+	RequestProcessor.getDefault().post(new Runnable(){
+	    @Override
+	    public void run() {
+		int count = 0;
+		for (UpdateUnitProvider provider : UpdateUnitProviderFactory.getDefault().getUpdateUnitProviders(false)) {
+		    try {
+			if (StringUtils.equals(UC_NAME, provider.getName())) {
+			    provider.refresh(null, true);
+
+			    for (UpdateUnit u : provider.getUpdateUnits()) {
+				if(!u.getAvailableUpdates().isEmpty()) {
+				    count++;
+				}
+			    }
+			}
+		    } catch (IOException ex) {
+			LOG.severe(ex.getMessage());
+		    }
+		}
+		
+		if(count > 0) {
+		    // 提示用户检查更新
+		    NotificationDisplayer.getDefault().notify(
+			    "发现" + count + "个更新",
+			    ImageUtilities.loadImageIcon("resource/gourd16.png", false),
+			    "单击此处可将您的应用程序更新为最新",
+			    new com.acuilab.bc.main.action.CheckForUpdatesAction()
+		    );
+		}
+	    }
+	    
+	}, 5*1000);	// 延迟5秒执行，避免与请求余额同时执行
+	
+//      RequestProcessor.getDefault().post(new AutoInstallerImpl(), 1000);
     }
 
     private static final class AutoInstallerImpl implements Runnable {

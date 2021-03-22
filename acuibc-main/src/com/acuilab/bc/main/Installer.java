@@ -4,8 +4,8 @@ import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
 import com.acuilab.bc.main.manager.DAppManager;
 import com.acuilab.bc.main.manager.NFTManager;
+import static com.acuilab.bc.main.ui.CheckForUpdatesDialog.UC_NAME;
 import com.acuilab.bc.main.ui.ConfirmDialog;
-import com.acuilab.bc.main.util.AutoupdateSettings;
 import com.acuilab.bc.main.util.Constants;
 import com.acuilab.bc.main.util.Utils;
 import com.acuilab.bc.main.welcome.WelcomeTopComponent;
@@ -13,6 +13,7 @@ import com.teamdev.jxbrowser.chromium.BrowserCore;
 import com.teamdev.jxbrowser.chromium.be;
 import com.teamdev.jxbrowser.chromium.internal.Environment;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigInteger;
@@ -28,22 +29,20 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.apache.commons.lang3.StringUtils;
+import org.netbeans.api.autoupdate.UpdateUnit;
+import org.netbeans.api.autoupdate.UpdateUnitProvider;
+import org.netbeans.api.autoupdate.UpdateUnitProviderFactory;
+import org.openide.awt.NotificationDisplayer;
 import org.openide.modules.ModuleInstall;
 import org.openide.util.Exceptions;
+import org.openide.util.ImageUtilities;
+import org.openide.util.RequestProcessor;
 import org.openide.windows.WindowManager;
 
 public class Installer extends ModuleInstall {
     
     private static final Logger LOG = Logger.getLogger(Installer.class.getName());
     private static Connection conn = null;
-    
-    // 自动更新检查时间间隔设置为"Never"
-    // @see org.netbeans.modules.autoupdate.ui.actions.AutoupdateSettings
-    static {
-	if(AutoupdateSettings.getPeriod() != AutoupdateSettings.NEVER) {
-	    AutoupdateSettings.setPeriod(AutoupdateSettings.NEVER);
-	}
-    }
     
     // crack jxbrowser
     static {
@@ -125,6 +124,40 @@ public class Installer extends ModuleInstall {
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
 		    Exceptions.printStackTrace(ex);
 		}
+		
+		// 启动检查更新
+		RequestProcessor.getDefault().post(new Runnable(){
+		    @Override
+		    public void run() {
+			int count = 0;
+			for (UpdateUnitProvider provider : UpdateUnitProviderFactory.getDefault().getUpdateUnitProviders(false)) {
+			    try {
+				if (StringUtils.equals(UC_NAME, provider.getName())) {
+				    provider.refresh(null, true);
+
+				    for (UpdateUnit u : provider.getUpdateUnits()) {
+					if(!u.getAvailableUpdates().isEmpty()) {
+					    count++;
+					}
+				    }
+				}
+			    } catch (IOException ex) {
+				LOG.severe(ex.getMessage());
+			    }
+			}
+
+			if(count > 0) {
+			    // 提示用户检查更新
+			    NotificationDisplayer.getDefault().notify(
+				    "发现" + count + "个更新",
+				    ImageUtilities.loadImageIcon("resource/gourd16.png", false),
+				    "单击此处可将您的应用程序更新为最新",
+				    new com.acuilab.bc.main.action.CheckForUpdatesAction()
+			    );
+			}
+		    }
+
+		}, 1*1000);	// 延迟5秒执行，避免
             }
         });
     }

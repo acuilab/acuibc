@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -22,7 +21,6 @@ import javax.swing.SwingWorker;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import org.apache.commons.lang3.StringUtils;
-import org.javatuples.Pair;
 import org.netbeans.api.autoupdate.InstallSupport;
 import org.netbeans.api.autoupdate.OperationContainer;
 import org.netbeans.api.autoupdate.OperationException;
@@ -32,7 +30,6 @@ import org.netbeans.api.autoupdate.UpdateUnit;
 import org.netbeans.api.autoupdate.UpdateUnitProvider;
 import org.netbeans.api.autoupdate.UpdateUnitProviderFactory;
 import org.netbeans.api.progress.ProgressHandle;
-import org.netbeans.modules.autoupdate.ui.api.PluginManager;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
@@ -44,7 +41,7 @@ import org.openide.util.ImageUtilities;
 public class CheckForUpdatesDialog extends javax.swing.JDialog {
     
     private static final Logger LOG = Logger.getLogger(CheckForUpdatesDialog.class.getName());
-    private static final String UC_NAME = "com_acuilab_bc_main_update_center";
+    public static final String UC_NAME = "com_acuilab_bc_main_update_center";
     
     private final Icon flagIcon = ImageUtilities.loadImageIcon("/resource/flag16.png", false);
     

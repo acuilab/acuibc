@@ -25,26 +25,33 @@ interface ICRCN {
 contract FCExchange {
     using SafeMath for uint256;
 
+    // 用户信息
     struct UserInfo {
+        // 当前质押fc数量
         uint256 amount; // current deposited fc amount
         uint256 profitDebt; // withdrawn cfx amount
+        // 累积质押fc数量
         uint256 accumulateAmount; // accumulative deposited fc amount
+        // 是否获得nft
         bool nftGranted; // has granted NFT token or not
+        // 获得的nft代币id
         uint256 grantedTokenId; // granted NFT token id
         uint256 accProfit; // accumulative profit
     }
 
+    // 地址和用户信息的映射
     mapping(address => UserInfo) public userInfos;
 
     // staking
-    uint256 public lastStakingAmount;
-    uint256 public lastStakingBlockNumber;
+    // 质押
+    uint256 public lastStakingAmount;       // 上一次质押数量
+    uint256 public lastStakingBlockNumber;  // 上一次质押区块号
     // fc supply
-    uint256 public fcSupply;
+    uint256 public fcSupply;                // fc供应
     // accumulative cfx for each fc
-    uint256 public accCfxPerFc;
+    uint256 public accCfxPerFc;             // 每个fc累积的cfx
     // initialized
-    bool public initialized;
+    bool public initialized;                // 是否初始化
 
     address public fcAddr;
     ICRCN public nft;
@@ -57,6 +64,7 @@ contract FCExchange {
     );
 
     // internal contracts
+    // 内置合约：赞助白名单、质押、管理控制
     SponsorWhitelistControl public constant SPONSOR = SponsorWhitelistControl(
         address(0x0888000000000000000000000000000000000001)
     );
@@ -69,6 +77,7 @@ contract FCExchange {
         address(0x0888000000000000000000000000000000000000)
     );
 
+    // 质押事件
     event Deposit(address indexed user, uint256 indexed amount, uint256 profit);
     event Profit(
         uint256 indexed lastBlockNumber,
@@ -77,6 +86,7 @@ contract FCExchange {
     );
     event Withdraw(address indexed user, uint256 amount, uint256 profit);
     event InstantExchange(address indexed user, uint256 amount);
+    // nft获得事件
     event NftGranted(address indexed userAddr, uint256 indexed tokenId);
 
     modifier onlyInitialized() {
@@ -84,6 +94,7 @@ contract FCExchange {
         _;
     }
 
+    // 构造函数
     constructor(address _fcAddr, address _nftAddr) public {
         fcAddr = _fcAddr;
         nft = ICRCN(_nftAddr);
@@ -100,11 +111,13 @@ contract FCExchange {
         );
 
         // register all users as sponsees
+        // 注册所有的用户为被赞助者
         address[] memory users = new address[](1);
         users[0] = address(0);
         SPONSOR.addPrivilege(users);
 
         // remove contract admin
+        // 移除合约管理员
         adminControl.setAdmin(address(this), address(0));
         require(
             adminControl.getAdmin(address(this)) == address(0),
@@ -113,6 +126,7 @@ contract FCExchange {
     }
 
     // receive 2100w cfx and stake it to internal contract
+    // 接收2100w个cfx并质押进内部合约
     function initialize() public payable {
         require(
             nft.isOwner(),
@@ -150,6 +164,7 @@ contract FCExchange {
     }
 
     // stake all cfx in internal contract
+    // 在内部合约里质押所有的cfx
     function _stake() internal {
         if (address(this).balance > 0) {
             lastStakingAmount = address(this).balance;

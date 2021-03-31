@@ -13,15 +13,15 @@ public interface IFCExchange {
     class UserInfo {
         // 当前质押的fc数量
         private BigInteger amount;
-        // 提取的cfx金额
+        // 提取的cfx数量
         private BigInteger profitDebt;
-        // 累积质押的fc数量
+        // 累积质押的fc数量*
         private BigInteger accumulateAmount;
         // 是否获得nft
         private boolean nftGranted;
         // 获得的nft token id
         private BigInteger grantedTokenId;
-        // 累积的收益
+        // 累计提取的CFX数量*
         private BigInteger accProfit;
     }
 }

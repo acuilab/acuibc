@@ -242,36 +242,43 @@ public class CheckForUpdatesDialog extends javax.swing.JDialog {
 	    // 新增模块
 	    System.out.println("新增模块");
 	    OperationContainer<InstallSupport> container = addToContainer(OperationContainer.createForInstall(), install);
-	    InstallSupport support = container.getSupport();
-	    OperationSupport.Restarter restarter = null;
-	    if (support != null) {
-		InstallSupport.Validator vali = support.doDownload(ph, true, true);
-		InstallSupport.Installer inst = support.doValidate(vali, ph);
-		restarter = support.doInstall(inst, ph);
-		if (restarter != null) {
-		    support.doRestartLater(restarter);
+	    InstallSupport support1 = container.getSupport();
+	    OperationSupport.Restarter restarter1 = null;
+	    if (support1 != null) {
+		InstallSupport.Validator vali = support1.doDownload(ph, true, true);
+		InstallSupport.Installer inst = support1.doValidate(vali, ph);
+		restarter1 = support1.doInstall(inst, ph);
+		if (restarter1 != null) {
+		    support1.doRestartLater(restarter1);
 		}
 	    }
 	    
 	    System.out.println("更新模块");
 	    container = addToContainer(OperationContainer.createForUpdate(), update);
-	    support = container.getSupport();
-	    if (support != null) {
-		InstallSupport.Validator vali = support.doDownload(ph, true, true);
-		InstallSupport.Installer inst = support.doValidate(vali, ph);
-		restarter = support.doInstall(inst, ph);
-		if (restarter != null) {
-		    support.doRestartLater(restarter);
+	    InstallSupport support2 = container.getSupport();
+            OperationSupport.Restarter restarter2 = null;
+	    if (support2 != null) {
+		InstallSupport.Validator vali = support2.doDownload(ph, true, true);
+		InstallSupport.Installer inst = support2.doValidate(vali, ph);
+		restarter2 = support2.doInstall(inst, ph);
+		if (restarter2 != null) {
+		    support2.doRestartLater(restarter2);
 		}
 	    }
 	    
-	    NotificationDisplayer.getDefault().notify(
-		    "该应用程序已更新",
-		    ImageUtilities.loadImageIcon("resource/gourd16.png", false),
-		    "点击此处重新启动",
-		    new RestartAction(support, restarter, ph)
-	    );
-
+            if(support1 != null && restarter1 != null) {
+                NotificationDisplayer.getDefault().notify("该应用程序已更新",
+                        ImageUtilities.loadImageIcon("resource/gourd16.png", false),
+                        "点击此处重新启动",
+                        new RestartAction(support1, restarter1, ph)
+                );
+            } else if(support2 != null && restarter2 != null) {
+                NotificationDisplayer.getDefault().notify("该应用程序已更新",
+                        ImageUtilities.loadImageIcon("resource/gourd16.png", false),
+                        "点击此处重新启动",
+                        new RestartAction(support2, restarter2, ph)
+                );
+            }
 	} catch (OperationException ex) {
 	    Exceptions.printStackTrace(ex);
 	}

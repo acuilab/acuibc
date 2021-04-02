@@ -74,6 +74,7 @@ public class MoonGenesisNFT extends AbstractNFT {
         String value = contract.call("uri", new org.web3j.abi.datatypes.Uint(tokenId)).sendAndGet();
         String json = DecodeUtil.decode(value, org.web3j.abi.datatypes.Utf8String.class);
         
+        System.out.println(json);
 //	{
 //	"token_id": "72",
 //	"image": "https:\/\/cdn.img.imakejoy.com\/genesis\/genesis\/0072-0_0_2.png",

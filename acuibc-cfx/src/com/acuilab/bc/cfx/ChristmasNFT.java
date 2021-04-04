@@ -88,33 +88,16 @@ public class ChristmasNFT extends AbstractNFT {
 	ObjectMapper mapper = new ObjectMapper();
 	Map<String, String> map = mapper.readValue(StringUtils.substringAfter(json, id), Map.class);
         
-       
-        
 	
 	String symbol = map.get("nftSymbol");
-        switch(symbol) {
-	    case "MH":
-                md.setName("Cotton NFT");
-		md.setDesc("【中本聪棉花】是由加密艺术家@XIN主创的作品，包含了神秘的比特币创始人中本聪，烤仔的宠物烤喵，顶级POW公链Conflux和它的两种链上通证FC、CFX，新疆长绒棉等一系列元素，由全世界最好的、最顶级的素材构成了整副NFT，含蓄地表达了去中心化世界的民族自信和爱国主义思潮。\n" +
-"      本次公益活动，Tspace共铸造200个 【中本聪棉花】NFT，统一售价为20   wCFX（注：wCFX为CFX在Tspace平台映射的代币形式），且永不增发。值得小伙伴们注意的是，为了将加密朋克的爱国主义进行到底，凡是购买该款NFT的用户，都将获得一件同样款式的纪念T恤。\n" +
-"       与此同时，Tspace 将会参与由 CottonDAO 发起的 \"行为艺术即空投\" 的活动，为所有参与这个主题创造的艺术家和参与购买爱国主义NFT的用户申请 Cotton 代币空投奖励，可在日后共同参与治理 Cotton DAO 社区。\n" +
-"       最后，作为这款爱国主义NFT的主创，加密艺术家@XIN宣布此次公益活动的盈利所得将全部捐赠给慈善事业。");
-                md.setImage(ImageUtilities.loadImage("/resource/Cotton178.png", true));
-                md.setId("" + (NumberUtils.toInt(id)-799));
-		break;
-	    case "KG":
-                md.setName("Miner NFT");
-		md.setDesc("Conflux创世挖矿4300名矿工纪念NFT。Conflux基金会与Tspace真情合作，为所有参与测试网络挖矿的矿工铸造了专属NFT证书，来纪念他们的卓越贡献。他们的价值如同钻石，历经岁月的窖藏与打磨，方显闪耀璀璨，得万人追捧，一颗恒久远。");
-                
-                md.setImage(ImageUtilities.loadImage("/resource/Miner178.png", true));
-		break;
-	    
-	    default:
-                md.setName("Christmas NFT");
-		md.setDesc("烤仔社区圣诞节活动发的NFT。");
-                Image image = ImageUtilities.loadImage("/resource/ChristmasNFT178.png", true);
-                md.setImage(image);
-	}
+       
+        md.setName("烤仔圣诞NFT");
+        md.setDesc("烤仔社区圣诞节活动发的NFT。");
+        Image image = ImageUtilities.loadImage("/resource/ChristmasNFT178.png", true);
+        md.setImage(image);
+        
+        md.setId("" + (NumberUtils.toInt(id)-476));
+	
 	//md.setImageUrl("http://cdn.tspace.online/Cotton/cotton.png");
 	//String title = map.get("title");
 	//md.setImageUrl("http://cdn.tspace.online/image/finish/" + map.get("url"));
@@ -128,7 +111,7 @@ public class ChristmasNFT extends AbstractNFT {
         BigInteger[] ids = super.tokensOf(address); //To change body of generated methods, choose Tools | Templates.
         List<BigInteger> list = Lists.newArrayList();
         for(BigInteger id : ids) {
-            if(id.compareTo(BigInteger.valueOf(799)) > 0 && id.compareTo(BigInteger.valueOf(999)) <= 0) {
+            if(id.compareTo(BigInteger.valueOf(476)) > 0 && id.compareTo(BigInteger.valueOf(954)) <= 0) {
                 list.add(id);
             }
         }

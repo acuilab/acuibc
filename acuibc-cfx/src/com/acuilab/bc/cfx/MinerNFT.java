@@ -86,11 +86,11 @@ public class MinerNFT extends AbstractNFT {
 	md.setId(id);
 	
 	ObjectMapper mapper = new ObjectMapper();
-	Map<String, String> map = mapper.readValue(StringUtils.substringAfter(json, id), Map.class);
+	Map<String, Object> map = mapper.readValue(StringUtils.substringAfter(json, id), Map.class);
         
-	String symbol = map.get("nftSymbol");
-        String number = map.get("number");
-        String type = map.get("type");
+	String symbol = "" + map.get("nftSymbol");
+        String number = "" + map.get("number");
+        String type = "" + map.get("type");
        
         md.setId(number);
         md.setName("Miner NFT");

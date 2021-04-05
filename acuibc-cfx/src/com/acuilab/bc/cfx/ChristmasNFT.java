@@ -83,7 +83,7 @@ public class ChristmasNFT extends AbstractNFT {
 	md.setPlatform("Tspace");
 	
 	String id = tokenId.toString();
-	//md.setId(id);
+	md.setId(id);
 	
 	ObjectMapper mapper = new ObjectMapper();
 	Map<String, String> map = mapper.readValue(StringUtils.substringAfter(json, id), Map.class);
@@ -97,7 +97,7 @@ public class ChristmasNFT extends AbstractNFT {
         md.setImage(image);
         
         //圣诞nft的id等于tokenid减去476
-        md.setId("" + (NumberUtils.toInt(id)-476));
+        md.setNumber("" + (NumberUtils.toInt(id)-476));
 	
 	//md.setImageUrl("http://cdn.tspace.online/Cotton/cotton.png");
 	//String title = map.get("title");

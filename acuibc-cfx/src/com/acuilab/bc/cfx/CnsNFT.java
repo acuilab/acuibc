@@ -88,6 +88,7 @@ public class CnsNFT extends AbstractNFT {
 
         String id = tokenId.toString();
         md.setId(id);
+        md.setNumber(id);
 
         return md;
     }

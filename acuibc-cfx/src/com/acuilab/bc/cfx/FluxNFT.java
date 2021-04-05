@@ -79,6 +79,7 @@ public class FluxNFT extends AbstractNFT {
 
         String id = tokenId.toString();
 	md.setId(id);
+        md.setNumber(id);
         md.setImageUrl(json);
         // TODO: 设置名称、描述和平台
         

@@ -97,7 +97,7 @@ public class CottonNFT extends AbstractNFT {
 	md.setPlatform("Tspace");
 	
 	String id = tokenId.toString();
-	//md.setId(id);
+	md.setId(id);
 	
 	ObjectMapper mapper = new ObjectMapper();
 	Map<String, String> map = mapper.readValue(StringUtils.substringAfter(json, id), Map.class);
@@ -113,9 +113,9 @@ public class CottonNFT extends AbstractNFT {
                 
         //棉花NFT的tokenid和棉花编号对应关系略特殊，155-200号是tokenid955至999，1-154号是1001至1054.
         if(NumberUtils.toInt(id)<1000){
-            md.setId("" + (NumberUtils.toInt(id)-955+156));
+            md.setNumber("" + (NumberUtils.toInt(id)-955+156));
         }else{
-            md.setId("" + (NumberUtils.toInt(id)-1000+1));
+            md.setNumber("" + (NumberUtils.toInt(id)-1000+1));
         }
 	
 	

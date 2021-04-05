@@ -83,7 +83,7 @@ public class MinerNFT extends AbstractNFT {
 	md.setPlatform("Tspace");
 	
 	String id = tokenId.toString();
-	//md.setId(id);
+	md.setId(id);
 	
 	ObjectMapper mapper = new ObjectMapper();
 	Map<String, Object> map = mapper.readValue(StringUtils.substringAfter(json, id), Map.class);
@@ -93,11 +93,12 @@ public class MinerNFT extends AbstractNFT {
         String number = "" + map.get("number");
         String type = "" + map.get("type");
 
-       
+        
         //md.setId(number);
         //矿工的id是tokenid减去1154，或者直接用uri里的number参数。
         //md.setId("" + (NumberUtils.toInt(id)-1154));
-        md.setId(number);
+        md.setNumber(number);
+        
                 
         //md.setName("Miner NFT");
 	//md.setDesc("Conflux创世挖矿4300名矿工纪念NFT。Conflux基金会与Tspace真情合作，为所有参与测试网络挖矿的矿工铸造了专属NFT证书，来纪念他们的卓越贡献。他们的价值如同钻石，历经岁月的窖藏与打磨，方显闪耀璀璨，得万人追捧，一颗恒久远。");

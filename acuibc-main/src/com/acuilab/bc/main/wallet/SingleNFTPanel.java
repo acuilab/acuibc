@@ -64,9 +64,10 @@ public class SingleNFTPanel extends JXPanel {
 	this.metaData = metaData;
         
         String id = metaData.getId();
+        String number = metaData.getNumber();
         
-        idLbl.setText("编号：" + id);
-        idLbl.setToolTipText(id);
+        idLbl.setText("编号：" + number);
+        idLbl.setToolTipText(number);
         
         nameLbl.setText("名称：" + metaData.getName());
         platformLbl.setText("平台：" + metaData.getPlatform());

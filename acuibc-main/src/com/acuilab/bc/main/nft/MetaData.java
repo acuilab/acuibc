@@ -13,6 +13,15 @@ public class MetaData {
     private String imageUrl;
     private String desc;
     private Image image;
+    private String number;
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
     public Image getImage() {
 	return image;

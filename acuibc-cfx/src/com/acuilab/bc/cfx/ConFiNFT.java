@@ -80,6 +80,7 @@ public class ConFiNFT extends AbstractNFT {
 	
 	String id = tokenId.toString();
 	md.setId(id);
+        md.setNumber(id);
 	
 	ObjectMapper mapper = new ObjectMapper();
 	Map<String, String> map = mapper.readValue(StringUtils.substringAfter(json, id), Map.class);

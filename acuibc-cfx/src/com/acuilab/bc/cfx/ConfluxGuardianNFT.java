@@ -76,6 +76,7 @@ public class ConfluxGuardianNFT extends AbstractNFT {
         
 	String id = tokenId.toString();
 	md.setId(id);
+        md.setNumber(id);
 	md.setImageUrl("https://cdn.img.imakejoy.com/guardian/nft.png");
         md.setDesc("累计质押满1000FC的用户将获得一个NFT作为纪念徽章。");
         md.setName("守护者徽章");

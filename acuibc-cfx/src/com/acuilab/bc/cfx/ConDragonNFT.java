@@ -88,6 +88,7 @@ public class ConDragonNFT extends AbstractNFT {
 
         String id = tokenId.toString();
 	md.setId(id);
+        md.setNumber(id);
 	
 	ObjectMapper mapper = new ObjectMapper();
         Map<String, String> map = mapper.readValue(new URL(json), Map.class);

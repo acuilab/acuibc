@@ -5,11 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.9.17] - 2021-04-05
 ### Added
 - 支持圣诞NFT
 - 支持矿工NFT
 - 支持棉花NFT
+- 增加MetaData的Number属性，与id分开。用于tokenid和id不同的情况。同时在所有已有NFT代码里，都把tokenid和number分开为两个参数。
 
 ## [0.9.16] - 2021-04-01
 ### Added

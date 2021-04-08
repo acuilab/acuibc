@@ -1,43 +1,54 @@
 package com.acuilab.bc.main.dappbrowser;
 
-import java.math.BigInteger;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
  * @author admin
  */
 public class OpenJoyBridge {
+    
+    private boolean isConnected = true;
+    
+    /**
+     * 返回账户地址
+     * @param type
+     * @return 
+     */
     @com.teamdev.jxbrowser.chromium.JSAccessible
-    @JSAccessible
     public String getChainAddress(String type) {
-	System.out.println("getChainAddress =========================== " + str);
-	return type;
+	return "cfx:aaptdrxyfay01takr315e43uws4cy3h4m63vawh5je";
     }
     
     @com.teamdev.jxbrowser.chromium.JSAccessible
     public String getChainId(String type) {
-	System.out.println("getChainId =========================== " + str);
-	return type;
+	return "1029";
     }
     
     @com.teamdev.jxbrowser.chromium.JSAccessible
     public String getChainRpcUrl(String type) {
-	System.out.println("getChainRpcUrl =========================== " + str);
-	return type;
+	return "https://mainnet-rpc.conflux-chain.org.cn/v2";
     }
     
     @com.teamdev.jxbrowser.chromium.JSAccessible
     public String postMessage(String paramStr) {
-	System.out.println("paramStr =========================== " + paramStr);
+        
 	String result = "";
 	
-	
+	if(StringUtils.isNotBlank(paramStr)) {
+            if(StringUtils.startsWith(paramStr, "conflux")) {
+                // 调用Conflux接口处理类处理
+                String jsonStr = StringUtils.substring(paramStr, 8);
+                
+                System.out.println("");
+                
+//                system.out.println(json.tojsonstring());
+//                
+//                result = new confluxsdk(context, laywebview).deal(json);
+            }
+        }
 	return result;
-    }
-    
-    @com.teamdev.jxbrowser.chromium.JSAccessible
-    public String alert(String firstName) {
-	System.out.println("OpenJoyBridge.alert() ========================== " + firstName);
-	return "Hello " + firstName + "!";
     }
 }

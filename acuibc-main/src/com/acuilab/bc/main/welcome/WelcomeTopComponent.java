@@ -1,5 +1,6 @@
 package com.acuilab.bc.main.welcome;
 
+import com.acuilab.bc.main.JxBrowserDisposer;
 import com.google.common.io.Files;
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.BrowserContext;
@@ -13,6 +14,7 @@ import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
+import org.openide.util.lookup.ServiceProvider;
 
 /**
  * Top component which displays something.
@@ -38,7 +40,8 @@ import org.openide.util.NbBundle.Messages;
     "CTL_WelcomeTopComponent=欢迎",
     "HINT_WelcomeTopComponent=欢迎"
 })
-public final class WelcomeTopComponent extends TopComponent {
+@ServiceProvider(service=JxBrowserDisposer.class)
+public final class WelcomeTopComponent extends TopComponent implements JxBrowserDisposer {
     private static final Logger LOG = Logger.getLogger(WelcomeTopComponent.class.getName());
     private final Browser browser;
     private final BrowserView view;

@@ -8,7 +8,6 @@ import static com.acuilab.bc.main.ui.CheckForUpdatesDialog.UC_NAME;
 import com.acuilab.bc.main.ui.ConfirmDialog;
 import com.acuilab.bc.main.util.Constants;
 import com.acuilab.bc.main.util.Utils;
-import com.acuilab.bc.main.welcome.WelcomeTopComponent;
 import com.teamdev.jxbrowser.chromium.BrowserCore;
 import com.teamdev.jxbrowser.chromium.be;
 import com.teamdev.jxbrowser.chromium.internal.Environment;
@@ -36,6 +35,7 @@ import org.openide.awt.NotificationDisplayer;
 import org.openide.modules.ModuleInstall;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
+import org.openide.util.Lookup;
 import org.openide.util.RequestProcessor;
 import org.openide.windows.WindowManager;
 
@@ -218,10 +218,13 @@ public class Installer extends ModuleInstall {
         BlockChainManager.getDefault().close();
         
         // jxBrowser dispose
-        WelcomeTopComponent welcomeTC = (WelcomeTopComponent)WindowManager.getDefault().findTopComponent("WelcomeTopComponent");
-        if(welcomeTC != null) {
-            welcomeTC.disposeBrowser();
-        }
+	for (JxBrowserDisposer disposer : Lookup.getDefault().lookupAll(JxBrowserDisposer.class)) {
+	    disposer.disposeBrowser();
+	}
+//        WelcomeTopComponent welcomeTC = (WelcomeTopComponent)WindowManager.getDefault().findTopComponent("WelcomeTopComponent");
+//        if(welcomeTC != null) {
+//            welcomeTC.disposeBrowser();
+//        }
         
         if(Environment.isMac()) {
             LOG.log(Level.INFO, "BrowserCore.shutdown thread name: {0}", Thread.currentThread().getName());

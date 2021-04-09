@@ -73,12 +73,11 @@ public final class DAppBrowserTopComponent extends TopComponent implements JxBro
 		    System.out.println("Main frame has finished loading");
                     JSValue window = browser.executeJavaScriptAndReturnValue("window");
                     // 给jswindows对象添加一个扩展的属性
-                    OpenJoyBridge openJoyBridge = new OpenJoyBridge();
+                    OpenJoyBridge openJoyBridge = new OpenJoyBridge(DAppBrowserTopComponent.this);
                     window.asObject().setProperty("openJoyBridge", openJoyBridge);
 		    
 		    // 执行conflux.js
 		    browser.executeJavaScript(confluxJs);
-//		    browser.executeJavaScript("openJoyBridge.alert('111');");
                 }
             }
         });
@@ -132,6 +131,10 @@ public final class DAppBrowserTopComponent extends TopComponent implements JxBro
     void readProperties(java.util.Properties p) {
         String version = p.getProperty("version");
         // TODO read your settings according to their version
+    }
+    
+    public void executeJavaScript(String js) {
+        browser.executeJavaScript(js);
     }
     
     @Override

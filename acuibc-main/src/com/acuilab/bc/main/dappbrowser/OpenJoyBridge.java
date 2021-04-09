@@ -1,7 +1,5 @@
 package com.acuilab.bc.main.dappbrowser;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -10,7 +8,13 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class OpenJoyBridge {
     
-    private boolean isConnected = true;
+    private DAppBrowserTopComponent tc;
+    private boolean isConnected;
+
+    public OpenJoyBridge(DAppBrowserTopComponent tc) {
+        this.tc = tc;
+        this.isConnected = false;
+    }
     
     /**
      * 返回账户地址
@@ -19,7 +23,7 @@ public class OpenJoyBridge {
      */
     @com.teamdev.jxbrowser.chromium.JSAccessible
     public String getChainAddress(String type) {
-	return "cfx:aaptdrxyfay01takr315e43uws4cy3h4m63vawh5je";
+	return "cfx:aapvvj1gt07k5d8vs18w2z1ymhkenfw2k2smvbz674";
     }
     
     @com.teamdev.jxbrowser.chromium.JSAccessible
@@ -42,11 +46,21 @@ public class OpenJoyBridge {
                 // 调用Conflux接口处理类处理
                 String jsonStr = StringUtils.substring(paramStr, 8);
                 
-                System.out.println("");
+                System.out.println("jsonStr=================" + jsonStr);
                 
 //                system.out.println(json.tojsonstring());
 //                
 //                result = new confluxsdk(context, laywebview).deal(json);
+
+                String resolver = StringUtils.substringBetween(jsonStr, "\"resolver\":", "}");
+                System.out.println("resolver=" + resolver);
+                
+                String res = "{\"jsonrpc\": \"2.0\",\"id\": " + resolver + ", \"result\":\"cfx:aapvvj1gt07k5d8vs18w2z1ymhkenfw2k2smvbz674\"}";
+                
+
+                String jsStr = "conflux.callbacks.get("+ resolver +")(null, "+ res +");";
+
+                tc.executeJavaScript(jsStr);
             }
         }
 	return result;

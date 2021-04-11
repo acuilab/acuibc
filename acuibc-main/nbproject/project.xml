@@ -227,6 +227,7 @@
             </module-dependencies>
             <public-packages>
                 <package>com.acuilab.bc.main</package>
+                <package>com.acuilab.bc.main.cfx</package>
                 <package>com.acuilab.bc.main.coin</package>
                 <package>com.acuilab.bc.main.dapp</package>
                 <package>com.acuilab.bc.main.nft</package>

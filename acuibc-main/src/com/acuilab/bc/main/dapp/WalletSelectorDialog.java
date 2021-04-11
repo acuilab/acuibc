@@ -2,6 +2,7 @@ package com.acuilab.bc.main.dapp;
 
 import com.acuilab.bc.main.dao.WalletDAO;
 import com.acuilab.bc.main.ui.MyFindBar;
+import com.acuilab.bc.main.util.Constants;
 import com.acuilab.bc.main.wallet.AddressTableModel;
 import com.acuilab.bc.main.wallet.TransferRecordTableModel;
 import com.acuilab.bc.main.wallet.Wallet;
@@ -37,7 +38,6 @@ import org.springframework.util.DigestUtils;
  */
 public class WalletSelectorDialog extends javax.swing.JDialog {
     
-    private IDApp dapp;
     private WalletTableModel tableModel;
     
     private String password;
@@ -55,11 +55,9 @@ public class WalletSelectorDialog extends javax.swing.JDialog {
     /**
      * Creates new form WalletSelectorDialog
      */
-    public WalletSelectorDialog(java.awt.Frame parent, IDApp dapp) {
+    public WalletSelectorDialog(java.awt.Frame parent) {
 	super(parent, true);
 	initComponents();
-	
-	this.dapp = dapp;
 	
 	myInit();
 	
@@ -129,7 +127,7 @@ public class WalletSelectorDialog extends javax.swing.JDialog {
         
         
         try {
-            tableModel.add(WalletDAO.getListByBlockChainSymbol(dapp.getBlockChainSymbol()));
+            tableModel.add(WalletDAO.getListByBlockChainSymbol(Constants.CFX_BLOCKCHAIN_SYMBAL));
 	    
 	    // TODO: 自动选择上一次使用的钱包
 	    

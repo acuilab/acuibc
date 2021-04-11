@@ -1,6 +1,6 @@
 package com.acuilab.bc.main.action;
 
-import com.acuilab.bc.main.dappbrowser.DAppBrowserTopComponent;
+import com.acuilab.bc.main.cfx.dapp.browser.CfxBrowserDAppTopComponent;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
@@ -17,7 +17,7 @@ public class TestAction extends AbstractAction {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        DAppBrowserTopComponent tc = new DAppBrowserTopComponent();
+        CfxBrowserDAppTopComponent tc = new CfxBrowserDAppTopComponent();
         tc.open();
         tc.requestActive();
     }

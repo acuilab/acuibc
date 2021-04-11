@@ -31,6 +31,7 @@ public class DAppManager {
         map = Maps.newLinkedHashMap();
         Collection<? extends IDApp> list = Lookup.getDefault().lookupAll(IDApp.class);
         for (IDApp dapp : list) {
+            System.out.println("dapp.getId()===========================" + dapp.getId());
             dapp.init();
             map.put(dapp.getId(), dapp);
         }

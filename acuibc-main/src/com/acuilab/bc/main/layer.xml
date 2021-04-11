@@ -78,9 +78,9 @@
             <file name="com.acuilab.bc.main.action.InternalDAppListTopComponentAction.instance">
                 <attr intvalue="20" name="position"/>
             </file>
-            <file name="com.acuilab.bc.main.action.TestAction.instance">
+<!--            <file name="com.acuilab.bc.main.action.TestAction.instance">
                 <attr intvalue="30" name="position"/>
-            </file>
+            </file>-->
             <file name="Separator1.instance">
 	        <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
 	        <attr name="position" intvalue="80"/>

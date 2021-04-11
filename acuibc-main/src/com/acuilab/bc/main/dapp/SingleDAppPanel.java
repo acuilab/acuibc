@@ -108,7 +108,7 @@ public class SingleDAppPanel extends JXPanel {
     private void launchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_launchBtnActionPerformed
 
 	// 选择钱包，输入密码，获得私钥
-        WalletSelectorDialog dlg = new WalletSelectorDialog(null, dapp);
+        WalletSelectorDialog dlg = new WalletSelectorDialog(null);
         dlg.setVisible(true);
         if(dlg.getReturnStatus() == WalletSelectorDialog.RET_OK) {
 	    Wallet wallet = dlg.getSelectedWallet();

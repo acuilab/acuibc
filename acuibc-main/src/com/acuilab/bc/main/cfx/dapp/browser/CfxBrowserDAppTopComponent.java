@@ -1,4 +1,4 @@
-package com.acuilab.bc.main.dappbrowser;
+package com.acuilab.bc.main.cfx.dapp.browser;
 
 import com.acuilab.bc.main.JxBrowserDisposer;
 import com.acuilab.bc.main.wallet.WalletTopComponent;
@@ -10,12 +10,18 @@ import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.BrowserContext;
 import com.teamdev.jxbrowser.chromium.BrowserContextParams;
 import com.teamdev.jxbrowser.chromium.BrowserType;
+import com.teamdev.jxbrowser.chromium.Cookie;
+import com.teamdev.jxbrowser.chromium.CookieStorage;
 import com.teamdev.jxbrowser.chromium.JSValue;
+import com.teamdev.jxbrowser.chromium.PopupContainer;
+import com.teamdev.jxbrowser.chromium.PopupHandler;
+import com.teamdev.jxbrowser.chromium.PopupParams;
 import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
 import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 import java.awt.BorderLayout;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Logger;
 import org.apache.commons.io.IOUtils;
 import org.openide.util.Exceptions;
@@ -26,14 +32,14 @@ import org.openide.util.lookup.ServiceProvider;
  * Top component which displays something.
  */
 @TopComponent.Description(
-        preferredID = "WalletTopComponent",
+        preferredID = "CfxBrowserDAppTopComponent",
         //iconBase="SET/PATH/TO/ICON/HERE",
         persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
 @ServiceProvider(service=JxBrowserDisposer.class)
-public final class DAppBrowserTopComponent extends TopComponent implements JxBrowserDisposer {
-    private static final Logger LOG = Logger.getLogger(DAppBrowserTopComponent.class.getName());
+public final class CfxBrowserDAppTopComponent extends TopComponent implements JxBrowserDisposer {
+    private static final Logger LOG = Logger.getLogger(CfxBrowserDAppTopComponent.class.getName());
     private final Browser browser;
     private final BrowserView view;
     
@@ -44,16 +50,14 @@ public final class DAppBrowserTopComponent extends TopComponent implements JxBro
     private static String confluxJs;
     static {
 	try {
-	    confluxJs = IOUtils.toString(DAppBrowserTopComponent.class.getResourceAsStream("/resource/dapp/conflux.js"), Charsets.UTF_8);
+	    confluxJs = IOUtils.toString(CfxBrowserDAppTopComponent.class.getResourceAsStream("/resource/dapp/conflux.js"), Charsets.UTF_8);
 	} catch (IOException ex) {
 	    Exceptions.printStackTrace(ex);
 	}
     }
 
-    public DAppBrowserTopComponent() {
+    public CfxBrowserDAppTopComponent() {
         initComponents();
-        setName("DAppBrowser测试");
-        setToolTipText("DAppBrowser测试");
 //        BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
 //        this.setIcon(bc.getIconImage(16));
         putClientProperty(TopComponent.PROP_CLOSING_DISABLED, Boolean.FALSE);
@@ -62,8 +66,10 @@ public final class DAppBrowserTopComponent extends TopComponent implements JxBro
         putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.FALSE);
 
 	// http://acuilab.com:8080/articles/2021/02/09/1612840191556.html
-	// 解决JxBrowser中BrowserView控件覆盖其他控件的办法 
-	browser = new Browser(BrowserType.LIGHTWEIGHT, new BrowserContext(new BrowserContextParams(Files.createTempDir().getAbsolutePath())));
+	// 解决JxBrowser中BrowserView控件覆盖其他控件的办法
+        String dataDir = Files.createTempDir().getAbsolutePath();
+        System.out.println("dataDir ========================== " + dataDir);
+	browser = new Browser(BrowserType.LIGHTWEIGHT, new BrowserContext(new BrowserContextParams(dataDir)));
 	view = new BrowserView(browser);
 	this.add(view, BorderLayout.CENTER);
         browser.addLoadListener(new LoadAdapter() {
@@ -73,7 +79,7 @@ public final class DAppBrowserTopComponent extends TopComponent implements JxBro
 		    System.out.println("Main frame has finished loading");
                     JSValue window = browser.executeJavaScriptAndReturnValue("window");
                     // 给jswindows对象添加一个扩展的属性
-                    OpenJoyBridge openJoyBridge = new OpenJoyBridge(DAppBrowserTopComponent.this);
+                    OpenJoyBridge openJoyBridge = new OpenJoyBridge(CfxBrowserDAppTopComponent.this);
                     window.asObject().setProperty("openJoyBridge", openJoyBridge);
 		    
 		    // 执行conflux.js
@@ -81,13 +87,32 @@ public final class DAppBrowserTopComponent extends TopComponent implements JxBro
                 }
             }
         });
-	
-	browser.loadURL("https://flux.01.finance/");
-//	browser.loadURL("file:///C:/Users/admin/Desktop/new%2031.html");
+        // 强制不弹出窗口
+        browser.setPopupHandler(new PopupHandler() {
+            @Override
+            public PopupContainer handlePopup(PopupParams pp) {
+                browser.loadURL(pp.getURL());
+                return null;
+            }
+            
+        });
+        
+        //清除cache
+        browser.getCacheStorage().clearCache();
+        browser.getLocalWebStorage().clear();
+        browser.getSessionWebStorage().clear();
+        //清除cookie
+        CookieStorage cookieStorage = browser.getCookieStorage();
+        cookieStorage.deleteAll();
+        cookieStorage.save();
 	
         // 这是一个新打开的窗口，生成新的窗口id并保存
         int id = ID.incrementAndGet();
         PREFERRED_ID = NbBundle.getMessage(WalletTopComponent.class, "ID_WalletTopComponent", Integer.toString(id));
+    }
+    
+    public void loadUrl(String url) {
+        browser.loadURL(url);
     }
     
     /**

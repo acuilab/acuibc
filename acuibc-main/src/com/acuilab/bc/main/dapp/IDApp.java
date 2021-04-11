@@ -21,7 +21,7 @@ public interface IDApp {
      * @return 
      */
     default String getId() {
-	return this.getClass().getPackage().getName();
+	return this.getClass().getName();
     }
     
     /**

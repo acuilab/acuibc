@@ -9,6 +9,7 @@ import com.acuilab.bc.main.ui.ConfirmDialog;
 import com.acuilab.bc.main.util.Constants;
 import com.acuilab.bc.main.util.Utils;
 import com.teamdev.jxbrowser.chromium.BrowserCore;
+import com.teamdev.jxbrowser.chromium.BrowserPreferences;
 import com.teamdev.jxbrowser.chromium.be;
 import com.teamdev.jxbrowser.chromium.internal.Environment;
 import java.io.File;
@@ -75,6 +76,8 @@ public class Installer extends ModuleInstall {
 //        System.setProperty("insubstantial.checkEDT", "false");
 //        System.setProperty("insubstantial.logEDT", "false");
 
+BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
+
         // @see https://jxbrowser.support.teamdev.com/support/solutions/articles/9000013071-using-jxbrowser-in-javafx
         new Thread(new Runnable() {
             @Override
@@ -89,7 +92,7 @@ public class Installer extends ModuleInstall {
             }
         
         }).start();
-
+        
 	// derby
 	System.setProperty("derby.system.home", System.getProperty("netbeans.user", System.getProperty("user.home")) + File.separator + "databases");
 	LOG.log(Level.INFO, "derby.system.home={0}", System.getProperty("derby.system.home"));

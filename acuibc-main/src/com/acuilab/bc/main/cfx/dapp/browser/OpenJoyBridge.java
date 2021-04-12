@@ -7,6 +7,7 @@ import com.acuilab.bc.main.wallet.Wallet;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.teamdev.jxbrowser.chromium.BrowserPreferences;
 import java.math.BigInteger;
 import javax.swing.SwingUtilities;
 import org.apache.commons.lang3.StringUtils;
@@ -20,7 +21,8 @@ import org.openide.util.Lookup;
 public class OpenJoyBridge {
     
     private CfxBrowserDAppTopComponent tc;
-    private boolean isConnected;
+    private boolean isConnected;                // 是否已连接
+    private String privateKey;                  // 钱包私钥
 
     public OpenJoyBridge(CfxBrowserDAppTopComponent tc) {
         this.tc = tc;
@@ -35,7 +37,7 @@ public class OpenJoyBridge {
      */
     @com.teamdev.jxbrowser.chromium.JSAccessible
     public String getChainAddress(String type) {
-	return "";
+	return "cfx:aapvvj1gt07k5d8vs18w2z1ymhkenfw2k2smvbz674";
     }
     
     @com.teamdev.jxbrowser.chromium.JSAccessible
@@ -95,7 +97,11 @@ public class OpenJoyBridge {
                         on.put("id", resolver);
                         on.put("result", address[0]);
                         
+                        System.out.println("on==========================================" + on);
+                        
                         tc.executeJavaScript("conflux.callbacks.get("+ resolver +")(null, "+ on +");");
+                        
+                        isConnected = true;
                     } else if(StringUtils.equals("signTransaction", type)) {
                         
                         JsonNode fromNode = payloadNode.get("from");
@@ -108,6 +114,8 @@ public class OpenJoyBridge {
                         JsonNode storageLimitNode = payloadNode.get("storageLimit");
                         BigInteger storageLimit = new BigInteger(StringUtils.substringAfter(storageLimitNode.asText(), "0x"), 16);
                         String data = payloadNode.get("data").asText();
+                        
+                        // TODO: 显示确认对话框
                         
                         CFXExtend cfxExtend = Lookup.getDefault().lookup(CFXExtend.class);
                         String hash = cfxExtend.send("YOUR_PRIVATE_KEY", 

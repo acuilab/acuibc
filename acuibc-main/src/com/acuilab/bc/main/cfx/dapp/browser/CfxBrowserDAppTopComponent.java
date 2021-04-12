@@ -10,8 +10,6 @@ import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.BrowserContext;
 import com.teamdev.jxbrowser.chromium.BrowserContextParams;
 import com.teamdev.jxbrowser.chromium.BrowserType;
-import com.teamdev.jxbrowser.chromium.Cookie;
-import com.teamdev.jxbrowser.chromium.CookieStorage;
 import com.teamdev.jxbrowser.chromium.JSValue;
 import com.teamdev.jxbrowser.chromium.PopupContainer;
 import com.teamdev.jxbrowser.chromium.PopupHandler;
@@ -20,10 +18,16 @@ import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
 import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.jdesktop.swingx.JXButton;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.ServiceProvider;
@@ -46,6 +50,8 @@ public final class CfxBrowserDAppTopComponent extends TopComponent implements Jx
     private static final AtomicInteger ID = new AtomicInteger();
     private final String PREFERRED_ID;  // 20200802
     
+    private final File dataDir = Files.createTempDir();
+    
     // 从lasspath加载conflux.js
     private static String confluxJs;
     static {
@@ -67,23 +73,60 @@ public final class CfxBrowserDAppTopComponent extends TopComponent implements Jx
 
 	// http://acuilab.com:8080/articles/2021/02/09/1612840191556.html
 	// 解决JxBrowser中BrowserView控件覆盖其他控件的办法
-        String dataDir = Files.createTempDir().getAbsolutePath();
-        System.out.println("dataDir ========================== " + dataDir);
-	browser = new Browser(BrowserType.LIGHTWEIGHT, new BrowserContext(new BrowserContextParams(dataDir)));
+        System.out.println("dataDir ========================== " + dataDir.getAbsolutePath());
+	browser = new Browser(BrowserType.LIGHTWEIGHT, new BrowserContext(new BrowserContextParams(dataDir.getAbsolutePath())));
 	view = new BrowserView(browser);
 	this.add(view, BorderLayout.CENTER);
+        
+        // 这是一个新打开的窗口，生成新的窗口id并保存
+        int id = ID.incrementAndGet();
+        PREFERRED_ID = NbBundle.getMessage(WalletTopComponent.class, "ID_WalletTopComponent", Integer.toString(id));
+        
+//        // 工具栏
+//        JXButton debugBtn = new JXButton("调试");
+//        debugBtn.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                DebugDialog dlg = new DebugDialog(null, browser.getRemoteDebuggingURL());
+//                dlg.setVisible(true);
+//            }
+//            
+//        });
+//        toolbar.add(debugBtn);
+    }
+    
+    public void init(String url, String customJs) {
         browser.addLoadListener(new LoadAdapter() {
             @Override
             public void onFinishLoadingFrame(FinishLoadingEvent event) {
                 if (event.isMainFrame()) {
 		    System.out.println("Main frame has finished loading");
+
+                    // custom js
+                    browser.executeJavaScript(customJs);
+                    
+                    // inject web3
                     JSValue window = browser.executeJavaScriptAndReturnValue("window");
-                    // 给jswindows对象添加一个扩展的属性
                     OpenJoyBridge openJoyBridge = new OpenJoyBridge(CfxBrowserDAppTopComponent.this);
                     window.asObject().setProperty("openJoyBridge", openJoyBridge);
 		    
 		    // 执行conflux.js
 		    browser.executeJavaScript(confluxJs);
+                    
+                    System.out.println("remoteDebuggingUrl========================" + browser.getRemoteDebuggingURL());
+                    
+//            // Creates another Browser instance and loads the remote Developer
+//            // Tools URL to access HTML inspector.
+//            Browser browser2 = new Browser();
+//            BrowserView view2 = new BrowserView(browser2);
+//
+//            JFrame frame2 = new JFrame();
+//            frame2.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+//            frame2.add(view2, BorderLayout.CENTER);
+//            frame2.setSize(700, 500);
+//            frame2.setLocationRelativeTo(null);
+//            frame2.setVisible(true);
+//            browser2.loadURL(browser.getRemoteDebuggingURL());
                 }
             }
         });
@@ -97,21 +140,6 @@ public final class CfxBrowserDAppTopComponent extends TopComponent implements Jx
             
         });
         
-        //清除cache
-        browser.getCacheStorage().clearCache();
-        browser.getLocalWebStorage().clear();
-        browser.getSessionWebStorage().clear();
-        //清除cookie
-        CookieStorage cookieStorage = browser.getCookieStorage();
-        cookieStorage.deleteAll();
-        cookieStorage.save();
-	
-        // 这是一个新打开的窗口，生成新的窗口id并保存
-        int id = ID.incrementAndGet();
-        PREFERRED_ID = NbBundle.getMessage(WalletTopComponent.class, "ID_WalletTopComponent", Integer.toString(id));
-    }
-    
-    public void loadUrl(String url) {
         browser.loadURL(url);
     }
     
@@ -164,6 +192,10 @@ public final class CfxBrowserDAppTopComponent extends TopComponent implements Jx
     
     @Override
     public void disposeBrowser() {
+        
+        // 清空临时文件夹
+        FileUtils.deleteQuietly(dataDir);
+        
         if(browser != null) {
             browser.dispose();
         }

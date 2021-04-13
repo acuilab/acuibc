@@ -15,7 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 public abstract class FatJarDApp implements IDApp {
 
     @Override
-    public void launch(String param) throws Exception {
+    public void launch(String address, String privateKey) throws Exception {
 	// 1 ######################### 获得java路径 ##########################################
 	// 1.1 绑定jre
 	String userDir = System.getProperty("user.dir");
@@ -58,10 +58,10 @@ public abstract class FatJarDApp implements IDApp {
 	try {
 	    // 使用绑定jre执行
 	    System.out.println("fatJarFilePath=" + fatJarFilePath);
-	    Runtime.getRuntime().exec(bundledJre + " -jar " + fatJarFilePath + " " + param);
+	    Runtime.getRuntime().exec(bundledJre + " -jar " + fatJarFilePath + " " + address + " " + privateKey);
 	} catch(IOException e) {
 	    // 若发生异常，则使用系统默认jre执行(若再次发生异常，可能用户未安装jre，异常向上抛出)
-	    Runtime.getRuntime().exec("java -jar " + fatJarFilePath + " " + param);
+	    Runtime.getRuntime().exec("java -jar " + fatJarFilePath + " " + address + " " + privateKey);
 	}
     }
 
@@ -76,10 +76,4 @@ public abstract class FatJarDApp implements IDApp {
      * @return 
      */
     public abstract String getFatJarFileName();
-    
-
-    @Override
-    public boolean isInternal() {
-        return false;
-    }
 }

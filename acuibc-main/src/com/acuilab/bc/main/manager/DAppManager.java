@@ -86,38 +86,37 @@ public class DAppManager {
         return list;
     }
     
-    /**
-     * 获得某个区块链的DApp列表
-     * @return 
-     */
-    public List<IDApp> getInternalDAppList() {
-        List<IDApp> list = Lists.newArrayList();
-        Iterator<String> it = map.keySet().iterator();
-        while (it.hasNext()) {
-            IDApp dapp = map.get(it.next());
-            if(dapp.isInternal()) {
-		list.add(dapp);
-            }
-        }
-        
-        return list;
-    }
+//    /**
+//     * 获得某个区块链的DApp列表
+//     * @return 
+//     */
+//    public List<IDApp> getInternalDAppList() {
+//        List<IDApp> list = Lists.newArrayList();
+//        Iterator<String> it = map.keySet().iterator();
+//        while (it.hasNext()) {
+//            if(dapp.isInternal()) {
+//		list.add(map.get(it.next()));
+//            }
+//        }
+//        
+//        return list;
+//    }
     
-    /**
-     * 获得某个区块链的DApp列表
-     * @param blockChainSymbol
-     * @return 
-     */
-    public List<IDApp> getExternalDAppList(String blockChainSymbol) {
-        List<IDApp> list = Lists.newArrayList();
-        Iterator<String> it = map.keySet().iterator();
-        while (it.hasNext()) {
-            IDApp dapp = map.get(it.next());
-            if(StringUtils.equals(dapp.getBlockChainSymbol(), blockChainSymbol) && !dapp.isInternal()) {
-		list.add(dapp);
-            }
-        }
-        
-        return list;
-    }
+//    /**
+//     * 获得某个区块链的DApp列表
+//     * @param blockChainSymbol
+//     * @return 
+//     */
+//    public List<IDApp> getExternalDAppList(String blockChainSymbol) {
+//        List<IDApp> list = Lists.newArrayList();
+//        Iterator<String> it = map.keySet().iterator();
+//        while (it.hasNext()) {
+//            IDApp dapp = map.get(it.next());
+//            if(StringUtils.equals(dapp.getBlockChainSymbol(), blockChainSymbol) && !dapp.isInternal()) {
+//		list.add(dapp);
+//            }
+//        }
+//        
+//        return list;
+//    }
 }

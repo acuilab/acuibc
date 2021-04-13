@@ -122,7 +122,7 @@ public class SingleDAppPanel extends JXPanel {
 		    @Override
 		    protected Void doInBackground() throws Exception {
 			ph.start();
-			dapp.launch(privateKey);
+			dapp.launch("address", privateKey);
 			return null;
 		    }
 

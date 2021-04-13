@@ -115,9 +115,12 @@ public final class InternalDAppListTopComponent extends TopComponent {
                     int row = table.rowAtPoint(e.getPoint());
                     int col = table.columnAtPoint(e.getPoint());
                     if(row>-1 && col>-1) {
+                        
+                        // TODO: 两种情况需要处理，一种是需要账号密码的（指定钱包），一种是不需要的
+                        
                         try {
                             IDApp dapp = tableModel.getDApp(table.convertRowIndexToModel(row));
-                            dapp.launch(null);
+                            dapp.launch(null, null);
                         } catch (Exception ex) {
                             Exceptions.printStackTrace(ex);
                         }
@@ -164,7 +167,7 @@ public final class InternalDAppListTopComponent extends TopComponent {
         table.setHorizontalScrollEnabled(true);
         
         // 加载dapp
-        tableModel.add(DAppManager.getDefault().getInternalDAppList());
+        tableModel.add(DAppManager.getDefault().getDAppList());
         table.repaint();
         table.packAll();
     }

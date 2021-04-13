@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 public abstract class CfxBrowserDApp implements IDApp {
 
     @Override
-    public void launch(String param) throws Exception {
+    public void launch(String address, String privateKey) throws Exception {
         CfxBrowserDAppTopComponent tc = new CfxBrowserDAppTopComponent();
         tc.setName(getName());
         tc.setToolTipText(getDesc());
@@ -35,9 +35,4 @@ public abstract class CfxBrowserDApp implements IDApp {
      * @return 
      */
     public abstract String getUrl();
-    
-    @Override
-    public boolean isInternal() {
-        return true;
-    }
 }

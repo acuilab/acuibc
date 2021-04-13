@@ -43,7 +43,7 @@ public class BatchTransferDApp implements IDApp {
     }
 
     @Override
-    public void launch(String param) throws Exception {
+    public void launch(String address, String privateKey) throws Exception {
         TopComponent tc = WindowManager.getDefault().findTopComponent("BatchTransferTopComponent");
         if(tc != null) {
 	    ImageIcon imageIcon = getImageIcon();
@@ -53,10 +53,5 @@ public class BatchTransferDApp implements IDApp {
             tc.open();
             tc.requestActive();
         }
-    }
-
-    @Override
-    public boolean isInternal() {
-        return true;
     }
 }

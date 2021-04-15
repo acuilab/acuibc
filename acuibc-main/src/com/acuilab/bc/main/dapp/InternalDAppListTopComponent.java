@@ -1,11 +1,26 @@
 package com.acuilab.bc.main.dapp;
 
 import com.acuilab.bc.main.manager.DAppManager;
+import com.acuilab.bc.main.util.AESUtil;
 import com.acuilab.bc.main.wallet.TransferRecordTableModel;
+import com.acuilab.bc.main.wallet.Wallet;
+import com.acuilab.bc.main.wallet.common.PasswordVerifyWizardPanel;
+import com.acuilab.bc.main.wallet.common.SelectWalletWizardPanel;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.swing.JComponent;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -18,7 +33,10 @@ import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
 import org.jdesktop.swingx.table.TableColumnExt;
+import org.netbeans.api.progress.ProgressHandle;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.openide.DialogDisplayer;
+import org.openide.WizardDescriptor;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.util.Exceptions;
@@ -115,12 +133,92 @@ public final class InternalDAppListTopComponent extends TopComponent {
                     int row = table.rowAtPoint(e.getPoint());
                     int col = table.columnAtPoint(e.getPoint());
                     if(row>-1 && col>-1) {
-                        
-                        // TODO: 两种情况需要处理，一种是需要账号密码的（指定钱包），一种是不需要的
-                        
+                        // 两种情况需要处理，一种是需要账号密码的（指定钱包），一种是不需要的
                         try {
                             IDApp dapp = tableModel.getDApp(table.convertRowIndexToModel(row));
-                            dapp.launch(null, null);
+                            if(dapp.needWalletSpecified()) {
+                                List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<>();
+                                panels.add(new SelectWalletWizardPanel());
+                                panels.add(new PasswordVerifyWizardPanel());
+                                String[] steps = new String[panels.size()];
+                                for (int i = 0; i < panels.size(); i++) {
+                                    Component c = panels.get(i).getComponent();
+                                    // Default step name to component name of panel.
+                                    steps[i] = c.getName();
+                                    if (c instanceof JComponent) { // assume Swing components
+                                        JComponent jc = (JComponent) c;
+                                        jc.putClientProperty(WizardDescriptor.PROP_CONTENT_SELECTED_INDEX, i);
+                                        jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DATA, steps);
+                                        jc.putClientProperty(WizardDescriptor.PROP_AUTO_WIZARD_STYLE, true);
+                                        jc.putClientProperty(WizardDescriptor.PROP_CONTENT_DISPLAYED, true);
+                                        jc.putClientProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, true);
+                                    }
+                                }
+                                WizardDescriptor wiz = new WizardDescriptor(new WizardDescriptor.ArrayIterator<WizardDescriptor>(panels));
+                                // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
+                                wiz.setTitleFormat(new MessageFormat("{0}"));
+                                wiz.setTitle("选择钱包");
+                                if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
+                                    Wallet wallet = (Wallet)wiz.getProperty("wallet");
+                                    String password = (String)wiz.getProperty("password");
+                                    try {
+                                        String privateKey = AESUtil.decrypt(wallet.getPrivateKeyAES(), password);
+
+                                        table.setEnabled(false);
+                                        final ProgressHandle ph = ProgressHandle.createHandle("正在启动" + dapp.getName() + "，请稍候");
+                                        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                                            @Override
+                                            protected Void doInBackground() throws Exception {
+                                                ph.start();
+                                                dapp.launch(wallet.getAddress(), privateKey);
+                                                return null;
+                                            }
+
+                                            @Override
+                                            protected void done() {
+                                                ph.finish();
+                                                table.setEnabled(true);
+                                            }
+                                        };
+                                        worker.execute();
+                                    } catch (IllegalBlockSizeException | BadPaddingException | NoSuchPaddingException | NoSuchAlgorithmException ex) {
+                                        Exceptions.printStackTrace(ex);
+                                    }
+                                }
+                                
+//                                // 选择钱包，输入密码，获得私钥
+//                                WalletSelectorDialog dlg = new WalletSelectorDialog(null);
+//                                dlg.setVisible(true);
+//                                if(dlg.getReturnStatus() == WalletSelectorDialog.RET_OK) {
+//                                    Wallet wallet = dlg.getSelectedWallet();
+//                                    String password = dlg.getPassword();
+//                                    try {
+//                                        String privateKey = AESUtil.decrypt(wallet.getPrivateKeyAES(), password);
+//
+//                                        table.setEnabled(false);
+//                                        final ProgressHandle ph = ProgressHandle.createHandle("正在启动" + dapp.getName() + "，请稍候");
+//                                        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+//                                            @Override
+//                                            protected Void doInBackground() throws Exception {
+//                                                ph.start();
+//                                                dapp.launch(wallet.getAddress(), privateKey);
+//                                                return null;
+//                                            }
+//
+//                                            @Override
+//                                            protected void done() {
+//                                                ph.finish();
+//                                                table.setEnabled(true);
+//                                            }
+//                                        };
+//                                        worker.execute();
+//                                    } catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchPaddingException | NoSuchAlgorithmException ex) {
+//                                        Exceptions.printStackTrace(ex);
+//                                    }
+//                                }
+                            } else {
+                                dapp.launch(null, null);
+                            }
                         } catch (Exception ex) {
                             Exceptions.printStackTrace(ex);
                         }

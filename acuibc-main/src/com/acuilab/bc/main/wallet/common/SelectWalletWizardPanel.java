@@ -1,18 +1,14 @@
 package com.acuilab.bc.main.wallet.common;
 
-import com.acuilab.bc.main.dao.WalletDAO;
-import java.sql.SQLException;
-import javax.swing.JList;
+import com.acuilab.bc.main.wallet.Wallet;
 import javax.swing.event.ChangeListener;
-import org.apache.commons.lang3.StringUtils;
 import org.openide.WizardDescriptor;
 import org.openide.WizardValidationException;
-import org.openide.util.Exceptions;
 import org.openide.util.HelpCtx;
 
 public class SelectWalletWizardPanel implements WizardDescriptor.ValidatingPanel<WizardDescriptor> {
 
-    private String blockChainSymbol;
+    private final String blockChainSymbol;
     
     public SelectWalletWizardPanel(String blockChainSymbol) {
         this.blockChainSymbol = blockChainSymbol;
@@ -70,32 +66,16 @@ public class SelectWalletWizardPanel implements WizardDescriptor.ValidatingPanel
     @Override
     public void storeSettings(WizardDescriptor wiz) {
         // use wiz.putProperty to remember current panel state
-//        wiz.putProperty("wallet", getComponent().getWallet());
+        wiz.putProperty("wallet", getComponent().getWallet());
     }
 
     @Override
     public void validate() throws WizardValidationException {
-//        String name = component.getWalletNameField().getText();
-//        if(StringUtils.isBlank(name)) {
-//            component.getWalletNameField().requestFocus();
-//            throw new WizardValidationException(null, "请填写钱包名称", null);
-//        }
-//        
-//        try {
-//            // 钱包名称不能重复
-//            if(WalletDAO.existByName(name)) {
-//                component.getWalletNameField().requestFocus();
-//                throw new WizardValidationException(null, "钱包名称已存在", null);
-//            }
-//        } catch (SQLException ex) {
-//            Exceptions.printStackTrace(ex);
-//        }
-//        
-//        JList coinList = component.getCoinList();
-//        if(coinList.getSelectedIndex() == -1) {
-//            throw new WizardValidationException(null, "请选择币种", null);
-//        }
-//        
+        Wallet wallet = component.getWallet();
+        if(wallet == null) {
+            throw new WizardValidationException(null, "请选择钱包", null);
+        }
+        
     }
 
 }

@@ -138,7 +138,7 @@ public final class InternalDAppListTopComponent extends TopComponent {
                             IDApp dapp = tableModel.getDApp(table.convertRowIndexToModel(row));
                             if(dapp.needWalletSpecified()) {
                                 List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<>();
-                                panels.add(new SelectWalletWizardPanel());
+                                panels.add(new SelectWalletWizardPanel(dapp.getBlockChainSymbol()));
                                 panels.add(new PasswordVerifyWizardPanel());
                                 String[] steps = new String[panels.size()];
                                 for (int i = 0; i < panels.size(); i++) {

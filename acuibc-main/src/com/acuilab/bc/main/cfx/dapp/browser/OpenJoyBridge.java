@@ -20,12 +20,13 @@ import org.openide.util.Lookup;
 public class OpenJoyBridge {
     
     private CfxBrowserDAppTopComponent tc;
-    private boolean isConnected;                // 是否已连接
-    private String privateKey;                  // 钱包私钥
+    private String address;
+    private String privateKey;
 
-    public OpenJoyBridge(CfxBrowserDAppTopComponent tc) {
+    public OpenJoyBridge(CfxBrowserDAppTopComponent tc, String address, String privateKey) {
         this.tc = tc;
-        this.isConnected = false;
+        this.address = address;
+        this.privateKey = privateKey;
     }
     
     /**
@@ -36,7 +37,7 @@ public class OpenJoyBridge {
      */
     @com.teamdev.jxbrowser.chromium.JSAccessible
     public String getChainAddress(String type) {
-	return "cfx:aapvvj1gt07k5d8vs18w2z1ymhkenfw2k2smvbz674";
+	return address;
     }
     
     @com.teamdev.jxbrowser.chromium.JSAccessible
@@ -72,35 +73,33 @@ public class OpenJoyBridge {
                     long resolver = resolverNode.asLong();
                     JsonNode payloadNode = rootNode.get("payload");
                     
-                    final String[] address = new String[1];
                     if(StringUtils.equals("requestAccounts", type)) {
                         
-                        // UI线程获得钱包
-                        SwingUtilities.invokeAndWait(new Runnable() {
-                            @Override
-                            public void run() {
-                                WalletSelectorDialog dlg = new WalletSelectorDialog(null);
-                                dlg.setVisible(true);
-                                if(dlg.getReturnStatus() == ConfirmDialog.RET_OK) {
-                                    Wallet wallet = dlg.getSelectedWallet();
-                                    address[0] = wallet.getAddress();
-                                }
-                            }
-                            
-                        });
+//                        // UI线程获得钱包
+//                        SwingUtilities.invokeAndWait(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                WalletSelectorDialog dlg = new WalletSelectorDialog(null);
+//                                dlg.setVisible(true);
+//                                if(dlg.getReturnStatus() == ConfirmDialog.RET_OK) {
+//                                    Wallet wallet = dlg.getSelectedWallet();
+//                                    address[0] = wallet.getAddress();
+//                                }
+//                            }
+//                            
+//                        });
                         
-                        System.out.println("address[0]====================================" + address[0]);
                         ObjectMapper om = new ObjectMapper();
                         ObjectNode on = om.createObjectNode();
                         on.put("jsonrpc", "2.0");
                         on.put("id", resolver);
-                        on.put("result", address[0]);
+                        on.put("result", address);
                         
                         System.out.println("on==========================================" + on);
-                        
+//String jsStr = "(function() {var event; var data = {'data': '"+ on +"'};  try { event = new MessageEvent('message', data); } catch(e){ event = document.createEvent('MessageEvent'); event.initMessageEvent('message', true, true, data.data, data.orgin, data.lastEventId, data.source);} document.dispatchEvent(event); })();";
+//                        tc.executeJavaScript(jsStr);
+
                         tc.executeJavaScript("conflux.callbacks.get("+ resolver +")(null, "+ on +");");
-                        
-                        isConnected = true;
                     } else if(StringUtils.equals("signTransaction", type)) {
                         
                         JsonNode fromNode = payloadNode.get("from");
@@ -117,7 +116,7 @@ public class OpenJoyBridge {
                         // TODO: 显示确认对话框
                         
                         CFXExtend cfxExtend = Lookup.getDefault().lookup(CFXExtend.class);
-                        String hash = cfxExtend.send("YOUR_PRIVATE_KEY", 
+                        String hash = cfxExtend.send(privateKey, 
                                 from, 
                                 gas, 
                                 to, 

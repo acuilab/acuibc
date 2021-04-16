@@ -1,6 +1,7 @@
 package com.acuilab.bc.main.wallet.common;
 
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public final class PasswordVerfiyVisualPanel extends JPanel {
 
@@ -14,6 +15,10 @@ public final class PasswordVerfiyVisualPanel extends JPanel {
     @Override
     public String getName() {
         return "验证密码";
+    }
+    
+    public JTextField getPasswordFld() {
+        return passwordFld;
     }
 
     /**

@@ -54,4 +54,11 @@ public class BatchTransferDApp implements IDApp {
             tc.requestActive();
         }
     }
+
+    @Override
+    public boolean needWalletSpecified() {
+        return false;
+    }
+    
+    
 }

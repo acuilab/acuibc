@@ -1,16 +1,16 @@
 package com.acuilab.bc.main.wallet.common;
 
-import com.acuilab.bc.main.dao.WalletDAO;
-import java.sql.SQLException;
-import javax.swing.JList;
+import com.acuilab.bc.main.wallet.Wallet;
 import javax.swing.event.ChangeListener;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.WizardDescriptor;
 import org.openide.WizardValidationException;
-import org.openide.util.Exceptions;
 import org.openide.util.HelpCtx;
+import org.springframework.util.DigestUtils;
 
 public class PasswordVerifyWizardPanel implements WizardDescriptor.ValidatingPanel<WizardDescriptor> {
+    
+    private Wallet wallet;
     
     /**
      * The visual component that displays this panel. If you need to access the
@@ -59,38 +59,30 @@ public class PasswordVerifyWizardPanel implements WizardDescriptor.ValidatingPan
     @Override
     public void readSettings(WizardDescriptor wiz) {
         // use wiz.getProperty to retrieve previous panel state
+        wallet = (Wallet)wiz.getProperty("wallet");
     }
 
     @Override
     public void storeSettings(WizardDescriptor wiz) {
         // use wiz.putProperty to remember current panel state
-//        wiz.putProperty("walletName", getComponent().getWalletNameField().getText());
-//        wiz.putProperty("coinSymbal", (String)getComponent().getCoinList().getSelectedValue());
+        wiz.putProperty("password", component.getPasswordFld().getText());
     }
 
     @Override
     public void validate() throws WizardValidationException {
-//        String name = component.getWalletNameField().getText();
-//        if(StringUtils.isBlank(name)) {
-//            component.getWalletNameField().requestFocus();
-//            throw new WizardValidationException(null, "请填写钱包名称", null);
-//        }
-//        
-//        try {
-//            // 钱包名称不能重复
-//            if(WalletDAO.existByName(name)) {
-//                component.getWalletNameField().requestFocus();
-//                throw new WizardValidationException(null, "钱包名称已存在", null);
-//            }
-//        } catch (SQLException ex) {
-//            Exceptions.printStackTrace(ex);
-//        }
-//        
-//        JList coinList = component.getCoinList();
-//        if(coinList.getSelectedIndex() == -1) {
-//            throw new WizardValidationException(null, "请选择币种", null);
-//        }
+        // 密码不能为空
+        String pwd = component.getPasswordFld().getText();
+        if(StringUtils.isBlank(pwd)) {
+            component.getPasswordFld().requestFocus();
+            throw new WizardValidationException(null, "请填写密码", null);
+        }
         
+        // 密码要一致
+        String pwdMD5 = DigestUtils.md5DigestAsHex(pwd.getBytes()); 
+        if(!StringUtils.equals(wallet.getPwdMD5(), pwdMD5)) {
+            component.getPasswordFld().requestFocus();
+            throw new WizardValidationException(null, "密码错误", null);
+        }
     }
 
 }

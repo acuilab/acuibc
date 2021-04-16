@@ -18,16 +18,11 @@ import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
 import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.jdesktop.swingx.JXButton;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.ServiceProvider;
@@ -44,6 +39,10 @@ import org.openide.util.lookup.ServiceProvider;
 @ServiceProvider(service=JxBrowserDisposer.class)
 public final class CfxBrowserDAppTopComponent extends TopComponent implements JxBrowserDisposer {
     private static final Logger LOG = Logger.getLogger(CfxBrowserDAppTopComponent.class.getName());
+    
+    private String address;
+    private String privateKey;
+    
     private final Browser browser;
     private final BrowserView view;
     
@@ -54,9 +53,11 @@ public final class CfxBrowserDAppTopComponent extends TopComponent implements Jx
     
     // 从lasspath加载conflux.js
     private static String confluxJs;
+    private static String loadingHtml;
     static {
 	try {
 	    confluxJs = IOUtils.toString(CfxBrowserDAppTopComponent.class.getResourceAsStream("/resource/dapp/conflux.js"), Charsets.UTF_8);
+            loadingHtml = IOUtils.toString(CfxBrowserDAppTopComponent.class.getResourceAsStream("/resource/dapp/loading.html"), Charsets.UTF_8);
 	} catch (IOException ex) {
 	    Exceptions.printStackTrace(ex);
 	}
@@ -93,9 +94,12 @@ public final class CfxBrowserDAppTopComponent extends TopComponent implements Jx
 //            
 //        });
 //        toolbar.add(debugBtn);
+        browser.loadHTML(loadingHtml);
     }
     
-    public void init(String url, String customJs) {
+    public void init(String address, String privateKey, String url, String customJs) {
+        this.address = address;
+        this.privateKey = privateKey;
         browser.addLoadListener(new LoadAdapter() {
             @Override
             public void onFinishLoadingFrame(FinishLoadingEvent event) {
@@ -107,7 +111,7 @@ public final class CfxBrowserDAppTopComponent extends TopComponent implements Jx
                     
                     // inject web3
                     JSValue window = browser.executeJavaScriptAndReturnValue("window");
-                    OpenJoyBridge openJoyBridge = new OpenJoyBridge(CfxBrowserDAppTopComponent.this);
+                    OpenJoyBridge openJoyBridge = new OpenJoyBridge(CfxBrowserDAppTopComponent.this, address, privateKey);
                     window.asObject().setProperty("openJoyBridge", openJoyBridge);
 		    
 		    // 执行conflux.js

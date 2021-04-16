@@ -2,6 +2,7 @@ package com.acuilab.bc.main.cfx.dapp.browser;
 
 import com.acuilab.bc.main.dapp.IDApp;
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 
 /**
  * 
@@ -11,16 +12,23 @@ public abstract class CfxBrowserDApp implements IDApp {
 
     @Override
     public void launch(String address, String privateKey) throws Exception {
-        CfxBrowserDAppTopComponent tc = new CfxBrowserDAppTopComponent();
-        tc.setName(getName());
-        tc.setToolTipText(getDesc());
-        ImageIcon imageIcon = getImageIcon();
-        if(imageIcon != null) {
-            tc.setIcon(getImageIcon().getImage());
-        }
-        tc.init(getUrl(), getCustomJsBeforeInjectWeb3());
-        tc.open();
-        tc.requestActive();
+        // java.lang.IllegalStateException: Problem in some module which uses Window System: 
+        // Window System API is required to be called from AWT thread only, see http://core.netbeans.org/proposals/threading/
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                CfxBrowserDAppTopComponent tc = new CfxBrowserDAppTopComponent();
+                tc.setName(getName());
+                tc.setToolTipText(getDesc());
+                ImageIcon imageIcon = getImageIcon();
+                if(imageIcon != null) {
+                    tc.setIcon(getImageIcon().getImage());
+                }
+                tc.init(address, privateKey, getUrl(), getCustomJsBeforeInjectWeb3());
+                tc.open();
+                tc.requestActive();
+            }
+        });
     }
     
     /**

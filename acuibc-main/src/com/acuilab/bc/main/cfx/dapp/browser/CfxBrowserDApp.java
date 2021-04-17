@@ -24,7 +24,7 @@ public abstract class CfxBrowserDApp implements IDApp {
                 if(imageIcon != null) {
                     tc.setIcon(getImageIcon().getImage());
                 }
-                tc.init(address, privateKey, getUrl(), getCustomJsBeforeInjectWeb3());
+                tc.init(address, privateKey, getName(), getUrl(), getCustomJsBeforeInjectWeb3());
                 tc.open();
                 tc.requestActive();
             }

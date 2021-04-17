@@ -1,8 +1,6 @@
-package com.acuilab.bc.main.cfx.dapp.browser;
+package com.acuilab.bc.main.dapp;
 
 import com.acuilab.bc.main.JxBrowserDisposer;
-import com.acuilab.bc.main.dapp.DebugInfo;
-import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.openide.windows.TopComponent;
@@ -10,41 +8,26 @@ import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.BrowserContext;
 import com.teamdev.jxbrowser.chromium.BrowserContextParams;
 import com.teamdev.jxbrowser.chromium.BrowserType;
-import com.teamdev.jxbrowser.chromium.JSValue;
-import com.teamdev.jxbrowser.chromium.PopupContainer;
-import com.teamdev.jxbrowser.chromium.PopupHandler;
-import com.teamdev.jxbrowser.chromium.PopupParams;
-import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
-import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 import java.awt.BorderLayout;
 import java.io.File;
-import java.io.IOException;
-import java.util.Collections;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
-import org.openide.util.lookup.AbstractLookup;
-import org.openide.util.lookup.InstanceContent;
 import org.openide.util.lookup.ServiceProvider;
 
 /**
  * Top component which displays something.
  */
 @TopComponent.Description(
-        preferredID = "CfxBrowserDAppTopComponent",
-        //iconBase="SET/PATH/TO/ICON/HERE",
+        preferredID = "DebugBrowserDAppTopComponent",
+        iconBase="resource/debug16.png",
         persistenceType = TopComponent.PERSISTENCE_ONLY_OPENED
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
 @ServiceProvider(service=JxBrowserDisposer.class)
-public final class CfxBrowserDAppTopComponent extends TopComponent implements JxBrowserDisposer {
-    private static final Logger LOG = Logger.getLogger(CfxBrowserDAppTopComponent.class.getName());
-    
-    private String address;
-    private String privateKey;
+public final class DebugBrowserDAppTopComponent extends TopComponent implements JxBrowserDisposer {
+    private static final Logger LOG = Logger.getLogger(DebugBrowserDAppTopComponent.class.getName());
     
     private final Browser browser;
     private final BrowserView view;
@@ -54,21 +37,7 @@ public final class CfxBrowserDAppTopComponent extends TopComponent implements Jx
     
     private final File dataDir = Files.createTempDir();
     
-    private final InstanceContent content = new InstanceContent();
-    
-    // 从lasspath加载conflux.js
-    private static String confluxJs;
-    private static String loadingHtml;
-    static {
-	try {
-	    confluxJs = IOUtils.toString(CfxBrowserDAppTopComponent.class.getResourceAsStream("/resource/dapp/conflux.js"), Charsets.UTF_8);
-            loadingHtml = IOUtils.toString(CfxBrowserDAppTopComponent.class.getResourceAsStream("/resource/dapp/loading.html"), Charsets.UTF_8);
-	} catch (IOException ex) {
-	    Exceptions.printStackTrace(ex);
-	}
-    }
-
-    public CfxBrowserDAppTopComponent() {
+    public DebugBrowserDAppTopComponent() {
         initComponents();
 //        BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
 //        this.setIcon(bc.getIconImage(16));
@@ -79,55 +48,17 @@ public final class CfxBrowserDAppTopComponent extends TopComponent implements Jx
 
 	// http://acuilab.com:8080/articles/2021/02/09/1612840191556.html
 	// 解决JxBrowser中BrowserView控件覆盖其他控件的办法
-        System.out.println("dataDir ========================== " + dataDir.getAbsolutePath());
 	browser = new Browser(BrowserType.LIGHTWEIGHT, new BrowserContext(new BrowserContextParams(dataDir.getAbsolutePath())));
 	view = new BrowserView(browser);
 	this.add(view, BorderLayout.CENTER);
         
         // 这是一个新打开的窗口，生成新的窗口id并保存
         int id = ID.incrementAndGet();
-        PREFERRED_ID = NbBundle.getMessage(CfxBrowserDAppTopComponent.class, "ID_CfxBrowserDAppTopComponent", Integer.toString(id));
-        
-        browser.loadHTML(loadingHtml);
-        
-        associateLookup(new AbstractLookup(content)); 
+        PREFERRED_ID = NbBundle.getMessage(DebugBrowserDAppTopComponent.class, "ID_DebugBrowserDAppTopComponent", Integer.toString(id));
     }
     
-    public void init(String address, String privateKey, String name, String url, String customJs) {
-        this.address = address;
-        this.privateKey = privateKey;
-        browser.addLoadListener(new LoadAdapter() {
-            @Override
-            public void onFinishLoadingFrame(FinishLoadingEvent event) {
-                if (event.isMainFrame()) {
-		    System.out.println("Main frame has finished loading");
-
-                    // custom js
-                    browser.executeJavaScript(customJs);
-                    
-                    // inject web3
-                    JSValue window = browser.executeJavaScriptAndReturnValue("window");
-                    OpenJoyBridge openJoyBridge = new OpenJoyBridge(CfxBrowserDAppTopComponent.this, address, privateKey);
-                    window.asObject().setProperty("openJoyBridge", openJoyBridge);
-		    
-		    // 执行conflux.js
-		    browser.executeJavaScript(confluxJs);
-                    
-                    content.set(Collections.singleton(new DebugInfo(name + "(调试)", browser.getRemoteDebuggingURL())), null);
-                }
-            }
-        });
-        // 强制不弹出窗口
-        browser.setPopupHandler(new PopupHandler() {
-            @Override
-            public PopupContainer handlePopup(PopupParams pp) {
-                browser.loadURL(pp.getURL());
-                return null;
-            }
-            
-        });
-        
-        browser.loadURL(url);
+    public void init(DebugInfo debugInfo) {
+        browser.loadURL(debugInfo.getRemoteDebuggingUrl());
     }
     
     /**

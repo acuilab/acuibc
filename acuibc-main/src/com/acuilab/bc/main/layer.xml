@@ -140,6 +140,12 @@
                 <attr intvalue="560" name="position"/>
             </file>
         </folder>
+        <folder name="工具">
+            <attr intvalue="600" name="position"/>
+            <file name="com.acuilab.bc.main.action.DebugBrowserDAppAction.instance">
+                <attr intvalue="610" name="position"/>
+            </file>
+        </folder>
         <folder name="QuickSearch_hidden"/>
     </folder>
     

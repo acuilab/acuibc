@@ -104,12 +104,12 @@ public class OpenJoyBridge {
                         JsonNode fromNode = payloadNode.get("from");
                         String from = fromNode.asText();
                         JsonNode gasNode = payloadNode.get("gas");
-                        BigInteger gas = gasNode==null ? BigInteger.ZERO : new BigInteger(StringUtils.substringAfter(gasNode.asText(), "0x"), 16);
+                        BigInteger gas = gasNode==null ? null : new BigInteger(StringUtils.substringAfter(gasNode.asText(), "0x"), 16);
                         String to = payloadNode.get("to").asText();
                         JsonNode valueNode = payloadNode.get("value");
-                        BigInteger value = valueNode == null ? BigInteger.ZERO : new BigInteger(StringUtils.substringAfter(valueNode.asText(), "0x"), 16);
+                        BigInteger value = valueNode == null ? null : new BigInteger(StringUtils.substringAfter(valueNode.asText(), "0x"), 16);
                         JsonNode storageLimitNode = payloadNode.get("storageLimit");
-                        BigInteger storageLimit = storageLimitNode == null ? BigInteger.ZERO : new BigInteger(StringUtils.substringAfter(storageLimitNode.asText(), "0x"), 16);
+                        BigInteger storageLimit = storageLimitNode == null ? null : new BigInteger(StringUtils.substringAfter(storageLimitNode.asText(), "0x"), 16);
                         String data = payloadNode.get("data").asText();
                         
                         // TODO: 显示确认对话框
@@ -132,7 +132,23 @@ public class OpenJoyBridge {
                         System.out.println("signTransaction on==========================================" + on);
                         
                         tc.executeJavaScript("conflux.callbacks.get("+ resolver +")(null, "+ on +");");
-                    }
+                    } else if(StringUtils.equals("signTypedMessage", type)) {
+			
+			String data = payloadNode.get("data").asText();
+			
+			CFXExtend cfxExtend = Lookup.getDefault().lookup(CFXExtend.class);
+			String signData = cfxExtend.sign(privateKey, data);
+			
+                        ObjectMapper om = new ObjectMapper();
+                        ObjectNode on = om.createObjectNode();
+                        on.put("jsonrpc", "2.0");
+                        on.put("id", resolver);
+                        on.put("result", signData);
+                        
+                        System.out.println("signTypedMessage on==========================================" + on);
+                        
+                        tc.executeJavaScript("conflux.callbacks.get("+ resolver +")(null, "+ on +");");
+		    }
                 } catch (Exception ex) {
                     Exceptions.printStackTrace(ex);
                 }

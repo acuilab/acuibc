@@ -19,9 +19,9 @@ import org.openide.util.Lookup;
  */
 public class OpenJoyBridge {
     
-    private CfxBrowserDAppTopComponent tc;
-    private String address;
-    private String privateKey;
+    private final CfxBrowserDAppTopComponent tc;
+    private final String address;
+    private final String privateKey;
 
     public OpenJoyBridge(CfxBrowserDAppTopComponent tc, String address, String privateKey) {
         this.tc = tc;
@@ -60,7 +60,6 @@ public class OpenJoyBridge {
                 // 调用Conflux接口处理类处理
                 String jsonStr = StringUtils.substring(paramStr, 8);
                 System.out.println("jsonStr================================================" + jsonStr);
-                System.out.println("Thread Name =============================== " + Thread.currentThread().getName());      // IPC Sync Events Thread
                 
                 // 解析json
                 ObjectMapper mapper = new ObjectMapper();
@@ -95,7 +94,7 @@ public class OpenJoyBridge {
                         on.put("id", resolver);
                         on.put("result", address);
                         
-                        System.out.println("on==========================================" + on);
+                        System.out.println("requestAccounts on==========================================" + on);
 //String jsStr = "(function() {var event; var data = {'data': '"+ on +"'};  try { event = new MessageEvent('message', data); } catch(e){ event = document.createEvent('MessageEvent'); event.initMessageEvent('message', true, true, data.data, data.orgin, data.lastEventId, data.source);} document.dispatchEvent(event); })();";
 //                        tc.executeJavaScript(jsStr);
 
@@ -105,12 +104,12 @@ public class OpenJoyBridge {
                         JsonNode fromNode = payloadNode.get("from");
                         String from = fromNode.asText();
                         JsonNode gasNode = payloadNode.get("gas");
-                        BigInteger gas = new BigInteger(StringUtils.substringAfter(gasNode.asText(), "0x"), 16);
+                        BigInteger gas = gasNode==null ? BigInteger.ZERO : new BigInteger(StringUtils.substringAfter(gasNode.asText(), "0x"), 16);
                         String to = payloadNode.get("to").asText();
                         JsonNode valueNode = payloadNode.get("value");
                         BigInteger value = valueNode == null ? BigInteger.ZERO : new BigInteger(StringUtils.substringAfter(valueNode.asText(), "0x"), 16);
                         JsonNode storageLimitNode = payloadNode.get("storageLimit");
-                        BigInteger storageLimit = new BigInteger(StringUtils.substringAfter(storageLimitNode.asText(), "0x"), 16);
+                        BigInteger storageLimit = storageLimitNode == null ? BigInteger.ZERO : new BigInteger(StringUtils.substringAfter(storageLimitNode.asText(), "0x"), 16);
                         String data = payloadNode.get("data").asText();
                         
                         // TODO: 显示确认对话框
@@ -129,6 +128,8 @@ public class OpenJoyBridge {
                         on.put("jsonrpc", "2.0");
                         on.put("id", resolver);
                         on.put("result", hash);
+                        
+                        System.out.println("signTransaction on==========================================" + on);
                         
                         tc.executeJavaScript("conflux.callbacks.get("+ resolver +")(null, "+ on +");");
                     }

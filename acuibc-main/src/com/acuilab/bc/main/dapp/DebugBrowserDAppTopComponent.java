@@ -22,7 +22,7 @@ import org.openide.util.lookup.ServiceProvider;
 @TopComponent.Description(
         preferredID = "DebugBrowserDAppTopComponent",
         iconBase="resource/debug16.png",
-        persistenceType = TopComponent.PERSISTENCE_ONLY_OPENED
+        persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
 @ServiceProvider(service=JxBrowserDisposer.class)

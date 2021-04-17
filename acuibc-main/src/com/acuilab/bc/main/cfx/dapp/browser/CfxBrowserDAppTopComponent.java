@@ -36,7 +36,7 @@ import org.openide.util.lookup.ServiceProvider;
 @TopComponent.Description(
         preferredID = "CfxBrowserDAppTopComponent",
         //iconBase="SET/PATH/TO/ICON/HERE",
-        persistenceType = TopComponent.PERSISTENCE_ONLY_OPENED
+        persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
 @ServiceProvider(service=JxBrowserDisposer.class)

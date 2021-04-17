@@ -20,6 +20,7 @@ public class CFXExtendImpl implements CFXExtend {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         
+        try {
         Account account = Account.create(cfx, privateKey);
 	BigInteger nonce = account.getNonce();
         BigInteger epochNumber = cfx.getEpochNumber().sendAndGet();
@@ -31,7 +32,16 @@ public class CFXExtendImpl implements CFXExtend {
                 epochNumber, 
                 data);
         
-        return account.send(tx).getTxHash();
+        String hash = account.send(tx).getTxHash();
+        System.out.println("hash===============================" + hash);
+        
+        return hash;
+        } catch(Exception e) {
+                e.printStackTrace();
+                }
+        
+        
+        return null;
     }
 
 }

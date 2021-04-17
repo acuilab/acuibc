@@ -8,4 +8,6 @@ import java.math.BigInteger;
 public interface CFXExtend {
     
     String send(String privateKey, String from, BigInteger gas, String to, BigInteger value, BigInteger storageLimit, String data) throws Exception;
+
+    String sign(String privateKey, String data) throws Exception;
 }

@@ -23,7 +23,7 @@ import org.openide.util.Lookup;
 public class TreaNFT extends AbstractNFT {
     
     public static final String CONTRACT_ADDRESS = "cfx:accfeg3rcm430khhbz09r4t38aswm5u9dezucjxjcf";
-    public static final String WEBSITE = "trea.finance/conflux/";
+    public static final String WEBSITE = "http://trea.finance/conflux/";
 
     @Override
     public void init() {
@@ -85,7 +85,8 @@ public class TreaNFT extends AbstractNFT {
         
         
         ObjectMapper mapper = new ObjectMapper();
-        Map<String, String> map = mapper.readValue(new URL(json), Map.class);
+        Map<String, String> map = mapper.readValue(StringUtils.substringAfter(json, id), Map.class);
+        //Map<String, String> map = mapper.readValue(new URL(json), Map.class);
 
         String imageUrl = map.get("image");
         //String imageUrlSlim = StringUtils.replace(imageUrl, "\\", "");

@@ -5,9 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+- 重磅增加dapp浏览器功能，可钱包内直接访问Conflux各主流应用。
+
 ## [0.9.18] - 2021-04-21
 ### Added
-- 重磅增加dapp浏览器功能，可钱包内直接访问Conflux各主流应用。
 - 支持ConHero英雄NFT
 - 支持Trea 创世NFT1
 

@@ -96,7 +96,21 @@ public class TreaNFT extends AbstractNFT {
         md.setName(map.get("name"));
 	md.setPlatform("Trea");
         
-	
+        
+	switch(md.getName()) {
+	    case "巨鼎":
+		md.setDesc("高额参与Trea创世轮游戏66666硬顶的限量纪念NFT");
+		break;
+	    case "万贯":
+		md.setDesc("赞助Trea创世轮游戏66666硬顶的限量纪念NFT");
+		break;
+	    case "飞天":
+		md.setDesc("参与Trea创世轮游戏66666硬顶的限量纪念NFT");
+		break;
+	    
+	    default:
+		md.setDesc("无");
+	}
 	
 	
 	return md;

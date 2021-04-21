@@ -2,10 +2,10 @@ package com.acuilab.bc.cfx.util;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import conflux.web3j.types.Address;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
+import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint256;
 
 /**

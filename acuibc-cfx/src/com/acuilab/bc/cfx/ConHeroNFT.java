@@ -23,7 +23,7 @@ import org.openide.util.Lookup;
 public class ConHeroNFT extends AbstractNFT {
     
     public static final String CONTRACT_ADDRESS = "cfx:acgjttbz35rukntbvnp6u6arx8rwwxekfyks00vr3n";
-    public static final String WEBSITE = "https://conhero.com/";
+    public static final String WEBSITE = "https://conhero.io/";
      
     @Override
     public void init() {

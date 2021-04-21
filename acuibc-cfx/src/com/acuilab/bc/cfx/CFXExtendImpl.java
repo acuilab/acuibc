@@ -125,7 +125,7 @@ public class CFXExtendImpl implements CFXExtend {
 "		\"nonce\": 1618794925555\n" +
 "	}\n" +
 "}";
-        StructuredDataEncoder dataEncoder2 = new StructuredDataEncoder(data2);
+        StructuredDataEncoder dataEncoder2 = new StructuredDataEncoder(data);
         
         
         

@@ -370,6 +370,7 @@ public class StructuredDataEncoder {
                 }
             }
 
+            System.out.println("typeClazz========================" + typeClazz.getName() + ", atleastOneConstructorExistsForGivenParametersType=" + atleastOneConstructorExistsForGivenParametersType);
             if (!atleastOneConstructorExistsForGivenParametersType) {
                 throw new RuntimeException(
                         String.format(

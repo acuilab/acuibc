@@ -1,14 +1,10 @@
 package com.acuilab.bc.main.cfx.dapp.browser;
 
 import com.acuilab.bc.main.cfx.CFXExtend;
-import com.acuilab.bc.main.dapp.WalletSelectorDialog;
-import com.acuilab.bc.main.ui.ConfirmDialog;
-import com.acuilab.bc.main.wallet.Wallet;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.math.BigInteger;
-import javax.swing.SwingUtilities;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;

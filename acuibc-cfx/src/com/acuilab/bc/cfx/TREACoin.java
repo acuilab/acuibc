@@ -19,7 +19,7 @@ public class TREACoin extends ERC20Coin {
 
     public static final String CONTRACT_ADDRESS = "cfx:acb9wkgbefcja9rkpds5ve4cm5643jmebae7xjzz8f";
 
-    public static final String NAME = "conflux TREA";
+    public static final String NAME = "TREA";
     public static final String SYMBOL = "TREA";
 
     @Override

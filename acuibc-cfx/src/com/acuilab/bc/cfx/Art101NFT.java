@@ -20,23 +20,23 @@ import org.openide.util.Lookup;
  *
  * @author admin
  */
-public class ConHeroNFT extends AbstractNFT {
+public class Art101NFT extends AbstractNFT {
     
-    public static final String CONTRACT_ADDRESS = "cfx:acgjttbz35rukntbvnp6u6arx8rwwxekfyks00vr3n";
-    public static final String WEBSITE = "https://conhero.io/";
-     
+    public static final String CONTRACT_ADDRESS = "cfx:aca85nrag5nvadv5jungjstbcw4s23srcu7f0r2pbt";
+    public static final String WEBSITE = "http://nft.tspace.io";
+
     @Override
     public void init() {
     }
 
     @Override
     public String getName() {
-	return "ConHero";
+	return "Art101 NFT";
     }
 
     @Override
     public String getSymbol() {
-	return "ConHero";
+	return "Art101 NFT";
     }
 
     @Override
@@ -56,12 +56,12 @@ public class ConHeroNFT extends AbstractNFT {
 
     @Override
     public Icon getIcon(int size) {
-        return ImageUtilities.loadImageIcon("/resource/conhero" + size + ".png", true);
+        return ImageUtilities.loadImageIcon("/resource/tspace" + size + ".png", true);
     }
 
     @Override
     public Image getIconImage(int size) {
-        return ImageUtilities.loadImage("/resource/conhero" + size + ".png", true);
+        return ImageUtilities.loadImage("/resource/tspace" + size + ".png", true);
     }
     
     @Override
@@ -73,33 +73,32 @@ public class ConHeroNFT extends AbstractNFT {
         // note: parameters should use web3j.abi.datatypes type
         String value = contract.call("uri", new org.web3j.abi.datatypes.Uint(tokenId)).sendAndGet();
         String json = DecodeUtil.decode(value, org.web3j.abi.datatypes.Utf8String.class);
-        
+	
         System.out.println(json);
-        
-        MetaData md = new MetaData();
+	// 8016{"body":"000","eye":"013","nose":"001","auxiliary":"001","background":"000","clothes":"006","props":"000","title":"002_000_000_013_001_000_001_000","url":"002_000_000_013_001_000_001_000.png"}
+	MetaData md = new MetaData();
 	
-//token_id	"1338"
-//image	"https://cdn.image.htlm8.top/conhero/flame-lord.png"
-//description	"ConHero是Conflux生态首款即时PK挖…ConHero NFT还可以质押挖矿、开宝箱。"
-//description_en	"ConHero is the first RTS Mining game in the Conflux ecosystem. Players can use NFT to fight, Rank, and participate in PK competitions in the game. Players can also use ConHero NFT to stake mining and open treasure boxes.\n\nAt the same time, the HeroNFT bli"
-//name	"烈焰君主"
-//name_en	"Flame Lord"
-
-        String id = tokenId.toString();
+	
+	String id = tokenId.toString();
 	md.setId(id);
+        md.setNumber(id);
         
-	
-	ObjectMapper mapper = new ObjectMapper();
-        Map<String, String> map = mapper.readValue(new URL(json), Map.class);
+        
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, String> map = mapper.readValue(StringUtils.substringAfter(json, id), Map.class);
+        //Map<String, String> map = mapper.readValue(new URL(json), Map.class);
 
-        String imageUrl = map.get("image");
+        //String imageUrl = map.get("image");
         //String imageUrlSlim = StringUtils.replace(imageUrl, "\\", "");
         //System.out.println(imageUrl);
-	md.setImageUrl(imageUrl);
-        md.setDesc(map.get("description"));
-        md.setName(map.get("name"));
-	md.setPlatform("ConHero");
-        md.setNumber(map.get("token_id"));
+	//md.setImageUrl(imageUrl);
+        md.setDesc("好玩委员会和Art101发行的趣味烤仔NFT");
+        md.setName("Art101 NFT");
+	md.setPlatform("Art101");
+        
+        
+	
+	
 	
 	return md;
     }

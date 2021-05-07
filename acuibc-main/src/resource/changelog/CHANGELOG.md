@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 重磅增加dapp浏览器功能，可钱包内直接访问Conflux各主流应用。
 - 支持cYFII、cMBTM代币
 
+### Changed
+- 更新记录窗口标题由"Changelog"改为"更新记录"
 
 ## [0.9.18] - 2021-04-21
 ### Added

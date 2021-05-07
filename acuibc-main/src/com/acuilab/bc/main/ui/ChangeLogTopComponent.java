@@ -8,7 +8,6 @@ import com.teamdev.jxbrowser.chromium.BrowserType;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 import java.awt.BorderLayout;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.logging.Logger;
 import org.apache.commons.io.IOUtils;
 import org.netbeans.api.settings.ConvertAsProperties;
@@ -38,9 +37,9 @@ import org.openide.util.NbBundle.Messages;
         preferredID = "ChangeLogTopComponent"
 )
 @Messages({
-    "CTL_ChangeLogAction=Changelog",
-    "CTL_ChangeLogTopComponent=Changelog",
-    "HINT_ChangeLogTopComponent=Changelog"
+    "CTL_ChangeLogAction=更新记录",
+    "CTL_ChangeLogTopComponent=更新记录",
+    "HINT_ChangeLogTopComponent=更新记录"
 })
 public final class ChangeLogTopComponent extends TopComponent {
     private static final Logger LOG = Logger.getLogger(ChangeLogTopComponent.class.getName());

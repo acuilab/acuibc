@@ -18,6 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.web3j.abi.datatypes.AbiTypes;
+import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Type;
 import static org.web3j.crypto.Hash.sha3;
 import static org.web3j.crypto.Hash.sha3String;
@@ -350,16 +351,31 @@ public class StructuredDataEncoder {
             // Using the Reflection API to get the types of the parameters
             Constructor[] constructors = typeClazz.getConstructors();
             for (Constructor constructor : constructors) {
+                System.out.println("constructor.getName()======================" + constructor.getName() + ", envValue=" + encValues.get(i).toString());
                 // Check which constructor matches
                 try {
                     Class[] parameterTypes = constructor.getParameterTypes();
-                    byte[] temp =
-                            Numeric.hexStringToByteArray(
-                                    TypeEncoder.encode(
-                                            typeClazz
-                                                    .getDeclaredConstructor(parameterTypes)
-                                                    .newInstance(encValues.get(i))));
-                    baos.write(temp, 0, temp.length);
+                    String encValue = encValues.get(i).toString();
+                    System.out.println("encValue===" + encValue);
+                    if(conflux.web3j.types.Address.isValid(encValue)) {
+                        System.out.println("按旧地址来搞");
+                        conflux.web3j.types.Address address = new conflux.web3j.types.Address(encValue);
+                        byte[] temp =
+                                Numeric.hexStringToByteArray(
+                                        TypeEncoder.encode(
+                                                Address.class
+                                                        .getDeclaredConstructor(new Class[] {java.lang.String.class})
+                                                        .newInstance(address.getABIAddress().toString())));
+                        baos.write(temp, 0, temp.length);
+                    } else {
+                        byte[] temp =
+                                Numeric.hexStringToByteArray(
+                                        TypeEncoder.encode(
+                                                typeClazz
+                                                        .getDeclaredConstructor(parameterTypes)
+                                                        .newInstance(encValues.get(i))));
+                        baos.write(temp, 0, temp.length);
+                    }
                     atleastOneConstructorExistsForGivenParametersType = true;
                     break;
                 } catch (IllegalArgumentException
@@ -367,10 +383,10 @@ public class StructuredDataEncoder {
                         | InstantiationException
                         | IllegalAccessException
                         | InvocationTargetException ignored) {
+//                    ignored.printStackTrace();
                 }
             }
 
-            System.out.println("typeClazz========================" + typeClazz.getName() + ", atleastOneConstructorExistsForGivenParametersType=" + atleastOneConstructorExistsForGivenParametersType);
             if (!atleastOneConstructorExistsForGivenParametersType) {
                 throw new RuntimeException(
                         String.format(

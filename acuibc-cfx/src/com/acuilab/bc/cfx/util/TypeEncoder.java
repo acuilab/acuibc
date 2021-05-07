@@ -48,14 +48,7 @@ public class TypeEncoder {
         if (parameter instanceof NumericType) {
             return encodeNumeric(((NumericType) parameter));
         } else if (parameter instanceof Address) {
-            //
-//            Address address = (Address) parameter;
-//            if(conflux.web3j.types.Address.isValid(address)) {
-//                return encodeString((Utf8String) parameter);
-//            }
             return encodeAddress((Address) parameter);
-        } else if (parameter instanceof conflux.web3j.types.Address) {
-            return encodeAddress((conflux.web3j.types.Address) parameter);
         } else if (parameter instanceof Bool) {
             return encodeBool((Bool) parameter);
         } else if (parameter instanceof Bytes) {

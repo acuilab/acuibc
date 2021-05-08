@@ -7,14 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- 有限支持Flux、Moondex应用（使用dapp浏览器实现）
+- 有限支持Flux、Moondex、MoonSwap等应用（使用dapp浏览器实现）
 - 支持cYFII、cMBTM代币
-- 工具栏增加刷新、调试按钮，用于操作dapp浏览器；
-- 工具栏增加DappStore
+- 工具栏增加刷新、调试、前进、后退等按钮，用于操作dapp浏览器；
+- 工具栏增加DappStore按钮方便访问
 
 ### Changed
 - 更新记录窗口标题由"Changelog"改为"更新记录"
 - Dapp浏览器窗口标题增加钱包地址后4位信息
+- 钱包窗口标题增加钱包地址后4位信息
 
 ## [0.9.18] - 2021-04-21
 ### Added

@@ -146,11 +146,17 @@
             <file name="com.acuilab.bc.main.action.DappStoreTopComponentAction4Toolbar.instance">
                 <attr name="position" intvalue="610"/>
             </file>
-            <file name="com.acuilab.bc.main.action.RefreshBrowserDAppAction.instance">
+            <file name="com.acuilab.bc.main.action.BackBrowserDAppAction.instance">
                 <attr intvalue="620" name="position"/>
             </file>
-            <file name="com.acuilab.bc.main.action.DebugBrowserDAppAction.instance">
+            <file name="com.acuilab.bc.main.action.FowardBrowserDAppAction.instance">
                 <attr intvalue="630" name="position"/>
+            </file>
+            <file name="com.acuilab.bc.main.action.RefreshBrowserDAppAction.instance">
+                <attr intvalue="640" name="position"/>
+            </file>
+            <file name="com.acuilab.bc.main.action.DebugBrowserDAppAction.instance">
+                <attr intvalue="650" name="position"/>
             </file>
         </folder>
         <folder name="QuickSearch_hidden"/>

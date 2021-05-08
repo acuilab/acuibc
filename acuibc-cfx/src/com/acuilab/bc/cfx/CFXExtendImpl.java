@@ -1,5 +1,6 @@
 package com.acuilab.bc.cfx;
 
+import com.acuilab.bc.cfx.util.StructuredDataEncoder;
 import com.acuilab.bc.main.cfx.CFXExtend;
 import conflux.web3j.Account;
 import conflux.web3j.Cfx;
@@ -11,7 +12,6 @@ import java.math.BigInteger;
 import org.openide.util.Lookup;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.Sign;
-import org.web3j.crypto.StructuredDataEncoder;
 import org.web3j.utils.Numeric;
 
 /**

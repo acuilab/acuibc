@@ -57,8 +57,8 @@ public final class DebugBrowserDAppTopComponent extends TopComponent implements 
         PREFERRED_ID = NbBundle.getMessage(DebugBrowserDAppTopComponent.class, "ID_DebugBrowserDAppTopComponent", Integer.toString(id));
     }
     
-    public void init(DebugInfo debugInfo) {
-        browser.loadURL(debugInfo.getRemoteDebuggingUrl());
+    public void init(BrowserInfo browserInfo) {
+        browser.loadURL(browserInfo.getBrowser().getRemoteDebuggingURL());
     }
     
     /**

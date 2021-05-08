@@ -14,14 +14,14 @@ import org.openide.util.Utilities;
  *
  * @author admin
  */
-public class DebugBrowserDAppAction extends AbstractAction implements LookupListener {
+public class RefreshBrowserDAppAction extends AbstractAction implements LookupListener {
     
     private final Lookup.Result<BrowserInfo> result;
-    private BrowserInfo debugInfo;
+    private BrowserInfo browserInfo;
     
-    public DebugBrowserDAppAction() {
-        putValue(NAME, "调试");
-        putValue(SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/resource/debug32.png")));
+    public RefreshBrowserDAppAction() {
+        putValue(NAME, "刷新");
+        putValue(SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/resource/refresh32.png")));
 
         result = Utilities.actionsGlobalContext().lookupResult(BrowserInfo.class);
         result.addLookupListener(this);
@@ -31,12 +31,7 @@ public class DebugBrowserDAppAction extends AbstractAction implements LookupList
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        DebugBrowserDAppTopComponent tc = new DebugBrowserDAppTopComponent();
-        tc.setName(debugInfo.getTitle());
-        tc.setToolTipText(debugInfo.getTitle());
-        tc.init(debugInfo);
-        tc.open();
-        tc.requestActive();
+        browserInfo.getBrowser().reload();
     }
 
     @Override
@@ -53,6 +48,6 @@ public class DebugBrowserDAppAction extends AbstractAction implements LookupList
             return; 
         }
         
-        debugInfo = result.allInstances().iterator().next();
+        browserInfo = result.allInstances().iterator().next();
     }
 }

@@ -3,6 +3,7 @@ package com.acuilab.bc.main.cfx.dapp.browser;
 import com.acuilab.bc.main.dapp.IDApp;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 
@@ -17,14 +18,15 @@ public abstract class CfxBrowserDApp implements IDApp {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+                String name = getName() + "(" + StringUtils.substring(address, StringUtils.length(address) - 4) + ")";
                 CfxBrowserDAppTopComponent tc = new CfxBrowserDAppTopComponent();
-                tc.setName(getName());
+                tc.setName(name);
                 tc.setToolTipText(getDesc());
                 ImageIcon imageIcon = getImageIcon();
                 if(imageIcon != null) {
                     tc.setIcon(getImageIcon().getImage());
                 }
-                tc.init(address, privateKey, getName(), getUrl(), getCustomJsBeforeInjectWeb3());
+                tc.init(address, privateKey, name, getUrl(), getCustomJsBeforeInjectWeb3());
                 tc.open();
                 tc.requestActive();
             }

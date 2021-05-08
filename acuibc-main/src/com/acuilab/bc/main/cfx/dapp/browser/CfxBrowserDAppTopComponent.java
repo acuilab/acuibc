@@ -79,7 +79,6 @@ public final class CfxBrowserDAppTopComponent extends TopComponent implements Jx
 
 	// http://acuilab.com:8080/articles/2021/02/09/1612840191556.html
 	// 解决JxBrowser中BrowserView控件覆盖其他控件的办法
-        System.out.println("dataDir ========================== " + dataDir.getAbsolutePath());
 	browser = new Browser(BrowserType.LIGHTWEIGHT, new BrowserContext(new BrowserContextParams(dataDir.getAbsolutePath())));
 	view = new BrowserView(browser);
 	this.add(view, BorderLayout.CENTER);

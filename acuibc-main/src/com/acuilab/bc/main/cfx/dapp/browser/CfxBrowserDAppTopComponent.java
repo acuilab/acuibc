@@ -1,7 +1,7 @@
 package com.acuilab.bc.main.cfx.dapp.browser;
 
 import com.acuilab.bc.main.JxBrowserDisposer;
-import com.acuilab.bc.main.dapp.DebugInfo;
+import com.acuilab.bc.main.dapp.BrowserInfo;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -112,7 +112,7 @@ public final class CfxBrowserDAppTopComponent extends TopComponent implements Jx
 		    // 执行conflux.js
 		    browser.executeJavaScript(confluxJs);
                     
-                    content.set(Collections.singleton(new DebugInfo(name + "(调试)", browser.getRemoteDebuggingURL())), null);
+                    content.set(Collections.singleton(new BrowserInfo(name + "(调试)", browser)), null);
                 }
             }
         });

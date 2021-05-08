@@ -72,11 +72,12 @@
         </folder>
         <folder name="窗口">
             <attr intvalue="750" name="position"/>
+            <file name="com.acuilab.bc.main.action.InternalDAppListTopComponentAction.instance_hidden"/>
             <file name="com.acuilab.bc.main.action.WalletListTopComponentAction.instance">
                 <attr intvalue="10" name="position"/>
             </file>
-            <file name="com.acuilab.bc.main.action.InternalDAppListTopComponentAction.instance">
-                <attr intvalue="20" name="position"/>
+            <file name="com.acuilab.bc.main.action.DappStoreTopComponentAction4Menu.instance">
+                <attr name="position" intvalue="20"/>
             </file>
 <!--            <file name="com.acuilab.bc.main.action.TestAction.instance">
                 <attr intvalue="30" name="position"/>
@@ -140,10 +141,16 @@
                 <attr intvalue="560" name="position"/>
             </file>
         </folder>
-        <folder name="工具">
+        <folder name="DappStore">
             <attr intvalue="600" name="position"/>
+            <file name="com.acuilab.bc.main.action.DappStoreTopComponentAction4Toolbar.instance">
+                <attr name="position" intvalue="610"/>
+            </file>
+            <file name="com.acuilab.bc.main.action.RefreshBrowserDAppAction.instance">
+                <attr intvalue="620" name="position"/>
+            </file>
             <file name="com.acuilab.bc.main.action.DebugBrowserDAppAction.instance">
-                <attr intvalue="610" name="position"/>
+                <attr intvalue="630" name="position"/>
             </file>
         </folder>
         <folder name="QuickSearch_hidden"/>

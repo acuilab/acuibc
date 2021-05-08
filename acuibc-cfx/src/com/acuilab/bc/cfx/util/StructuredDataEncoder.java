@@ -58,7 +58,6 @@ public class StructuredDataEncoder {
     public StructuredDataEncoder(String jsonMessageInString) throws IOException, RuntimeException {
         // Parse String Message into object and validate
         this.jsonMessageObject = parseJSONMessage(jsonMessageInString);
-        System.out.println("jsonMessageObject==================================" + jsonMessageObject.toString());
     }
 
     public Set<String> getDependencies(String primaryType) {
@@ -351,14 +350,11 @@ public class StructuredDataEncoder {
             // Using the Reflection API to get the types of the parameters
             Constructor[] constructors = typeClazz.getConstructors();
             for (Constructor constructor : constructors) {
-                System.out.println("constructor.getName()======================" + constructor.getName() + ", envValue=" + encValues.get(i).toString());
                 // Check which constructor matches
                 try {
                     Class[] parameterTypes = constructor.getParameterTypes();
                     String encValue = encValues.get(i).toString();
-                    System.out.println("encValue===" + encValue);
                     if(conflux.web3j.types.Address.isValid(encValue)) {
-                        System.out.println("按旧地址来搞");
                         conflux.web3j.types.Address address = new conflux.web3j.types.Address(encValue);
                         byte[] temp =
                                 Numeric.hexStringToByteArray(
@@ -383,7 +379,6 @@ public class StructuredDataEncoder {
                         | InstantiationException
                         | IllegalAccessException
                         | InvocationTargetException ignored) {
-//                    ignored.printStackTrace();
                 }
             }
 

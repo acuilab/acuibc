@@ -9,11 +9,11 @@ import org.openide.windows.WindowManager;
  *
  * @author admin
  */
-public class InternalDAppListTopComponentAction extends AbstractAction {
+public class DappStoreTopComponentAction4Toolbar extends AbstractAction {
     
-    public InternalDAppListTopComponentAction() {
+    public DappStoreTopComponentAction4Toolbar() {
         putValue(NAME, "DappStore");
-//        putValue(SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/resource/wallet16.png")));
+        putValue(SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/resource/dappstore32.png")));
     }
     
     @Override

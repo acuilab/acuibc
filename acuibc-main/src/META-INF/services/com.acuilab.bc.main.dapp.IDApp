@@ -1,6 +1,6 @@
 com.acuilab.bc.main.cfx.dapp.batchtransfer.BatchTransferDApp
 com.acuilab.bc.main.cfx.dapp.browser.FluxDApp
-#com.acuilab.bc.main.cfx.dapp.browser.MoonSwapDApp
+com.acuilab.bc.main.cfx.dapp.browser.MoonSwapDApp
 #com.acuilab.bc.main.cfx.dapp.browser.TreaDApp
 #com.acuilab.bc.main.cfx.dapp.browser.Ins3DApp
 #com.acuilab.bc.main.cfx.dapp.browser.FcCfxDApp

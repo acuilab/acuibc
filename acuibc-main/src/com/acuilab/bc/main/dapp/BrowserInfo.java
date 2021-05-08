@@ -9,17 +9,23 @@ import com.teamdev.jxbrowser.chromium.Browser;
 public class BrowserInfo {
     private final Browser browser;
     private final String title;
+    private final String homeUrl;
 
-    public BrowserInfo(String title, Browser browser) {
-        this.title = title;
+    public BrowserInfo(Browser browser, String title, String homeUrl) {
         this.browser = browser;
+        this.title = title;
+        this.homeUrl = homeUrl;
+    }
+    
+    public Browser getBrowser() {
+        return browser;
     }
 
     public String getTitle() {
         return title;
     }
     
-    public Browser getBrowser() {
-        return browser;
+    public String getHomeUrl() {
+        return homeUrl;
     }
 }

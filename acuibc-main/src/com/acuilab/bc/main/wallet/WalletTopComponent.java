@@ -66,7 +66,7 @@ public final class WalletTopComponent extends TopComponent implements Observer {
 
     public WalletTopComponent(Wallet wallet) {
         initComponents();
-        setName(wallet.getName());
+        setName(wallet.getName() + "(" + StringUtils.substring(wallet.getAddress(), StringUtils.length(wallet.getAddress()) - 4) + ")");
         setToolTipText(wallet.getName());
         BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
         this.setIcon(bc.getIconImage(16));

@@ -49,6 +49,8 @@ public final class CfxBrowserDAppTopComponent extends TopComponent implements Jx
     private final Browser browser;
     private final BrowserView view;
     
+    private String homeUrl;
+    
     private static final AtomicInteger ID = new AtomicInteger();
     private final String PREFERRED_ID;  // 20200802
     
@@ -112,7 +114,7 @@ public final class CfxBrowserDAppTopComponent extends TopComponent implements Jx
 		    // 执行conflux.js
 		    browser.executeJavaScript(confluxJs);
                     
-                    content.set(Collections.singleton(new BrowserInfo(name + "(调试)", browser)), null);
+                    content.set(Collections.singleton(new BrowserInfo(browser, name + "(调试)", homeUrl)), null);
                 }
             }
         });
@@ -127,6 +129,7 @@ public final class CfxBrowserDAppTopComponent extends TopComponent implements Jx
         });
         
         browser.loadURL(url);
+        homeUrl = url;
     }
     
     /**

@@ -85,9 +85,15 @@ public final class SelectWalletVisualPanel extends JPanel {
 	TableColumnExt indexColumn = table.getColumnExt(WalletTableModel.INDEX_COLUMN);
 	indexColumn.setMinWidth(56);
 	indexColumn.setMaxWidth(56);
-        DefaultTableCellRenderer render = new DefaultTableCellRenderer();
-        render.setHorizontalAlignment(SwingConstants.CENTER);
-        indexColumn.setCellRenderer(render);
+        indexColumn.setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            protected void setValue(Object value) {
+                setForeground(Color.BLACK);
+                setHorizontalAlignment(SwingConstants.CENTER);
+                super.setValue(value);
+            }
+            
+        });
         indexColumn.setSortable(false);        
         
         ColorHighlighter evenHighlighter = new ColorHighlighter(HighlightPredicate.EVEN, Color.WHITE, null);

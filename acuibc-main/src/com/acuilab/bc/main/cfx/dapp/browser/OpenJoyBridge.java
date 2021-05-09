@@ -4,7 +4,12 @@ import com.acuilab.bc.main.cfx.CFXExtend;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.Maps;
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.SwingUtilities;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
@@ -70,20 +75,6 @@ public class OpenJoyBridge {
                     
                     if(StringUtils.equals("requestAccounts", type)) {
                         
-//                        // UI线程获得钱包
-//                        SwingUtilities.invokeAndWait(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                WalletSelectorDialog dlg = new WalletSelectorDialog(null);
-//                                dlg.setVisible(true);
-//                                if(dlg.getReturnStatus() == ConfirmDialog.RET_OK) {
-//                                    Wallet wallet = dlg.getSelectedWallet();
-//                                    address[0] = wallet.getAddress();
-//                                }
-//                            }
-//                            
-//                        });
-                        
                         ObjectMapper om = new ObjectMapper();
                         ObjectNode on = om.createObjectNode();
                         on.put("jsonrpc", "2.0");
@@ -109,6 +100,7 @@ public class OpenJoyBridge {
                         String data = payloadNode.get("data").asText();
                         
                         // TODO: 显示确认对话框
+
                         
                         CFXExtend cfxExtend = Lookup.getDefault().lookup(CFXExtend.class);
                         String hash = cfxExtend.send(privateKey, 
@@ -129,21 +121,64 @@ public class OpenJoyBridge {
                         
                         tc.executeJavaScript("conflux.callbacks.get("+ resolver +")(null, "+ on +");");
                     } else if(StringUtils.equals("signTypedMessage", type)) {
-			
-			String data = payloadNode.get("data").asText();
-			
-			CFXExtend cfxExtend = Lookup.getDefault().lookup(CFXExtend.class);
-			String signData = cfxExtend.sign(privateKey, data);
-			
-                        ObjectMapper om = new ObjectMapper();
-                        ObjectNode on = om.createObjectNode();
-                        on.put("jsonrpc", "2.0");
-                        on.put("id", resolver);
-                        on.put("result", signData);
-                        
-                        System.out.println("signTypedMessage on==========================================" + on);
-                        
-                        tc.executeJavaScript("conflux.callbacks.get("+ resolver +")(null, "+ on +");");
+			JsonNode dataNode = payloadNode.get("data");
+                        // 显示确认对话框
+                        SwingUtilities.invokeAndWait(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 将data格式化
+                                try {
+                                    System.out.println("data========================================" + dataNode.asText());
+                                    ObjectMapper om = new ObjectMapper();
+                                    Object obj = om.readValue(dataNode.asText(), Object.class);
+                                    String prettyString = om.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+                                    SignTypedMessageDialog dlg = new SignTypedMessageDialog(address, prettyString);
+                                    dlg.setVisible(true);
+                                    if (dlg.getReturnStatus() == SignTypedMessageDialog.RET_OK) {
+                                        CFXExtend cfxExtend = Lookup.getDefault().lookup(CFXExtend.class);
+
+                                        String signData = cfxExtend.sign(privateKey, dataNode.asText());
+
+                                        om = new ObjectMapper();
+                                        ObjectNode on = om.createObjectNode();
+                                        on.put("jsonrpc", "2.0");
+                                        on.put("id", resolver);
+                                        on.put("result", signData);
+
+                                        System.out.println("signTypedMessage on==========================================" + on);
+
+                                        tc.executeJavaScript("conflux.callbacks.get(" + resolver + ")(null, " + on + ");");
+
+                                    } else {
+                                        // 用户取消签名
+                                        om = new ObjectMapper();
+                                        ObjectNode on = om.createObjectNode();
+                                        on.put("jsonrpc", "2.0");
+                                        on.put("id", resolver);
+                                        
+                                        Map<String, Object> map = Maps.newHashMap();
+                                        map.put("code", 4001);
+                                        map.put("message", "MetaMask Message Signature: User denied message signature.");
+                                        on.putPOJO("error", map);
+
+                                        System.out.println("signTypedMessage on==========================================" + on);
+                                        
+                                        
+//                                        String ret = "{code: 4001, message: \"MetaMask Message Signature: User denied message signature.\", stack: \"Error: MetaMask Message Signature: User denied mes…aamecojfkaialabagfofilmg/background.js:49:466621)\"}";
+
+//                                        on.put("code", 4001);
+//                                        on.put("message", "MetaMask Message Signature: User denied message signature.");
+//                                        on.put("stack", "");
+//                                        System.out.println("signTypedMessage on==========================================" + on);
+                                        
+                                        tc.executeJavaScript("conflux.callbacks.get(" + resolver + ")(null, " + on + ");");
+                                    }
+                                } catch (Exception ex) {
+                                    Exceptions.printStackTrace(ex);
+                                }
+                            }
+                            
+                        });
 		    }
                 } catch (Exception ex) {
                     Exceptions.printStackTrace(ex);

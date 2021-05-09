@@ -39,7 +39,7 @@
                       <Component id="copyBtn" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
-                  <Component id="jXLabel1" pref="955" max="32767" attributes="0"/>
+                  <Component id="jXLabel1" pref="548" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>

@@ -139,9 +139,9 @@ public class CFXCoin implements ICFXCoin {
     @Override
     public List<TransferRecord> getTransferRecords(Wallet wallet, ICoin coin, String address, int limit) throws Exception {
         List<TransferRecord> transferRecords = Lists.newArrayList();
-        if(limit > 50) {
+        if(limit > 100) {
             // "query.pageSize" do not match condition "<=100", got: 140
-            limit = 50;
+            limit = 100;
         }
         String url = TRANSACTION_LIST_URL + "?skip=0&reverse=true&limit=" + limit + "&accountAddress=" + address;
         System.out.println(url);

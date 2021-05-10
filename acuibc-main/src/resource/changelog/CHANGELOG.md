@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dapp浏览器窗口标题增加钱包地址后4位信息
 - 钱包窗口标题增加钱包地址后4位信息
 - cfx和其他erc20代币的交易记录默认返回条数调整为100
+- CfxCoin和ERC20Coin的gasDefault方法返回值由常量1改为CfxUnit.DEFAULT_GAS_PRICE
 
 ## [0.9.18] - 2021-04-21
 ### Added

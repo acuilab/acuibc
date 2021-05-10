@@ -139,11 +139,37 @@ public class CFXCoin implements ICFXCoin {
     @Override
     public List<TransferRecord> getTransferRecords(Wallet wallet, ICoin coin, String address, int limit) throws Exception {
         List<TransferRecord> transferRecords = Lists.newArrayList();
-        if(limit > 100) {
-            // "query.pageSize" do not match condition "<=100", got: 140
-            limit = 100;
+        
+        int skip = 0;
+        int count = 0;
+        
+        while(count < limit) {
+            int pageSize = limit - count < 100 ? limit - count : 100;
+            List<TransferRecord> list = getTransferRecords(wallet, coin, address, skip, pageSize);
+            if(list.isEmpty()) {
+                break;
+            }
+            
+            transferRecords.addAll(list);
+            skip += 100;
+            count += list.size();
         }
-        String url = TRANSACTION_LIST_URL + "?skip=0&reverse=true&limit=" + limit + "&accountAddress=" + address;
+
+        return transferRecords;
+    }
+    
+    private List<TransferRecord> getTransferRecords(Wallet wallet, ICoin coin, String address, int skip, int pageSize) throws Exception {
+        List<TransferRecord> transferRecords = Lists.newArrayList();
+        if(skip >= 10000) {
+            return transferRecords;
+        }
+        
+        // {"code":10001,"message":"skip(9999) + limit(2) > listLimit(10000) while exist any of [accountAddress,minTimestamp,maxTimestamp,minEpochNumber,maxEpochNumber]"}
+        if(skip + pageSize > 10000) {
+            pageSize = 10000 - skip;
+        }
+        
+        String url = TRANSACTION_LIST_URL + "?skip=" + skip + "&reverse=true&limit=" + pageSize + "&accountAddress=" + address;
         System.out.println(url);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
@@ -192,7 +218,7 @@ public class CFXCoin implements ICFXCoin {
             }
             
         }
-
+        
         return transferRecords;
     }
 

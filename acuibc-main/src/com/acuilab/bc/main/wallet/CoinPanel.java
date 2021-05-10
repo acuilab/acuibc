@@ -426,7 +426,7 @@ public class CoinPanel extends JXPanel {
             }
         });
 
-        limitSpinner.setModel(new javax.swing.SpinnerNumberModel(100, 0, 200, 10));
+        limitSpinner.setModel(new javax.swing.SpinnerNumberModel(100, 0, 10000, 100));
         JSpinner.NumberEditor editor = new JSpinner.NumberEditor(limitSpinner, "#");
         final JFormattedTextField textField = editor.getTextField();
         final DefaultFormatterFactory factory = (DefaultFormatterFactory)textField.getFormatterFactory();

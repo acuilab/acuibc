@@ -214,7 +214,7 @@ public class CFXCoin implements ICFXCoin {
     @Override
     public int gasDefault() {
 	// 1drip
-        return 1;
+        return CfxUnit.DEFAULT_GAS_PRICE.intValue();
     }
     
     @Override

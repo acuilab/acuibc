@@ -2,14 +2,11 @@ package com.acuilab.bc.main.skin;
 
 import com.acuilab.bc.main.util.Utils;
 import com.google.common.collect.Lists;
-import java.awt.Component;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenuItem;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.util.Exceptions;

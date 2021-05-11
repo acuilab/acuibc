@@ -16,6 +16,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import java.math.RoundingMode;
 import java.util.Date;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
@@ -44,7 +46,10 @@ public class ETHCoin implements ICoin {
     public static final String SYMBOL = "ETH";
     // https://api-cn.etherscan.com/api?module=account&action=txlist&address=0xddbd2b932c763ba5b1b7ae3b362eac3e8d40121a&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=YourApiKeyToken
     public static final String TRANSACTION_LIST_URL = "https://api-cn.etherscan.com/api";
-
+    
+    // https://www.ethgasstation.info/
+    public static final String ETH_GAS_API = "https://ethgasstation.info/api/ethgasAPI.json?api-key=4d4fa9a994e8da93248869d579c06b67c6e43dd8d9bf59cbf81dcdd96e94";
+    
     @Override
     public void init() {
     }

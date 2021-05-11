@@ -97,54 +97,73 @@ public class OpenJoyBridge {
                         BigInteger storageLimit = storageLimitNode == null ? null : new BigInteger(StringUtils.substringAfter(storageLimitNode.asText(), "0x"), 16);
                         String data = payloadNode.get("data").asText();
                         
-                        // 显示确认对话框
-                        SwingUtilities.invokeAndWait(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    SignTransactionDialog dlg = new SignTransactionDialog(from, to, gas, storageLimit, value, data);
-                                    dlg.setVisible(true);
-                                    if (dlg.getReturnStatus() == SignTransactionDialog.RET_OK) {
-                                        CFXExtend cfxExtend = Lookup.getDefault().lookup(CFXExtend.class);
-                                        String hash = cfxExtend.send(privateKey, 
-                                                from, 
-                                                gas, 
-                                                to, 
-                                                value, 
-                                                storageLimit, 
-                                                data);
+                        CFXExtend cfxExtend = Lookup.getDefault().lookup(CFXExtend.class);
+                        String hash = cfxExtend.send(privateKey, 
+                                from, 
+                                gas, 
+                                to, 
+                                value, 
+                                storageLimit, 
+                                data);
 
-                                        ObjectMapper om = new ObjectMapper();
-                                        ObjectNode on = om.createObjectNode();
-                                        on.put("jsonrpc", "2.0");
-                                        on.put("id", resolver);
-                                        on.put("result", hash);
+                        ObjectMapper om = new ObjectMapper();
+                        ObjectNode on = om.createObjectNode();
+                        on.put("jsonrpc", "2.0");
+                        on.put("id", resolver);
+                        on.put("result", hash);
 
-                                        System.out.println("signTransaction on==========================================" + on);
+                        System.out.println("signTransaction on==========================================" + on);
 
-                                        tc.executeJavaScript("conflux.callbacks.get("+ resolver +")(null, "+ on +");");
-                                    } else {
-                                        // 用户取消签名
-                                        ObjectMapper om = new ObjectMapper();
-                                        ObjectNode on = om.createObjectNode();
-                                        on.put("jsonrpc", "2.0");
-                                        on.put("id", resolver);
-                                        
-                                        Map<String, Object> map = Maps.newHashMap();
-                                        map.put("code", 4001);
-                                        map.put("message", "MetaMask Message Signature: User denied message signature.");
-                                        on.putPOJO("error", map);
-
-                                        System.out.println("signTransaction on==========================================" + on);
-                                        
-                                        tc.executeJavaScript("conflux.callbacks.get(" + resolver + ")(null, " + on + ");");
-                                    }
-                                } catch (Exception ex) {
-                                    Exceptions.printStackTrace(ex);
-                                }
-                            }
-                            
-                        });
+                        tc.executeJavaScript("conflux.callbacks.get("+ resolver +")(null, "+ on +");");
+                        
+//                        // 显示确认对话框
+//                        SwingUtilities.invokeAndWait(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                try {
+//                                    SignTransactionDialog dlg = new SignTransactionDialog(from, to, gas, storageLimit, value, data);
+//                                    dlg.setVisible(true);
+//                                    if (dlg.getReturnStatus() == SignTransactionDialog.RET_OK) {
+//                                        CFXExtend cfxExtend = Lookup.getDefault().lookup(CFXExtend.class);
+//                                        String hash = cfxExtend.send(privateKey, 
+//                                                from, 
+//                                                gas, 
+//                                                to, 
+//                                                value, 
+//                                                storageLimit, 
+//                                                data);
+//
+//                                        ObjectMapper om = new ObjectMapper();
+//                                        ObjectNode on = om.createObjectNode();
+//                                        on.put("jsonrpc", "2.0");
+//                                        on.put("id", resolver);
+//                                        on.put("result", hash);
+//
+//                                        System.out.println("signTransaction on==========================================" + on);
+//
+//                                        tc.executeJavaScript("conflux.callbacks.get("+ resolver +")(null, "+ on +");");
+//                                    } else {
+//                                        // 用户取消签名
+//                                        ObjectMapper om = new ObjectMapper();
+//                                        ObjectNode on = om.createObjectNode();
+//                                        on.put("jsonrpc", "2.0");
+//                                        on.put("id", resolver);
+//                                        
+//                                        Map<String, Object> map = Maps.newHashMap();
+//                                        map.put("code", 4001);
+//                                        map.put("message", "MetaMask Message Signature: User denied message signature.");
+//                                        on.putPOJO("error", map);
+//
+//                                        System.out.println("signTransaction on==========================================" + on);
+//                                        
+//                                        tc.executeJavaScript("conflux.callbacks.get(" + resolver + ")(null, " + on + ");");
+//                                    }
+//                                } catch (Exception ex) {
+//                                    Exceptions.printStackTrace(ex);
+//                                }
+//                            }
+//                            
+//                        });
                     } else if(StringUtils.equals("signTypedMessage", type)) {
 			JsonNode dataNode = payloadNode.get("data");
                         // 显示确认对话框

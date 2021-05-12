@@ -25,6 +25,7 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 import org.openide.util.Exceptions;
 import com.acuilab.bc.main.coin.ICoin;
+import com.acuilab.bc.main.util.GasRelated;
 import javax.swing.JLabel;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.examples.complete.Utils;
@@ -46,21 +47,28 @@ public final class TransferInputVisualPanel extends JPanel {
         this.coin = coin;
 
         BlockChain bc = BlockChainManager.getDefault().getBlockChain(coin.getBlockChainSymbol());
-        int min = coin.gasMin();
-        int max = coin.gasMax();
-        int defaultValue = coin.gasDefault();
-        gasSlider.setMinimum(min);
-        gasSlider.setMaximum(max);
-        gasSlider.setValue(defaultValue);
-        gasSpinner.setModel(new SpinnerNumberModel(defaultValue, min, max, 1));
-        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(gasSpinner, "#");
-        final JFormattedTextField textField = editor.getTextField();
-        final DefaultFormatterFactory factory = (DefaultFormatterFactory)textField.getFormatterFactory();
-        final NumberFormatter formatter = (NumberFormatter)factory.getDefaultFormatter();
-        formatter.setCommitsOnValidEdit(true);
-        gasSpinner.setEditor(editor);
-        
-        gasLbl.setText(coin.gasDesc(coin.gasDefault()));
+        // gas相关
+        try {
+            GasRelated gasRelated = coin.getGasRelated();
+            int min = gasRelated.getGasMin();
+            int max = gasRelated.getGasMax();
+            int defaultValue = gasRelated.getGasDefault();
+            gasSlider.setMinimum(min);
+            gasSlider.setMaximum(max);
+            gasSlider.setValue(defaultValue);
+            gasSpinner.setModel(new SpinnerNumberModel(defaultValue, min, max, 1));
+            JSpinner.NumberEditor editor = new JSpinner.NumberEditor(gasSpinner, "#");
+            final JFormattedTextField textField = editor.getTextField();
+            final DefaultFormatterFactory factory = (DefaultFormatterFactory)textField.getFormatterFactory();
+            final NumberFormatter formatter = (NumberFormatter)factory.getDefaultFormatter();
+            formatter.setCommitsOnValidEdit(true);
+            gasSpinner.setEditor(editor);
+
+            gasLbl.setText(coin.gasDesc(gasRelated.getGasDefault()));
+        } catch(Exception ex) {
+            Exceptions.printStackTrace(ex);
+        }
+
 
         // 求余额
         valueFld.setPrompt("正在请求余额，请稍候...");

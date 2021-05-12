@@ -11,6 +11,7 @@ import javax.swing.Icon;
 import org.openide.util.ImageUtilities;
 import com.acuilab.bc.main.coin.ICoin;
 import com.acuilab.bc.main.util.Constants;
+import com.acuilab.bc.main.util.GasRelated;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
@@ -258,25 +259,30 @@ public class BNBCoin implements ICoin {
         return transferRecords;
     }
 
-    // 单位gwei
+//    // 单位gwei
+//    @Override
+//    public int gasMin() {
+//        // gwei
+//        return 70;
+//    }
+//
+//    // 单位gwei
+//    @Override
+//    public int gasMax() {
+//        // gwei
+//        return 78;
+//    }
+//
+//    // 单位gwei
+//    @Override
+//    public int gasDefault() {
+//        // gwei
+//        return 70;
+//    }
+    
     @Override
-    public int gasMin() {
-        // gwei
-        return 70;
-    }
-
-    // 单位gwei
-    @Override
-    public int gasMax() {
-        // gwei
-        return 78;
-    }
-
-    // 单位gwei
-    @Override
-    public int gasDefault() {
-        // gwei
-        return 70;
+    public GasRelated getGasRelated() throws Exception {
+        return  new GasRelated(70, 78, 70);
     }
 
     @Override

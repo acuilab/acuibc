@@ -1,5 +1,6 @@
 package com.acuilab.bc.main.coin;
 
+import com.acuilab.bc.main.util.GasRelated;
 import com.acuilab.bc.main.wallet.TransferRecord;
 import com.acuilab.bc.main.wallet.Wallet;
 import java.awt.Image;
@@ -123,24 +124,11 @@ public interface ICoin {
      */
     public List<TransferRecord> getTransferRecords(Wallet wallet, ICoin coin, String address, int limit) throws Exception;
     
-    
     /**
-     * 矿工费单价最小值
+     * 获得gas相关信息
      * @return 
      */
-    int gasMin();
-    
-    /**
-     * 矿工费单价最大值
-     * @return 
-     */
-    int gasMax();
-    
-    /**
-     * 矿工费单价初值
-     * @return 
-     */
-    int gasDefault();
+    GasRelated getGasRelated() throws Exception;
     
     /**
      * 矿工费描述：例如1drip

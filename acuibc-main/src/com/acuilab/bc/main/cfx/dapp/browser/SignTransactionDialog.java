@@ -3,6 +3,7 @@ package com.acuilab.bc.main.cfx.dapp.browser;
 import com.acuilab.bc.main.coin.ICoin;
 import com.acuilab.bc.main.manager.CoinManager;
 import com.acuilab.bc.main.util.Constants;
+import com.acuilab.bc.main.util.GasRelated;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.math.BigInteger;
@@ -17,6 +18,7 @@ import javax.swing.KeyStroke;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
+import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 
 /**
@@ -51,22 +53,28 @@ public class SignTransactionDialog extends javax.swing.JDialog {
         }
         
         // 矿工费初始化
-        int defaultValue = gas != null ? gas.intValue() : cfxCoin.gasDefault();
-        int gasMin = gas != null ? defaultValue*8/10 : cfxCoin.gasMin();
-        int gasMax = gas != null ? defaultValue*15/10 : cfxCoin.gasMax();
-        
-        gasSlider.setMinimum(gasMin);
-        gasSlider.setMaximum(gasMax);
-        gasSlider.setValue(defaultValue);
-        System.out.println("min=" + gasMin + ", max=" + gasMax + ", defaultValue=" + defaultValue);
-        gasSpinner.setModel(new SpinnerNumberModel(defaultValue, gasMin, gasMax, 1));
-        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(gasSpinner, "#");
-        final JFormattedTextField textField = editor.getTextField();
-        final DefaultFormatterFactory factory = (DefaultFormatterFactory)textField.getFormatterFactory();
-        final NumberFormatter formatter = (NumberFormatter)factory.getDefaultFormatter();
-        formatter.setCommitsOnValidEdit(true);
-        gasSpinner.setEditor(editor);
-        gasLbl.setText(cfxCoin.gasDesc(defaultValue));
+        try {
+            GasRelated gasRelated = cfxCoin.getGasRelated();
+            int defaultValue = gas != null ? gas.intValue() : gasRelated.getGasDefault();
+            int gasMin = gas != null ? defaultValue*8/10 : gasRelated.getGasMin();
+            int gasMax = gas != null ? defaultValue*15/10 : gasRelated.getGasMax();
+
+            gasSlider.setMinimum(gasMin);
+            gasSlider.setMaximum(gasMax);
+            gasSlider.setValue(defaultValue);
+            System.out.println("min=" + gasMin + ", max=" + gasMax + ", defaultValue=" + defaultValue);
+            gasSpinner.setModel(new SpinnerNumberModel(defaultValue, gasMin, gasMax, 1));
+            JSpinner.NumberEditor editor = new JSpinner.NumberEditor(gasSpinner, "#");
+            final JFormattedTextField textField = editor.getTextField();
+            final DefaultFormatterFactory factory = (DefaultFormatterFactory)textField.getFormatterFactory();
+            final NumberFormatter formatter = (NumberFormatter)factory.getDefaultFormatter();
+            formatter.setCommitsOnValidEdit(true);
+            gasSpinner.setEditor(editor);
+            gasLbl.setText(cfxCoin.gasDesc(defaultValue));
+        } catch(Exception ex) {
+            Exceptions.printStackTrace(ex);
+        }
+
 
         gasSlider.setEnabled(true);
         gasSpinner.setEnabled(true);

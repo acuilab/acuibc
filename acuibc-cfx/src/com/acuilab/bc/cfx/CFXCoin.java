@@ -17,6 +17,7 @@ import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import com.acuilab.bc.main.coin.ICoin;
 import com.acuilab.bc.main.util.Constants;
+import com.acuilab.bc.main.util.GasRelated;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import conflux.web3j.Account.Option;
@@ -222,25 +223,30 @@ public class CFXCoin implements ICFXCoin {
         return transferRecords;
     }
 
-    // 单位drip
+//    // 单位drip
+//    @Override
+//    public int gasMin() {
+//	// 1drip
+//        return 1;
+//    }
+//
+//    // 单位drip
+//    @Override
+//    public int gasMax() {
+//        // 100drip
+//        return 100;
+//    }
+//
+//    // 单位drip
+//    @Override
+//    public int gasDefault() {
+//	// 1drip
+//        return CfxUnit.DEFAULT_GAS_PRICE.intValue();
+//    }
+    
     @Override
-    public int gasMin() {
-	// 1drip
-        return 1;
-    }
-
-    // 单位drip
-    @Override
-    public int gasMax() {
-        // 100drip
-        return 100;
-    }
-
-    // 单位drip
-    @Override
-    public int gasDefault() {
-	// 1drip
-        return CfxUnit.DEFAULT_GAS_PRICE.intValue();
+    public GasRelated getGasRelated() throws Exception {
+        return new GasRelated(1, 100, CfxUnit.DEFAULT_GAS_PRICE.intValue());
     }
     
     @Override

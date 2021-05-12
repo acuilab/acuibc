@@ -76,6 +76,11 @@ public class CoinPanel extends JXPanel {
     private boolean firstOpen;
     
     public static final String ROOT_COINPANEL_KEY = "root.coinPanel";
+    public static final String CREATE_COLUMN_KEY = ROOT_COINPANEL_KEY + ".columnWidth." + TransferRecordTableModel.CREATED_COLUMN;
+    public static final String VALUE_COLUMN_KEY = ROOT_COINPANEL_KEY + ".columnWidth." + TransferRecordTableModel.VALUE_COLUMN;
+    public static final String SENDADDRESS_COLUMN_KEY = ROOT_COINPANEL_KEY + ".columnWidth." + TransferRecordTableModel.SENDADDRESS_COLUMN;
+    public static final String RECVADDRESS_COLUMN_KEY = ROOT_COINPANEL_KEY + ".columnWidth." + TransferRecordTableModel.RECVADDRESS_COLUMN;
+    public static final String HASH_COLUMN_KEY = ROOT_COINPANEL_KEY + ".columnWidth." + TransferRecordTableModel.HASH_COLUMN;
 
     /**
      * Creates new form CoinPanel
@@ -329,23 +334,36 @@ public class CoinPanel extends JXPanel {
         statusColumn.setMaxWidth(24);
         statusColumn.setCellRenderer(new StatusTableCellRenderer());
 
-//        TableColumnExt createdColumn = table.getColumnExt(TransferRecordTableModel.CREATED_COLUMN);
-//        int width = NbPreferences.root().getInt(ROOT_COINPANEL_KEY + ".columnWidth." + TransferRecordTableModel.CREATED_COLUMN, createdColumn.getPreferredWidth());
-//        createdColumn.setPreferredWidth(width);
-//        System.out.println("createdColumn=============================" + width);
-//        
-//        table.getColumnModel().getColumn(TransferRecordTableModel.CREATED_COLUMN).setPreferredWidth(width);
+        int width = NbPreferences.root().getInt(CREATE_COLUMN_KEY, -1);
+        if(width != -1) {
+            TableColumnExt createdColumn = table.getColumnExt(TransferRecordTableModel.CREATED_COLUMN);
+            createdColumn.setMinWidth(width);
+            createdColumn.setMaxWidth(width);
+        }
 
         TableColumn valueColumn = table.getColumn(TransferRecordTableModel.VALUE_COLUMN);
         valueColumn.setCellRenderer(new ValueTableCellRenderer());
-//        valueColumn.setPreferredWidth(NbPreferences.root().getInt(ROOT_COINPANEL_KEY + ".columnWidth." + TransferRecordTableModel.VALUE_COLUMN, valueColumn.getPreferredWidth()));
+        width = NbPreferences.root().getInt(VALUE_COLUMN_KEY, -1);
+        if(width != -1) {
+            valueColumn.setMinWidth(width);
+            valueColumn.setMaxWidth(width);
+        }
         
-//        TableColumnExt sendAddressColumn = table.getColumnExt(TransferRecordTableModel.SENDADDRESS_COLUMN);
-//        sendAddressColumn.setPreferredWidth(NbPreferences.root().getInt(ROOT_COINPANEL_KEY + ".columnWidth." + TransferRecordTableModel.SENDADDRESS_COLUMN, sendAddressColumn.getPreferredWidth()));
+        width = NbPreferences.root().getInt(SENDADDRESS_COLUMN_KEY, -1);
+        if(width != -1) {
+            TableColumnExt sendAddressColumn = table.getColumnExt(TransferRecordTableModel.SENDADDRESS_COLUMN);
+            sendAddressColumn.setMinWidth(width);
+            sendAddressColumn.setMaxWidth(width);
+        }
         
-//        TableColumnExt recvAddressColumn = table.getColumnExt(TransferRecordTableModel.RECVADDRESS_COLUMN);
-//        recvAddressColumn.setPreferredWidth(NbPreferences.root().getInt(ROOT_COINPANEL_KEY + ".columnWidth." + TransferRecordTableModel.RECVADDRESS_COLUMN, recvAddressColumn.getPreferredWidth()));
+        width = NbPreferences.root().getInt(RECVADDRESS_COLUMN_KEY, -1);
+        if(width != -1) {
+            TableColumnExt recvAddressColumn = table.getColumnExt(TransferRecordTableModel.RECVADDRESS_COLUMN);
+            recvAddressColumn.setMinWidth(width);
+            recvAddressColumn.setMaxWidth(width);
+        }
 
+        // 最后一列忽略
 //        TableColumnExt hashColumn = table.getColumnExt(TransferRecordTableModel.HASH_COLUMN);
 //        hashColumn.setPreferredWidth(NbPreferences.root().getInt(ROOT_COINPANEL_KEY + ".columnWidth." + TransferRecordTableModel.HASH_COLUMN, hashColumn.getPreferredWidth()));
 
@@ -416,6 +434,7 @@ public class CoinPanel extends JXPanel {
         contractAddressLbl = new org.jdesktop.swingx.JXLabel();
         toolbar = new ToolbarWithOverflow();
         saveColWidthBtn = new org.jdesktop.swingx.JXButton();
+        resetColWidthBtn = new org.jdesktop.swingx.JXButton();
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.jXLabel1.text")); // NOI18N
 
@@ -488,10 +507,16 @@ public class CoinPanel extends JXPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(saveColWidthBtn, org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.saveColWidthBtn.text")); // NOI18N
         saveColWidthBtn.setToolTipText(org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.saveColWidthBtn.toolTipText")); // NOI18N
-        saveColWidthBtn.setEnabled(false);
         saveColWidthBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveColWidthBtnActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(resetColWidthBtn, org.openide.util.NbBundle.getMessage(CoinPanel.class, "CoinPanel.resetColWidthBtn.text")); // NOI18N
+        resetColWidthBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetColWidthBtnActionPerformed(evt);
             }
         });
 
@@ -530,9 +555,11 @@ public class CoinPanel extends JXPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tableRowsLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(toolbar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 848, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(saveColWidthBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(saveColWidthBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(resetColWidthBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -551,7 +578,9 @@ public class CoinPanel extends JXPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(saveColWidthBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(saveColWidthBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(resetColWidthBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -658,23 +687,54 @@ public class CoinPanel extends JXPanel {
     private void saveColWidthBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveColWidthBtnActionPerformed
 
         TableColumnExt createdColumn = table.getColumnExt(TransferRecordTableModel.CREATED_COLUMN);
-        NbPreferences.root().put(ROOT_COINPANEL_KEY + ".columnWidth." + TransferRecordTableModel.CREATED_COLUMN, "" + createdColumn.getPreferredWidth());  // 保存到首选项
+        NbPreferences.root().put(CREATE_COLUMN_KEY, "" + createdColumn.getPreferredWidth());  // 保存到首选项
         
         TableColumnExt valueColumn = table.getColumnExt(TransferRecordTableModel.VALUE_COLUMN);
-        NbPreferences.root().put(ROOT_COINPANEL_KEY + ".columnWidth." + TransferRecordTableModel.VALUE_COLUMN, "" + valueColumn.getPreferredWidth());  // 保存到首选项
+        NbPreferences.root().put(VALUE_COLUMN_KEY, "" + valueColumn.getPreferredWidth());  // 保存到首选项
         
         TableColumnExt sendAddressColumn = table.getColumnExt(TransferRecordTableModel.SENDADDRESS_COLUMN);
-        NbPreferences.root().put(ROOT_COINPANEL_KEY + ".columnWidth." + TransferRecordTableModel.SENDADDRESS_COLUMN, "" + sendAddressColumn.getPreferredWidth());  // 保存到首选项
+        NbPreferences.root().put(SENDADDRESS_COLUMN_KEY, "" + sendAddressColumn.getPreferredWidth());  // 保存到首选项
         
         
         TableColumnExt recvAddressColumn = table.getColumnExt(TransferRecordTableModel.RECVADDRESS_COLUMN);
-        NbPreferences.root().put(ROOT_COINPANEL_KEY + ".columnWidth." + TransferRecordTableModel.RECVADDRESS_COLUMN, "" + recvAddressColumn.getPreferredWidth());  // 保存到首选项
+        NbPreferences.root().put(RECVADDRESS_COLUMN_KEY, "" + recvAddressColumn.getPreferredWidth());  // 保存到首选项
         
         TableColumnExt hashColumn = table.getColumnExt(TransferRecordTableModel.HASH_COLUMN);
-        NbPreferences.root().put(ROOT_COINPANEL_KEY + ".columnWidth." + TransferRecordTableModel.HASH_COLUMN, "" + hashColumn.getPreferredWidth());  // 保存到首选项
+        NbPreferences.root().put(HASH_COLUMN_KEY, "" + hashColumn.getPreferredWidth());  // 保存到首选项
         
-        // TODO: 提示保存成功
+        try {
+            JLabel lbl = new JLabel("操作完成，后续窗口将保持此列宽");
+            BalloonTip balloonTip = new BalloonTip(resetColWidthBtn, 
+                            lbl,
+                            Utils.createBalloonTipStyle(),
+                            Utils.createBalloonTipPositioner(), 
+                            null);
+            TimingUtils.showTimedBalloon(balloonTip, 6000);
+        } catch (Exception ex) {
+            Exceptions.printStackTrace(ex);
+        }
     }//GEN-LAST:event_saveColWidthBtnActionPerformed
+
+    private void resetColWidthBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetColWidthBtnActionPerformed
+        NbPreferences.root().remove(CREATE_COLUMN_KEY);
+        NbPreferences.root().remove(VALUE_COLUMN_KEY);
+        NbPreferences.root().remove(SENDADDRESS_COLUMN_KEY);
+        NbPreferences.root().remove(RECVADDRESS_COLUMN_KEY);
+        NbPreferences.root().remove(HASH_COLUMN_KEY);
+        
+        // 气泡提示
+        try {
+            JLabel lbl = new JLabel("操作完成，需重新此窗口才能调整列宽");
+            BalloonTip balloonTip = new BalloonTip(resetColWidthBtn, 
+                            lbl,
+                            Utils.createBalloonTipStyle(),
+                            Utils.createBalloonTipPositioner(), 
+                            null);
+            TimingUtils.showTimedBalloon(balloonTip, 6000);
+        } catch (Exception ex) {
+            Exceptions.printStackTrace(ex);
+        }
+    }//GEN-LAST:event_resetColWidthBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -691,6 +751,7 @@ public class CoinPanel extends JXPanel {
     private javax.swing.JRadioButton recvRadio;
     private org.jdesktop.swingx.JXButton refreshBtn;
     private org.jdesktop.swingx.JXButton resetBtn;
+    private org.jdesktop.swingx.JXButton resetColWidthBtn;
     private org.jdesktop.swingx.JXButton saveColWidthBtn;
     private javax.swing.JRadioButton sendRadio;
     private org.jdesktop.swingx.JXTable table;

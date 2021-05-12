@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - cfx和其他erc20代币的交易记录默认返回条数调整为100
 - CfxCoin和ERC20Coin的gasDefault方法返回值由常量1改为CfxUnit.DEFAULT_GAS_PRICE
 - cfx和其他erc20代币的交易记录默认返回条数调整为100，最大返回条数为10000；超过100时会分多次请求
-- eth转账gas相关(min,max,default)改为从ethgasstation.info获取
+- eth转账gas相关(min,max,default)改为从ethgasstation.info动态获取
 
 ## [0.9.18] - 2021-04-21
 ### Added

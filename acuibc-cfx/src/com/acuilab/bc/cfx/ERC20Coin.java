@@ -18,6 +18,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import org.openide.util.Lookup;
 import com.acuilab.bc.main.coin.ICoin;
+import com.acuilab.bc.main.util.GasRelated;
 import conflux.web3j.CfxUnit;
 import conflux.web3j.contract.ERC20;
 import conflux.web3j.types.Address;
@@ -133,22 +134,27 @@ public abstract class ERC20Coin implements ICoin {
         return transferRecords;
     }
 
+//    @Override
+//    public int gasMin() {
+//	// 1drip
+//        return 1;
+//    }
+//
+//    @Override
+//    public int gasMax() {
+//        // 100drip
+//        return 100;
+//    }
+//
+//    @Override
+//    public int gasDefault() {
+//	// 1drip
+//        return CfxUnit.DEFAULT_GAS_PRICE.intValue();
+//    }
+    
     @Override
-    public int gasMin() {
-	// 1drip
-        return 1;
-    }
-
-    @Override
-    public int gasMax() {
-        // 100drip
-        return 100;
-    }
-
-    @Override
-    public int gasDefault() {
-	// 1drip
-        return CfxUnit.DEFAULT_GAS_PRICE.intValue();
+    public GasRelated getGasRelated() throws Exception {
+        return new GasRelated(1, 100, CfxUnit.DEFAULT_GAS_PRICE.intValue());
     }
     
     @Override

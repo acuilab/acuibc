@@ -10,6 +10,7 @@ import com.acuilab.bc.main.ui.MyFindBar;
 import com.acuilab.bc.main.util.AESUtil;
 import com.acuilab.bc.main.util.Constants;
 import com.acuilab.bc.main.util.DateUtil;
+import com.acuilab.bc.main.util.GasRelated;
 import com.acuilab.bc.main.util.Utils;
 import com.acuilab.bc.main.wallet.TransferRecordTableModel;
 import com.acuilab.bc.main.wallet.Wallet;
@@ -639,20 +640,25 @@ public final class BatchTransferTopComponent extends TopComponent {
 	    coin = CoinManager.getDefault().getCoin(Constants.CFX_BLOCKCHAIN_SYMBAL, dlg.getSelected());
             
             // 矿工费初始化
-            int gasMin = coin.gasMin();
-            int gasMax = coin.gasMax();
-            int defaultValue = coin.gasDefault();
-            gasSlider.setMinimum(gasMin);
-            gasSlider.setMaximum(gasMax);
-            gasSlider.setValue(defaultValue);
-            gasSpinner.setModel(new SpinnerNumberModel(defaultValue, gasMin, gasMax, 1));
-            JSpinner.NumberEditor editor = new JSpinner.NumberEditor(gasSpinner, "#");
-            final JFormattedTextField textField = editor.getTextField();
-            final DefaultFormatterFactory factory = (DefaultFormatterFactory)textField.getFormatterFactory();
-            final NumberFormatter formatter = (NumberFormatter)factory.getDefaultFormatter();
-            formatter.setCommitsOnValidEdit(true);
-            gasSpinner.setEditor(editor);
-            gasLbl.setText(coin.gasDesc(coin.gasDefault()));
+            try {
+                GasRelated gasRelated = coin.getGasRelated();
+                int gasMin = gasRelated.getGasMin();
+                int gasMax = gasRelated.getGasMax();
+                int defaultValue = gasRelated.getGasDefault();
+                gasSlider.setMinimum(gasMin);
+                gasSlider.setMaximum(gasMax);
+                gasSlider.setValue(defaultValue);
+                gasSpinner.setModel(new SpinnerNumberModel(defaultValue, gasMin, gasMax, 1));
+                JSpinner.NumberEditor editor = new JSpinner.NumberEditor(gasSpinner, "#");
+                final JFormattedTextField textField = editor.getTextField();
+                final DefaultFormatterFactory factory = (DefaultFormatterFactory)textField.getFormatterFactory();
+                final NumberFormatter formatter = (NumberFormatter)factory.getDefaultFormatter();
+                formatter.setCommitsOnValidEdit(true);
+                gasSpinner.setEditor(editor);
+                gasLbl.setText(coin.gasDesc(gasRelated.getGasDefault()));
+            } catch(Exception ex) {
+                Exceptions.printStackTrace(ex);
+            }
 
             gasSlider.setEnabled(true);
             gasSpinner.setEnabled(true);
@@ -690,20 +696,25 @@ public final class BatchTransferTopComponent extends TopComponent {
         refreshBalanceBtn.setEnabled(true);        
         
         // 矿工费初始化
-        int gasMin = coin.gasMin();
-        int gasMax = coin.gasMax();
-        int defaultValue = coin.gasDefault();
-        gasSlider.setMinimum(gasMin);
-        gasSlider.setMaximum(gasMax);
-        gasSlider.setValue(defaultValue);
-        gasSpinner.setModel(new SpinnerNumberModel(defaultValue, gasMin, gasMax, 1));
-        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(gasSpinner, "#");
-        final JFormattedTextField textField = editor.getTextField();
-        final DefaultFormatterFactory factory = (DefaultFormatterFactory)textField.getFormatterFactory();
-        final NumberFormatter formatter = (NumberFormatter)factory.getDefaultFormatter();
-        formatter.setCommitsOnValidEdit(true);
-        gasSpinner.setEditor(editor);
-        gasLbl.setText(coin.gasDesc(coin.gasDefault()));
+        try {
+            GasRelated gasRelated = coin.getGasRelated();
+            int gasMin = gasRelated.getGasMin();
+            int gasMax = gasRelated.getGasMax();
+            int defaultValue = gasRelated.getGasDefault();
+            gasSlider.setMinimum(gasMin);
+            gasSlider.setMaximum(gasMax);
+            gasSlider.setValue(defaultValue);
+            gasSpinner.setModel(new SpinnerNumberModel(defaultValue, gasMin, gasMax, 1));
+            JSpinner.NumberEditor editor = new JSpinner.NumberEditor(gasSpinner, "#");
+            final JFormattedTextField textField = editor.getTextField();
+            final DefaultFormatterFactory factory = (DefaultFormatterFactory)textField.getFormatterFactory();
+            final NumberFormatter formatter = (NumberFormatter)factory.getDefaultFormatter();
+            formatter.setCommitsOnValidEdit(true);
+            gasSpinner.setEditor(editor);
+            gasLbl.setText(coin.gasDesc(gasRelated.getGasDefault()));
+        } catch(Exception ex) {
+            Exceptions.printStackTrace(ex);
+        }
 
         gasSlider.setEnabled(true);
         gasSpinner.setEnabled(true);

@@ -11,13 +11,12 @@ import javax.swing.Icon;
 import org.openide.util.ImageUtilities;
 import com.acuilab.bc.main.coin.ICoin;
 import com.acuilab.bc.main.util.Constants;
+import com.acuilab.bc.main.util.GasRelated;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import java.math.RoundingMode;
 import java.util.Date;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
@@ -264,25 +263,54 @@ public class ETHCoin implements ICoin {
         return transferRecords;
     }
 
+//    // 单位gwei
+//    @Override
+//    public int gasMin() {
+//        // gwei
+//        return 100;
+//    }
+//
+//    // 单位gwei
+//    @Override
+//    public int gasMax() {
+//        // gwei
+//        return 300;
+//    }
+//
+//    // 单位gwei
+//    @Override
+//    public int gasDefault() {
+//        // gwei
+//        return 121;
+//    }
+    
     // 单位gwei
     @Override
-    public int gasMin() {
-        // gwei
-        return 100;
-    }
+    public GasRelated getGasRelated() throws Exception {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .build();
+        final okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(ETH_GAS_API)
+                .build();
+        final Call call = okHttpClient.newCall(request);
+        okhttp3.Response response = call.execute();             // java.net.SocketTimeoutException
+        ResponseBody body = response.body();
+        if(body != null) {
+            // 解析json
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(body.string());
+            
+            int fast = root.get("fast").asInt();        // 2m   x10 Gwei
+            int fastest = root.get("fastest").asInt();  // 30s  x10 Gwei
+            int safeLow = root.get("safeLow").asInt();  // 30m  x10 Gwei
+            int average = root.get("average").asInt();  // 5m   x10 Gwei
+            
+            return new GasRelated(safeLow*8/100, fastest*12/100 , average/10);
+        }
 
-    // 单位gwei
-    @Override
-    public int gasMax() {
-        // gwei
-        return 300;
-    }
-
-    // 单位gwei
-    @Override
-    public int gasDefault() {
-        // gwei
-        return 121;
+        return null;
     }
 
     @Override

@@ -126,7 +126,7 @@
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="&#x8f6c;&#x8d26;&#x5730;&#x5740;&#x53ca;&#x6570;&#x91cf;">
+                <TitledBorder title="&#x8f6c;&#x8d26;&#x4fe1;&#x606f;">
                   <ResourceString PropertyName="titleX" bundle="com/acuilab/bc/main/cfx/dapp/batchtransfer/Bundle.properties" key="BatchTransferTopComponent.jXPanel1.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </TitledBorder>
               </Border>
@@ -303,7 +303,7 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="459" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="371" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">

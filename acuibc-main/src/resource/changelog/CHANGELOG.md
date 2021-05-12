@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 支持cYFII、cMBTM代币
 - 工具栏增加刷新、调试、前进、后退等按钮，用于操作dapp浏览器；
 - 工具栏增加DappStore按钮方便访问
+- 交易记录表格宽度固定
 
 ### Changed
 - 更新记录窗口标题由"Changelog"改为"更新记录"

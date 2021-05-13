@@ -704,7 +704,7 @@ public class CoinPanel extends JXPanel {
         
         try {
             JLabel lbl = new JLabel("操作完成，后续窗口将保持此列宽");
-            BalloonTip balloonTip = new BalloonTip(resetColWidthBtn, 
+            BalloonTip balloonTip = new BalloonTip(saveColWidthBtn, 
                             lbl,
                             Utils.createBalloonTipStyle(),
                             Utils.createBalloonTipPositioner(), 

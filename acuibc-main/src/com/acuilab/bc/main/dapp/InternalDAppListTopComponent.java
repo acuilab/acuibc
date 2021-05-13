@@ -10,7 +10,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -52,7 +51,7 @@ import org.openide.util.NbBundle.Messages;
 )
 @TopComponent.Description(
 	preferredID = "InternalDAppListTopComponent",
-	//iconBase="SET/PATH/TO/ICON/HERE", 
+	iconBase="resource/dappstore16.png", 
 	persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
@@ -63,9 +62,9 @@ import org.openide.util.NbBundle.Messages;
 	preferredID = "InternalDAppListTopComponent"
 )
 @Messages({
-    "CTL_InternalDAppListAction=DApp列表",
-    "CTL_InternalDAppListTopComponent=DApp列表",
-    "HINT_InternalDAppListTopComponent=DApp列表"
+    "CTL_InternalDAppListAction=DappStore",
+    "CTL_InternalDAppListTopComponent=DappStore",
+    "HINT_InternalDAppListTopComponent=DappStore"
 })
 public final class InternalDAppListTopComponent extends TopComponent {
     

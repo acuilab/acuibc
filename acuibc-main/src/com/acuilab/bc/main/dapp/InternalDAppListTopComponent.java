@@ -275,11 +275,20 @@ public final class InternalDAppListTopComponent extends TopComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        table = new org.jdesktop.swingx.JXTable();
         filterFld = new org.jdesktop.swingx.JXTextField();
         resetBtn = new org.jdesktop.swingx.JXButton();
         tableRowsLbl = new org.jdesktop.swingx.JXLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new org.jdesktop.swingx.JXTable();
+
+        filterFld.setText(org.openide.util.NbBundle.getMessage(InternalDAppListTopComponent.class, "InternalDAppListTopComponent.filterFld.text")); // NOI18N
+        filterFld.setToolTipText(org.openide.util.NbBundle.getMessage(InternalDAppListTopComponent.class, "InternalDAppListTopComponent.filterFld.toolTipText")); // NOI18N
+        filterFld.setPrompt(org.openide.util.NbBundle.getMessage(InternalDAppListTopComponent.class, "InternalDAppListTopComponent.filterFld.prompt")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(resetBtn, org.openide.util.NbBundle.getMessage(InternalDAppListTopComponent.class, "InternalDAppListTopComponent.resetBtn.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(tableRowsLbl, org.openide.util.NbBundle.getMessage(InternalDAppListTopComponent.class, "InternalDAppListTopComponent.tableRowsLbl.text")); // NOI18N
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -296,13 +305,7 @@ public final class InternalDAppListTopComponent extends TopComponent {
         ));
         jScrollPane1.setViewportView(table);
 
-        filterFld.setText(org.openide.util.NbBundle.getMessage(InternalDAppListTopComponent.class, "InternalDAppListTopComponent.filterFld.text")); // NOI18N
-        filterFld.setToolTipText(org.openide.util.NbBundle.getMessage(InternalDAppListTopComponent.class, "InternalDAppListTopComponent.filterFld.toolTipText")); // NOI18N
-        filterFld.setPrompt(org.openide.util.NbBundle.getMessage(InternalDAppListTopComponent.class, "InternalDAppListTopComponent.filterFld.prompt")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(resetBtn, org.openide.util.NbBundle.getMessage(InternalDAppListTopComponent.class, "InternalDAppListTopComponent.resetBtn.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(tableRowsLbl, org.openide.util.NbBundle.getMessage(InternalDAppListTopComponent.class, "InternalDAppListTopComponent.tableRowsLbl.text")); // NOI18N
+        jScrollPane2.setViewportView(jScrollPane1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -311,9 +314,9 @@ public final class InternalDAppListTopComponent extends TopComponent {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(filterFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(filterFld, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(resetBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -324,7 +327,7 @@ public final class InternalDAppListTopComponent extends TopComponent {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+                .addComponent(jScrollPane2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(filterFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -337,6 +340,7 @@ public final class InternalDAppListTopComponent extends TopComponent {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXTextField filterFld;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private org.jdesktop.swingx.JXButton resetBtn;
     private org.jdesktop.swingx.JXTable table;
     private org.jdesktop.swingx.JXLabel tableRowsLbl;

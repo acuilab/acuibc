@@ -9,9 +9,9 @@ import static javax.swing.Action.NAME;
  *
  * @author admin
  */
-public class AddressBookAction extends AbstractAction {
+public class AddressBookAction4Toolbar extends AbstractAction {
     
-    public AddressBookAction() {
+    public AddressBookAction4Toolbar() {
         putValue(NAME, "通讯录");
         putValue(SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/resource/address32.png")));
     }

@@ -8,9 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - 增加工具菜单栏和工具栏，加入123cfx.com链接，使用默认浏览器打开
+- 支持PoolGo无损彩票应用（使用dapp浏览器实现）
 
 ### Changed
 - dappstore表格加入滚动条
+- 修复钱包菜单栏图标比例偏大问题
 
 ## [0.9.20] - 2021-05-13
 ### Added

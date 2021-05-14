@@ -39,11 +39,11 @@ import org.springframework.util.DigestUtils;
  *
  * @author admin
  */
-public class CreateAction extends AbstractAction {
+public class CreateAction4Menu extends AbstractAction {
     
-    public CreateAction() {
+    public CreateAction4Menu() {
         putValue(NAME, "创建钱包");
-        putValue(SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/resource/create_wallet32.png")));
+        putValue(SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/resource/create_wallet16.png")));
     }
     
     @Override

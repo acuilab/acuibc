@@ -38,9 +38,9 @@ import org.springframework.util.DigestUtils;
  *
  * @author admin
  */
-public class ImportAction extends AbstractAction {
+public class ImportAction4Toolbar extends AbstractAction {
     
-    public ImportAction() {
+    public ImportAction4Toolbar() {
         putValue(NAME, "导入钱包");
         putValue(SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/resource/import_wallet32.png")));
     }

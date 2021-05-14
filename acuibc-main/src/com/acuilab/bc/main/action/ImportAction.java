@@ -39,7 +39,7 @@ public class ImportAction extends AbstractAction {
     
     public ImportAction() {
         putValue(NAME, "迁入钱包");
-        putValue(SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/resource/movein32.png")));
+        putValue(SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/resource/movein16.png")));
     }
     
     @Override

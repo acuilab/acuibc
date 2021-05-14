@@ -32,7 +32,7 @@ public class ExportAction extends AbstractAction {
     
     public ExportAction() {
         putValue(NAME, "迁出钱包");
-        putValue(SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/resource/moveout32.png")));
+        putValue(SMALL_ICON, new javax.swing.ImageIcon(getClass().getResource("/resource/moveout16.png")));
     }
     
     @Override

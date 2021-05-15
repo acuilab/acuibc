@@ -709,7 +709,7 @@ public class CoinPanel extends JXPanel {
                             Utils.createBalloonTipStyle(),
                             Utils.createBalloonTipPositioner(), 
                             null);
-            TimingUtils.showTimedBalloon(balloonTip, 6000);
+            TimingUtils.showTimedBalloon(balloonTip, 2000);
         } catch (Exception ex) {
             Exceptions.printStackTrace(ex);
         }
@@ -724,13 +724,13 @@ public class CoinPanel extends JXPanel {
         
         // 气泡提示
         try {
-            JLabel lbl = new JLabel("操作完成，需重新此窗口才能调整列宽");
+            JLabel lbl = new JLabel("操作完成，需重新打开此窗口才能调整列宽");
             BalloonTip balloonTip = new BalloonTip(resetColWidthBtn, 
                             lbl,
                             Utils.createBalloonTipStyle(),
                             Utils.createBalloonTipPositioner(), 
                             null);
-            TimingUtils.showTimedBalloon(balloonTip, 6000);
+            TimingUtils.showTimedBalloon(balloonTip, 2000);
         } catch (Exception ex) {
             Exceptions.printStackTrace(ex);
         }

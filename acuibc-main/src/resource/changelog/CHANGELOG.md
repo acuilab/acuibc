@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - dappstore表格加入滚动条
 - 修复钱包菜单栏图标比例偏大问题
+- 批量转账功能从csv文件导入转账信息时，如果是旧地址，则自动转换为新地址格式
 
 ## [0.9.20] - 2021-05-13
 ### Added

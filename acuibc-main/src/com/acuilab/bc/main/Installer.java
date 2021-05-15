@@ -1,5 +1,6 @@
 package com.acuilab.bc.main;
 
+import com.acuilab.bc.main.cfx.CFXExtend;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
 import com.acuilab.bc.main.manager.DAppManager;
@@ -184,14 +185,14 @@ BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
 	// conflux CIP37新地址升级
 	try {
 	    try (Statement stmt = getConnection().createStatement()) {
+                CFXExtend cfxExtend = Lookup.getDefault().lookup(CFXExtend.class);
 		ResultSet rs = stmt.executeQuery("select wname, waddress from wallet where blockChainSymbol='" + Constants.CFX_BLOCKCHAIN_SYMBAL + "'");
 		while(rs.next()) {
 		    String name = rs.getString("wname");
 		    String address = rs.getString("waddress");
 		    if(StringUtils.startsWith(address, "0x1")) {
-			BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
 			try (Statement stmt2 = getConnection().createStatement()) {
-			    stmt2.execute("UPDATE wallet set waddress='" + bc.convertAddress(address) + "' where wname='" + name + "'");
+			    stmt2.execute("UPDATE wallet set waddress='" + cfxExtend.convertAddress(address) + "' where wname='" + name + "'");
 			}
 		    }
 		}

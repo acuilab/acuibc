@@ -77,6 +77,7 @@ import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
+import org.openide.util.Lookup;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 import org.openide.windows.WindowManager;
@@ -1033,14 +1034,16 @@ public final class BatchTransferTopComponent extends TopComponent {
 
             try {
                 // 创建CSV读对象
+                BlockChain bc = BlockChainManager.getDefault().getBlockChain(Constants.CFX_BLOCKCHAIN_SYMBAL);
                 CsvReader csvReader = new CsvReader(file.getAbsolutePath(), ',', Charset.defaultCharset());
 
                 //                // 读表头
                 //                csvReader.readHeaders();
                 while (csvReader.readRecord()){
                     String address = csvReader.get(0);
+                    
                     BatchTransfer batchTransfer = new BatchTransfer();
-                    batchTransfer.setAddress(address);
+                    batchTransfer.setAddress(bc.convertAddress(address));   // 若地址为旧版地址，则自动转换为新版地址
                     batchTransfer.setValue(csvReader.get(1));
                     batchTransfer.setRemark(csvReader.get(2));
                     tableModel.add(batchTransfer);

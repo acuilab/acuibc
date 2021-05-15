@@ -54,7 +54,6 @@ public class BlockChainManager {
         }
     }
     
-    
     public BlockChain getBlockChain(String key) {
         return map.get(key);
     }

@@ -282,6 +282,7 @@ public class CFXBlockChain implements BlockChain {
     @Override
     public String convertAddress(String address) {
 	if(!Address.isValid(address)) {
+            // 这里使用一个常量地址用于获得网络id
 	    return new Address(address, new Address("cfx:aajg4wt2mbmbb44sp6szd783ry0jtad5bea80xdy7p").getNetworkId()).getAddress();
 	}
 	

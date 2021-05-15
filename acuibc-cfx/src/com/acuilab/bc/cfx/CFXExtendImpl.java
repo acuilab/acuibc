@@ -63,5 +63,4 @@ public class CFXExtendImpl implements CFXExtend {
 
         return Numeric.toHexString(rsv);
     }
-
 }

@@ -273,19 +273,4 @@ public class CFXBlockChain implements BlockChain {
 
         return TransactionStatus.UNKNOWN;
     }
-
-    /**
-     * 通常用于区块链地址升级，将旧地址转换为新地址(如果是新地址，则原样返回)
-     * @param address
-     * @return 
-     */
-    @Override
-    public String convertAddress(String address) {
-	if(!Address.isValid(address)) {
-            // 这里使用一个常量地址用于获得网络id
-	    return new Address(address, new Address("cfx:aajg4wt2mbmbb44sp6szd783ry0jtad5bea80xdy7p").getNetworkId()).getAddress();
-	}
-	
-	return address;
-    }
 }

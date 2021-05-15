@@ -150,10 +150,4 @@ public class BSCBlockChain implements BlockChain {
         
         return ens;
     }
-
-    @Override
-    public String convertAddress(String oldAddress) {
-	return oldAddress;
-    }
-    
 }

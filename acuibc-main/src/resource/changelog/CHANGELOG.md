@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.9.21] - 2021-05-15
 ### Added
 - 增加工具菜单栏和工具栏，加入123cfx.com链接，使用默认浏览器打开
 - 支持PoolGo无损彩票应用（使用dapp浏览器实现）

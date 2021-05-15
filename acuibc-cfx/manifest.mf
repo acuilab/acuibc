@@ -2,5 +2,5 @@ Manifest-Version: 1.0
 AutoUpdate-Show-In-Client: true
 OpenIDE-Module: com.acuilab.bc.cfx
 OpenIDE-Module-Localizing-Bundle: com/acuilab/bc/cfx/Bundle.properties
-OpenIDE-Module-Specification-Version: 5.0
+OpenIDE-Module-Specification-Version: 5.1
 

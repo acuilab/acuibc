@@ -21,7 +21,7 @@ public class PoolGoDApp extends CfxBrowserDApp {
     
     @Override
     public String getType() {
-	return "借贷";
+	return "无损彩票";
     }
 
     @Override

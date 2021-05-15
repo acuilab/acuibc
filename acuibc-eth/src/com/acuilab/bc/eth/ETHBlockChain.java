@@ -150,10 +150,4 @@ public class ETHBlockChain implements BlockChain {
     public String getAddressFromDomain(String ens) {
         return ens;
     }
-
-    @Override
-    public String convertAddress(String oldAddress) {
-	return oldAddress;
-    }
-    
 }

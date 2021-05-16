@@ -59,7 +59,10 @@ import org.jdesktop.swingx.JXButton;
 import org.openide.awt.ToolbarWithOverflow;
 import com.acuilab.bc.main.coin.ICoin;
 import java.math.BigDecimal;
-import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import org.apache.commons.lang3.math.NumberUtils;
+import org.openide.awt.StatusDisplayer;
 import org.openide.util.NbPreferences;
 
 /**
@@ -310,6 +313,23 @@ public class CoinPanel extends JXPanel {
                         table.setToolTipText(null);         // 关闭提示
                     }
                 }
+            }
+        });
+        
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int[] selectedRows = table.getSelectedRows();
+                
+                double total = 0.0d;
+		for(int i=0; i<selectedRows.length; i++) {
+		    TransferRecord tr = tableModel.getTransferRecord(table.convertRowIndexToModel(selectedRows[i]));
+                    String value = tr.getValue();
+                    
+                    total += NumberUtils.toDouble(value);
+		}
+                
+                StatusDisplayer.getDefault().setStatusText("合计：" + total + " " + coin.getMainUnit());
             }
         });
 

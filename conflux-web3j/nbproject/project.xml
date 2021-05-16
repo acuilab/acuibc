@@ -393,6 +393,11 @@
                 <package>org.web3j.abi.datatypes.generated</package>
                 <package>org.web3j.abi.datatypes.primitive</package>
                 <package>org.web3j.abi.spi</package>
+                <package>org.web3j.codegen</package>
+                <package>org.web3j.codegen.unit.gen</package>
+                <package>org.web3j.codegen.unit.gen.java</package>
+                <package>org.web3j.codegen.unit.gen.kotlin</package>
+                <package>org.web3j.codegen.unit.gen.utils</package>
                 <package>org.web3j.commons</package>
                 <package>org.web3j.contracts.token</package>
                 <package>org.web3j.crypto</package>
@@ -415,6 +420,7 @@
                 <package>org.web3j.protocol.websocket</package>
                 <package>org.web3j.protocol.websocket.events</package>
                 <package>org.web3j.rlp</package>
+                <package>org.web3j.sokt</package>
                 <package>org.web3j.tuples</package>
                 <package>org.web3j.tuples.generated</package>
                 <package>org.web3j.tx</package>
@@ -442,6 +448,14 @@
             <class-path-extension>
                 <runtime-relative-path>ext/utils-4.8.4.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/utils-4.8.4.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/codegen-4.8.4.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/codegen-4.8.4.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/web3j-sokt-0.2.1.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/web3j-sokt-0.2.1.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/reactive-streams-1.0.2.jar</runtime-relative-path>

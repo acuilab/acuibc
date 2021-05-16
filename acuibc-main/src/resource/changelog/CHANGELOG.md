@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - 增加工具菜单栏和工具栏，加入123cfx.com链接，使用默认浏览器打开
 - 增加ANT代币的支持
+- 增加PoolGo代币的支持
 
 ### Changed
 - dappstore表格加入滚动条

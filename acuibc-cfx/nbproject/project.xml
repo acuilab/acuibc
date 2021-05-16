@@ -39,7 +39,23 @@
                     </run-dependency>
                 </dependency>
                 <dependency>
+                    <code-name-base>org.apache.maven.shared.model.fileset</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.0</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
                     <code-name-base>org.javatuples</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.0</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
+                    <code-name-base>org.json.simple</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>

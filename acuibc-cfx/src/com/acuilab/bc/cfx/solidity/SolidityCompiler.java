@@ -23,6 +23,7 @@ import org.web3j.sokt.SolidityFile;
  * Compiles the given Solidity Contracts into binary code.
  * <p>
  * Inspired by https://github.com/ethereum/ethereumj/tree/develop/ethereumj-core/src/main/java/org/ethereum/solidity
+ * @see https://github.com/web3j/web3j-maven-plugin
  */
 public class SolidityCompiler {
     private static final Logger LOG = Logger.getLogger(SolidityCompiler.class.getName());

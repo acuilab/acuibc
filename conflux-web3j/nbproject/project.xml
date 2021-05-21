@@ -14,6 +14,14 @@
                         <specification-version>1.0</specification-version>
                     </run-dependency>
                 </dependency>
+                <dependency>
+                    <code-name-base>org.apache.commons.lang3</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.0</specification-version>
+                    </run-dependency>
+                </dependency>
             </module-dependencies>
             <public-packages>
                 <package>com.fasterxml.jackson.annotation</package>
@@ -490,6 +498,10 @@
                 <binary-origin>release/modules/ext/abi-4.8.4.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
+                <runtime-relative-path>ext/java-semver-0.9.0.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/java-semver-0.9.0.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
                 <runtime-relative-path>ext/crypto-4.8.4.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/crypto-4.8.4.jar</binary-origin>
             </class-path-extension>
@@ -516,6 +528,10 @@
             <class-path-extension>
                 <runtime-relative-path>ext/rlp-4.8.4.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/rlp-4.8.4.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/kotlinx-serialization-runtime-0.14.0.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/kotlinx-serialization-runtime-0.14.0.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/asm-util-5.0.3.jar</runtime-relative-path>
@@ -568,6 +584,10 @@
             <class-path-extension>
                 <runtime-relative-path>ext/kotlin-stdlib-jdk8-1.4.10.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/kotlin-stdlib-jdk8-1.4.10.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/javapoet-1.7.0.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/javapoet-1.7.0.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/kotlin-stdlib-common-1.4.0.jar</runtime-relative-path>

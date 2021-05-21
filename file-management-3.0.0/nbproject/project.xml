@@ -16,6 +16,14 @@
                 <runtime-relative-path>ext/file-management-3.0.0.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/file-management-3.0.0.jar</binary-origin>
             </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/maven-shared-io-3.0.0.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/maven-shared-io-3.0.0.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/maven-shared-utils-3.2.1.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/maven-shared-utils-3.2.1.jar</binary-origin>
+            </class-path-extension>
         </data>
     </configuration>
 </project>

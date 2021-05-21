@@ -17,4 +17,6 @@ public interface CFXExtend {
      * @return 
      */
     String convertAddress(String address);
+    
+    void generateJavaClass(String rootDirectory) throws Exception;
 }

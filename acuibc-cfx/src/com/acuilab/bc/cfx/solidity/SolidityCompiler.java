@@ -95,6 +95,8 @@ public class SolidityCompiler {
      * @throws IOException 
      */
     private Process getSolcProcessFromSokt(String rootDirectory, Collection<String> sources, String[] pathPrefixes, Options[] options) throws IOException {
+        System.out.println("Paths.get(rootDirectory, sources.iterator().next()).toFile().getAbsolutePath()=" + Paths.get(rootDirectory, sources.iterator().next()).toFile().getAbsolutePath());
+        
         SolidityFile solidityFile = new SolidityFile(Paths.get(rootDirectory, sources.iterator().next()).toFile().getAbsolutePath());
         /**
          * directoryPath    .web3j
@@ -105,6 +107,7 @@ public class SolidityCompiler {
             instance.install();
         }
         usedSolCVersion = instance.getSolcRelease().getVersion();
+        System.out.println("usedSolCVersion===============================" + usedSolCVersion);
         List<String> commandParts = prepareCommandOptions(instance.getSolcFile().getAbsolutePath(), rootDirectory, sources, pathPrefixes, options);
         return Runtime.getRuntime().exec(commandParts.toArray(new String[commandParts.size()]));
     }

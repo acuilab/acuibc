@@ -45,7 +45,7 @@ public class FCExchange implements IFCExchange {
 //        System.out.println("3--------------------------------------" + list.get(3));
 //        System.out.println("4--------------------------------------" + list.get(4));
 //        System.out.println("5--------------------------------------" + list.get(5));
-        com.acuilab.bc.cfx.util.FCExchange exchange = com.acuilab.bc.cfx.util.FCExchange.load(CONTRACT_ADDRESS, org.web3j.protocol.Web3j.build(new HttpService("https://mainnet-rpc.conflux-chain.org.cn/v2")), Credentials.create("0x76227345a0edea6eff505e885178aad7856295165e10a3182647ba2dfc4109f5"), BigInteger.ONE, BigInteger.valueOf(214438));
+        com.acuilab.bc.cfx.util.FCExchange exchange = com.acuilab.bc.cfx.util.FCExchange.load(CONTRACT_ADDRESS, org.web3j.protocol.Web3j.build(new HttpService("https://mainnet-rpc.conflux-chain.org.cn/v2")), Credentials.create("xxx"), BigInteger.ONE, BigInteger.valueOf(214438));
         try {
             Tuple6<BigInteger, BigInteger, BigInteger, Boolean, BigInteger, BigInteger> tuple6 = exchange.userInfos(CONTRACT_ADDRESS).send();
             

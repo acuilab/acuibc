@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Added
-- 交易记录表格选中时在状态栏显示数量合计
 - 在dappstore中增加基于solidity合约创建java代码的开发工具
+
+## [0.9.22] - 2021-05-29
+### Added
+- 支持古国YAO token
+- 交易记录表格选中时在状态栏显示数量合计
 
 ## [0.9.21] - 2021-05-15
 ### Added

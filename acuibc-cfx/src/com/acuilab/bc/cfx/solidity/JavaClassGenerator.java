@@ -207,7 +207,7 @@ public class JavaClassGenerator {
 
 
         if (functionDefinitions.isEmpty()) {
-            LOG.severe("Unable to parse input ABI file");
+            LOG.severe("Unable to parse input ABI file: " + contractName);
             return;
         }
 

@@ -1,6 +1,7 @@
 package com.acuilab.bc.main.cfx.dapp.solidity;
 
 import com.acuilab.bc.main.cfx.CFXExtend;
+import com.acuilab.bc.main.cfx.IFCExchange;
 import java.io.File;
 import javax.swing.JFileChooser;
 import org.netbeans.api.settings.ConvertAsProperties;
@@ -55,6 +56,7 @@ public final class Solidity2JavaTopComponent extends TopComponent {
         rootDirectoryFld = new org.jdesktop.swingx.JXTextField();
         browserBtn = new org.jdesktop.swingx.JXButton();
         generateBtn = new org.jdesktop.swingx.JXButton();
+        jXButton1 = new org.jdesktop.swingx.JXButton();
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel3, org.openide.util.NbBundle.getMessage(Solidity2JavaTopComponent.class, "Solidity2JavaTopComponent.jXLabel3.text")); // NOI18N
 
@@ -75,6 +77,13 @@ public final class Solidity2JavaTopComponent extends TopComponent {
             }
         });
 
+        org.openide.awt.Mnemonics.setLocalizedText(jXButton1, org.openide.util.NbBundle.getMessage(Solidity2JavaTopComponent.class, "Solidity2JavaTopComponent.jXButton1.text")); // NOI18N
+        jXButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -89,6 +98,10 @@ public final class Solidity2JavaTopComponent extends TopComponent {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(generateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(124, 124, 124)
+                .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -99,7 +112,9 @@ public final class Solidity2JavaTopComponent extends TopComponent {
                     .addComponent(rootDirectoryFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(browserBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(generateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(295, Short.MAX_VALUE))
+                .addGap(134, 134, 134)
+                .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(138, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -125,9 +140,19 @@ public final class Solidity2JavaTopComponent extends TopComponent {
         }
     }//GEN-LAST:event_generateBtnActionPerformed
 
+    private void jXButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXButton1ActionPerformed
+        IFCExchange exchange = Lookup.getDefault().lookup(IFCExchange.class);
+        if(exchange != null) {
+            exchange.userInfos();
+        } else {
+            System.out.println("exchange is null");
+        }
+    }//GEN-LAST:event_jXButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXButton browserBtn;
     private org.jdesktop.swingx.JXButton generateBtn;
+    private org.jdesktop.swingx.JXButton jXButton1;
     private org.jdesktop.swingx.JXLabel jXLabel3;
     private org.jdesktop.swingx.JXTextField rootDirectoryFld;
     // End of variables declaration//GEN-END:variables

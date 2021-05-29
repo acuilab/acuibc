@@ -76,12 +76,15 @@ public class FluxNFT extends AbstractNFT {
         String value = contract.call("uri", new org.web3j.abi.datatypes.Uint(tokenId)).sendAndGet();
         String json = DecodeUtil.decode(value, org.web3j.abi.datatypes.Utf8String.class);
         MetaData md = new MetaData();
+        
+        System.out.println(json);
 
         String id = tokenId.toString();
 	md.setId(id);
         md.setNumber(id);
         md.setImageUrl(json);
         // TODO: 设置名称、描述和平台
+        
         
         md.setPlatform("Flux");
         switch (tokenId.intValue()){

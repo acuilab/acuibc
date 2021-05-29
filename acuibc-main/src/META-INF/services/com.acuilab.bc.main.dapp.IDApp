@@ -13,3 +13,4 @@ com.acuilab.bc.main.cfx.dapp.browser.MoonDexDApp
 #com.acuilab.bc.main.cfx.dapp.browser.PoolGoDApp
 #com.acuilab.bc.main.cfx.dapp.solidity.Solidity2JavaDApp
 #com.acuilab.bc.main.cfx.dapp.browser.BoxNFTDApp
+com.acuilab.bc.main.cfx.dapp.browser.GuguoDApp

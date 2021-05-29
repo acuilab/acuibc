@@ -1,4 +1,10 @@
-package org.web3j.model;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package com.acuilab.bc.cfx.util;
 
 import io.reactivex.Flowable;
 import io.reactivex.functions.Function;

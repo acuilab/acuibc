@@ -1,15 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.acuilab.bc.main.cfx.dapp.solidity;
 
+import com.acuilab.bc.main.cfx.CFXExtend;
+import com.acuilab.bc.main.cfx.IFCExchange;
+import java.io.File;
+import javax.swing.JFileChooser;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
+import org.openide.util.Exceptions;
+import org.openide.util.Lookup;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
+import org.openide.windows.WindowManager;
 
 /**
  * Top component which displays something.
@@ -50,19 +52,109 @@ public final class Solidity2JavaTopComponent extends TopComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jXLabel3 = new org.jdesktop.swingx.JXLabel();
+        rootDirectoryFld = new org.jdesktop.swingx.JXTextField();
+        browserBtn = new org.jdesktop.swingx.JXButton();
+        generateBtn = new org.jdesktop.swingx.JXButton();
+        jXButton1 = new org.jdesktop.swingx.JXButton();
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel3, org.openide.util.NbBundle.getMessage(Solidity2JavaTopComponent.class, "Solidity2JavaTopComponent.jXLabel3.text")); // NOI18N
+
+        rootDirectoryFld.setEditable(false);
+        rootDirectoryFld.setText(org.openide.util.NbBundle.getMessage(Solidity2JavaTopComponent.class, "Solidity2JavaTopComponent.rootDirectoryFld.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(browserBtn, org.openide.util.NbBundle.getMessage(Solidity2JavaTopComponent.class, "Solidity2JavaTopComponent.browserBtn.text")); // NOI18N
+        browserBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                browserBtnActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(generateBtn, org.openide.util.NbBundle.getMessage(Solidity2JavaTopComponent.class, "Solidity2JavaTopComponent.generateBtn.text")); // NOI18N
+        generateBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateBtnActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXButton1, org.openide.util.NbBundle.getMessage(Solidity2JavaTopComponent.class, "Solidity2JavaTopComponent.jXButton1.text")); // NOI18N
+        jXButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rootDirectoryFld, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(browserBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(generateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(124, 124, 124)
+                .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jXLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rootDirectoryFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(browserBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(generateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(134, 134, 134)
+                .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(138, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void browserBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browserBtnActionPerformed
+        // 打开目录
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+        chooser.setMultiSelectionEnabled(false);    // 可以同时新建多个
+        int returnVal = chooser.showOpenDialog(WindowManager.getDefault().getMainWindow());
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            final File dir = chooser.getSelectedFile();
+            rootDirectoryFld.setText(dir.getAbsolutePath());
+        }
+    }//GEN-LAST:event_browserBtnActionPerformed
+
+    private void generateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateBtnActionPerformed
+        try {
+            CFXExtend cfxExtend = Lookup.getDefault().lookup(CFXExtend.class);
+            cfxExtend.generateJavaClass(rootDirectoryFld.getText());
+        } catch (Exception ex) {
+            Exceptions.printStackTrace(ex);
+        }
+    }//GEN-LAST:event_generateBtnActionPerformed
+
+    private void jXButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXButton1ActionPerformed
+        IFCExchange exchange = Lookup.getDefault().lookup(IFCExchange.class);
+        if(exchange != null) {
+            exchange.userInfos();
+        } else {
+            System.out.println("exchange is null");
+        }
+    }//GEN-LAST:event_jXButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXButton browserBtn;
+    private org.jdesktop.swingx.JXButton generateBtn;
+    private org.jdesktop.swingx.JXButton jXButton1;
+    private org.jdesktop.swingx.JXLabel jXLabel3;
+    private org.jdesktop.swingx.JXTextField rootDirectoryFld;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {

@@ -1,4 +1,4 @@
-package com.acuilab.bc.main.coin;
+package com.acuilab.bc.main.cfx;
 
 import java.math.BigInteger;
 

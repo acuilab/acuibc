@@ -59,6 +59,4 @@ public class Solidity2JavaDApp implements IDApp {
     public boolean needWalletSpecified() {
         return false;
     }
-    
-    
 }

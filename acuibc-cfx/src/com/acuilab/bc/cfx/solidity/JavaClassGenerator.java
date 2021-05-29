@@ -32,12 +32,15 @@ public class JavaClassGenerator {
     private static final Logger LOG = Logger.getLogger(JavaClassGenerator.class.getName());
     
     private static final String DEFAULT_INCLUDE = "**/*.sol";
+    private static final String DEFAULT_PACKAGE = "org.web3j.model";
+    private static final String DEFAULT_SOURCE_DESTINATION = "src/main/java";
+    private static final String DEFAULT_OUTPUT_FORMAT = "java,abi,bin";
     
-    protected String packageName;
+    protected String packageName = DEFAULT_PACKAGE;
 
     // relative or absolute path of the generated files (java, bin, abi)
     // src/main/java
-    protected String sourceDestination;
+    protected String sourceDestination = DEFAULT_SOURCE_DESTINATION;
 
     protected FileSet soliditySourceFiles = new FileSet();
     
@@ -52,23 +55,18 @@ public class JavaClassGenerator {
      *   <excludes>
      * </contracts>
      */
-    protected Contract contract;
+    protected Contract contract = null;
     
     // A list (<pathPrefixe>) of replacements of dependency replacements inside Solidity contract.
     protected String[] pathPrefixes = new String[0];
     
     // generate Java Classes(java), ABI(abi) and/or BIN (bin) Files (comma separated)
-    protected String outputFormat;
+    protected String outputFormat = DEFAULT_OUTPUT_FORMAT;
     
     // Creates Java Native Types (instead of Solidity Types)
     protected boolean nativeJavaType = true;
     
-    public JavaClassGenerator(String rootDirectory, boolean nativeJavaType, String outputFormat, String sourceDestination, String packageName) {
-        this.nativeJavaType = nativeJavaType;
-        this.outputFormat = outputFormat;
-        this.packageName = packageName;
-        this.sourceDestination = sourceDestination;
-        
+    public JavaClassGenerator(String rootDirectory) {
         soliditySourceFiles.setDirectory(rootDirectory);
         soliditySourceFiles.setIncludes(Collections.singletonList(DEFAULT_INCLUDE));
     }
@@ -94,6 +92,7 @@ public class JavaClassGenerator {
         if (includedFiles.isEmpty()) {
             return "{}";
         }
+        System.out.println("SolidityCompiler.getInstance().getUsedSolCVersion()===" + SolidityCompiler.getInstance().getUsedSolCVersion());
         CompilerResult result = SolidityCompiler.getInstance().compileSrc(
                 soliditySourceFiles.getDirectory(),
                 includedFiles,
@@ -202,11 +201,13 @@ public class JavaClassGenerator {
         int addressLength = Address.DEFAULT_LENGTH / Byte.SIZE;
         boolean primitiveTypes = false;
 
+        System.out.println("contractName======================" + contractName);
+        System.out.println("results.get(SolidityCompiler.Options.ABI.getName())===" + results.get(SolidityCompiler.Options.ABI.getName()));
         List<AbiDefinition> functionDefinitions = loadContractDefinition(results.get(SolidityCompiler.Options.ABI.getName()));
 
 
         if (functionDefinitions.isEmpty()) {
-            LOG.severe("Unable to parse input ABI file");
+            LOG.severe("Unable to parse input ABI file: " + contractName);
             return;
         }
 

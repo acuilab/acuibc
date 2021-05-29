@@ -1,5 +1,7 @@
 package com.acuilab.bc.cfx;
 
+import com.acuilab.bc.cfx.solidity.JavaClassGenerator;
+import com.acuilab.bc.cfx.solidity.JavaClassGeneratorException;
 import com.acuilab.bc.cfx.util.StructuredDataEncoder;
 import com.acuilab.bc.main.cfx.CFXExtend;
 import conflux.web3j.Account;
@@ -9,6 +11,8 @@ import conflux.web3j.types.RawTransaction;
 import conflux.web3j.types.SendTransactionResult;
 import conflux.web3j.types.TransactionBuilder;
 import java.math.BigInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.openide.util.Lookup;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.Sign;
@@ -77,5 +81,10 @@ public class CFXExtendImpl implements CFXExtend {
 	}
 	
 	return address;
+    }
+    
+    @Override
+    public void generateJavaClass(String rootDirectory) throws Exception {
+        new JavaClassGenerator(rootDirectory).execute();
     }
 }

@@ -41,6 +41,6 @@ public class FluxDApp extends CfxBrowserDApp {
 
     @Override
     public String getUrl() {
-        return "https://flux.01.finance/";
+        return "https://flux.01.finance/conflux/";
     }
 }

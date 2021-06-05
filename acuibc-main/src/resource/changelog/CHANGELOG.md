@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 - 在dappstore中增加基于solidity合约创建java代码的开发工具
+- FluxDApp的url改为https://flux.01.finance/conflux/
 
 ## [0.9.22] - 2021-05-29
 ### Added

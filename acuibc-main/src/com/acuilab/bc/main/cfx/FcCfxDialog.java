@@ -2,11 +2,18 @@ package com.acuilab.bc.main.cfx;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.math.BigInteger;
+import java.math.RoundingMode;
+import java.util.concurrent.ExecutionException;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import javax.swing.SwingWorker;
+import org.javatuples.Pair;
+import org.netbeans.api.progress.ProgressHandle;
+import org.openide.util.Exceptions;
 
 /**
  *
@@ -45,7 +52,35 @@ public class FcCfxDialog extends javax.swing.JDialog {
     }
     
     private void myInit() {
-        
+        withdrawBtn.setEnabled(false);
+        // 获得余额及质押余额
+        final ProgressHandle ph = ProgressHandle.createHandle("正在初始化，请稍候...");
+        SwingWorker<Pair<BigInteger, BigInteger>, Void> worker = new SwingWorker<Pair<BigInteger, BigInteger>, Void>() {
+            @Override
+            protected Pair<BigInteger, BigInteger> doInBackground() throws Exception {
+                ph.start();
+                
+                
+                
+                
+                return new Pair<>(coin.balanceOf(address), coin.stakingBalanceOf(address));
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    Pair<BigInteger, BigInteger> result = get();
+                    balanceFld.setText(coin.minUnit2MainUint(result.getValue0()).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit());
+                    stakingBalanceFld.setText(coin.minUnit2MainUint(result.getValue1()).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + coin.getMainUnit());
+                } catch (InterruptedException | ExecutionException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+
+                ph.finish();
+                withdrawBtn.setEnabled(true);
+            }
+        };
+        worker.execute();
     }
 
     /**

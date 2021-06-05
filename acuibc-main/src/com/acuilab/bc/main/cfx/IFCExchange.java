@@ -8,20 +8,60 @@ import java.math.BigInteger;
  */
 public interface IFCExchange {
 
-    UserInfo userInfos();
+    UserInfo userInfos(String address);
+    
+    BigInteger accCfxPerFc(String address);
+    
+    BigInteger fcSupply(String address);
+    
+    BigInteger lastStakingAmount(String address);
     
     class UserInfo {
         // 当前质押的fc数量
-        private BigInteger amount;
+        private final BigInteger amount;
         // 提取的cfx数量
-        private BigInteger profitDebt;
+        private final BigInteger profitDebt;
         // 累积质押的fc数量*
-        private BigInteger accumulateAmount;
+        private final BigInteger accumulateAmount;
         // 是否获得nft
-        private boolean nftGranted;
+        private final boolean nftGranted;
         // 获得的nft token id
-        private BigInteger grantedTokenId;
+        private final BigInteger grantedTokenId;
         // 累计提取的CFX数量*
-        private BigInteger accProfit;
+        private final BigInteger accProfit;
+
+        public UserInfo(BigInteger amount, BigInteger profitDebt, BigInteger accumulateAmount, boolean nftGranted, BigInteger grantedTokenId, BigInteger accProfit) {
+            this.amount = amount;
+            this.profitDebt = profitDebt;
+            this.accumulateAmount = accumulateAmount;
+            this.nftGranted = nftGranted;
+            this.grantedTokenId = grantedTokenId;
+            this.accProfit = accProfit;
+        }
+
+        public BigInteger getAmount() {
+            return amount;
+        }
+
+        public BigInteger getProfitDebt() {
+            return profitDebt;
+        }
+
+        public BigInteger getAccumulateAmount() {
+            return accumulateAmount;
+        }
+
+        public boolean isNftGranted() {
+            return nftGranted;
+        }
+
+        public BigInteger getGrantedTokenId() {
+            return grantedTokenId;
+        }
+
+        public BigInteger getAccProfit() {
+            return accProfit;
+        }
+        
     }
 }

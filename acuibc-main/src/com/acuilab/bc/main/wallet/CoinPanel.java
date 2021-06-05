@@ -232,7 +232,7 @@ public class CoinPanel extends JXPanel {
             stakingBtn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    StakingDialog dlg = new StakingDialog(null, wallet, (ICFXCoin) coin);
+                    StakingDialog dlg = new StakingDialog(wallet, (ICFXCoin) coin);
                     dlg.setVisible(true);
                 }
 

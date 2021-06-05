@@ -142,6 +142,7 @@ contract FCExchange {
     }
 
     // take all staked cfx and profit from internal contract
+    // 获取所有质押的cfx并从内部合约中取出收益
     function _withdrawAndUpdateProfit() internal {
         if (lastStakingAmount > 0) {
             // cfx remained in exchange contract
@@ -174,6 +175,7 @@ contract FCExchange {
     }
 
     // grant nft to user if it's the first time his/her accumulative deposited FC amount is larger than 1000
+    // 如果用户第一次累积存入的FC金额大于1000，则授予用户nft
     function _tryGrantNft(address userAddr, UserInfo storage user) internal {
         if (!user.nftGranted && user.accumulateAmount >= grantRequired) {
             // mint exact 1 Conflux Guardian token to user and get unique token ID
@@ -222,6 +224,7 @@ contract FCExchange {
     }
 
     // transfer pending profit and exchange amount of cfx to user
+    // 将cfx的待定利润和兑换金额转移给用户
     function _instantExchange(address userAddr, uint256 amount) internal {
         UserInfo storage user = userInfos[userAddr];
         // take staking & profit from internal contract
@@ -243,16 +246,19 @@ contract FCExchange {
 
     // withdraw cfx and pending profit to user, reduce corresponding amount of FC deposited by user
     // this function can be used to check the pending profit of user
+    // 向用户提取cfx和未结利润，减少用户存入的相应FC金额 此功能可用于查看用户的未结利润
     function withdraw(uint256 amount) public onlyInitialized returns (uint256) {
         UserInfo storage user = userInfos[msg.sender];
-        require(user.amount > 0, "FCExchange: user FC deposit amount is zero");
+        require(user.amount > 0, "FCExchange: user FC deposit amount is zero"); // 用户FC存款金额为零
         require(
             user.amount >= amount,
-            "FCExchange: user deposited FC is insufficient"
+            "FCExchange: user deposited FC is insufficient" // 用户存入FC不足
         );
         // take staking & profit from internal contract
+        // 从内部合约中获取权益
         _withdrawAndUpdateProfit();
         // transfer pending profit and withdrawal cfx to user
+        // 将未决利润和提款 cfx 转移给用户
         uint256 pendingProfit = user.amount.mul(accCfxPerFc).div(1e18).sub(
             user.profitDebt
         );
@@ -264,10 +270,12 @@ contract FCExchange {
         // update fc supply
         fcSupply = fcSupply.sub(amount);
         // update user info
+        // 更新用户信息
         user.amount = user.amount.sub(amount);
         user.profitDebt = user.amount.mul(accCfxPerFc).div(1e18);
         user.accProfit = user.accProfit.add(pendingProfit);
         // stake remaining cfx to internal contract
+        // 将剩余的 cfx 权益存入内部合约
         _stake();
         emit Withdraw(msg.sender, amount, pendingProfit);
         return pendingProfit;

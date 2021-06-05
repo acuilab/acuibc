@@ -57,8 +57,8 @@ public class StakingDialog extends javax.swing.JDialog {
     /**
      * Creates new form StakingDialog
      */
-    public StakingDialog(java.awt.Frame parent, Wallet wallet, ICFXCoin coin) {
-        super(parent, true);
+    public StakingDialog(Wallet wallet, ICFXCoin coin) {
+        super((java.awt.Frame)null, true);
         initComponents();
         
         myInit(wallet.getAddress(), coin);

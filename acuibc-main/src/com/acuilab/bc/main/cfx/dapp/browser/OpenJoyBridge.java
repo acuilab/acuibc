@@ -53,6 +53,8 @@ public class OpenJoyBridge {
     public String postMessage(String paramStr) {
         
 	String result = "";
+        
+        System.out.println("paramStr==========================" + paramStr);
 	
 	if(StringUtils.isNotBlank(paramStr)) {
             if(StringUtils.startsWith(paramStr, "conflux")) {

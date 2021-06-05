@@ -20,7 +20,6 @@ public class FCCoin extends ERC20Coin {
     public static final String CONTRACT_ADDRESS = "cfx:achc8nxj7r451c223m18w2dwjnmhkd6rxawrvkvsy2";
 
     public static final String NAME = "Fans Coin";
-    public static final String SYMBOL = "FC";
 
     @Override
     public String getName() {
@@ -29,7 +28,7 @@ public class FCCoin extends ERC20Coin {
 
     @Override
     public String getSymbol() {
-        return SYMBOL;
+        return Constants.CFX_FC_SYMBOL;
     }
 
     @Override

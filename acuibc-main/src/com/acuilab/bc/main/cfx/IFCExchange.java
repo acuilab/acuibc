@@ -10,11 +10,11 @@ public interface IFCExchange {
 
     UserInfo userInfos(String address);
     
-    BigInteger accCfxPerFc(String address);
+    BigInteger accCfxPerFc();
     
-    BigInteger fcSupply(String address);
+    BigInteger fcSupply();
     
-    BigInteger lastStakingAmount(String address);
+    BigInteger lastStakingAmount();
     
     class UserInfo {
         // 当前质押的fc数量

@@ -22,6 +22,8 @@ public class Constants {
     public static final String ETH_BLOCKCHAIN_SYMBAL = "ETH";
     public static final String BSC_BLOCKCHAIN_SYMBAL = "BSC";
     
+    public static final String CFX_FC_SYMBOL = "FC";
+    
     public static final int TEXT_NOTICE_FONT_SIZE = 12;     // 消息头字体大小
     public static final Color TEXT_NOTICE_COLOR = new Color(0, 128, 64);
     public static final int TEXT_RESULT_FONT_SIZE = 12;     // 消息头字体大小

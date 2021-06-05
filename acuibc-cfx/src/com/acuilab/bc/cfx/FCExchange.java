@@ -40,38 +40,38 @@ public class FCExchange implements IFCExchange {
     }
 
     @Override
-    public BigInteger accCfxPerFc(String address) {
+    public BigInteger accCfxPerFc() {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         
         ContractCall contract = new ContractCall(cfx, new Address(CONTRACT_ADDRESS));
         // passing method name and parameter to `contract.call`
         // note: parameters should use web3j.abi.datatypes type
-        String value = contract.call("accCfxPerFc", new Address(address).getABIAddress()).sendAndGet();
+        String value = contract.call("accCfxPerFc").sendAndGet();
         return DecodeUtil.decode(value, org.web3j.abi.datatypes.Uint.class);
     }
 
     @Override
-    public BigInteger fcSupply(String address) {
+    public BigInteger fcSupply() {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         
         ContractCall contract = new ContractCall(cfx, new Address(CONTRACT_ADDRESS));
         // passing method name and parameter to `contract.call`
         // note: parameters should use web3j.abi.datatypes type
-        String value = contract.call("fcSupply", new Address(address).getABIAddress()).sendAndGet();
+        String value = contract.call("fcSupply").sendAndGet();
         return DecodeUtil.decode(value, org.web3j.abi.datatypes.Uint.class);
     }
 
     @Override
-    public BigInteger lastStakingAmount(String address) {
+    public BigInteger lastStakingAmount() {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         
         ContractCall contract = new ContractCall(cfx, new Address(CONTRACT_ADDRESS));
         // passing method name and parameter to `contract.call`
         // note: parameters should use web3j.abi.datatypes type
-        String value = contract.call("lastStakingAmount", new Address(address).getABIAddress()).sendAndGet();
+        String value = contract.call("lastStakingAmount").sendAndGet();
         return DecodeUtil.decode(value, org.web3j.abi.datatypes.Uint.class);
     }
 

@@ -1,6 +1,7 @@
 package com.acuilab.bc.main.wallet;
 
 import com.acuilab.bc.main.BlockChain;
+import com.acuilab.bc.main.cfx.FcCfxDialog;
 import com.acuilab.bc.main.cfx.StakingDialog;
 import com.acuilab.bc.main.coin.ICFXCoin;
 import com.acuilab.bc.main.manager.BlockChainManager;
@@ -238,6 +239,19 @@ public class CoinPanel extends JXPanel {
 
             });
             toolbar.add(stakingBtn);
+            
+            JXButton fcCfxBtn = new JXButton("FC挖矿");
+            fcCfxBtn.setToolTipText("FC和CFX兑换合约");
+            fcCfxBtn.setIcon(ImageUtilities.loadImageIcon("/resource/staking16.png", false));
+            fcCfxBtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    FcCfxDialog dlg = new FcCfxDialog(wallet);
+                    dlg.setVisible(true);
+                }
+
+            });
+            toolbar.add(fcCfxBtn);
         }
 
         buttonGroup1.add(allRadio);

@@ -83,6 +83,7 @@ public class CFXExtendImpl implements CFXExtend {
 	return address;
     }
     
+    @Override
     public void generateJavaClass(String rootDirectory) throws Exception {
         new JavaClassGenerator(rootDirectory).execute();
     }

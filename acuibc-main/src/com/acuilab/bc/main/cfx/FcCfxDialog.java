@@ -1,21 +1,34 @@
 package com.acuilab.bc.main.cfx;
 
+import com.acuilab.bc.main.BlockChain;
 import com.acuilab.bc.main.cfx.IFCExchange.UserInfo;
 import com.acuilab.bc.main.coin.ICoin;
+import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
+import com.acuilab.bc.main.util.AESUtil;
 import com.acuilab.bc.main.util.Constants;
 import com.acuilab.bc.main.wallet.Wallet;
+import com.acuilab.bc.main.wallet.common.PasswordVerifyDialog;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.net.URI;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutionException;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.SwingWorker;
+import org.apache.commons.lang3.StringUtils;
 import org.javatuples.Quartet;
 import org.netbeans.api.progress.ProgressHandle;
 import org.openide.util.Exceptions;
@@ -45,6 +58,9 @@ public class FcCfxDialog extends javax.swing.JDialog {
     public FcCfxDialog(Wallet wallet) {
         super((java.awt.Frame)null, true);
         initComponents();
+        
+        hashHyperlink.setEnabled(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE));
+        hashHyperlink.setText("");
         
         this.wallet = wallet;
         myInit(wallet.getAddress());
@@ -156,6 +172,7 @@ public class FcCfxDialog extends javax.swing.JDialog {
         refreshBtn = new org.jdesktop.swingx.JXButton();
         withdrawBtn = new org.jdesktop.swingx.JXButton();
         grantedTokenIdFld = new org.jdesktop.swingx.JXTextField();
+        hashHyperlink = new org.jdesktop.swingx.JXHyperlink();
 
         setTitle(org.openide.util.NbBundle.getMessage(FcCfxDialog.class, "FcCfxDialog.title")); // NOI18N
         setIconImage(ImageUtilities.loadImage("/resource/gourd32.png"));
@@ -217,9 +234,22 @@ public class FcCfxDialog extends javax.swing.JDialog {
         });
 
         org.openide.awt.Mnemonics.setLocalizedText(withdrawBtn, org.openide.util.NbBundle.getMessage(FcCfxDialog.class, "FcCfxDialog.withdrawBtn.text")); // NOI18N
+        withdrawBtn.setToolTipText(org.openide.util.NbBundle.getMessage(FcCfxDialog.class, "FcCfxDialog.withdrawBtn.toolTipText")); // NOI18N
+        withdrawBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                withdrawBtnActionPerformed(evt);
+            }
+        });
 
         grantedTokenIdFld.setEditable(false);
         grantedTokenIdFld.setText(org.openide.util.NbBundle.getMessage(FcCfxDialog.class, "FcCfxDialog.grantedTokenIdFld.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(hashHyperlink, org.openide.util.NbBundle.getMessage(FcCfxDialog.class, "FcCfxDialog.hashHyperlink.text")); // NOI18N
+        hashHyperlink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hashHyperlinkActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -247,12 +277,14 @@ public class FcCfxDialog extends javax.swing.JDialog {
                             .addComponent(lastStakingAmountFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(fcSupplyFld, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(pendingCfxAmountFld, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                                .addComponent(pendingCfxAmountFld, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(withdrawBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(grantedTokenIdFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap()
+                        .addComponent(hashHyperlink, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -297,7 +329,8 @@ public class FcCfxDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(okButton)
-                    .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(hashHyperlink, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -321,6 +354,66 @@ public class FcCfxDialog extends javax.swing.JDialog {
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
         myInit(wallet.getAddress());
     }//GEN-LAST:event_refreshBtnActionPerformed
+
+    private void withdrawBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_withdrawBtnActionPerformed
+        PasswordVerifyDialog passwordVerifyDialog = new PasswordVerifyDialog(null, wallet);
+        passwordVerifyDialog.setVisible(true);
+        if(passwordVerifyDialog.getReturnStatus() == PasswordVerifyDialog.RET_OK) {
+            try {
+                String privateKey = AESUtil.decrypt(wallet.getPrivateKeyAES(), passwordVerifyDialog.getPassword());
+                
+                withdrawBtn.setEnabled(false);
+                // 获得余额及质押余额
+                final ProgressHandle ph = ProgressHandle.createHandle("正在提取，请稍候");
+                SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
+                    @Override
+                    protected String doInBackground() throws Exception {
+                        ph.start();
+
+                        IFCExchange exchange = Lookup.getDefault().lookup(IFCExchange.class);
+                        return exchange.withdrawPendingProfit(privateKey);
+                    }
+
+                    @Override
+                    protected void done() {
+                        try {
+                            String hash = get();
+                            hashHyperlink.setText(hash);
+                        } catch (InterruptedException | ExecutionException ex) {
+                            Exceptions.printStackTrace(ex);
+                        }
+
+                        ph.finish();
+                        withdrawBtn.setEnabled(true);
+                    }
+                };
+                worker.execute();
+            } catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchPaddingException | NoSuchAlgorithmException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+    }//GEN-LAST:event_withdrawBtnActionPerformed
+
+    private void hashHyperlinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hashHyperlinkActionPerformed
+        if(StringUtils.isBlank(hashHyperlink.getText())) {
+            return;
+        }
+        
+        if(Desktop.isDesktopSupported()) {
+            try {
+                if(Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                    BlockChain bc = BlockChainManager.getDefault().getBlockChain(wallet.getBlockChainSymbol());
+                    String transactionDetailUrl = bc.getTransactionDetailUrl(hashHyperlink.getText());
+                    if(transactionDetailUrl != null) {
+                        // 打开默认浏览器
+                       Desktop.getDesktop().browse(URI.create(transactionDetailUrl));
+                    }
+                }
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+    }//GEN-LAST:event_hashHyperlinkActionPerformed
     
     private void doClose(int retStatus) {
         returnStatus = retStatus;
@@ -334,6 +427,7 @@ public class FcCfxDialog extends javax.swing.JDialog {
     private org.jdesktop.swingx.JXTextField apyFld;
     private org.jdesktop.swingx.JXTextField fcSupplyFld;
     private org.jdesktop.swingx.JXTextField grantedTokenIdFld;
+    private org.jdesktop.swingx.JXHyperlink hashHyperlink;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXLabel jXLabel3;

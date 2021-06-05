@@ -264,7 +264,7 @@ contract FCExchange {
         );
         require(
             address(this).balance >= pendingProfit.add(amount),
-            "FCExchange withdraw: cfx balance insufficient"
+            "FCExchange withdraw: cfx balance insufficient"     // cfx 余额不足
         );
         msg.sender.transfer(pendingProfit.add(amount));
         // update fc supply
@@ -284,6 +284,7 @@ contract FCExchange {
     /* === for ERC1820 === */
     // if userData is empty, received FC will be exchanged to cfx and send to user instantly
     // otherwise, received FC will be deposited and share profit
+    // 如果 userData 为空，收到的 FC 将兑换成 cfx 并立即发送给用户，否则，收到的 FC 将被存入并分享利润
     function tokensReceived(
         address,
         address from,

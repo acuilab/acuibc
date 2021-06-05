@@ -16,6 +16,8 @@ public interface IFCExchange {
     
     BigInteger lastStakingAmount();
     
+    String withdrawPendingProfit(String privateKey) throws Exception;
+    
     class UserInfo {
         // 当前质押的fc数量
         private final BigInteger amount;

@@ -54,7 +54,7 @@
                           <Component id="lastStakingAmountFld" alignment="0" max="32767" attributes="0"/>
                           <Component id="fcSupplyFld" alignment="1" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="pendingCfxAmountFld" pref="185" max="32767" attributes="0"/>
+                              <Component id="pendingCfxAmountFld" pref="331" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="withdrawBtn" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -62,7 +62,9 @@
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="hashHyperlink" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="refreshBtn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="okButton" min="-2" pref="67" max="-2" attributes="0"/>
@@ -120,6 +122,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="okButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="refreshBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="hashHyperlink" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -267,7 +270,13 @@
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="com/acuilab/bc/main/cfx/Bundle.properties" key="FcCfxDialog.withdrawBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/cfx/Bundle.properties" key="FcCfxDialog.withdrawBtn.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="withdrawBtnActionPerformed"/>
+      </Events>
     </Component>
     <Component class="org.jdesktop.swingx.JXTextField" name="grantedTokenIdFld">
       <Properties>
@@ -276,6 +285,16 @@
           <ResourceString bundle="com/acuilab/bc/main/cfx/Bundle.properties" key="FcCfxDialog.grantedTokenIdFld.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXHyperlink" name="hashHyperlink">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/cfx/Bundle.properties" key="FcCfxDialog.hashHyperlink.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="hashHyperlinkActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

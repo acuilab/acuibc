@@ -9,7 +9,6 @@ import conflux.web3j.contract.abi.DecodeUtil;
 import conflux.web3j.types.Address;
 import java.awt.Image;
 import java.math.BigInteger;
-import java.net.URL;
 import java.util.Map;
 import javax.swing.Icon;
 import org.apache.commons.lang3.StringUtils;

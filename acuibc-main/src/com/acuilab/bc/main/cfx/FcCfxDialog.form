@@ -118,7 +118,7 @@
                   <Component id="jXLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="grantedTokenIdFld" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="127" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="okButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="refreshBtn" alignment="3" min="-2" max="-2" attributes="0"/>

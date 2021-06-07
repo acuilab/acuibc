@@ -8,7 +8,13 @@ import conflux.web3j.contract.ContractCall;
 import conflux.web3j.contract.abi.DecodeUtil;
 import conflux.web3j.types.Address;
 import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.List;
 import org.openide.util.Lookup;
+import org.web3j.abi.FunctionReturnDecoder;
+import org.web3j.abi.TypeReference;
+import org.web3j.abi.datatypes.DynamicArray;
+import org.web3j.abi.datatypes.Uint;
 
 /**
  *
@@ -48,9 +54,23 @@ public class GuGuoContract implements IGuGuoContract {
         // note: parameters should use web3j.abi.datatypes type
         String value = contract.call("pledgedERC1155", new org.web3j.abi.datatypes.Uint(BigInteger.valueOf(pid)), new Address(address).getABIAddress()).sendAndGet();
         
-        
         System.out.println("value=====================================" + value);
         
+        
+        List<DynamicArray<Uint>> list = FunctionReturnDecoder.decode(value, Arrays.asList(new TypeReference<DynamicArray<org.web3j.abi.datatypes.Uint>>() {}, new TypeReference<DynamicArray<org.web3j.abi.datatypes.Uint>>() {}));
+        
+        System.out.println("list.size()==============================" + list.size());
+        
+        List<Uint> list0 = list.get(0).getValue();
+        System.out.println("list0.size()====================" + list0.size());
+        for(Uint i : list0) {
+            System.out.println(i + "============" + i.getValue().toString());
+        }
+        
+        List<Uint> list1 = list.get(1).getValue();
+        for(Uint i : list1) {
+            System.out.println(i + "============" + i.getValue().toString());
+        }
 //        String encoded = Numeric.cleanHexPrefix(value);
 //        TupleDecoder decoder = new TupleDecoder(encoded);
 //        
@@ -98,13 +118,13 @@ public class GuGuoContract implements IGuGuoContract {
             case FLUX_PID:
             {            
                 // flux
-                INFT nft = Lookup.getDefault().lookup(MoonGenesisNFT.class);
+                INFT nft = Lookup.getDefault().lookup(FluxNFT.class);
                 return nft.getMetaData(tokenId);
             }
         
             case GUGUO_PID:
             {
-                // guguo
+                // TODO: guguo
                 
                 return null;
             }

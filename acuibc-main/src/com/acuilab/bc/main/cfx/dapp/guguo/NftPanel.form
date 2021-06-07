@@ -23,13 +23,13 @@
               <Component id="withdrawBtn" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
-          <Component id="jXImageView1" alignment="0" max="32767" attributes="0"/>
+          <Component id="imageView" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="jXImageView1" min="-2" max="-2" attributes="0"/>
+              <Component id="imageView" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="depositBtn" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -40,7 +40,10 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="org.jdesktop.swingx.JXImageView" name="jXImageView1">
+    <Container class="org.jdesktop.swingx.JXImageView" name="imageView">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new MyJXImageView()"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">

@@ -1,6 +1,12 @@
 package com.acuilab.bc.main.cfx.dapp.guguo;
 
-import java.math.BigInteger;
+import com.acuilab.bc.main.nft.MetaData;
+import com.acuilab.bc.main.ui.MyJXImageView;
+import java.awt.Image;
+import java.io.IOException;
+import java.net.URL;
+import org.apache.commons.lang3.StringUtils;
+import org.openide.util.Exceptions;
 
 /**
  *
@@ -9,7 +15,7 @@ import java.math.BigInteger;
 public class NftPanel extends javax.swing.JPanel {
     
     private final int pId;
-    private BigInteger tockenId;
+    private MetaData md;
 
     /**
      * Creates new form KaoZiPanel
@@ -20,10 +26,35 @@ public class NftPanel extends javax.swing.JPanel {
         this.pId = pId;
     }
     
-    public void setTockenId(BigInteger tockenId) {
-        this.tockenId = tockenId;
+    public void setMetaData(MetaData md) {
+        this.md = md;
         
-        // 根据tockenId获得图像
+	MyJXImageView myImageView = (MyJXImageView)imageView;
+	myImageView.setToolTipText(md.getDesc());		// 这句必须调用，否则ImageToolTip弹不出来
+	myImageView.setMetaData(md);
+        if (md.getImage() != null) {
+            try {
+                myImageView.setImage(md.getImage());
+                Image image = myImageView.getImage();
+                double scaleX = 140.0d / image.getWidth(null);
+                double scaleY = 140.0d / image.getHeight(null);
+                myImageView.setScale(Math.max(scaleX, scaleY));
+//                myImageView.setImageLocation(new Point2D.Double(image.getWidth(null) / 2, image.getWidth(null) / 2));
+            } catch (Exception ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        } else if (!StringUtils.isBlank(md.getImageUrl())) {
+            try {
+                URL url = new URL(md.getImageUrl());
+                myImageView.setImage(url);
+                Image image = myImageView.getImage();
+                double scaleX = 140.0d / image.getWidth(null);
+                double scaleY = 140.0d / image.getHeight(null);
+                myImageView.setScale(Math.max(scaleX, scaleY));
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
         
     }
 
@@ -36,18 +67,18 @@ public class NftPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jXImageView1 = new org.jdesktop.swingx.JXImageView();
+        imageView = new MyJXImageView();
         depositBtn = new org.jdesktop.swingx.JXButton();
         withdrawBtn = new org.jdesktop.swingx.JXButton();
 
-        javax.swing.GroupLayout jXImageView1Layout = new javax.swing.GroupLayout(jXImageView1);
-        jXImageView1.setLayout(jXImageView1Layout);
-        jXImageView1Layout.setHorizontalGroup(
-            jXImageView1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout imageViewLayout = new javax.swing.GroupLayout(imageView);
+        imageView.setLayout(imageViewLayout);
+        imageViewLayout.setHorizontalGroup(
+            imageViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        jXImageView1Layout.setVerticalGroup(
-            jXImageView1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        imageViewLayout.setVerticalGroup(
+            imageViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 140, Short.MAX_VALUE)
         );
 
@@ -67,12 +98,12 @@ public class NftPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(withdrawBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addComponent(jXImageView1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(imageView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jXImageView1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(imageView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(depositBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -83,7 +114,7 @@ public class NftPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXButton depositBtn;
-    private org.jdesktop.swingx.JXImageView jXImageView1;
+    private org.jdesktop.swingx.JXImageView imageView;
     private org.jdesktop.swingx.JXButton withdrawBtn;
     // End of variables declaration//GEN-END:variables
 }

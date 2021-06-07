@@ -3,14 +3,17 @@ package com.acuilab.bc.main.cfx.dapp.guguo;
 import com.acuilab.bc.main.cfx.IGuGuoContract;
 import com.acuilab.bc.main.coin.ICoin;
 import com.acuilab.bc.main.manager.CoinManager;
+import com.acuilab.bc.main.nft.MetaData;
 import com.acuilab.bc.main.util.Constants;
 import com.acuilab.bc.main.wallet.Wallet;
 import com.acuilab.bc.main.wallet.common.SelectWalletDialog;
+import com.google.common.collect.Maps;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import javax.swing.SwingWorker;
-import org.javatuples.Pair;
+import org.javatuples.Triplet;
 import org.netbeans.api.progress.ProgressHandle;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
@@ -75,9 +78,9 @@ public final class GuGuoTopComponent extends TopComponent {
     private void myInit() {
         if(wallet != null) {
             final ProgressHandle ph = ProgressHandle.createHandle("正在初始化，请稍候...");
-            SwingWorker<Pair<BigInteger, BigInteger>, Void> worker = new SwingWorker<Pair<BigInteger, BigInteger>, Void>() {
+            SwingWorker<Triplet<BigInteger, BigInteger, Map>, Void> worker = new SwingWorker<Triplet<BigInteger, BigInteger, Map>, Void>() {
                 @Override
-                protected Pair<BigInteger, BigInteger> doInBackground() throws Exception {
+                protected Triplet<BigInteger, BigInteger, Map> doInBackground() throws Exception {
                     ph.start();
                     
                     IGuGuoContract contract = Lookup.getDefault().lookup(IGuGuoContract.class);
@@ -88,26 +91,77 @@ public final class GuGuoTopComponent extends TopComponent {
                     BigInteger xiangBalance = contract.xiangBalance(wallet.getAddress());
                     
                     // 当前质押的烤仔nft编号
-                    BigInteger[] kaoZiIds = contract.pledgedERC1155(wallet.getAddress(), IGuGuoContract.KAOZI_PID);
+                    BigInteger[] kaoZiTockenIds = contract.pledgedERC1155(wallet.getAddress(), IGuGuoContract.KAOZI_PID);
+                    kaoZiTockenIds = new BigInteger[] {BigInteger.valueOf(7270), BigInteger.valueOf(7230), BigInteger.valueOf(12337)};
                     // 当前质押的月亮创世nft编号
-                    contract.pledgedERC1155(wallet.getAddress(), MOON_PID);
+                    BigInteger[] moonTockenIds = contract.pledgedERC1155(wallet.getAddress(), IGuGuoContract.MOON_PID);
+                    moonTockenIds = new BigInteger[] {BigInteger.valueOf(556)};
                     // 当前质押的flux nft编号
-                    contract.pledgedERC1155(wallet.getAddress(), FLUX_PID);
+                    BigInteger[] fluxTockenIds = contract.pledgedERC1155(wallet.getAddress(), IGuGuoContract.FLUX_PID);
+                    fluxTockenIds = new BigInteger[] {BigInteger.valueOf(5), BigInteger.valueOf(2)};
                     // 当前质押的古国nft编号
-                    contract.pledgedERC1155(wallet.getAddress(), GUGUO_PID);
+                    BigInteger[] guGuoTockenIds = contract.pledgedERC1155(wallet.getAddress(), IGuGuoContract.GUGUO_PID);
+                    guGuoTockenIds = new BigInteger[] {};
                     
+                    MetaData[] kaoZiMetadata = new MetaData[kaoZiTockenIds.length];
+                    for(int i=0; i<kaoZiTockenIds.length; i++) {
+                        kaoZiMetadata[i] = contract.getMetaData(IGuGuoContract.KAOZI_PID, kaoZiTockenIds[i]);
+                    }
                     
-                    return new Pair<>(yaoBalance, xiangBalance);
+                    MetaData[] moonMetaData = new MetaData[moonTockenIds.length];
+                    for(int i=0; i<moonTockenIds.length; i++) {
+                        moonMetaData[i] = contract.getMetaData(IGuGuoContract.MOON_PID, moonTockenIds[i]);
+                    }
+                    
+                    MetaData[] fluxMetaData = new MetaData[fluxTockenIds.length];
+                    for(int i=0; i<fluxTockenIds.length; i++) {
+                        fluxMetaData[i] = contract.getMetaData(IGuGuoContract.FLUX_PID, fluxTockenIds[i]);
+                    }
+                    
+                    MetaData[] guGuoMetaData = new MetaData[guGuoTockenIds.length];
+                    for(int i=0; i<guGuoTockenIds.length; i++) {
+                        guGuoMetaData[i] = contract.getMetaData(IGuGuoContract.GUGUO_PID, guGuoTockenIds[i]);
+                    }
+                    
+                    Map<Integer, MetaData[]> map = Maps.newHashMap();
+                    map.put(IGuGuoContract.KAOZI_PID, kaoZiMetadata);
+                    map.put(IGuGuoContract.MOON_PID, moonMetaData);
+                    map.put(IGuGuoContract.FLUX_PID, fluxMetaData);
+                    map.put(IGuGuoContract.GUGUO_PID, guGuoMetaData);
+                    
+                    return new Triplet<>(yaoBalance, xiangBalance, map);
                 }
 
                 @Override
                 protected void done() {
                     try {
-                        Pair<BigInteger, BigInteger> result = get();
+                        Triplet<BigInteger, BigInteger, Map> result = get();
                         
                         ICoin yaoCoin = CoinManager.getDefault().getCoin(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_YAO_SYMBOL);
                         yaoBalanceFld.setText(yaoCoin.minUnit2MainUint(result.getValue0()).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
                         xiangBalanceFld.setText(yaoCoin.minUnit2MainUint(result.getValue1()).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
+                        
+                        Map<Integer, MetaData[]> map = result.getValue2();
+                        MetaData[] kaoZiMetadata = map.get(IGuGuoContract.KAOZI_PID);
+                        for(int i=0; i<kaoZiMetadata.length; i++) {
+                            MetaData md = kaoZiMetadata[i];
+                            kaoZiPanels[i].setMetaData(md);
+                        }
+                        MetaData[] moonMetaData = map.get(IGuGuoContract.MOON_PID);
+                        for(int i=0; i<moonMetaData.length; i++) {
+                            MetaData md = moonMetaData[i];
+                            moonPanels[i].setMetaData(md);
+                        }
+                        MetaData[] fluxMetaData = map.get(IGuGuoContract.FLUX_PID);
+                        for(int i=0; i<fluxMetaData.length; i++) {
+                            MetaData md = fluxMetaData[i];
+                            fluxPanels[i].setMetaData(md);
+                        }
+                        MetaData[] guGuoMetaData = map.get(IGuGuoContract.GUGUO_PID);
+                        for(int i=0; i<guGuoMetaData.length; i++) {
+                            MetaData md = guGuoMetaData[i];
+                            guGuoPanels[i].setMetaData(md);
+                        }
                     } catch (InterruptedException | ExecutionException ex) {
                         Exceptions.printStackTrace(ex);
                     } finally {

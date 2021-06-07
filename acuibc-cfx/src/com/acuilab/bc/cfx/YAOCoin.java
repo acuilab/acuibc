@@ -20,7 +20,6 @@ public class YAOCoin extends ERC20Coin {
     public static final String CONTRACT_ADDRESS = "cfx:acaucwuza1nm7wfj1bwkjttz7b0eh4ak7ur7fue1dy";
 
     public static final String NAME = "Anicent Chinese God YAO";
-    public static final String SYMBOL = "YAO";
 
     @Override
     public String getName() {
@@ -29,7 +28,7 @@ public class YAOCoin extends ERC20Coin {
 
     @Override
     public String getSymbol() {
-        return SYMBOL;
+        return Constants.CFX_YAO_SYMBOL;
     }
 
     @Override

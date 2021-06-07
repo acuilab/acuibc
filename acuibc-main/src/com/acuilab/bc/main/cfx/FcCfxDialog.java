@@ -109,8 +109,6 @@ public class FcCfxDialog extends javax.swing.JDialog {
                     ICoin cfxCoin = CoinManager.getDefault().getBaseCoin(Constants.CFX_BLOCKCHAIN_SYMBAL);
                     ICoin fcCoin = CoinManager.getDefault().getCoin(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_FC_SYMBOL);
                     
-                    
-                    
                     fcSupplyFld.setText(fcCoin.minUnit2MainUint(fcSupply).setScale(fcCoin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + fcCoin.getMainUnit());
                     lastStakingAmountFld.setText(cfxCoin.minUnit2MainUint(lastStakingAmount).setScale(cfxCoin.getMainUnitScale(), RoundingMode.HALF_DOWN).toPlainString() + " " + cfxCoin.getMainUnit());
                     apyFld.setText(String.format("%.2f", lastStakingAmount.doubleValue()/fcSupply.doubleValue() * 0.04 * 100) + "%");

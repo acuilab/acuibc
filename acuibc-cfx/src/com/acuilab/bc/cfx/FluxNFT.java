@@ -2,21 +2,15 @@ package com.acuilab.bc.cfx;
 
 import com.acuilab.bc.main.nft.MetaData;
 import com.acuilab.bc.main.util.Constants;
-import com.google.common.collect.Lists;
 import conflux.web3j.Cfx;
 import conflux.web3j.contract.ContractCall;
 import conflux.web3j.contract.abi.DecodeUtil;
 import conflux.web3j.types.Address;
 import java.awt.Image;
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.List;
 import javax.swing.Icon;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
-import org.web3j.abi.TypeReference;
-import org.web3j.abi.datatypes.DynamicArray;
-import org.web3j.abi.datatypes.Type;
 
 /**
  *
@@ -25,7 +19,7 @@ import org.web3j.abi.datatypes.Type;
 public class FluxNFT extends AbstractNFT {
     
     public static final String CONTRACT_ADDRESS = "cfx:acfs5g80h7khw4mxg0pa78e92t8ywp6h8pr69bx7rb";
-    public static final String WEBSITE = "https://flux.01.finance/";
+    public static final String WEBSITE = "https://flux.01.finance/conflux/";
 
     @Override
     public void init() {

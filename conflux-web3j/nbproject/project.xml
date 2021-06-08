@@ -58,11 +58,15 @@
                 <package>com.fasterxml.jackson.databind.ser.std</package>
                 <package>com.fasterxml.jackson.databind.type</package>
                 <package>com.fasterxml.jackson.databind.util</package>
+                <package>com.github.zafarkhaja.semver</package>
+                <package>com.github.zafarkhaja.semver.expr</package>
+                <package>com.github.zafarkhaja.semver.util</package>
                 <package>com.kenai.constantine</package>
                 <package>com.kenai.constantine.platform</package>
                 <package>com.kenai.jffi</package>
                 <package>com.kenai.jffi.internal</package>
                 <package>com.kenai.jnr.x86asm</package>
+                <package>com.squareup.javapoet</package>
                 <package>conflux.web3j</package>
                 <package>conflux.web3j.contract</package>
                 <package>conflux.web3j.contract.abi</package>
@@ -195,6 +199,14 @@
                 <package>kotlin.text.jdk8</package>
                 <package>kotlin.time</package>
                 <package>kotlin.time.jdk8</package>
+                <package>kotlinx.io</package>
+                <package>kotlinx.serialization</package>
+                <package>kotlinx.serialization.cbor</package>
+                <package>kotlinx.serialization.internal</package>
+                <package>kotlinx.serialization.json</package>
+                <package>kotlinx.serialization.json.internal</package>
+                <package>kotlinx.serialization.modules</package>
+                <package>kotlinx.serialization.protobuf</package>
                 <package>okhttp3</package>
                 <package>okhttp3.internal</package>
                 <package>okhttp3.internal.authenticator</package>
@@ -486,10 +498,6 @@
                 <binary-origin>release/modules/ext/okhttp-4.9.0.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/conflux-web3j-v1.0.5.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/conflux-web3j-v1.0.5.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
                 <runtime-relative-path>ext/Java-WebSocket-1.3.8.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/Java-WebSocket-1.3.8.jar</binary-origin>
             </class-path-extension>
@@ -564,6 +572,10 @@
             <class-path-extension>
                 <runtime-relative-path>ext/bcprov-jdk15on-1.65.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/bcprov-jdk15on-1.65.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/conflux-web3j-1.0.5.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/conflux-web3j-1.0.5.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/asm-tree-5.0.3.jar</runtime-relative-path>

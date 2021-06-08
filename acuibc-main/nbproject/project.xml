@@ -227,12 +227,26 @@
             </module-dependencies>
             <public-packages>
                 <package>com.acuilab.bc.main</package>
+                <package>com.acuilab.bc.main.action</package>
                 <package>com.acuilab.bc.main.cfx</package>
+                <package>com.acuilab.bc.main.cfx.dapp.batchtransfer</package>
+                <package>com.acuilab.bc.main.cfx.dapp.browser</package>
+                <package>com.acuilab.bc.main.cfx.dapp.guguo</package>
+                <package>com.acuilab.bc.main.cfx.dapp.solidity</package>
                 <package>com.acuilab.bc.main.coin</package>
+                <package>com.acuilab.bc.main.dao</package>
                 <package>com.acuilab.bc.main.dapp</package>
+                <package>com.acuilab.bc.main.manager</package>
                 <package>com.acuilab.bc.main.nft</package>
+                <package>com.acuilab.bc.main.skin</package>
+                <package>com.acuilab.bc.main.ui</package>
                 <package>com.acuilab.bc.main.util</package>
                 <package>com.acuilab.bc.main.wallet</package>
+                <package>com.acuilab.bc.main.wallet.action</package>
+                <package>com.acuilab.bc.main.wallet.common</package>
+                <package>com.acuilab.bc.main.wallet.wizard</package>
+                <package>com.acuilab.bc.main.welcome</package>
+                <package>com.csvreader</package>
             </public-packages>
         </data>
     </configuration>

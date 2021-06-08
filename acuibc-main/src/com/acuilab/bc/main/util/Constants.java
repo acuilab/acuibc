@@ -25,6 +25,11 @@ public class Constants {
     public static final String CFX_FC_SYMBOL = "FC";
     public static final String CFX_YAO_SYMBOL = "YAO";
     
+    public static final int GUGUO_KAOZI_PID = 0;
+    public static final int GUGUO_MOON_PID = 1;
+    public static final int GUGUO_FLUX_PID = 2;
+    public static final int GUGUO_GUGUO_PID = 3;
+    
     public static final int TEXT_NOTICE_FONT_SIZE = 12;     // 消息头字体大小
     public static final Color TEXT_NOTICE_COLOR = new Color(0, 128, 64);
     public static final int TEXT_RESULT_FONT_SIZE = 12;     // 消息头字体大小

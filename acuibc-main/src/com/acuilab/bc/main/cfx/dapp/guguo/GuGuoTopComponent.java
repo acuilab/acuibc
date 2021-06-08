@@ -1,19 +1,27 @@
 package com.acuilab.bc.main.cfx.dapp.guguo;
 
-import com.acuilab.bc.main.cfx.IGuGuoContract;
 import com.acuilab.bc.main.coin.ICoin;
 import com.acuilab.bc.main.manager.CoinManager;
-import com.acuilab.bc.main.nft.MetaData;
+import com.acuilab.bc.main.util.AESUtil;
 import com.acuilab.bc.main.util.Constants;
 import com.acuilab.bc.main.wallet.Wallet;
+import com.acuilab.bc.main.wallet.common.PasswordVerifyDialog;
 import com.acuilab.bc.main.wallet.common.SelectWalletDialog;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.SwingWorker;
-import org.javatuples.Triplet;
+import org.javatuples.Pair;
+import org.javatuples.Septet;
 import org.netbeans.api.progress.ProgressHandle;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
@@ -78,90 +86,94 @@ public final class GuGuoTopComponent extends TopComponent {
     private void myInit() {
         if(wallet != null) {
             final ProgressHandle ph = ProgressHandle.createHandle("正在初始化，请稍候...");
-            SwingWorker<Triplet<BigInteger, BigInteger, Map>, Void> worker = new SwingWorker<Triplet<BigInteger, BigInteger, Map>, Void>() {
+            SwingWorker<Pair<List<BigInteger>, Map>, Void> worker = new SwingWorker<Pair<List<BigInteger>, Map>, Void>() {
                 @Override
-                protected Triplet<BigInteger, BigInteger, Map> doInBackground() throws Exception {
+                protected Pair<List<BigInteger>, Map> doInBackground() throws Exception {
                     ph.start();
                     
-                    IGuGuoContract contract = Lookup.getDefault().lookup(IGuGuoContract.class);
+                    IStakingYAOContract yaoContract = Lookup.getDefault().lookup(IStakingYAOContract.class);
+                    IStakingXIANGContract xiangContract = Lookup.getDefault().lookup(IStakingXIANGContract.class);
+                    
+                    List<BigInteger> list = Lists.newArrayList();
                     // YAO
-                    BigInteger yaoBalance = contract.yaoBalance(wallet.getAddress());
+                    list.add(yaoContract.yaoBalance(wallet.getAddress()));
                     
                     // XIANG
-                    BigInteger xiangBalance = contract.xiangBalance(wallet.getAddress());
+                    list.add(xiangContract.xiangBalance(wallet.getAddress()));
                     
-                    // 当前质押的烤仔nft编号
-                    BigInteger[] kaoZiTockenIds = contract.pledgedERC1155(wallet.getAddress(), IGuGuoContract.KAOZI_PID);
-                    kaoZiTockenIds = new BigInteger[] {BigInteger.valueOf(7270), BigInteger.valueOf(7230), BigInteger.valueOf(12337)};
-                    // 当前质押的月亮创世nft编号
-                    BigInteger[] moonTockenIds = contract.pledgedERC1155(wallet.getAddress(), IGuGuoContract.MOON_PID);
-                    moonTockenIds = new BigInteger[] {BigInteger.valueOf(556)};
-                    // 当前质押的flux nft编号
-                    BigInteger[] fluxTockenIds = contract.pledgedERC1155(wallet.getAddress(), IGuGuoContract.FLUX_PID);
-                    fluxTockenIds = new BigInteger[] {BigInteger.valueOf(5), BigInteger.valueOf(2)};
-                    // 当前质押的古国nft编号
-                    BigInteger[] guGuoTockenIds = contract.pledgedERC1155(wallet.getAddress(), IGuGuoContract.GUGUO_PID);
-                    guGuoTockenIds = new BigInteger[] {};
+                    // totalReleased
+                    list.add(yaoContract.totalReleased());
                     
-                    MetaData[] kaoZiMetadata = new MetaData[kaoZiTockenIds.length];
-                    for(int i=0; i<kaoZiTockenIds.length; i++) {
-                        kaoZiMetadata[i] = contract.getMetaData(IGuGuoContract.KAOZI_PID, kaoZiTockenIds[i]);
-                    }
+                    // pendingToken
+                    BigInteger pendingToken = yaoContract.pendingToken(wallet.getAddress(), Constants.GUGUO_KAOZI_PID);
+                    pendingToken = pendingToken.add(yaoContract.pendingToken(wallet.getAddress(), Constants.GUGUO_MOON_PID));
+                    pendingToken = pendingToken.add(yaoContract.pendingToken(wallet.getAddress(), Constants.GUGUO_FLUX_PID));
+                    pendingToken = pendingToken.add(yaoContract.pendingToken(wallet.getAddress(), Constants.GUGUO_GUGUO_PID));
+                    list.add(pendingToken);
                     
-                    MetaData[] moonMetaData = new MetaData[moonTockenIds.length];
-                    for(int i=0; i<moonTockenIds.length; i++) {
-                        moonMetaData[i] = contract.getMetaData(IGuGuoContract.MOON_PID, moonTockenIds[i]);
-                    }
+                    // 当前质押的烤仔nft编号及数量
+                    Pair<BigInteger[], BigInteger[]> kaoZiPledged = yaoContract.pledgedERC1155(wallet.getAddress(), Constants.GUGUO_KAOZI_PID);
+                    // 当前质押的月亮创世nft编号及数量
+                    Pair<BigInteger[], BigInteger[]> moonPledged = yaoContract.pledgedERC1155(wallet.getAddress(), Constants.GUGUO_MOON_PID);
+                    // 当前质押的flux nft编号及数量
+                    Pair<BigInteger[], BigInteger[]> fluxPledged = yaoContract.pledgedERC1155(wallet.getAddress(), Constants.GUGUO_FLUX_PID);
+                    // 当前质押的古国nft编号及数量
+                    Pair<BigInteger[], BigInteger[]> guGuoPledged = yaoContract.pledgedERC1155(wallet.getAddress(), Constants.GUGUO_GUGUO_PID);
                     
-                    MetaData[] fluxMetaData = new MetaData[fluxTockenIds.length];
-                    for(int i=0; i<fluxTockenIds.length; i++) {
-                        fluxMetaData[i] = contract.getMetaData(IGuGuoContract.FLUX_PID, fluxTockenIds[i]);
-                    }
+                    Map<Integer, Pair<BigInteger[], BigInteger[]>> map = Maps.newHashMap();
+                    map.put(Constants.GUGUO_KAOZI_PID, kaoZiPledged);
+                    map.put(Constants.GUGUO_MOON_PID, moonPledged);
+                    map.put(Constants.GUGUO_FLUX_PID, fluxPledged);
+                    map.put(Constants.GUGUO_GUGUO_PID, guGuoPledged);
                     
-                    MetaData[] guGuoMetaData = new MetaData[guGuoTockenIds.length];
-                    for(int i=0; i<guGuoTockenIds.length; i++) {
-                        guGuoMetaData[i] = contract.getMetaData(IGuGuoContract.GUGUO_PID, guGuoTockenIds[i]);
-                    }
+                    // 获得池内质押总量爻
+                    list.add(xiangContract.poolPledged());
                     
-                    Map<Integer, MetaData[]> map = Maps.newHashMap();
-                    map.put(IGuGuoContract.KAOZI_PID, kaoZiMetadata);
-                    map.put(IGuGuoContract.MOON_PID, moonMetaData);
-                    map.put(IGuGuoContract.FLUX_PID, fluxMetaData);
-                    map.put(IGuGuoContract.GUGUO_PID, guGuoMetaData);
+                    // 我的质押
+                    list.add(xiangContract.pledgedAmount(wallet.getAddress()));
                     
-                    return new Triplet<>(yaoBalance, xiangBalance, map);
+                    // 当前收益
+                    list.add(xiangContract.pendingToken(wallet.getAddress()));
+                    
+                    return new Pair<>(list, map);
                 }
 
                 @Override
                 protected void done() {
                     try {
-                        Triplet<BigInteger, BigInteger, Map> result = get();
+                        withdrawPoolAllBtn.setEnabled(true);
+                        for(NftPanel nftPanel : guGuoPanels) {
+                            nftPanel.setWallet(wallet);
+                        }
+                        for(NftPanel nftPanel : kaoZiPanels) {
+                            nftPanel.setWallet(wallet);
+                        }
+                        for(NftPanel nftPanel : moonPanels) {
+                            nftPanel.setWallet(wallet);
+                        }
+                        for(NftPanel nftPanel : fluxPanels) {
+                            nftPanel.setWallet(wallet);
+                        }
                         
+                        Pair<List<BigInteger>, Map> result = get();
+                        List<BigInteger> list = result.getValue0();
                         ICoin yaoCoin = CoinManager.getDefault().getCoin(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_YAO_SYMBOL);
-                        yaoBalanceFld.setText(yaoCoin.minUnit2MainUint(result.getValue0()).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
-                        xiangBalanceFld.setText(yaoCoin.minUnit2MainUint(result.getValue1()).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
+                        yaoBalanceFld.setText(yaoCoin.minUnit2MainUint(list.get(0)).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
+                        xiangBalanceFld.setText(yaoCoin.minUnit2MainUint(list.get(1)).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
                         
-                        Map<Integer, MetaData[]> map = result.getValue2();
-                        MetaData[] kaoZiMetadata = map.get(IGuGuoContract.KAOZI_PID);
-                        for(int i=0; i<kaoZiMetadata.length; i++) {
-                            MetaData md = kaoZiMetadata[i];
-                            kaoZiPanels[i].setMetaData(md);
-                        }
-                        MetaData[] moonMetaData = map.get(IGuGuoContract.MOON_PID);
-                        for(int i=0; i<moonMetaData.length; i++) {
-                            MetaData md = moonMetaData[i];
-                            moonPanels[i].setMetaData(md);
-                        }
-                        MetaData[] fluxMetaData = map.get(IGuGuoContract.FLUX_PID);
-                        for(int i=0; i<fluxMetaData.length; i++) {
-                            MetaData md = fluxMetaData[i];
-                            fluxPanels[i].setMetaData(md);
-                        }
-                        MetaData[] guGuoMetaData = map.get(IGuGuoContract.GUGUO_PID);
-                        for(int i=0; i<guGuoMetaData.length; i++) {
-                            MetaData md = guGuoMetaData[i];
-                            guGuoPanels[i].setMetaData(md);
-                        }
+                        totalReleasedFld.setText(yaoCoin.minUnit2MainUint(list.get(2)).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
+                        pendingTokenFld.setText(yaoCoin.minUnit2MainUint(list.get(3)).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
+                        
+                        poolPledgedFld.setText(yaoCoin.minUnit2MainUint(list.get(4)).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
+                        pledgedAmountFld.setText(yaoCoin.minUnit2MainUint(list.get(5)).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
+                        
+                        xiangPendingTokenFld.setText(yaoCoin.minUnit2MainUint(list.get(6)).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
+                        
+                        Map<Integer, Pair<BigInteger[], BigInteger[]>> map = result.getValue1();
+                        initPanels(map.get(Constants.GUGUO_KAOZI_PID), kaoZiPanels);
+                        initPanels(map.get(Constants.GUGUO_MOON_PID), moonPanels);
+                        initPanels(map.get(Constants.GUGUO_FLUX_PID), fluxPanels);
+                        initPanels(map.get(Constants.GUGUO_GUGUO_PID), guGuoPanels);
                     } catch (InterruptedException | ExecutionException ex) {
                         Exceptions.printStackTrace(ex);
                     } finally {
@@ -170,6 +182,23 @@ public final class GuGuoTopComponent extends TopComponent {
                 }
             };
             worker.execute();
+        }
+    }
+    
+    private void initPanels(Pair<BigInteger[], BigInteger[]> pledged, NftPanel[] panels) {
+        BigInteger[] tockenIds = pledged.getValue0();
+        BigInteger[] amounts = pledged.getValue1();
+        int count = 0;
+        for(int i=0; i<tockenIds.length; i++) {
+             for(int j=0; j<amounts[i].intValueExact(); j++) {
+                 panels[count].setPledged(tockenIds[i]);
+                 count++;
+            }
+        }
+         
+        // 处理剩余的panel
+        for(int i=count; i<panels.length; i++) {
+            panels[i].setUnpledged();
         }
     }
     
@@ -192,11 +221,29 @@ public final class GuGuoTopComponent extends TopComponent {
         jScrollPane1 = new javax.swing.JScrollPane();
         jXPanel1 = new org.jdesktop.swingx.JXPanel();
         guGuoContainer = new org.jdesktop.swingx.JXPanel();
-        jXPanel3 = new org.jdesktop.swingx.JXPanel();
-        jXPanel4 = new org.jdesktop.swingx.JXPanel();
+        xiangPanel = new org.jdesktop.swingx.JXPanel();
+        jXPanel2 = new org.jdesktop.swingx.JXPanel();
+        jXLabel6 = new org.jdesktop.swingx.JXLabel();
+        jXLabel7 = new org.jdesktop.swingx.JXLabel();
+        jXLabel8 = new org.jdesktop.swingx.JXLabel();
+        poolPledgedFld = new org.jdesktop.swingx.JXTextField();
+        pledgedAmountFld = new org.jdesktop.swingx.JXTextField();
+        xiangPendingTokenFld = new org.jdesktop.swingx.JXTextField();
+        withdrawBtn = new org.jdesktop.swingx.JXButton();
+        stakingYAOBtn = new org.jdesktop.swingx.JXButton();
+        depositYAOBtn = new org.jdesktop.swingx.JXButton();
+        jXPanel5 = new org.jdesktop.swingx.JXPanel();
+        cardPanel = new org.jdesktop.swingx.JXPanel();
         kaoZiContainer = new org.jdesktop.swingx.JXPanel();
         moonContainer = new org.jdesktop.swingx.JXPanel();
         fluxContainer = new org.jdesktop.swingx.JXPanel();
+        jXLabel4 = new org.jdesktop.swingx.JXLabel();
+        totalReleasedFld = new org.jdesktop.swingx.JXTextField();
+        jXLabel5 = new org.jdesktop.swingx.JXLabel();
+        pendingTokenFld = new org.jdesktop.swingx.JXTextField();
+        jSeparator2 = new javax.swing.JSeparator();
+        withdrawPoolAllBtn = new org.jdesktop.swingx.JXButton();
+        refreshBtn = new org.jdesktop.swingx.JXButton();
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel1.text")); // NOI18N
 
@@ -238,30 +285,130 @@ public final class GuGuoTopComponent extends TopComponent {
         guGuoContainer.setScrollableHeightHint(org.jdesktop.swingx.ScrollableSizeHint.PREFERRED_STRETCH);
         guGuoContainer.setScrollableWidthHint(org.jdesktop.swingx.ScrollableSizeHint.PREFERRED_STRETCH);
 
-        jXPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXPanel3.border.title"))); // NOI18N
+        xiangPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.xiangPanel.border.title"))); // NOI18N
 
-        javax.swing.GroupLayout jXPanel3Layout = new javax.swing.GroupLayout(jXPanel3);
-        jXPanel3.setLayout(jXPanel3Layout);
-        jXPanel3Layout.setHorizontalGroup(
-            jXPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jXPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXPanel2.border.title"))); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel6, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel6.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel7, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel7.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel8, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel8.text")); // NOI18N
+
+        poolPledgedFld.setEditable(false);
+        poolPledgedFld.setText(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.poolPledgedFld.text")); // NOI18N
+
+        pledgedAmountFld.setEditable(false);
+        pledgedAmountFld.setText(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.pledgedAmountFld.text")); // NOI18N
+
+        xiangPendingTokenFld.setEditable(false);
+        xiangPendingTokenFld.setText(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.xiangPendingTokenFld.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(withdrawBtn, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.withdrawBtn.text")); // NOI18N
+        withdrawBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                withdrawBtnActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(stakingYAOBtn, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.stakingYAOBtn.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(depositYAOBtn, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.depositYAOBtn.text")); // NOI18N
+
+        javax.swing.GroupLayout jXPanel2Layout = new javax.swing.GroupLayout(jXPanel2);
+        jXPanel2.setLayout(jXPanel2Layout);
+        jXPanel2Layout.setHorizontalGroup(
+            jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jXPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jXPanel2Layout.createSequentialGroup()
+                        .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jXLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jXLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jXLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(pledgedAmountFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(xiangPendingTokenFld, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                            .addComponent(poolPledgedFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(withdrawBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jXPanel2Layout.createSequentialGroup()
+                        .addComponent(stakingYAOBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(depositYAOBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jXPanel2Layout.setVerticalGroup(
+            jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jXPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jXLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(poolPledgedFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jXLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pledgedAmountFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jXLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(xiangPendingTokenFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(withdrawBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(stakingYAOBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(depositYAOBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        jXPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXPanel5.border.title"))); // NOI18N
+
+        javax.swing.GroupLayout jXPanel5Layout = new javax.swing.GroupLayout(jXPanel5);
+        jXPanel5.setLayout(jXPanel5Layout);
+        jXPanel5Layout.setHorizontalGroup(
+            jXPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 353, Short.MAX_VALUE)
+        );
+        jXPanel5Layout.setVerticalGroup(
+            jXPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        jXPanel3Layout.setVerticalGroup(
-            jXPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+
+        javax.swing.GroupLayout xiangPanelLayout = new javax.swing.GroupLayout(xiangPanel);
+        xiangPanel.setLayout(xiangPanelLayout);
+        xiangPanelLayout.setHorizontalGroup(
+            xiangPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(xiangPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jXPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jXPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(201, Short.MAX_VALUE))
+        );
+        xiangPanelLayout.setVerticalGroup(
+            xiangPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, xiangPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(xiangPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jXPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jXPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        jXPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXPanel4.border.title"))); // NOI18N
+        cardPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.cardPanel.border.title"))); // NOI18N
 
-        javax.swing.GroupLayout jXPanel4Layout = new javax.swing.GroupLayout(jXPanel4);
-        jXPanel4.setLayout(jXPanel4Layout);
-        jXPanel4Layout.setHorizontalGroup(
-            jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout cardPanelLayout = new javax.swing.GroupLayout(cardPanel);
+        cardPanel.setLayout(cardPanelLayout);
+        cardPanelLayout.setHorizontalGroup(
+            cardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        jXPanel4Layout.setVerticalGroup(
-            jXPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 89, Short.MAX_VALUE)
+        cardPanelLayout.setVerticalGroup(
+            cardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 124, Short.MAX_VALUE)
         );
 
         kaoZiContainer.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.kaoZiContainer.border.title"))); // NOI18N
@@ -276,23 +423,77 @@ public final class GuGuoTopComponent extends TopComponent {
         fluxContainer.setScrollableHeightHint(org.jdesktop.swingx.ScrollableSizeHint.PREFERRED_STRETCH);
         fluxContainer.setScrollableWidthHint(org.jdesktop.swingx.ScrollableSizeHint.PREFERRED_STRETCH);
 
+        jXLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/acuilab/bc/main/cfx/dapp/guguo/yao16.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel4, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel4.text")); // NOI18N
+
+        totalReleasedFld.setEditable(false);
+        totalReleasedFld.setText(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.totalReleasedFld.text")); // NOI18N
+
+        jXLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/acuilab/bc/main/cfx/dapp/guguo/yao16.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel5, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel5.text")); // NOI18N
+
+        pendingTokenFld.setEditable(false);
+        pendingTokenFld.setText(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.pendingTokenFld.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(withdrawPoolAllBtn, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.withdrawPoolAllBtn.text")); // NOI18N
+        withdrawPoolAllBtn.setEnabled(false);
+        withdrawPoolAllBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                withdrawPoolAllBtnActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(refreshBtn, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.refreshBtn.text")); // NOI18N
+        refreshBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jXPanel1Layout = new javax.swing.GroupLayout(jXPanel1);
         jXPanel1.setLayout(jXPanel1Layout);
         jXPanel1Layout.setHorizontalGroup(
             jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jXPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jXPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(xiangPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(cardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jXPanel1Layout.createSequentialGroup()
-                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(fluxContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
-                    .addComponent(moonContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(guGuoContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(kaoZiContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jXPanel1Layout.createSequentialGroup()
+                        .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(fluxContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+                            .addComponent(moonContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(guGuoContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(kaoZiContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jXPanel1Layout.createSequentialGroup()
+                        .addComponent(jXLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(totalReleasedFld, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jXLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pendingTokenFld, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(withdrawPoolAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+            .addComponent(jSeparator2)
         );
         jXPanel1Layout.setVerticalGroup(
             jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jXPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jXLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(totalReleasedFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pendingTokenFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(withdrawPoolAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(guGuoContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(kaoZiContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -300,10 +501,11 @@ public final class GuGuoTopComponent extends TopComponent {
                 .addComponent(moonContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(fluxContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jXPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(xiangPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jScrollPane1.setViewportView(jXPanel1);
@@ -350,7 +552,7 @@ public final class GuGuoTopComponent extends TopComponent {
                         .addComponent(xiangBalanceFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -370,22 +572,122 @@ public final class GuGuoTopComponent extends TopComponent {
         selectWalletBtnActionPerformed(null);
     }//GEN-LAST:event_walletFldMouseClicked
 
+    private void withdrawPoolAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_withdrawPoolAllBtnActionPerformed
+        PasswordVerifyDialog passwordVerifyDialog = new PasswordVerifyDialog(null, wallet);
+        passwordVerifyDialog.setVisible(true);
+        if(passwordVerifyDialog.getReturnStatus() == PasswordVerifyDialog.RET_OK) {
+            try {
+                String privateKey = AESUtil.decrypt(wallet.getPrivateKeyAES(), passwordVerifyDialog.getPassword());
+                
+                withdrawPoolAllBtn.setEnabled(false);
+                // 获得余额及质押余额
+                final ProgressHandle ph = ProgressHandle.createHandle("正在提取，请稍候");
+                SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
+                    @Override
+                    protected String doInBackground() throws Exception {
+                        ph.start();
+
+                        IStakingYAOContract contract = Lookup.getDefault().lookup(IStakingYAOContract.class);
+                        return contract.withdrawPoolAll(privateKey);
+                    }
+
+                    @Override
+                    protected void done() {
+                        try {
+                            String hash = get();
+                            System.out.println("hash==================" + hash);
+                        } catch (InterruptedException | ExecutionException ex) {
+                            Exceptions.printStackTrace(ex);
+                        }
+
+                        ph.finish();
+                        withdrawPoolAllBtn.setEnabled(true);
+                    }
+                };
+                worker.execute();
+            } catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchPaddingException | NoSuchAlgorithmException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+    }//GEN-LAST:event_withdrawPoolAllBtnActionPerformed
+
+    private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
+        myInit();
+    }//GEN-LAST:event_refreshBtnActionPerformed
+
+    private void withdrawBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_withdrawBtnActionPerformed
+        PasswordVerifyDialog passwordVerifyDialog = new PasswordVerifyDialog(null, wallet);
+        passwordVerifyDialog.setVisible(true);
+        if(passwordVerifyDialog.getReturnStatus() == PasswordVerifyDialog.RET_OK) {
+            try {
+                String privateKey = AESUtil.decrypt(wallet.getPrivateKeyAES(), passwordVerifyDialog.getPassword());
+
+                withdrawBtn.setEnabled(false);
+                // 获得余额及质押余额
+                final ProgressHandle ph = ProgressHandle.createHandle("正在提取，请稍候");
+                SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
+                    @Override
+                    protected String doInBackground() throws Exception {
+                        ph.start();
+
+                        IStakingXIANGContract contract = Lookup.getDefault().lookup(IStakingXIANGContract.class);
+                        return contract.withdrawPoolAll(privateKey);
+                    }
+
+                    @Override
+                    protected void done() {
+                        try {
+                            String hash = get();
+                            System.out.println("hash==================" + hash);
+                        } catch (InterruptedException | ExecutionException ex) {
+                            Exceptions.printStackTrace(ex);
+                        }
+
+                        ph.finish();
+                        withdrawBtn.setEnabled(true);
+                    }
+                };
+                worker.execute();
+            } catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchPaddingException | NoSuchAlgorithmException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+    }//GEN-LAST:event_withdrawBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXPanel cardPanel;
+    private org.jdesktop.swingx.JXButton depositYAOBtn;
     private org.jdesktop.swingx.JXPanel fluxContainer;
     private org.jdesktop.swingx.JXPanel guGuoContainer;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXLabel jXLabel3;
+    private org.jdesktop.swingx.JXLabel jXLabel4;
+    private org.jdesktop.swingx.JXLabel jXLabel5;
+    private org.jdesktop.swingx.JXLabel jXLabel6;
+    private org.jdesktop.swingx.JXLabel jXLabel7;
+    private org.jdesktop.swingx.JXLabel jXLabel8;
     private org.jdesktop.swingx.JXPanel jXPanel1;
-    private org.jdesktop.swingx.JXPanel jXPanel3;
-    private org.jdesktop.swingx.JXPanel jXPanel4;
+    private org.jdesktop.swingx.JXPanel jXPanel2;
+    private org.jdesktop.swingx.JXPanel jXPanel5;
     private org.jdesktop.swingx.JXPanel kaoZiContainer;
     private org.jdesktop.swingx.JXPanel moonContainer;
+    private org.jdesktop.swingx.JXTextField pendingTokenFld;
+    private org.jdesktop.swingx.JXTextField pledgedAmountFld;
+    private org.jdesktop.swingx.JXTextField poolPledgedFld;
+    private org.jdesktop.swingx.JXButton refreshBtn;
     private org.jdesktop.swingx.JXButton selectWalletBtn;
+    private org.jdesktop.swingx.JXButton stakingYAOBtn;
+    private org.jdesktop.swingx.JXTextField totalReleasedFld;
     private org.jdesktop.swingx.JXTextField walletFld;
+    private org.jdesktop.swingx.JXButton withdrawBtn;
+    private org.jdesktop.swingx.JXButton withdrawPoolAllBtn;
     private org.jdesktop.swingx.JXTextField xiangBalanceFld;
+    private org.jdesktop.swingx.JXPanel xiangPanel;
+    private org.jdesktop.swingx.JXTextField xiangPendingTokenFld;
     private org.jdesktop.swingx.JXTextField yaoBalanceFld;
     // End of variables declaration//GEN-END:variables
     @Override

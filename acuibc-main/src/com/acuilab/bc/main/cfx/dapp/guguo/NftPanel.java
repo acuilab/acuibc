@@ -1,12 +1,8 @@
 package com.acuilab.bc.main.cfx.dapp.guguo;
 
-import com.acuilab.bc.main.nft.MetaData;
-import com.acuilab.bc.main.ui.MyJXImageView;
-import java.awt.Image;
-import java.io.IOException;
-import java.net.URL;
-import org.apache.commons.lang3.StringUtils;
-import org.openide.util.Exceptions;
+import com.acuilab.bc.main.wallet.Wallet;
+import java.awt.Color;
+import java.math.BigInteger;
 
 /**
  *
@@ -15,7 +11,8 @@ import org.openide.util.Exceptions;
 public class NftPanel extends javax.swing.JPanel {
     
     private final int pId;
-    private MetaData md;
+    private Wallet wallet;
+    private BigInteger tockenId;
 
     /**
      * Creates new form KaoZiPanel
@@ -26,36 +23,30 @@ public class NftPanel extends javax.swing.JPanel {
         this.pId = pId;
     }
     
-    public void setMetaData(MetaData md) {
-        this.md = md;
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
+    }
+    
+    public void setPledged(BigInteger tockenId) {
+        this.tockenId = tockenId;
         
-	MyJXImageView myImageView = (MyJXImageView)imageView;
-	myImageView.setToolTipText(md.getDesc());		// 这句必须调用，否则ImageToolTip弹不出来
-	myImageView.setMetaData(md);
-        if (md.getImage() != null) {
-            try {
-                myImageView.setImage(md.getImage());
-                Image image = myImageView.getImage();
-                double scaleX = 140.0d / image.getWidth(null);
-                double scaleY = 140.0d / image.getHeight(null);
-                myImageView.setScale(Math.max(scaleX, scaleY));
-//                myImageView.setImageLocation(new Point2D.Double(image.getWidth(null) / 2, image.getWidth(null) / 2));
-            } catch (Exception ex) {
-                Exceptions.printStackTrace(ex);
-            }
-        } else if (!StringUtils.isBlank(md.getImageUrl())) {
-            try {
-                URL url = new URL(md.getImageUrl());
-                myImageView.setImage(url);
-                Image image = myImageView.getImage();
-                double scaleX = 140.0d / image.getWidth(null);
-                double scaleY = 140.0d / image.getHeight(null);
-                myImageView.setScale(Math.max(scaleX, scaleY));
-            } catch (IOException ex) {
-                Exceptions.printStackTrace(ex);
-            }
-        }
+        tockenIdLbl.setText(tockenId.toString());
+        tockenIdLbl.setEnabled(true);
+        depositBtn.setEnabled(false);
+        withdrawBtn.setEnabled(true);
         
+        this.setBackground(Color.ORANGE);
+    }
+    
+    public void setUnpledged() {
+        this.tockenId = null;
+        
+        tockenIdLbl.setText("无");
+        tockenIdLbl.setEnabled(false);
+        depositBtn.setEnabled(true);
+        withdrawBtn.setEnabled(false);
+        
+        this.setBackground(new Color(240, 240, 240));
     }
 
     /**
@@ -67,26 +58,19 @@ public class NftPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        imageView = new MyJXImageView();
         depositBtn = new org.jdesktop.swingx.JXButton();
         withdrawBtn = new org.jdesktop.swingx.JXButton();
-
-        javax.swing.GroupLayout imageViewLayout = new javax.swing.GroupLayout(imageView);
-        imageView.setLayout(imageViewLayout);
-        imageViewLayout.setHorizontalGroup(
-            imageViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        imageViewLayout.setVerticalGroup(
-            imageViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 140, Short.MAX_VALUE)
-        );
+        tockenIdLbl = new org.jdesktop.swingx.JXLabel();
 
         org.openide.awt.Mnemonics.setLocalizedText(depositBtn, org.openide.util.NbBundle.getMessage(NftPanel.class, "NftPanel.depositBtn.text")); // NOI18N
         depositBtn.setEnabled(false);
 
         org.openide.awt.Mnemonics.setLocalizedText(withdrawBtn, org.openide.util.NbBundle.getMessage(NftPanel.class, "NftPanel.withdrawBtn.text")); // NOI18N
         withdrawBtn.setEnabled(false);
+
+        tockenIdLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        org.openide.awt.Mnemonics.setLocalizedText(tockenIdLbl, org.openide.util.NbBundle.getMessage(NftPanel.class, "NftPanel.tockenIdLbl.text")); // NOI18N
+        tockenIdLbl.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -98,23 +82,24 @@ public class NftPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(withdrawBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addComponent(imageView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(tockenIdLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(imageView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tockenIdLbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(depositBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(withdrawBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(withdrawBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXButton depositBtn;
-    private org.jdesktop.swingx.JXImageView imageView;
+    private org.jdesktop.swingx.JXLabel tockenIdLbl;
     private org.jdesktop.swingx.JXButton withdrawBtn;
     // End of variables declaration//GEN-END:variables
 }

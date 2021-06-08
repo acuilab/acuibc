@@ -77,4 +77,20 @@ public class StakingXIANGContract implements IStakingXIANGContract {
         Account account = Account.create(cfx, privateKey);
         return account.call(new Address(STAKING_XIANG_CONTRACT), "withdrawPoolAll");
     }
+
+    @Override
+    public String depositERC20(String privateKey, BigInteger amount) throws Exception {
+        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
+        Cfx cfx = bc.getCfx();
+        Account account = Account.create(cfx, privateKey);
+        return account.call(new Address(STAKING_XIANG_CONTRACT), "depositERC20", new org.web3j.abi.datatypes.Uint(BigInteger.ZERO), new org.web3j.abi.datatypes.Uint(amount));
+    }
+
+    @Override
+    public String withdrawERC20(String privateKey, BigInteger amount) throws Exception {
+        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
+        Cfx cfx = bc.getCfx();
+        Account account = Account.create(cfx, privateKey);
+        return account.call(new Address(STAKING_XIANG_CONTRACT), "withdrawERC20", new org.web3j.abi.datatypes.Uint(BigInteger.ZERO), new org.web3j.abi.datatypes.Uint(amount));
+    }
 }

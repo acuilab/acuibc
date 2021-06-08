@@ -21,4 +21,10 @@ public interface IStakingXIANGContract {
     
     // 提取
     String withdrawPoolAll(String privateKey) throws Exception;
+    
+    // 质押yao
+    String depositERC20(String privateKey, BigInteger amount) throws Exception;
+    
+    // 取出yao
+    String withdrawERC20(String privateKey, BigInteger amount) throws Exception;
 }

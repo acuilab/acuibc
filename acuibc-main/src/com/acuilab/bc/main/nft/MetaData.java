@@ -13,6 +13,8 @@ public class MetaData {
     private String imageUrl;
     private String desc;
     private Image image;
+    // id是nft合约中的id   number是显示的id（读取的meta里的token_id）    
+    // 这两个一般一样   但当一个合约中有超过1个系列的时候， 后续的系列要重新从1开始显示  就分开了
     private String number;
 
     public String getNumber() {

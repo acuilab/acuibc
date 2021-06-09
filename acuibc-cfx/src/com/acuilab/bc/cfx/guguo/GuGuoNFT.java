@@ -133,6 +133,6 @@ public class GuGuoNFT extends AbstractNFT implements IGuGuoNFT {
         Cfx cfx = bc.getCfx();
         
         Account account = Account.create(cfx, privateKey);
-        return account.call(new Address(CONTRACT_ADDRESS), "pickCards", new org.web3j.abi.datatypes.Uint(poorId));
+        return account.call(new Address(CONTRACT_ADDRESS), "pickCards", new org.web3j.abi.datatypes.generated.Uint16(poorId));
     }
 }

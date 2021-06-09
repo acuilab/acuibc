@@ -11,6 +11,7 @@ import conflux.web3j.contract.abi.DecodeUtil;
 import conflux.web3j.types.Address;
 import java.awt.Image;
 import java.math.BigInteger;
+import java.net.URL;
 import java.util.Map;
 import javax.swing.Icon;
 import org.apache.commons.lang3.StringUtils;
@@ -74,7 +75,7 @@ public class GuGuoNFT extends AbstractNFT {
         // note: parameters should use web3j.abi.datatypes type
         String value = contract.call("uri", new org.web3j.abi.datatypes.Uint(tokenId)).sendAndGet();
         String json = DecodeUtil.decode(value, org.web3j.abi.datatypes.Utf8String.class);
-	
+	System.out.println("json======================================" + json);
         /*
         {
                 "image": "https://nft-guguo.oss-cn-hongkong.aliyuncs.com/image/85d9f1639485.png",
@@ -91,8 +92,11 @@ public class GuGuoNFT extends AbstractNFT {
                 "concept": null
         }
         */
+        String id16 = tokenId.toString(16);
+        
 	ObjectMapper mapper = new ObjectMapper();
-        JsonNode rootNode = mapper.readTree(json);
+        
+        JsonNode rootNode = mapper.readTree(new URL(StringUtils.replace(json, "{id}", id16)));
         JsonNode imageNode = rootNode.get("image");
         JsonNode localizationNode = rootNode.get("localization");
         /*
@@ -106,13 +110,13 @@ public class GuGuoNFT extends AbstractNFT {
         */
         JsonNode uriNode = localizationNode.get("uri");
         ObjectMapper mapper2 = new ObjectMapper();
-	Map<String, String> map = mapper2.readValue(StringUtils.replace(uriNode.asText(), "{locale}", "zh-cn"), Map.class);
+	Map<String, String> map = mapper2.readValue(new URL(StringUtils.replace(uriNode.asText(), "{locale}", "zh-cn")), Map.class);
 	MetaData md = new MetaData();
 	md.setName(map.get("name"));
 	md.setPlatform("古国序列");
         md.setDesc(map.get("concept"));
 	
-	String id = tokenId.toString();
+        String id = tokenId.toString();
 	md.setId(id);
         md.setNumber(id);
 	md.setImageUrl(imageNode.asText());

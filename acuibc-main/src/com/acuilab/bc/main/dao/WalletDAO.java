@@ -42,6 +42,17 @@ public class WalletDAO {
         return list.isEmpty() ? null : list.get(0);
     }
     
+    public static Wallet getByAddress(String address) throws SQLException {
+	List<Wallet> list =  JDBCUtil.executeQuery("select wname, pwdMd5, blockChainSymbol, waddress, privateKeyAES, mnemonicAES, created from wallet where waddress=?", new Object[] {address}, Installer.getConnection(), new Mapper<Wallet>() {
+	    @Override
+	    protected Wallet next(ResultSet rs) throws SQLException {
+		return new Wallet(rs.getString("wname"), rs.getString("pwdMd5"), rs.getString("blockChainSymbol"), rs.getString("waddress"), rs.getString("privateKeyAES"), rs.getString("mnemonicAES"), rs.getDate("created"));
+	    }
+	});
+        
+        return list.isEmpty() ? null : list.get(0);
+    }
+    
     /**
      * 指定名称的钱包是否存在
      * @return

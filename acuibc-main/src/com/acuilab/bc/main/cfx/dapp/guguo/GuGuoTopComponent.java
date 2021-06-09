@@ -1,6 +1,7 @@
 package com.acuilab.bc.main.cfx.dapp.guguo;
 
 import com.acuilab.bc.main.coin.ICoin;
+import com.acuilab.bc.main.dao.WalletDAO;
 import com.acuilab.bc.main.manager.CoinManager;
 import com.acuilab.bc.main.util.AESUtil;
 import com.acuilab.bc.main.util.Constants;
@@ -14,6 +15,7 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -21,13 +23,12 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.swing.JLabel;
-import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.examples.complete.Utils;
 import net.java.balloontip.utils.TimingUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.javatuples.Pair;
-import org.javatuples.Septet;
 import org.netbeans.api.progress.ProgressHandle;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
@@ -254,8 +255,13 @@ public final class GuGuoTopComponent extends TopComponent {
         jXPanel5 = new org.jdesktop.swingx.JXPanel();
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
+        jXLabel10 = new org.jdesktop.swingx.JXLabel();
+        addressFld = new org.jdesktop.swingx.JXTextField();
         jXLabel9 = new org.jdesktop.swingx.JXLabel();
-        jXTextField1 = new org.jdesktop.swingx.JXTextField();
+        passwordFld = new javax.swing.JPasswordField();
+        jXLabel11 = new org.jdesktop.swingx.JXLabel();
+        poolIdFld = new org.jdesktop.swingx.JXTextField();
+        jXButton1 = new org.jdesktop.swingx.JXButton();
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel1.text")); // NOI18N
 
@@ -469,9 +475,24 @@ public final class GuGuoTopComponent extends TopComponent {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel10, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel10.text")); // NOI18N
+
+        addressFld.setText(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.addressFld.text")); // NOI18N
+
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel9, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel9.text")); // NOI18N
 
-        jXTextField1.setText(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXTextField1.text")); // NOI18N
+        passwordFld.setText(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.passwordFld.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel11, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel11.text")); // NOI18N
+
+        poolIdFld.setText(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.poolIdFld.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXButton1, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXButton1.text")); // NOI18N
+        jXButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jXPanel1Layout = new javax.swing.GroupLayout(jXPanel1);
         jXPanel1.setLayout(jXPanel1Layout);
@@ -500,16 +521,25 @@ public final class GuGuoTopComponent extends TopComponent {
                 .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jSeparator4)
             .addGroup(jXPanel1Layout.createSequentialGroup()
-                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jXPanel1Layout.createSequentialGroup()
-                        .addComponent(jXPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jXPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jXPanel1Layout.createSequentialGroup()
-                        .addComponent(jXLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jXTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jXPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jXPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jXPanel1Layout.createSequentialGroup()
+                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jXLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(addressFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jXPanel1Layout.createSequentialGroup()
+                        .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(passwordFld)
+                            .addComponent(poolIdFld, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jXPanel1Layout.setVerticalGroup(
             jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -541,9 +571,18 @@ public final class GuGuoTopComponent extends TopComponent {
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jXLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addressFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(152, Short.MAX_VALUE))
+                    .addComponent(passwordFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jXLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(poolIdFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(96, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jXPanel1);
@@ -908,7 +947,33 @@ public final class GuGuoTopComponent extends TopComponent {
         worker.execute();
     }//GEN-LAST:event_maxDepositBtnActionPerformed
 
+    private void jXButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXButton1ActionPerformed
+        String[] addresses = StringUtils.split(addressFld.getText(), ",");
+        String password = String.valueOf(passwordFld.getPassword());
+        String poolId = StringUtils.trim(poolIdFld.getText());
+        
+        int i = 1;
+        for(String address : addresses) {
+            System.out.println(i + "/" + addresses.length + ", address=" + address);
+            try {
+                long ts = System.currentTimeMillis();
+                Wallet wallet0 = WalletDAO.getByAddress(StringUtils.trim(address));
+                String privateKey = AESUtil.decrypt(wallet0.getPrivateKeyAES(), password);
+                
+                IGuGuoNFT nft = (IGuGuoNFT)Lookup.getDefault().lookup(IGuGuoNFT.class);
+                String hash = nft.pickCards(privateKey, new BigInteger(poolId));
+                
+                System.out.println("\ttime=" + (System.currentTimeMillis() - ts) + ", hash===" + hash);
+            } catch (Exception ex) {
+                Exceptions.printStackTrace(ex);
+            }
+            
+            i++;
+        }
+    }//GEN-LAST:event_jXButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXTextField addressFld;
     private org.jdesktop.swingx.JXTextField depositNumberFld;
     private org.jdesktop.swingx.JXButton depositYAOBtn;
     private org.jdesktop.swingx.JXPanel fluxContainer;
@@ -918,7 +983,10 @@ public final class GuGuoTopComponent extends TopComponent {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private org.jdesktop.swingx.JXButton jXButton1;
     private org.jdesktop.swingx.JXLabel jXLabel1;
+    private org.jdesktop.swingx.JXLabel jXLabel10;
+    private org.jdesktop.swingx.JXLabel jXLabel11;
     private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXLabel jXLabel3;
     private org.jdesktop.swingx.JXLabel jXLabel4;
@@ -930,13 +998,14 @@ public final class GuGuoTopComponent extends TopComponent {
     private org.jdesktop.swingx.JXPanel jXPanel1;
     private org.jdesktop.swingx.JXPanel jXPanel2;
     private org.jdesktop.swingx.JXPanel jXPanel5;
-    private org.jdesktop.swingx.JXTextField jXTextField1;
     private org.jdesktop.swingx.JXPanel kaoZiContainer;
     private org.jdesktop.swingx.JXButton maxDepositBtn;
     private org.jdesktop.swingx.JXButton maxShakeBtn;
     private org.jdesktop.swingx.JXPanel moonContainer;
+    private javax.swing.JPasswordField passwordFld;
     private org.jdesktop.swingx.JXTextField pendingTokenFld;
     private org.jdesktop.swingx.JXTextField pledgedAmountFld;
+    private org.jdesktop.swingx.JXTextField poolIdFld;
     private org.jdesktop.swingx.JXTextField poolPledgedFld;
     private org.jdesktop.swingx.JXButton refreshBtn;
     private org.jdesktop.swingx.JXButton selectWalletBtn;

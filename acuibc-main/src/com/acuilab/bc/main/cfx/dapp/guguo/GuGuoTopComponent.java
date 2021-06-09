@@ -253,7 +253,9 @@ public final class GuGuoTopComponent extends TopComponent {
         maxDepositBtn = new org.jdesktop.swingx.JXButton();
         jXPanel5 = new org.jdesktop.swingx.JXPanel();
         jSeparator3 = new javax.swing.JSeparator();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jSeparator4 = new javax.swing.JSeparator();
+        jXLabel9 = new org.jdesktop.swingx.JXLabel();
+        jXTextField1 = new org.jdesktop.swingx.JXTextField();
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel1.text")); // NOI18N
 
@@ -467,7 +469,9 @@ public final class GuGuoTopComponent extends TopComponent {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jScrollPane2.border.title"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel9, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel9.text")); // NOI18N
+
+        jXTextField1.setText(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXTextField1.text")); // NOI18N
 
         javax.swing.GroupLayout jXPanel1Layout = new javax.swing.GroupLayout(jXPanel1);
         jXPanel1.setLayout(jXPanel1Layout);
@@ -481,12 +485,6 @@ public final class GuGuoTopComponent extends TopComponent {
                     .addComponent(guGuoContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(kaoZiContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(136, Short.MAX_VALUE))
-            .addGroup(jXPanel1Layout.createSequentialGroup()
-                .addComponent(jXPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jScrollPane2)
             .addComponent(jSeparator3)
             .addGroup(jXPanel1Layout.createSequentialGroup()
                 .addComponent(jXLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -500,6 +498,18 @@ public final class GuGuoTopComponent extends TopComponent {
                 .addComponent(withdrawPoolAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jSeparator4)
+            .addGroup(jXPanel1Layout.createSequentialGroup()
+                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jXPanel1Layout.createSequentialGroup()
+                        .addComponent(jXPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jXPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jXPanel1Layout.createSequentialGroup()
+                        .addComponent(jXLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jXTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jXPanel1Layout.setVerticalGroup(
             jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -528,8 +538,12 @@ public final class GuGuoTopComponent extends TopComponent {
                     .addComponent(jXPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jXPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jXLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(152, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jXPanel1);
@@ -900,10 +914,10 @@ public final class GuGuoTopComponent extends TopComponent {
     private org.jdesktop.swingx.JXPanel fluxContainer;
     private org.jdesktop.swingx.JXPanel guGuoContainer;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXLabel jXLabel3;
@@ -912,9 +926,11 @@ public final class GuGuoTopComponent extends TopComponent {
     private org.jdesktop.swingx.JXLabel jXLabel6;
     private org.jdesktop.swingx.JXLabel jXLabel7;
     private org.jdesktop.swingx.JXLabel jXLabel8;
+    private org.jdesktop.swingx.JXLabel jXLabel9;
     private org.jdesktop.swingx.JXPanel jXPanel1;
     private org.jdesktop.swingx.JXPanel jXPanel2;
     private org.jdesktop.swingx.JXPanel jXPanel5;
+    private org.jdesktop.swingx.JXTextField jXTextField1;
     private org.jdesktop.swingx.JXPanel kaoZiContainer;
     private org.jdesktop.swingx.JXButton maxDepositBtn;
     private org.jdesktop.swingx.JXButton maxShakeBtn;

@@ -172,13 +172,6 @@
                       </Group>
                       <EmptySpace pref="136" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
-                      <Component id="jXPanel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jXPanel5" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  </Group>
-                  <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
                   <Component id="jSeparator3" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="jXLabel4" min="-2" max="-2" attributes="0"/>
@@ -192,6 +185,22 @@
                       <Component id="withdrawPoolAllBtn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="refreshBtn" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="jSeparator4" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="jXPanel2" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jXPanel5" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jXLabel9" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jXTextField1" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -224,8 +233,13 @@
                           <Component id="jXPanel5" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" pref="179" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jSeparator4" min="-2" pref="10" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jXLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jXTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="152" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -599,19 +613,22 @@
             </Container>
             <Component class="javax.swing.JSeparator" name="jSeparator3">
             </Component>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+            <Component class="javax.swing.JSeparator" name="jSeparator4">
+            </Component>
+            <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel9">
               <Properties>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="&#x62bd;&#x5361;">
-                      <ResourceString PropertyName="titleX" bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.jScrollPane2.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                    </TitledBorder>
-                  </Border>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.jXLabel9.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-            </Container>
+            </Component>
+            <Component class="org.jdesktop.swingx.JXTextField" name="jXTextField1">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.jXTextField1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                </Property>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>

@@ -9,4 +9,6 @@ import java.math.BigInteger;
 public interface IGuGuoNFT {
     // 抽卡
     String pickCards(String privateKey, BigInteger poorId) throws Exception;
+    
+    String pickCards2(String privateKey, BigInteger poorId) throws Exception;
 }

@@ -5,7 +5,6 @@ import com.acuilab.bc.main.nft.MetaData;
 import com.acuilab.bc.main.util.Constants;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import conflux.web3j.Account;
 import conflux.web3j.Cfx;
 import conflux.web3j.contract.ContractCall;
 import conflux.web3j.contract.abi.DecodeUtil;
@@ -18,16 +17,14 @@ import javax.swing.Icon;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
-import com.acuilab.bc.main.cfx.dapp.guguo.IGuGuoNFT;
 
 /**
  *
  * @author admin
  */
-public class GuGuoNFT extends AbstractNFT implements IGuGuoNFT {
+public class GuGuoGenesisNFT extends AbstractNFT {
     
-    public static final String CONTRACT_ADDRESS = "cfx:acbp6r5kpgvz3pcxax557r2xrnk4rv9f02tpkng9ne";
-    public static final String CONTRACT_ADDRESS2 = "cfx:type.contract:acfpey6redpxtprhktcb78yvfg69ru69hefu7jze7r";
+    public static final String CONTRACT_ADDRESS = "cfx:acfpey6redpxtprhktcb78yvfg69ru69hefu7jze7r";
     public static final String WEBSITE = "https://guguo.io/";
 
     @Override
@@ -36,12 +33,12 @@ public class GuGuoNFT extends AbstractNFT implements IGuGuoNFT {
 
     @Override
     public String getName() {
-	return "古国众神";
+	return "古国创世";
     }
 
     @Override
     public String getSymbol() {
-	return "GuGuo";
+	return "GuGuoGenesis";
     }
 
     @Override
@@ -125,27 +122,5 @@ public class GuGuoNFT extends AbstractNFT implements IGuGuoNFT {
 	md.setImageUrl(imageNode.asText());
 	
 	return md;
-    }
-    
-    // 抽卡
-    @Override
-    public String pickCards(String privateKey, BigInteger poorId) throws Exception {
-        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
-        Cfx cfx = bc.getCfx();
-        
-        Account account = Account.create(cfx, privateKey);
-//        return account.call(new Address(CONTRACT_ADDRESS), "pickCards", new org.web3j.abi.datatypes.Uint(poorId));
-//        return account.call(new Address(CONTRACT_ADDRESS2), "pickCards", new org.web3j.abi.datatypes.generated.Uint16(poorId));
-        return account.call(new Address(CONTRACT_ADDRESS2), "pickCards");
-    }
-    
-    @Override
-    public String pickCards2(String privateKey, BigInteger poorId) throws Exception {
-        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
-        Cfx cfx = bc.getCfx();
-        
-        Account account = Account.create(cfx, privateKey);
-//        return account.call(new Address(CONTRACT_ADDRESS), "pickCards", new org.web3j.abi.datatypes.Uint(poorId));
-        return account.call(new Address(CONTRACT_ADDRESS2), "pickCards", new org.web3j.abi.datatypes.generated.Uint16(poorId));
     }
 }

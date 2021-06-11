@@ -26,8 +26,8 @@ import com.acuilab.bc.main.cfx.dapp.guguo.IGuGuoNFT;
  */
 public class GuGuoNFT extends AbstractNFT implements IGuGuoNFT {
     
-    public static final String CONTRACT_ADDRESS = "cfx:acbp6r5kpgvz3pcxax557r2xrnk4rv9f02tpkng9ne";
-    public static final String CONTRACT_ADDRESS2 = "cfx:type.contract:acfpey6redpxtprhktcb78yvfg69ru69hefu7jze7r";
+    public static final String CONTRACT_ADDRESS = "cfx:acbp6r5kpgvz3pcxax557r2xrnk4rv9f02tpkng9ne";//正常
+    public static final String CONTRACT_ADDRESS2 = "cfx:type.contract:acfpey6redpxtprhktcb78yvfg69ru69hefu7jze7r";//创世
     public static final String WEBSITE = "https://guguo.io/";
 
     @Override

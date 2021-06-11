@@ -63,9 +63,11 @@ public class NftPanel extends javax.swing.JPanel {
         tockenIdLbl = new org.jdesktop.swingx.JXLabel();
 
         org.openide.awt.Mnemonics.setLocalizedText(depositBtn, org.openide.util.NbBundle.getMessage(NftPanel.class, "NftPanel.depositBtn.text")); // NOI18N
+        depositBtn.setToolTipText(org.openide.util.NbBundle.getMessage(NftPanel.class, "NftPanel.depositBtn.toolTipText")); // NOI18N
         depositBtn.setEnabled(false);
 
         org.openide.awt.Mnemonics.setLocalizedText(withdrawBtn, org.openide.util.NbBundle.getMessage(NftPanel.class, "NftPanel.withdrawBtn.text")); // NOI18N
+        withdrawBtn.setToolTipText(org.openide.util.NbBundle.getMessage(NftPanel.class, "NftPanel.withdrawBtn.toolTipText")); // NOI18N
         withdrawBtn.setEnabled(false);
 
         tockenIdLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

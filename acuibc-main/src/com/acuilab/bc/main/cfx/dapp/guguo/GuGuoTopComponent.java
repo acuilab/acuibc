@@ -47,7 +47,7 @@ import org.openide.util.NbBundle.Messages;
         iconBase="resource/dapp/guguo16.png", 
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
-@TopComponent.Registration(mode = "editor", openAtStartup = true)
+@TopComponent.Registration(mode = "editor", openAtStartup = false)
 @ActionID(category = "Window", id = "com.acuilab.bc.main.cfx.dapp.guguo.GuGuoTopComponent")
 @ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(

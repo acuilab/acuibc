@@ -6,9 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- 在dappstore中增加基于solidity合约创建java代码的开发工具
-- FluxDApp的url改为https://flux.01.finance/conflux/
+### Added
+- 支持山海经NFT、古国众神NFT、古国创世NFT
+- 增加古国序列(部分功能暂未实现)
 - 在cfx代币页面增加FC挖矿操作，方便收取利息
+
+### Changed
+- FluxDApp的url改为https://flux.01.finance/conflux/
 
 ## [0.9.22] - 2021-05-29
 ### Added

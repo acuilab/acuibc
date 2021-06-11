@@ -19,7 +19,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" pref="999" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="jXLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -38,7 +38,10 @@
                       <Component id="xiangBalanceFld" min="-2" pref="66" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jSeparator5" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="refreshBtn1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="reloadBtn" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -61,9 +64,13 @@
                   </Group>
                   <Component id="jSeparator1" alignment="0" min="-2" pref="23" max="-2" attributes="0"/>
                   <Component id="jSeparator5" min="-2" pref="23" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="reloadBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="refreshBtn1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="461" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -173,32 +180,10 @@
                           <Component id="guGuoContainer" alignment="0" max="32767" attributes="0"/>
                           <Component id="kaoZiContainer" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="278" max="32767" attributes="0"/>
+                      <EmptySpace pref="345" max="32767" attributes="0"/>
                   </Group>
                   <Component id="jSeparator3" alignment="0" max="32767" attributes="0"/>
                   <Component id="jSeparator4" alignment="0" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jXLabel11" min="-2" max="-2" attributes="0"/>
-                          <Component id="jXLabel9" min="-2" max="-2" attributes="0"/>
-                          <Component id="jXLabel10" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="addressFld" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="passwordFld" max="32767" attributes="0"/>
-                                  <Component id="poolIdFld" pref="140" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jXButton1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jXButton2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                  </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
@@ -210,9 +195,13 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="pendingTokenFld" min="-2" pref="100" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="refreshBtn" min="-2" max="-2" attributes="0"/>
+                              <Component id="refreshBtn2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="withdrawPoolAllBtn" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jSeparator6" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="refreshBtn4" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Component id="jXPanel2" min="-2" max="-2" attributes="0"/>
@@ -220,7 +209,7 @@
                               <Component id="jXPanel5" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="374" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -229,15 +218,21 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jSeparator2" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jXLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="totalReleasedFld" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jXLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="pendingTokenFld" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="withdrawPoolAllBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="refreshBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jXLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="totalReleasedFld" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jXLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="pendingTokenFld" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="withdrawPoolAllBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="refreshBtn2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="jSeparator6" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="refreshBtn4" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="guGuoContainer" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="kaoZiContainer" min="-2" max="-2" attributes="0"/>
@@ -254,24 +249,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jSeparator4" min="-2" pref="10" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jXLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="addressFld" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jXLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="passwordFld" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jXLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="poolIdFld" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jXButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jXButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace pref="96" max="32767" attributes="0"/>
+                      <EmptySpace pref="105" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -402,16 +380,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="withdrawPoolAllBtnActionPerformed"/>
               </Events>
             </Component>
-            <Component class="org.jdesktop.swingx.JXButton" name="refreshBtn">
-              <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.refreshBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="refreshBtnActionPerformed"/>
-              </Events>
-            </Component>
             <Container class="org.jdesktop.swingx.JXPanel" name="jXPanel2">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -442,7 +410,10 @@
                                       <Component id="poolPledgedFld" alignment="1" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="withdrawBtn" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="withdrawBtn" min="-2" max="-2" attributes="0"/>
+                                      <Component id="refreshBtn3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="1" attributes="0">
@@ -472,6 +443,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jXLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="poolPledgedFld" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="refreshBtn3" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -552,6 +524,7 @@
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.withdrawBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="withdrawBtnActionPerformed"/>
@@ -562,6 +535,7 @@
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.stakeYAOBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stakeYAOBtnActionPerformed"/>
@@ -572,6 +546,7 @@
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.depositYAOBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="depositYAOBtnActionPerformed"/>
@@ -602,6 +577,7 @@
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.maxShakeBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="maxShakeBtnActionPerformed"/>
@@ -612,9 +588,21 @@
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.maxDepositBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="maxDepositBtnActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="org.jdesktop.swingx.JXButton" name="refreshBtn3">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                      <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.refreshBtn3.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                    </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="refreshBtn3ActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -647,67 +635,32 @@
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator4">
             </Component>
-            <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel10">
+            <Component class="org.jdesktop.swingx.JXButton" name="refreshBtn2">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.jXLabel10.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.refreshBtn2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
-              </Properties>
-            </Component>
-            <Component class="org.jdesktop.swingx.JXTextField" name="addressFld">
-              <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.addressFld.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel9">
-              <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.jXLabel9.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JPasswordField" name="passwordFld">
-              <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.passwordFld.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel11">
-              <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.jXLabel11.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="org.jdesktop.swingx.JXTextField" name="poolIdFld">
-              <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.poolIdFld.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="org.jdesktop.swingx.JXButton" name="jXButton1">
-              <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.jXButton1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                </Property>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jXButton1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="refreshBtn2ActionPerformed"/>
               </Events>
             </Component>
-            <Component class="org.jdesktop.swingx.JXButton" name="jXButton2">
+            <Component class="org.jdesktop.swingx.JXButton" name="refreshBtn4">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.jXButton2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.refreshBtn4.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jXButton2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="refreshBtn4ActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JSeparator" name="jSeparator6">
+              <Properties>
+                <Property name="orientation" type="int" value="1"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
@@ -717,6 +670,26 @@
       <Properties>
         <Property name="orientation" type="int" value="1"/>
       </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXButton" name="reloadBtn">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.reloadBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="reloadBtnActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXButton" name="refreshBtn1">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.refreshBtn1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="refreshBtn1ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -32,42 +32,50 @@ public class StakingXIANGContract implements IStakingXIANGContract {
     }
 
     @Override
-    public BigInteger poolPledged() {
+    public BigInteger poolPledged(BigInteger pId) {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         
         ContractCall contract = new ContractCall(cfx, new Address(STAKING_XIANG_CONTRACT));
         // passing method name and parameter to `contract.call`
         // note: parameters should use web3j.abi.datatypes type
-        String value = contract.call("poolInfo", new org.web3j.abi.datatypes.Uint(BigInteger.ZERO)).sendAndGet();
+        String value = contract.call("poolInfo", new org.web3j.abi.datatypes.Uint(pId)).sendAndGet();
         TupleDecoder decoder = new TupleDecoder(value);
         decoder.nextAddress();
         return decoder.nextUint256();
     }
 
     @Override
-    public BigInteger pledgedAmount(String address) {
+    public BigInteger pledgedAmount(String address, BigInteger pId) {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         
         ContractCall contract = new ContractCall(cfx, new Address(STAKING_XIANG_CONTRACT));
         // passing method name and parameter to `contract.call`
         // note: parameters should use web3j.abi.datatypes type
-        String value = contract.call("userInfo", new org.web3j.abi.datatypes.Uint(BigInteger.ZERO), new Address(address).getABIAddress()).sendAndGet();
+        String value = contract.call("userInfo", new org.web3j.abi.datatypes.Uint(pId), new Address(address).getABIAddress()).sendAndGet();
         TupleDecoder decoder = new TupleDecoder(value);
         return decoder.nextUint256();
     }
 
     @Override
-    public BigInteger pendingToken(String address) {
+    public BigInteger pendingToken(String address, BigInteger pId) {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         
         ContractCall contract = new ContractCall(cfx, new Address(STAKING_XIANG_CONTRACT));
         // passing method name and parameter to `contract.call`
         // note: parameters should use web3j.abi.datatypes type
-        String value = contract.call("pendingToken", new org.web3j.abi.datatypes.Uint(BigInteger.ZERO), new Address(address).getABIAddress()).sendAndGet();
+        String value = contract.call("pendingToken", new org.web3j.abi.datatypes.Uint(pId), new Address(address).getABIAddress()).sendAndGet();
         return DecodeUtil.decode(value, org.web3j.abi.datatypes.Uint.class);
+    }
+    
+    @Override
+    public String withdrawPool(String privateKey, BigInteger pId) throws Exception {
+        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
+        Cfx cfx = bc.getCfx();
+        Account account = Account.create(cfx, privateKey);
+        return account.call(new Address(STAKING_XIANG_CONTRACT), "withdrawPool", new org.web3j.abi.datatypes.Uint(pId));
     }
     
     @Override
@@ -79,18 +87,19 @@ public class StakingXIANGContract implements IStakingXIANGContract {
     }
 
     @Override
-    public String depositERC20(String privateKey, BigInteger amount) throws Exception {
+    public String depositERC20(String privateKey, BigInteger amount, BigInteger pId) throws Exception {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         Account account = Account.create(cfx, privateKey);
-        return account.call(new Address(STAKING_XIANG_CONTRACT), "depositERC20", new org.web3j.abi.datatypes.Uint(BigInteger.ZERO), new org.web3j.abi.datatypes.Uint(amount));
+        return account.call(new Address(STAKING_XIANG_CONTRACT), "depositERC20", new org.web3j.abi.datatypes.Uint(pId), new org.web3j.abi.datatypes.Uint(amount));
     }
 
     @Override
-    public String withdrawERC20(String privateKey, BigInteger amount) throws Exception {
+    public String withdrawERC20(String privateKey, BigInteger amount, BigInteger pId) throws Exception {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         Account account = Account.create(cfx, privateKey);
-        return account.call(new Address(STAKING_XIANG_CONTRACT), "withdrawERC20", new org.web3j.abi.datatypes.Uint(BigInteger.ZERO), new org.web3j.abi.datatypes.Uint(amount));
+        return account.call(new Address(STAKING_XIANG_CONTRACT), "withdrawERC20", new org.web3j.abi.datatypes.Uint(pId), new org.web3j.abi.datatypes.Uint(amount));
     }
+
 }

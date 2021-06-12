@@ -132,13 +132,18 @@ public final class GuGuoTopComponent extends TopComponent {
                     map.put(Constants.GUGUO_GUGUO_PID, guGuoPledged);
                     
                     // 获得池内质押总量爻
-                    list.add(xiangContract.poolPledged());
-                    
+                    list.add(xiangContract.poolPledged(BigInteger.ZERO));
                     // 我的质押
-                    list.add(xiangContract.pledgedAmount(wallet.getAddress()));
-                    
+                    list.add(xiangContract.pledgedAmount(wallet.getAddress(), BigInteger.ZERO));
                     // 当前收益
-                    list.add(xiangContract.pendingToken(wallet.getAddress()));
+                    list.add(xiangContract.pendingToken(wallet.getAddress(), BigInteger.ZERO));
+                    
+                    // 获得lp池内质押总量爻
+                    list.add(xiangContract.poolPledged(BigInteger.ONE));
+                    // lp池我的质押
+                    list.add(xiangContract.pledgedAmount(wallet.getAddress(), BigInteger.ONE));
+                    // lp池当前收益
+                    list.add(xiangContract.pendingToken(wallet.getAddress(), BigInteger.ONE));
                     
                     return new Pair<>(list, map);
                 }
@@ -169,9 +174,18 @@ public final class GuGuoTopComponent extends TopComponent {
                         pendingTokenFld.setText(yaoCoin.minUnit2MainUint(list.get(3)).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
                         
                         poolPledgedFld.setText(yaoCoin.minUnit2MainUint(list.get(4)).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
+                        poolPledgedFld.setToolTipText(yaoCoin.minUnit2MainUint(list.get(4)).setScale(6, RoundingMode.HALF_DOWN).toPlainString());
                         pledgedAmountFld.setText(yaoCoin.minUnit2MainUint(list.get(5)).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
-                        
+                        pledgedAmountFld.setToolTipText(yaoCoin.minUnit2MainUint(list.get(5)).setScale(6, RoundingMode.HALF_DOWN).toPlainString());
                         xiangPendingTokenFld.setText(yaoCoin.minUnit2MainUint(list.get(6)).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
+                        xiangPendingTokenFld.setToolTipText(yaoCoin.minUnit2MainUint(list.get(6)).setScale(6, RoundingMode.HALF_DOWN).toPlainString());
+                        
+                        lpPoolPledgedFld.setText(yaoCoin.minUnit2MainUint(list.get(7)).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
+                        lpPoolPledgedFld.setToolTipText(yaoCoin.minUnit2MainUint(list.get(7)).setScale(6, RoundingMode.HALF_DOWN).toPlainString());
+                        lpPledgedAmountFld.setText(yaoCoin.minUnit2MainUint(list.get(8)).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
+                        lpPledgedAmountFld.setToolTipText(yaoCoin.minUnit2MainUint(list.get(8)).setScale(6, RoundingMode.HALF_DOWN).toPlainString());
+                        lpXiangPendingTokenFld.setText(yaoCoin.minUnit2MainUint(list.get(9)).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
+                        lpXiangPendingTokenFld.setToolTipText(yaoCoin.minUnit2MainUint(list.get(9)).setScale(6, RoundingMode.HALF_DOWN).toPlainString());
                         
                         Map<Integer, Pair<BigInteger[], BigInteger[]>> map = result.getValue1();
                         initPanels(map.get(Constants.GUGUO_KAOZI_PID), kaoZiPanels);
@@ -230,12 +244,19 @@ public final class GuGuoTopComponent extends TopComponent {
         refreshBtn2.setEnabled(enabled);
         refreshBtn3.setEnabled(enabled);
         refreshBtn4.setEnabled(enabled);
+        refreshBtn5.setEnabled(enabled);
         
         withdrawBtn.setEnabled(enabled);
         stakeYAOBtn.setEnabled(enabled);
         depositYAOBtn.setEnabled(enabled);
         maxShakeBtn.setEnabled(enabled);
         maxDepositBtn.setEnabled(enabled);
+        
+        lpWithdrawBtn.setEnabled(enabled);
+        lpStakeYAOBtn.setEnabled(enabled);
+        lpDepositYAOBtn.setEnabled(enabled);
+        lpMaxShakeBtn.setEnabled(enabled);
+        lpMaxDepositBtn.setEnabled(enabled);
     }
     
     /**
@@ -282,6 +303,20 @@ public final class GuGuoTopComponent extends TopComponent {
         maxDepositBtn = new org.jdesktop.swingx.JXButton();
         refreshBtn3 = new org.jdesktop.swingx.JXButton();
         jXPanel5 = new org.jdesktop.swingx.JXPanel();
+        jXLabel9 = new org.jdesktop.swingx.JXLabel();
+        jXLabel10 = new org.jdesktop.swingx.JXLabel();
+        jXLabel11 = new org.jdesktop.swingx.JXLabel();
+        lpXiangPendingTokenFld = new org.jdesktop.swingx.JXTextField();
+        lpPledgedAmountFld = new org.jdesktop.swingx.JXTextField();
+        lpPoolPledgedFld = new org.jdesktop.swingx.JXTextField();
+        refreshBtn5 = new org.jdesktop.swingx.JXButton();
+        lpWithdrawBtn = new org.jdesktop.swingx.JXButton();
+        lpStakeNumberFld = new org.jdesktop.swingx.JXTextField();
+        lpDepositNumberFld = new org.jdesktop.swingx.JXTextField();
+        lpMaxShakeBtn = new org.jdesktop.swingx.JXButton();
+        lpMaxDepositBtn = new org.jdesktop.swingx.JXButton();
+        lpStakeYAOBtn = new org.jdesktop.swingx.JXButton();
+        lpDepositYAOBtn = new org.jdesktop.swingx.JXButton();
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
         refreshBtn2 = new org.jdesktop.swingx.JXButton();
@@ -450,7 +485,7 @@ public final class GuGuoTopComponent extends TopComponent {
                         .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(pledgedAmountFld, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(xiangPendingTokenFld, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(poolPledgedFld, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(poolPledgedFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(withdrawBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -501,15 +536,139 @@ public final class GuGuoTopComponent extends TopComponent {
 
         jXPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXPanel5.border.title"))); // NOI18N
 
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel9, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel9.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel10, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel10.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel11, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel11.text")); // NOI18N
+
+        lpXiangPendingTokenFld.setEditable(false);
+        lpXiangPendingTokenFld.setText(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.lpXiangPendingTokenFld.text")); // NOI18N
+
+        lpPledgedAmountFld.setEditable(false);
+        lpPledgedAmountFld.setText(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.lpPledgedAmountFld.text")); // NOI18N
+
+        lpPoolPledgedFld.setEditable(false);
+        lpPoolPledgedFld.setText(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.lpPoolPledgedFld.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(refreshBtn5, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.refreshBtn5.text")); // NOI18N
+        refreshBtn5.setEnabled(false);
+        refreshBtn5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshBtn5ActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(lpWithdrawBtn, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.lpWithdrawBtn.text")); // NOI18N
+        lpWithdrawBtn.setEnabled(false);
+        lpWithdrawBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lpWithdrawBtnActionPerformed(evt);
+            }
+        });
+
+        lpStakeNumberFld.setText(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.lpStakeNumberFld.text")); // NOI18N
+        lpStakeNumberFld.setPrompt(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.lpStakeNumberFld.prompt")); // NOI18N
+
+        lpDepositNumberFld.setText(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.lpDepositNumberFld.text")); // NOI18N
+        lpDepositNumberFld.setPrompt(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.lpDepositNumberFld.prompt")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(lpMaxShakeBtn, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.lpMaxShakeBtn.text")); // NOI18N
+        lpMaxShakeBtn.setEnabled(false);
+        lpMaxShakeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lpMaxShakeBtnActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(lpMaxDepositBtn, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.lpMaxDepositBtn.text")); // NOI18N
+        lpMaxDepositBtn.setEnabled(false);
+        lpMaxDepositBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lpMaxDepositBtnActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(lpStakeYAOBtn, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.lpStakeYAOBtn.text")); // NOI18N
+        lpStakeYAOBtn.setEnabled(false);
+        lpStakeYAOBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lpStakeYAOBtnActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(lpDepositYAOBtn, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.lpDepositYAOBtn.text")); // NOI18N
+        lpDepositYAOBtn.setEnabled(false);
+        lpDepositYAOBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lpDepositYAOBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jXPanel5Layout = new javax.swing.GroupLayout(jXPanel5);
         jXPanel5.setLayout(jXPanel5Layout);
         jXPanel5Layout.setHorizontalGroup(
             jXPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 308, Short.MAX_VALUE)
+            .addGroup(jXPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jXPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jXLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jXPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lpPoolPledgedFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lpPledgedAmountFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lpXiangPendingTokenFld, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jXPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(refreshBtn5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lpWithdrawBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jXPanel5Layout.createSequentialGroup()
+                .addGroup(jXPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lpDepositNumberFld, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lpStakeNumberFld, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jXPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel5Layout.createSequentialGroup()
+                        .addComponent(lpMaxShakeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lpStakeYAOBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel5Layout.createSequentialGroup()
+                        .addComponent(lpMaxDepositBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lpDepositYAOBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         jXPanel5Layout.setVerticalGroup(
             jXPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jXPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jXPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jXLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lpPoolPledgedFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(refreshBtn5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jXPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jXLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lpPledgedAmountFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jXPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jXLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lpXiangPendingTokenFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lpWithdrawBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jXPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lpStakeNumberFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lpMaxShakeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lpStakeYAOBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jXPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lpDepositNumberFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lpMaxDepositBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lpDepositYAOBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         org.openide.awt.Mnemonics.setLocalizedText(refreshBtn2, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.refreshBtn2.text")); // NOI18N
@@ -541,7 +700,7 @@ public final class GuGuoTopComponent extends TopComponent {
                     .addComponent(moonContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(guGuoContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(kaoZiContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(345, Short.MAX_VALUE))
+                .addContainerGap(386, Short.MAX_VALUE))
             .addComponent(jSeparator3)
             .addComponent(jSeparator4)
             .addGroup(jXPanel1Layout.createSequentialGroup()
@@ -566,7 +725,7 @@ public final class GuGuoTopComponent extends TopComponent {
                         .addComponent(jXPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jXPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 374, Short.MAX_VALUE))
+                .addGap(0, 415, Short.MAX_VALUE))
         );
         jXPanel1Layout.setVerticalGroup(
             jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -672,7 +831,7 @@ public final class GuGuoTopComponent extends TopComponent {
                         .addComponent(reloadBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(refreshBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -751,7 +910,7 @@ public final class GuGuoTopComponent extends TopComponent {
                         ph.start();
 
                         IStakingXIANGContract contract = Lookup.getDefault().lookup(IStakingXIANGContract.class);
-                        return contract.withdrawPoolAll(privateKey);
+                        return contract.withdrawPool(privateKey, BigInteger.ZERO);
                     }
 
                     @Override
@@ -808,7 +967,7 @@ public final class GuGuoTopComponent extends TopComponent {
                                     ph.start();
 
                                     IStakingXIANGContract contract = Lookup.getDefault().lookup(IStakingXIANGContract.class);
-                                    return contract.depositERC20(privateKey, stakeNumber);
+                                    return contract.depositERC20(privateKey, stakeNumber, BigInteger.ZERO);
                                 }
 
                                 @Override
@@ -864,7 +1023,7 @@ public final class GuGuoTopComponent extends TopComponent {
                 
                 // 首先判断钱包里的yao是否足够
                 IStakingXIANGContract xiangContract = Lookup.getDefault().lookup(IStakingXIANGContract.class);
-                BigInteger pledgeAmount = xiangContract.pledgedAmount(wallet.getAddress());
+                BigInteger pledgeAmount = xiangContract.pledgedAmount(wallet.getAddress(), BigInteger.ZERO);
                 return depositNumber.compareTo(pledgeAmount) <= 0;
             }
 
@@ -886,7 +1045,7 @@ public final class GuGuoTopComponent extends TopComponent {
                                     ph.start();
 
                                     IStakingXIANGContract contract = Lookup.getDefault().lookup(IStakingXIANGContract.class);
-                                    return contract.withdrawERC20(privateKey, depositNumber);
+                                    return contract.withdrawERC20(privateKey, depositNumber, BigInteger.ZERO);
                                 }
 
                                 @Override
@@ -969,7 +1128,7 @@ public final class GuGuoTopComponent extends TopComponent {
                 ph.start();
 
                 IStakingXIANGContract xiangContract = Lookup.getDefault().lookup(IStakingXIANGContract.class);
-                return xiangContract.pledgedAmount(wallet.getAddress());
+                return xiangContract.pledgedAmount(wallet.getAddress(), BigInteger.ZERO);
             }
 
             @Override
@@ -1118,13 +1277,13 @@ public final class GuGuoTopComponent extends TopComponent {
                     List<BigInteger> list = Lists.newArrayList();
                     
                     // 获得池内质押总量爻
-                    list.add(xiangContract.poolPledged());
+                    list.add(xiangContract.poolPledged(BigInteger.ZERO));
                     
                     // 我的质押
-                    list.add(xiangContract.pledgedAmount(wallet.getAddress()));
+                    list.add(xiangContract.pledgedAmount(wallet.getAddress(), BigInteger.ZERO));
                     
                     // 当前收益
-                    list.add(xiangContract.pendingToken(wallet.getAddress()));
+                    list.add(xiangContract.pendingToken(wallet.getAddress(), BigInteger.ZERO));
                     
                     return list;
                 }
@@ -1135,8 +1294,11 @@ public final class GuGuoTopComponent extends TopComponent {
                         List<BigInteger> list = get();
                         ICoin yaoCoin = CoinManager.getDefault().getCoin(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_YAO_SYMBOL);
                         poolPledgedFld.setText(yaoCoin.minUnit2MainUint(list.get(0)).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
+                        poolPledgedFld.setToolTipText(yaoCoin.minUnit2MainUint(list.get(0)).setScale(6, RoundingMode.HALF_DOWN).toPlainString());
                         pledgedAmountFld.setText(yaoCoin.minUnit2MainUint(list.get(1)).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
+                        pledgedAmountFld.setToolTipText(yaoCoin.minUnit2MainUint(list.get(1)).setScale(6, RoundingMode.HALF_DOWN).toPlainString());
                         xiangPendingTokenFld.setText(yaoCoin.minUnit2MainUint(list.get(2)).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
+                        xiangPendingTokenFld.setToolTipText(yaoCoin.minUnit2MainUint(list.get(2)).setScale(6, RoundingMode.HALF_DOWN).toPlainString());
                         
                         stakeNumberFld.setText("");
                         depositNumberFld.setText("");
@@ -1227,6 +1389,325 @@ public final class GuGuoTopComponent extends TopComponent {
         }
     }//GEN-LAST:event_refreshBtn4ActionPerformed
 
+    private void refreshBtn5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtn5ActionPerformed
+        if(wallet != null) {
+            setBtnEnabled(false);
+            final ProgressHandle ph = ProgressHandle.createHandle("正在初始化，请稍候...");
+            SwingWorker<List<BigInteger>, Void> worker = new SwingWorker<List<BigInteger>, Void>() {
+                @Override
+                protected List<BigInteger> doInBackground() throws Exception {
+                    ph.start();
+                    
+                    IStakingXIANGContract xiangContract = Lookup.getDefault().lookup(IStakingXIANGContract.class);
+                    
+                    List<BigInteger> list = Lists.newArrayList();
+                    
+                    // 获得池内质押总量爻
+                    list.add(xiangContract.poolPledged(BigInteger.ONE));
+                    
+                    // 我的质押
+                    list.add(xiangContract.pledgedAmount(wallet.getAddress(), BigInteger.ONE));
+                    
+                    // 当前收益
+                    list.add(xiangContract.pendingToken(wallet.getAddress(), BigInteger.ONE));
+                    
+                    return list;
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        List<BigInteger> list = get();
+                        ICoin yaoCfxCoin = CoinManager.getDefault().getCoin(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_YAO_CFX_PAIR_SYMBOL);
+                        lpPoolPledgedFld.setText(yaoCfxCoin.minUnit2MainUint(list.get(0)).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
+                        lpPoolPledgedFld.setToolTipText(yaoCfxCoin.minUnit2MainUint(list.get(0)).setScale(6, RoundingMode.HALF_DOWN).toPlainString());
+                        lpPledgedAmountFld.setText(yaoCfxCoin.minUnit2MainUint(list.get(1)).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
+                        lpPledgedAmountFld.setToolTipText(yaoCfxCoin.minUnit2MainUint(list.get(1)).setScale(6, RoundingMode.HALF_DOWN).toPlainString());
+                        lpXiangPendingTokenFld.setText(yaoCfxCoin.minUnit2MainUint(list.get(2)).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
+                        lpXiangPendingTokenFld.setToolTipText(yaoCfxCoin.minUnit2MainUint(list.get(2)).setScale(6, RoundingMode.HALF_DOWN).toPlainString());
+                        
+                        lpStakeNumberFld.setText("");
+                        lpDepositNumberFld.setText("");
+                    } catch (InterruptedException | ExecutionException ex) {
+                        Exceptions.printStackTrace(ex);
+                    } finally {
+                        ph.finish();
+                        setBtnEnabled(true);
+                    }
+                }
+            };
+            worker.execute();
+        } else {
+            // 提示选择钱包
+            try {
+                JLabel lbl = new JLabel("请选择钱包");
+                BalloonTip balloonTip = new BalloonTip(selectWalletBtn, 
+                                lbl,
+                                Utils.createBalloonTipStyle(),
+                                Utils.createBalloonTipPositioner(), 
+                                null);
+                TimingUtils.showTimedBalloon(balloonTip, 2000);
+            } catch (Exception ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+    }//GEN-LAST:event_refreshBtn5ActionPerformed
+
+    private void lpWithdrawBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lpWithdrawBtnActionPerformed
+        PasswordVerifyDialog passwordVerifyDialog = new PasswordVerifyDialog(null, wallet);
+        passwordVerifyDialog.setVisible(true);
+        if(passwordVerifyDialog.getReturnStatus() == PasswordVerifyDialog.RET_OK) {
+            try {
+                String privateKey = AESUtil.decrypt(wallet.getPrivateKeyAES(), passwordVerifyDialog.getPassword());
+
+                lpWithdrawBtn.setEnabled(false);
+                // 获得余额及质押余额
+                final ProgressHandle ph = ProgressHandle.createHandle("正在提取，请稍候");
+                SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
+                    @Override
+                    protected String doInBackground() throws Exception {
+                        ph.start();
+
+                        IStakingXIANGContract contract = Lookup.getDefault().lookup(IStakingXIANGContract.class);
+                        return contract.withdrawPool(privateKey, BigInteger.ONE);
+                    }
+
+                    @Override
+                    protected void done() {
+                        try {
+                            String hash = get();
+                            System.out.println("hash==================" + hash);
+                        } catch (InterruptedException | ExecutionException ex) {
+                            Exceptions.printStackTrace(ex);
+                        }
+
+                        ph.finish();
+                        lpWithdrawBtn.setEnabled(true);
+                    }
+                };
+                worker.execute();
+            } catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchPaddingException | NoSuchAlgorithmException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+    }//GEN-LAST:event_lpWithdrawBtnActionPerformed
+
+    private void lpMaxShakeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lpMaxShakeBtnActionPerformed
+        lpMaxShakeBtn.setEnabled(false);
+        final ProgressHandle ph = ProgressHandle.createHandle("正在处理，请稍候...");
+        SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
+            @Override
+            protected BigInteger doInBackground() throws Exception {
+                ph.start();
+
+                IStakingYAOContract yaoContract = Lookup.getDefault().lookup(IStakingYAOContract.class);
+                return yaoContract.yaoCfxBalance(wallet.getAddress());
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    BigInteger result = get();
+
+                    ICoin yaoCfxCoin = CoinManager.getDefault().getCoin(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_YAO_CFX_PAIR_SYMBOL);
+                    lpStakeNumberFld.setText(yaoCfxCoin.minUnit2MainUint(result).setScale(6, RoundingMode.DOWN).toPlainString());
+                } catch (InterruptedException | ExecutionException ex) {
+                    Exceptions.printStackTrace(ex);
+                } finally {
+                    ph.finish();
+                    lpMaxShakeBtn.setEnabled(true);
+                }
+            }
+        };
+        worker.execute();
+    }//GEN-LAST:event_lpMaxShakeBtnActionPerformed
+
+    private void lpMaxDepositBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lpMaxDepositBtnActionPerformed
+        lpMaxDepositBtn.setEnabled(false);
+        final ProgressHandle ph = ProgressHandle.createHandle("正在处理，请稍候...");
+        SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
+            @Override
+            protected BigInteger doInBackground() throws Exception {
+                ph.start();
+
+                IStakingXIANGContract xiangContract = Lookup.getDefault().lookup(IStakingXIANGContract.class);
+                return xiangContract.pledgedAmount(wallet.getAddress(), BigInteger.ONE);
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    BigInteger result = get();
+
+                    ICoin yaoCfxCoin = CoinManager.getDefault().getCoin(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_YAO_CFX_PAIR_SYMBOL);
+                    lpDepositNumberFld.setText(yaoCfxCoin.minUnit2MainUint(result).setScale(6, RoundingMode.DOWN).toPlainString());
+                } catch (InterruptedException | ExecutionException ex) {
+                    Exceptions.printStackTrace(ex);
+                } finally {
+                    ph.finish();
+                    lpMaxDepositBtn.setEnabled(true);
+                }
+            }
+        };
+        worker.execute();
+    }//GEN-LAST:event_lpMaxDepositBtnActionPerformed
+
+    private void lpStakeYAOBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lpStakeYAOBtnActionPerformed
+        lpStakeYAOBtn.setEnabled(false);
+        ICoin yaoCfxCoin = CoinManager.getDefault().getCoin(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_YAO_CFX_PAIR_SYMBOL);
+        BigInteger stakeNumber = yaoCfxCoin.mainUint2MinUint(new BigDecimal(lpStakeNumberFld.getText()));
+        final ProgressHandle ph = ProgressHandle.createHandle("正在处理，请稍候...");
+        SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                ph.start();
+                
+                // 首先判断钱包里的yao是否足够
+                IStakingYAOContract yaoContract = Lookup.getDefault().lookup(IStakingYAOContract.class);
+                BigInteger yaoCfxBalance = yaoContract.yaoCfxBalance(wallet.getAddress());
+                return stakeNumber.compareTo(yaoCfxBalance) <= 0;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    Boolean result = get();
+                    if(result) {
+                        PasswordVerifyDialog passwordVerifyDialog = new PasswordVerifyDialog(null, wallet);
+                        passwordVerifyDialog.setVisible(true);
+                        if(passwordVerifyDialog.getReturnStatus() == PasswordVerifyDialog.RET_OK) {
+                            String privateKey = AESUtil.decrypt(wallet.getPrivateKeyAES(), passwordVerifyDialog.getPassword());
+                            
+                            lpStakeYAOBtn.setEnabled(true);
+                            final ProgressHandle ph = ProgressHandle.createHandle("正在处理，请稍候");
+                            SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
+                                @Override
+                                protected String doInBackground() throws Exception {
+                                    ph.start();
+
+                                    IStakingXIANGContract contract = Lookup.getDefault().lookup(IStakingXIANGContract.class);
+                                    return contract.depositERC20(privateKey, stakeNumber, BigInteger.ONE);
+                                }
+
+                                @Override
+                                protected void done() {
+                                    try {
+                                        String hash = get();
+                                        System.out.println("hash==================" + hash);
+                                    } catch (InterruptedException | ExecutionException ex) {
+                                        Exceptions.printStackTrace(ex);
+                                    } finally {
+                                        ph.finish();
+                                        lpStakeYAOBtn.setEnabled(true);
+                                    }
+                                }
+                            };
+                            worker.execute();
+                        }
+                    } else {
+                        // 提示“质押的金额超过了现有余额，请重新输入”
+                        lpStakeNumberFld.requestFocus();
+                        try {
+                            JLabel lbl = new JLabel("质押的金额超过了现有余额，请重新输入");
+                            BalloonTip balloonTip = new BalloonTip(lpStakeNumberFld, 
+                                            lbl,
+                                            Utils.createBalloonTipStyle(),
+                                            Utils.createBalloonTipPositioner(), 
+                                            null);
+                            TimingUtils.showTimedBalloon(balloonTip, 2000);
+                        } catch (Exception ex) {
+                            Exceptions.printStackTrace(ex);
+                        }
+                    }
+                } catch (InterruptedException | ExecutionException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchPaddingException | NoSuchAlgorithmException ex) {
+                    Exceptions.printStackTrace(ex);
+                } finally {
+                    ph.finish();
+                    lpStakeYAOBtn.setEnabled(true);
+                }
+            }
+        };
+        worker.execute();
+    }//GEN-LAST:event_lpStakeYAOBtnActionPerformed
+
+    private void lpDepositYAOBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lpDepositYAOBtnActionPerformed
+        lpDepositYAOBtn.setEnabled(false);
+        ICoin yaoCfxCoin = CoinManager.getDefault().getCoin(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_YAO_CFX_PAIR_SYMBOL);
+        BigInteger depositNumber = yaoCfxCoin.mainUint2MinUint(new BigDecimal(lpDepositNumberFld.getText()));
+        final ProgressHandle ph = ProgressHandle.createHandle("正在处理，请稍候...");
+        SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                ph.start();
+                
+                // 首先判断钱包里的yao是否足够
+                IStakingXIANGContract xiangContract = Lookup.getDefault().lookup(IStakingXIANGContract.class);
+                BigInteger pledgeAmount = xiangContract.pledgedAmount(wallet.getAddress(), BigInteger.ONE);
+                return depositNumber.compareTo(pledgeAmount) <= 0;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    Boolean result = get();
+                    if(result) {
+                        PasswordVerifyDialog passwordVerifyDialog = new PasswordVerifyDialog(null, wallet);
+                        passwordVerifyDialog.setVisible(true);
+                        if(passwordVerifyDialog.getReturnStatus() == PasswordVerifyDialog.RET_OK) {
+                            String privateKey = AESUtil.decrypt(wallet.getPrivateKeyAES(), passwordVerifyDialog.getPassword());
+                            
+                            lpDepositYAOBtn.setEnabled(true);
+                            final ProgressHandle ph = ProgressHandle.createHandle("正在处理，请稍候");
+                            SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
+                                @Override
+                                protected String doInBackground() throws Exception {
+                                    ph.start();
+
+                                    IStakingXIANGContract contract = Lookup.getDefault().lookup(IStakingXIANGContract.class);
+                                    return contract.withdrawERC20(privateKey, depositNumber, BigInteger.ONE);
+                                }
+
+                                @Override
+                                protected void done() {
+                                    try {
+                                        String hash = get();
+                                        System.out.println("hash==================" + hash);
+                                    } catch (InterruptedException | ExecutionException ex) {
+                                        Exceptions.printStackTrace(ex);
+                                    } finally {
+                                        ph.finish();
+                                        lpDepositYAOBtn.setEnabled(true);
+                                    }
+                                }
+                            };
+                            worker.execute();
+                        }
+                    } else {
+                        // 提示“质押的金额超过了现有余额，请重新输入”
+                        lpDepositNumberFld.requestFocus();
+                        try {
+                            JLabel lbl = new JLabel("取回的金额超过了现有余额，请重新输入");
+                            BalloonTip balloonTip = new BalloonTip(lpDepositNumberFld, 
+                                            lbl,
+                                            Utils.createBalloonTipStyle(),
+                                            Utils.createBalloonTipPositioner(), 
+                                            null);
+                            TimingUtils.showTimedBalloon(balloonTip, 2000);
+                        } catch (Exception ex) {
+                            Exceptions.printStackTrace(ex);
+                        }
+                    }
+                } catch (InterruptedException | ExecutionException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchPaddingException | NoSuchAlgorithmException ex) {
+                    Exceptions.printStackTrace(ex);
+                } finally {
+                    ph.finish();
+                    lpDepositYAOBtn.setEnabled(true);
+                }
+            }
+        };
+        worker.execute();
+    }//GEN-LAST:event_lpDepositYAOBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXTextField depositNumberFld;
     private org.jdesktop.swingx.JXButton depositYAOBtn;
@@ -1240,6 +1721,8 @@ public final class GuGuoTopComponent extends TopComponent {
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private org.jdesktop.swingx.JXLabel jXLabel1;
+    private org.jdesktop.swingx.JXLabel jXLabel10;
+    private org.jdesktop.swingx.JXLabel jXLabel11;
     private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXLabel jXLabel3;
     private org.jdesktop.swingx.JXLabel jXLabel4;
@@ -1247,10 +1730,21 @@ public final class GuGuoTopComponent extends TopComponent {
     private org.jdesktop.swingx.JXLabel jXLabel6;
     private org.jdesktop.swingx.JXLabel jXLabel7;
     private org.jdesktop.swingx.JXLabel jXLabel8;
+    private org.jdesktop.swingx.JXLabel jXLabel9;
     private org.jdesktop.swingx.JXPanel jXPanel1;
     private org.jdesktop.swingx.JXPanel jXPanel2;
     private org.jdesktop.swingx.JXPanel jXPanel5;
     private org.jdesktop.swingx.JXPanel kaoZiContainer;
+    private org.jdesktop.swingx.JXTextField lpDepositNumberFld;
+    private org.jdesktop.swingx.JXButton lpDepositYAOBtn;
+    private org.jdesktop.swingx.JXButton lpMaxDepositBtn;
+    private org.jdesktop.swingx.JXButton lpMaxShakeBtn;
+    private org.jdesktop.swingx.JXTextField lpPledgedAmountFld;
+    private org.jdesktop.swingx.JXTextField lpPoolPledgedFld;
+    private org.jdesktop.swingx.JXTextField lpStakeNumberFld;
+    private org.jdesktop.swingx.JXButton lpStakeYAOBtn;
+    private org.jdesktop.swingx.JXButton lpWithdrawBtn;
+    private org.jdesktop.swingx.JXTextField lpXiangPendingTokenFld;
     private org.jdesktop.swingx.JXButton maxDepositBtn;
     private org.jdesktop.swingx.JXButton maxShakeBtn;
     private org.jdesktop.swingx.JXPanel moonContainer;
@@ -1261,6 +1755,7 @@ public final class GuGuoTopComponent extends TopComponent {
     private org.jdesktop.swingx.JXButton refreshBtn2;
     private org.jdesktop.swingx.JXButton refreshBtn3;
     private org.jdesktop.swingx.JXButton refreshBtn4;
+    private org.jdesktop.swingx.JXButton refreshBtn5;
     private org.jdesktop.swingx.JXButton reloadBtn;
     private org.jdesktop.swingx.JXButton selectWalletBtn;
     private org.jdesktop.swingx.JXTextField stakeNumberFld;

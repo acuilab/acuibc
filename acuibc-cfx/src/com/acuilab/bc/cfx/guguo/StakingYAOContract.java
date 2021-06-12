@@ -2,6 +2,7 @@ package com.acuilab.bc.cfx.guguo;
 
 import com.acuilab.bc.cfx.CFXBlockChain;
 import com.acuilab.bc.cfx.YAOCoin;
+import com.acuilab.bc.cfx.YAO_CFXPair;
 import conflux.web3j.Cfx;
 import conflux.web3j.contract.ContractCall;
 import conflux.web3j.contract.abi.DecodeUtil;
@@ -28,6 +29,12 @@ public class StakingYAOContract implements IStakingYAOContract {
     public BigInteger yaoBalance(String address) {
         YAOCoin yaoCoin = Lookup.getDefault().lookup(YAOCoin.class);
         return yaoCoin.balanceOf(address);
+    }
+    
+    @Override
+    public BigInteger yaoCfxBalance(String address) {
+        YAO_CFXPair yaoCfxPair = Lookup.getDefault().lookup(YAO_CFXPair.class);
+        return yaoCfxPair.balanceOf(address);
     }
 
     @Override

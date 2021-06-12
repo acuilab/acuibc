@@ -24,6 +24,7 @@ public class Constants {
     
     public static final String CFX_FC_SYMBOL = "FC";
     public static final String CFX_YAO_SYMBOL = "YAO";
+    public static final String CFX_YAO_CFX_PAIR_SYMBOL = "YAO_CFX";
     
     public static final int GUGUO_KAOZI_PID = 0;
     public static final int GUGUO_MOON_PID = 1;

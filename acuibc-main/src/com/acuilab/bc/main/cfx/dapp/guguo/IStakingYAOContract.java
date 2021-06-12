@@ -11,6 +11,8 @@ public interface IStakingYAOContract {
     
     BigInteger yaoBalance(String address);
     
+    BigInteger yaoCfxBalance(String address);
+    
     BigInteger totalReleased();
     
     BigInteger pendingToken(String address, int pId);

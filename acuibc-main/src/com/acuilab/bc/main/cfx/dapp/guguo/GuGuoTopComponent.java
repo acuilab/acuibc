@@ -257,6 +257,8 @@ public final class GuGuoTopComponent extends TopComponent {
         lpDepositYAOBtn.setEnabled(enabled);
         lpMaxShakeBtn.setEnabled(enabled);
         lpMaxDepositBtn.setEnabled(enabled);
+        
+        withdrawAllBtn.setEnabled(enabled);
     }
     
     /**
@@ -322,6 +324,7 @@ public final class GuGuoTopComponent extends TopComponent {
         refreshBtn2 = new org.jdesktop.swingx.JXButton();
         refreshBtn4 = new org.jdesktop.swingx.JXButton();
         jSeparator6 = new javax.swing.JSeparator();
+        withdrawAllBtn = new org.jdesktop.swingx.JXButton();
         jSeparator5 = new javax.swing.JSeparator();
         reloadBtn = new org.jdesktop.swingx.JXButton();
         refreshBtn1 = new org.jdesktop.swingx.JXButton();
@@ -689,6 +692,15 @@ public final class GuGuoTopComponent extends TopComponent {
 
         jSeparator6.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
+        org.openide.awt.Mnemonics.setLocalizedText(withdrawAllBtn, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.withdrawAllBtn.text")); // NOI18N
+        withdrawAllBtn.setToolTipText(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.withdrawAllBtn.toolTipText")); // NOI18N
+        withdrawAllBtn.setEnabled(false);
+        withdrawAllBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                withdrawAllBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jXPanel1Layout = new javax.swing.GroupLayout(jXPanel1);
         jXPanel1.setLayout(jXPanel1Layout);
         jXPanel1Layout.setHorizontalGroup(
@@ -700,7 +712,7 @@ public final class GuGuoTopComponent extends TopComponent {
                     .addComponent(moonContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(guGuoContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(kaoZiContainer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(386, Short.MAX_VALUE))
+                .addContainerGap(410, Short.MAX_VALUE))
             .addComponent(jSeparator3)
             .addComponent(jSeparator4)
             .addGroup(jXPanel1Layout.createSequentialGroup()
@@ -724,8 +736,10 @@ public final class GuGuoTopComponent extends TopComponent {
                     .addGroup(jXPanel1Layout.createSequentialGroup()
                         .addComponent(jXPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jXPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 415, Short.MAX_VALUE))
+                        .addComponent(jXPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(withdrawAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 377, Short.MAX_VALUE))
         );
         jXPanel1Layout.setVerticalGroup(
             jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -754,10 +768,12 @@ public final class GuGuoTopComponent extends TopComponent {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jXPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jXPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jXPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jXPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(withdrawAllBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(105, Short.MAX_VALUE))
         );
@@ -1708,6 +1724,45 @@ public final class GuGuoTopComponent extends TopComponent {
         worker.execute();
     }//GEN-LAST:event_lpDepositYAOBtnActionPerformed
 
+    private void withdrawAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_withdrawAllBtnActionPerformed
+        PasswordVerifyDialog passwordVerifyDialog = new PasswordVerifyDialog(null, wallet);
+        passwordVerifyDialog.setVisible(true);
+        if(passwordVerifyDialog.getReturnStatus() == PasswordVerifyDialog.RET_OK) {
+            try {
+                String privateKey = AESUtil.decrypt(wallet.getPrivateKeyAES(), passwordVerifyDialog.getPassword());
+
+                withdrawAllBtn.setEnabled(false);
+                // 获得余额及质押余额
+                final ProgressHandle ph = ProgressHandle.createHandle("正在提取，请稍候");
+                SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
+                    @Override
+                    protected String doInBackground() throws Exception {
+                        ph.start();
+
+                        IStakingXIANGContract contract = Lookup.getDefault().lookup(IStakingXIANGContract.class);
+                        return contract.withdrawPoolAll(privateKey);
+                    }
+
+                    @Override
+                    protected void done() {
+                        try {
+                            String hash = get();
+                            System.out.println("hash==================" + hash);
+                        } catch (InterruptedException | ExecutionException ex) {
+                            Exceptions.printStackTrace(ex);
+                        }
+
+                        ph.finish();
+                        withdrawAllBtn.setEnabled(true);
+                    }
+                };
+                worker.execute();
+            } catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchPaddingException | NoSuchAlgorithmException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+    }//GEN-LAST:event_withdrawAllBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXTextField depositNumberFld;
     private org.jdesktop.swingx.JXButton depositYAOBtn;
@@ -1762,6 +1817,7 @@ public final class GuGuoTopComponent extends TopComponent {
     private org.jdesktop.swingx.JXButton stakeYAOBtn;
     private org.jdesktop.swingx.JXTextField totalReleasedFld;
     private org.jdesktop.swingx.JXTextField walletFld;
+    private org.jdesktop.swingx.JXButton withdrawAllBtn;
     private org.jdesktop.swingx.JXButton withdrawBtn;
     private org.jdesktop.swingx.JXButton withdrawPoolAllBtn;
     private org.jdesktop.swingx.JXTextField xiangBalanceFld;

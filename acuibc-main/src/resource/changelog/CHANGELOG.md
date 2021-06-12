@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 支持山海经NFT、古国众神NFT、古国创世NFT
 - 增加古国序列(部分功能暂未实现)
 - 在cfx代币页面增加FC挖矿操作，方便收取利息
+- 增加YAO-CFX Pair代币
 
 ### Changed
 - FluxDApp的url改为https://flux.01.finance/conflux/

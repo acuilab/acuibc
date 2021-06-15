@@ -9,9 +9,16 @@ import static com.acuilab.bc.main.ui.CheckForUpdatesDialog.UC_NAME;
 import com.acuilab.bc.main.ui.ConfirmDialog;
 import com.acuilab.bc.main.util.Constants;
 import com.acuilab.bc.main.util.Utils;
+import com.google.common.io.Files;
+import com.teamdev.jxbrowser.chromium.Browser;
+import com.teamdev.jxbrowser.chromium.BrowserContext;
+import com.teamdev.jxbrowser.chromium.BrowserContextParams;
 import com.teamdev.jxbrowser.chromium.BrowserCore;
 import com.teamdev.jxbrowser.chromium.BrowserPreferences;
+import com.teamdev.jxbrowser.chromium.BrowserType;
 import com.teamdev.jxbrowser.chromium.be;
+import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
+import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
 import com.teamdev.jxbrowser.chromium.internal.Environment;
 import java.io.File;
 import java.io.IOException;
@@ -162,6 +169,22 @@ BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
 		    }
 
 		}, 1*1000);	// 延迟5秒执行，避免
+                
+                // TODO: 从https://moonswap.fi/wallet获得价格
+                Browser browser = new Browser(BrowserType.LIGHTWEIGHT, new BrowserContext(new BrowserContextParams(Files.createTempDir().getAbsolutePath())));
+//        	view = new BrowserView(browser);
+//        	this.add(view, BorderLayout.CENTER);
+
+                browser.loadURL("https://moonswap.fi/wallet");
+                browser.addLoadListener(new LoadAdapter() {
+                    @Override
+                    public void onFinishLoadingFrame(FinishLoadingEvent event) {
+                        if (event.isMainFrame()) {
+                            System.out.println("_____________________Main frame has finished loading_____________________");
+                            System.out.println(browser.getHTML());
+                        }
+                    }
+                });
             }
         });
     }

@@ -195,6 +195,8 @@ public final class GuGuoTopComponent extends TopComponent {
                         
                         stakeNumberFld.setText("");
                         depositNumberFld.setText("");
+                        lpStakeNumberFld.setText("");
+                        lpDepositNumberFld.setText("");
                     } catch (InterruptedException | ExecutionException ex) {
                         Exceptions.printStackTrace(ex);
                     } finally {

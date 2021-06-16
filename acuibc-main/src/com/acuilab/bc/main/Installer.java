@@ -5,6 +5,7 @@ import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
 import com.acuilab.bc.main.manager.DAppManager;
 import com.acuilab.bc.main.manager.NFTManager;
+import com.acuilab.bc.main.manager.PriceManager;
 import static com.acuilab.bc.main.ui.CheckForUpdatesDialog.UC_NAME;
 import com.acuilab.bc.main.ui.ConfirmDialog;
 import com.acuilab.bc.main.util.Constants;
@@ -84,7 +85,7 @@ public class Installer extends ModuleInstall {
 //        System.setProperty("insubstantial.checkEDT", "false");
 //        System.setProperty("insubstantial.logEDT", "false");
 
-BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
+        BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
 
         // @see https://jxbrowser.support.teamdev.com/support/solutions/articles/9000013071-using-jxbrowser-in-javafx
         new Thread(new Runnable() {
@@ -111,6 +112,8 @@ BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
         CoinManager.getDefault();
 	NFTManager.getDefault();
 	DAppManager.getDefault();
+        
+//        PriceManager.getDefault().start();
         
         // 设置主窗口标题
         WindowManager.getDefault().invokeWhenUIReady(new Runnable() {
@@ -170,21 +173,6 @@ BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
 
 		}, 1*1000);	// 延迟5秒执行，避免
                 
-                // TODO: 从https://moonswap.fi/wallet获得价格
-                Browser browser = new Browser(BrowserType.LIGHTWEIGHT, new BrowserContext(new BrowserContextParams(Files.createTempDir().getAbsolutePath())));
-//        	view = new BrowserView(browser);
-//        	this.add(view, BorderLayout.CENTER);
-
-                browser.loadURL("https://moonswap.fi/wallet");
-                browser.addLoadListener(new LoadAdapter() {
-                    @Override
-                    public void onFinishLoadingFrame(FinishLoadingEvent event) {
-                        if (event.isMainFrame()) {
-                            System.out.println("_____________________Main frame has finished loading_____________________");
-                            System.out.println(browser.getHTML());
-                        }
-                    }
-                });
             }
         });
     }
@@ -243,6 +231,12 @@ BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
     @Override
     public void close() {
         BlockChainManager.getDefault().close();
+        
+//        try {
+//            PriceManager.getDefault().stop();
+//        } catch (InterruptedException ex) {
+//            // igonre
+//        }
         
         // jxBrowser dispose
 	for (JxBrowserDisposer disposer : Lookup.getDefault().lookupAll(JxBrowserDisposer.class)) {

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.apisupport.project</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
+            <code-name-base>org.jsoup</code-name-base>
+            <suite-component/>
+            <module-dependencies/>
+            <public-packages>
+                <package>org.jsoup</package>
+                <package>org.jsoup.helper</package>
+                <package>org.jsoup.internal</package>
+                <package>org.jsoup.nodes</package>
+                <package>org.jsoup.parser</package>
+                <package>org.jsoup.safety</package>
+                <package>org.jsoup.select</package>
+            </public-packages>
+            <class-path-extension>
+                <runtime-relative-path>ext/jsoup-1.12.1.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/jsoup-1.12.1.jar</binary-origin>
+            </class-path-extension>
+        </data>
+    </configuration>
+</project>

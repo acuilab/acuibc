@@ -113,7 +113,7 @@ public class Installer extends ModuleInstall {
 	NFTManager.getDefault();
 	DAppManager.getDefault();
         
-//        PriceManager.getDefault().start();
+        PriceManager.getDefault().start();
         
         // 设置主窗口标题
         WindowManager.getDefault().invokeWhenUIReady(new Runnable() {
@@ -232,11 +232,11 @@ public class Installer extends ModuleInstall {
     public void close() {
         BlockChainManager.getDefault().close();
         
-//        try {
-//            PriceManager.getDefault().stop();
-//        } catch (InterruptedException ex) {
-//            // igonre
-//        }
+        try {
+            PriceManager.getDefault().stop();
+        } catch (InterruptedException ex) {
+            // igonre
+        }
         
         // jxBrowser dispose
 	for (JxBrowserDisposer disposer : Lookup.getDefault().lookupAll(JxBrowserDisposer.class)) {

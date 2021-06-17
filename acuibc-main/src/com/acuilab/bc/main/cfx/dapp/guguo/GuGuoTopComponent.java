@@ -952,7 +952,7 @@ public final class GuGuoTopComponent extends TopComponent {
     }//GEN-LAST:event_withdrawBtnActionPerformed
 
     private void stakeYAOBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stakeYAOBtnActionPerformed
-        stakeYAOBtn.setEnabled(false);
+//        stakeYAOBtn.setEnabled(false);
         ICoin yaoCoin = CoinManager.getDefault().getCoin(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_YAO_SYMBOL);
         BigInteger stakeNumber = yaoCoin.mainUint2MinUint(new BigDecimal(stakeNumberFld.getText()));
         final ProgressHandle ph = ProgressHandle.createHandle("正在处理，请稍候...");
@@ -1022,7 +1022,7 @@ public final class GuGuoTopComponent extends TopComponent {
                     Exceptions.printStackTrace(ex);
                 } finally {
                     ph.finish();
-                    stakeYAOBtn.setEnabled(true);
+//                    stakeYAOBtn.setEnabled(true);
                 }
             }
         };
@@ -1030,7 +1030,7 @@ public final class GuGuoTopComponent extends TopComponent {
     }//GEN-LAST:event_stakeYAOBtnActionPerformed
 
     private void depositYAOBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_depositYAOBtnActionPerformed
-        depositYAOBtn.setEnabled(false);
+//        depositYAOBtn.setEnabled(false);
         ICoin yaoCoin = CoinManager.getDefault().getCoin(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_YAO_SYMBOL);
         BigInteger depositNumber = yaoCoin.mainUint2MinUint(new BigDecimal(depositNumberFld.getText()));
         final ProgressHandle ph = ProgressHandle.createHandle("正在处理，请稍候...");
@@ -1100,7 +1100,7 @@ public final class GuGuoTopComponent extends TopComponent {
                     Exceptions.printStackTrace(ex);
                 } finally {
                     ph.finish();
-                    depositYAOBtn.setEnabled(true);
+//                    depositYAOBtn.setEnabled(true);
                 }
             }
         };
@@ -1571,7 +1571,7 @@ public final class GuGuoTopComponent extends TopComponent {
     }//GEN-LAST:event_lpMaxDepositBtnActionPerformed
 
     private void lpStakeYAOBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lpStakeYAOBtnActionPerformed
-        lpStakeYAOBtn.setEnabled(false);
+//        lpStakeYAOBtn.setEnabled(false);
         ICoin yaoCfxCoin = CoinManager.getDefault().getCoin(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_YAO_CFX_PAIR_SYMBOL);
         BigInteger stakeNumber = yaoCfxCoin.mainUint2MinUint(new BigDecimal(lpStakeNumberFld.getText()));
         final ProgressHandle ph = ProgressHandle.createHandle("正在处理，请稍候...");
@@ -1616,7 +1616,7 @@ public final class GuGuoTopComponent extends TopComponent {
                                         Exceptions.printStackTrace(ex);
                                     } finally {
                                         ph.finish();
-                                        lpStakeYAOBtn.setEnabled(true);
+//                                        lpStakeYAOBtn.setEnabled(true);
                                     }
                                 }
                             };
@@ -1649,7 +1649,7 @@ public final class GuGuoTopComponent extends TopComponent {
     }//GEN-LAST:event_lpStakeYAOBtnActionPerformed
 
     private void lpDepositYAOBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lpDepositYAOBtnActionPerformed
-        lpDepositYAOBtn.setEnabled(false);
+//        lpDepositYAOBtn.setEnabled(false);
         ICoin yaoCfxCoin = CoinManager.getDefault().getCoin(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_YAO_CFX_PAIR_SYMBOL);
         BigInteger depositNumber = yaoCfxCoin.mainUint2MinUint(new BigDecimal(lpDepositNumberFld.getText()));
         final ProgressHandle ph = ProgressHandle.createHandle("正在处理，请稍候...");
@@ -1719,7 +1719,7 @@ public final class GuGuoTopComponent extends TopComponent {
                     Exceptions.printStackTrace(ex);
                 } finally {
                     ph.finish();
-                    lpDepositYAOBtn.setEnabled(true);
+//                    lpDepositYAOBtn.setEnabled(true);
                 }
             }
         };

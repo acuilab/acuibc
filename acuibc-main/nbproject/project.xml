@@ -255,6 +255,7 @@
                 <package>com.acuilab.bc.main.wallet.wizard</package>
                 <package>com.acuilab.bc.main.welcome</package>
                 <package>com.csvreader</package>
+                <package>com.tree</package>
             </public-packages>
         </data>
     </configuration>

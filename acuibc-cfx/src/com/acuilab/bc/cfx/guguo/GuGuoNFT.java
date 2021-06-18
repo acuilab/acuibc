@@ -27,7 +27,7 @@ import com.acuilab.bc.main.cfx.dapp.guguo.IGuGuoNFT;
 public class GuGuoNFT extends AbstractNFT implements IGuGuoNFT {
     
     public static final String CONTRACT_ADDRESS = "cfx:acbp6r5kpgvz3pcxax557r2xrnk4rv9f02tpkng9ne";//正常
-    public static final String CONTRACT_ADDRESS2 = "cfx:type.contract:acfpey6redpxtprhktcb78yvfg69ru69hefu7jze7r";//创世
+//    public static final String CONTRACT_ADDRESS2 = "cfx:type.contract:acfpey6redpxtprhktcb78yvfg69ru69hefu7jze7r";//创世
     public static final String WEBSITE = "https://guguo.io/";
 
     @Override
@@ -134,18 +134,31 @@ public class GuGuoNFT extends AbstractNFT implements IGuGuoNFT {
         Cfx cfx = bc.getCfx();
         
         Account account = Account.create(cfx, privateKey);
-//        return account.call(new Address(CONTRACT_ADDRESS), "pickCards", new org.web3j.abi.datatypes.Uint(poorId));
+        return account.call(new Address(CONTRACT_ADDRESS), "pickCards", new org.web3j.abi.datatypes.Uint(poorId));
 //        return account.call(new Address(CONTRACT_ADDRESS2), "pickCards", new org.web3j.abi.datatypes.generated.Uint16(poorId));
-        return account.call(new Address(CONTRACT_ADDRESS2), "pickCards");
     }
     
     @Override
-    public String pickCards2(String privateKey, BigInteger poorId) throws Exception {
+    public void pickCards2(String privateKey, BigInteger poorId) throws Exception {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         
         Account account = Account.create(cfx, privateKey);
-//        return account.call(new Address(CONTRACT_ADDRESS), "pickCards", new org.web3j.abi.datatypes.Uint(poorId));
-        return account.call(new Address(CONTRACT_ADDRESS2), "pickCards", new org.web3j.abi.datatypes.generated.Uint16(poorId));
+	BigInteger nonce = account.getNonce();
+	
+        while(true) {
+            account.setNonce(nonce);
+            
+            try {
+                String hash = account.call(new Address(CONTRACT_ADDRESS), "pickCards", new org.web3j.abi.datatypes.generated.Uint16(poorId));
+//                String hash = account.call(new Address(CONTRACT_ADDRESS), "pickCards", new org.web3j.abi.datatypes.Uint(poorId));
+                System.out.println(nonce.toString() + ": hash=" + hash);
+                
+                // 发送成功才增加nonce
+                nonce = nonce.add(BigInteger.ONE);
+            } catch(Exception ex) {
+                System.out.println(nonce.toString() + ": " + ex.getMessage());
+            }
+        }
     }
 }

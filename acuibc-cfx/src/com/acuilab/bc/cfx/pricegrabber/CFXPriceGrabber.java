@@ -57,6 +57,20 @@ public class CFXPriceGrabber implements IPriceGrabber {
             
             // ②根据list构造树
             TreeNode<Data> rootNode = new TreeNode<>(new Data("USDT", "USDT", "1"));
+            while(!list.isEmpty()) {
+                
+                
+                
+                
+                
+                
+            }
+            
+            
+            
+            
+            
+            
             Set<String> set = Sets.newHashSet();
             int nodeNumber = 0;
             while(nodeNumber<list.size()) {

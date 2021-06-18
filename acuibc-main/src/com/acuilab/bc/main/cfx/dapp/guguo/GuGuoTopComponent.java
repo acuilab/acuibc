@@ -86,11 +86,13 @@ public final class GuGuoTopComponent extends TopComponent {
         for(NftPanel nftPanel : fluxPanels) {
             fluxContainer.add(nftPanel);
         }
+        
+        PromptSupport.init("请输入钱包密码", null, null, pwdFld);
+        pwdFld.setVisible(false);
+        jXButton1.setVisible(false);
     }
     
     private void myInit() {
-        PromptSupport.init("请输入钱包密码", null, null, pwdFld);
-        
         if(wallet != null) {
             setBtnEnabled(false);
             final ProgressHandle ph = ProgressHandle.createHandle("正在初始化，请稍候...");

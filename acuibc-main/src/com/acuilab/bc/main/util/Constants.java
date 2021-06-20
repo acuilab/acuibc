@@ -22,8 +22,14 @@ public class Constants {
     public static final String ETH_BLOCKCHAIN_SYMBAL = "ETH";
     public static final String BSC_BLOCKCHAIN_SYMBAL = "BSC";
     
+    public static final String CFX_CFX_SYMBOL = "CFX";
     public static final String CFX_FC_SYMBOL = "FC";
+    public static final String CFX_MOON_SYMBOL = "MOON";
     public static final String CFX_YAO_SYMBOL = "YAO";
+    public static final String CFX_TREA_SYMBOL = "TREA";
+    public static final String CFX_FLUX_SYMBOL = "Flux";
+    public static final String CFX_ITF_SYMBOL = "ITF";
+    public static final String CFX_POOLGO_SYMBOL = "PoolGo";
     public static final String CFX_YAO_CFX_PAIR_SYMBOL = "YAO_CFX";
     
     public static final int GUGUO_KAOZI_PID = 0;

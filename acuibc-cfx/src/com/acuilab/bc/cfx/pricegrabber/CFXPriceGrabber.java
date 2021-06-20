@@ -5,7 +5,6 @@ import com.acuilab.bc.main.util.Constants;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
-import com.google.common.graph.MutableGraph;
 import com.google.common.graph.MutableValueGraph;
 import com.google.common.graph.ValueGraphBuilder;
 import java.io.IOException;
@@ -29,7 +28,6 @@ public class CFXPriceGrabber implements IPriceGrabber {
     @Override
     public void grabPrice(Map<String, Double> map) throws Exception {
         try {
-            System.out.println("CFXPriceGrabber grabPrice .......................................................");
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .connectTimeout(10, TimeUnit.SECONDS)
                     .readTimeout(20, TimeUnit.SECONDS)
@@ -58,8 +56,6 @@ public class CFXPriceGrabber implements IPriceGrabber {
                     lastPriceMap.put(targetCurrency + "_" + baseCurrency, 1/NumberUtils.toDouble(lastPrice));
                 }
 
-                System.out.println("weightedGraph=====================" + graph.toString());
-                
                 Map<String, NodeExtra> nodeExtras = doDijkstra(graph, "USDT");
                 /**
                  * 输出起始节点到每个节点的最短路径以及路径的途径点信息

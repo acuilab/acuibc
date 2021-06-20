@@ -45,7 +45,6 @@ public class PriceManager {
             public void run() {
                 // conflux
                 Collection<? extends IPriceGrabber> list = Lookup.getDefault().lookupAll(IPriceGrabber.class);
-                System.out.println("list.size() -=======================================" + list.size());
                 for(IPriceGrabber grabber : list) {
                     try {
                         String blockChainSymbol = grabber.getBlockChainSymbol();

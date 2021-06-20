@@ -18,5 +18,10 @@ public class MyFindBar extends JXFindBar {
         findPrevious.setText("上一个");
         searchField.setBorder(BorderFactory.createLineBorder(Color.GRAY));
     }
+
+    @Override
+    protected int getSearchFieldWidth() {
+        return 60;
+    }
     
 }

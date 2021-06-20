@@ -214,7 +214,11 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="pwdFld" min="-2" pref="188" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jXButton1" min="-2" max="-2" attributes="0"/>
+                              <Component id="pickCardBtn" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jSeparator7" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="peekUserDataBtn" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -261,9 +265,15 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jSeparator4" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jXButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="pwdFld" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="pickCardBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="pwdFld" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="jSeparator7" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="peekUserDataBtn" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="76" max="32767" attributes="0"/>
                   </Group>
@@ -895,14 +905,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="withdrawAllBtnActionPerformed"/>
               </Events>
             </Component>
-            <Component class="org.jdesktop.swingx.JXButton" name="jXButton1">
+            <Component class="org.jdesktop.swingx.JXButton" name="pickCardBtn">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.jXButton1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.pickCardBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jXButton1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pickCardBtnActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JPasswordField" name="pwdFld">
@@ -911,6 +921,21 @@
                   <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.pwdFld.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JSeparator" name="jSeparator7">
+              <Properties>
+                <Property name="orientation" type="int" value="1"/>
+              </Properties>
+            </Component>
+            <Component class="org.jdesktop.swingx.JXButton" name="peekUserDataBtn">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.peekUserDataBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="peekUserDataBtnActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

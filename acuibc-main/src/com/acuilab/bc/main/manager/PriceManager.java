@@ -20,7 +20,7 @@ public class PriceManager {
     private static PriceManager instance; 
     
     private static ScheduledExecutorService service;
-    private static final int REFRESH_INTERVAL = 60 * 1000;
+    private static final int REFRESH_INTERVAL = 60 * 1000;      // 一分钟刷新一次
     private static final int TERMINATE_TIMEOUT = 6 * 1000;
     
     // blockChainSymbol, coinSymbol, price

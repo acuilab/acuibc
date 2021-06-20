@@ -35,6 +35,7 @@ import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
+import org.openide.windows.WindowManager;
 
 /**
  * Top component which displays something.
@@ -89,7 +90,8 @@ public final class GuGuoTopComponent extends TopComponent {
         
         PromptSupport.init("请输入钱包密码", null, null, pwdFld);
         pwdFld.setVisible(false);
-        jXButton1.setVisible(false);
+        pickCardBtn.setVisible(false);
+        peekUserDataBtn.setVisible(false);
     }
     
     private void myInit() {
@@ -332,8 +334,10 @@ public final class GuGuoTopComponent extends TopComponent {
         refreshBtn4 = new org.jdesktop.swingx.JXButton();
         jSeparator6 = new javax.swing.JSeparator();
         withdrawAllBtn = new org.jdesktop.swingx.JXButton();
-        jXButton1 = new org.jdesktop.swingx.JXButton();
+        pickCardBtn = new org.jdesktop.swingx.JXButton();
         pwdFld = new javax.swing.JPasswordField();
+        jSeparator7 = new javax.swing.JSeparator();
+        peekUserDataBtn = new org.jdesktop.swingx.JXButton();
         jSeparator5 = new javax.swing.JSeparator();
         reloadBtn = new org.jdesktop.swingx.JXButton();
         refreshBtn1 = new org.jdesktop.swingx.JXButton();
@@ -710,14 +714,23 @@ public final class GuGuoTopComponent extends TopComponent {
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(jXButton1, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXButton1.text")); // NOI18N
-        jXButton1.addActionListener(new java.awt.event.ActionListener() {
+        org.openide.awt.Mnemonics.setLocalizedText(pickCardBtn, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.pickCardBtn.text")); // NOI18N
+        pickCardBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jXButton1ActionPerformed(evt);
+                pickCardBtnActionPerformed(evt);
             }
         });
 
         pwdFld.setText(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.pwdFld.text")); // NOI18N
+
+        jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        org.openide.awt.Mnemonics.setLocalizedText(peekUserDataBtn, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.peekUserDataBtn.text")); // NOI18N
+        peekUserDataBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                peekUserDataBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jXPanel1Layout = new javax.swing.GroupLayout(jXPanel1);
         jXPanel1.setLayout(jXPanel1Layout);
@@ -761,7 +774,11 @@ public final class GuGuoTopComponent extends TopComponent {
                         .addContainerGap()
                         .addComponent(pwdFld, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(pickCardBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(peekUserDataBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jXPanel1Layout.setVerticalGroup(
@@ -799,9 +816,13 @@ public final class GuGuoTopComponent extends TopComponent {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pwdFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(pickCardBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(pwdFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jSeparator7))
+                    .addComponent(peekUserDataBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(76, Short.MAX_VALUE))
         );
 
@@ -1790,16 +1811,24 @@ public final class GuGuoTopComponent extends TopComponent {
         }
     }//GEN-LAST:event_withdrawAllBtnActionPerformed
 
-    private void jXButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXButton1ActionPerformed
+    private void pickCardBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pickCardBtnActionPerformed
 
         if(wallet != null) {
-            try {
-                String password = String.valueOf(pwdFld.getPassword());
-                String privateKey = AESUtil.decrypt(wallet.getPrivateKeyAES(), password);
-                Lookup.getDefault().lookup(IGuGuoNFT.class).pickCards2(privateKey, BigInteger.ONE);
-            } catch (Exception ex) {
-                Exceptions.printStackTrace(ex);
-            }
+            // 启动线程执行
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String password = String.valueOf(pwdFld.getPassword());
+                        String privateKey = AESUtil.decrypt(wallet.getPrivateKeyAES(), password);
+                        Lookup.getDefault().lookup(IGuGuoNFT.class).pickCards2(privateKey, BigInteger.ONE);
+                    } catch (Exception ex) {
+                        Exceptions.printStackTrace(ex);
+                    }
+                }
+                
+            }).start();
+
         } else {
             // 提示选择钱包
             try {
@@ -1814,7 +1843,15 @@ public final class GuGuoTopComponent extends TopComponent {
                 Exceptions.printStackTrace(ex);
             }
         }        
-    }//GEN-LAST:event_jXButton1ActionPerformed
+    }//GEN-LAST:event_pickCardBtnActionPerformed
+
+    private void peekUserDataBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_peekUserDataBtnActionPerformed
+        TopComponent tc = WindowManager.getDefault().findTopComponent("PeekUserDataTopComponent");
+	if(tc != null) {
+	    tc.open();
+	    tc.requestActive();
+	}
+    }//GEN-LAST:event_peekUserDataBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXTextField depositNumberFld;
@@ -1828,7 +1865,7 @@ public final class GuGuoTopComponent extends TopComponent {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
-    private org.jdesktop.swingx.JXButton jXButton1;
+    private javax.swing.JSeparator jSeparator7;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel10;
     private org.jdesktop.swingx.JXLabel jXLabel11;
@@ -1857,7 +1894,9 @@ public final class GuGuoTopComponent extends TopComponent {
     private org.jdesktop.swingx.JXButton maxDepositBtn;
     private org.jdesktop.swingx.JXButton maxShakeBtn;
     private org.jdesktop.swingx.JXPanel moonContainer;
+    private org.jdesktop.swingx.JXButton peekUserDataBtn;
     private org.jdesktop.swingx.JXTextField pendingTokenFld;
+    private org.jdesktop.swingx.JXButton pickCardBtn;
     private org.jdesktop.swingx.JXTextField pledgedAmountFld;
     private org.jdesktop.swingx.JXTextField poolPledgedFld;
     private javax.swing.JPasswordField pwdFld;

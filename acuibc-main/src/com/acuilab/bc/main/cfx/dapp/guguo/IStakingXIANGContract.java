@@ -1,6 +1,7 @@
 package com.acuilab.bc.main.cfx.dapp.guguo;
 
 import java.math.BigInteger;
+import org.javatuples.Sextet;
 
 /**
  *
@@ -30,4 +31,10 @@ public interface IStakingXIANGContract {
     
     // 取出yao
     String withdrawERC20(String privateKey, BigInteger amount, BigInteger pId) throws Exception;
+    
+    // 获得用户数量
+    BigInteger getUserCount();
+    
+    // 窥视用户数据
+    Sextet<String[], BigInteger[], BigInteger[], BigInteger[], BigInteger[], BigInteger[]> peekUserData(BigInteger start, BigInteger takes);
 }

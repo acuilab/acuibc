@@ -36,9 +36,8 @@ public class MyStatusLinePrice implements StatusLineElementProvider {
     private final JPanel panel = new JPanel(new BorderLayout());
     
     public MyStatusLinePrice() {
-        
-        
-        Timer t = new Timer(1000, new ActionListener() {
+        // 每6秒刷新一次
+        Timer t = new Timer(6000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cfxPriceLbl.setText(df.format(PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_CFX_SYMBOL)) + " ");

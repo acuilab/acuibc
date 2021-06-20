@@ -118,7 +118,7 @@ public class AddressBookDialog extends javax.swing.JDialog {
         
         table.setColumnControlVisible(true);
         table.setColumnSelectionAllowed(false);		       // 禁止列选择
-        table.setHorizontalScrollEnabled(true);                // 盘点列太多，在平板上显示不开，故该项默认启用
+        table.setHorizontalScrollEnabled(true);
         table.getTableHeader().setReorderingAllowed(false);     // 表头不可拖动
         
 	// 禁止序号列排序
@@ -136,7 +136,6 @@ public class AddressBookDialog extends javax.swing.JDialog {
         ColorHighlighter oddHighlighter = new HighlighterFactory.UIColorHighlighter(HighlightPredicate.ODD);
         ColorHighlighter indexHighlighter = new ColorHighlighter(new HighlightPredicate.ColumnHighlightPredicate(TransferRecordTableModel.INDEX_COLUMN), table.getTableHeader().getBackground(), null);
         table.setHighlighters(evenHighlighter, oddHighlighter, indexHighlighter);
-        
         
         try {
             tableModel.add(AddressBookDAO.getList());

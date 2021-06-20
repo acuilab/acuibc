@@ -24,7 +24,7 @@ import org.openide.util.lookup.ServiceProvider;
  */
 @ServiceProvider(service = StatusLineElementProvider.class, position = 1)
 public class MyStatusLinePrice implements StatusLineElementProvider {
-    private static final DecimalFormat df = new DecimalFormat("#0.00");
+    private static final DecimalFormat df = new DecimalFormat("#0.000");
     private static final JLabel cfxPriceLbl = new JLabel();
     private static final JLabel fcPriceLbl = new JLabel();
     private static final JLabel moonPriceLbl = new JLabel();

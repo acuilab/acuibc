@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [unreleased] - 20210620
 ### Added
 - 持续优化古国Dapp,各种好用便捷
+- - 右下角状态栏增加代币价格显示
 - 支持中本聪的礼物NFT、区块时空NFT
 - 增加对art101meme的图片显示
 - 增加首页主流币种折合美金汇率显示

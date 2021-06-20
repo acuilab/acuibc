@@ -91,7 +91,7 @@ public final class GuGuoTopComponent extends TopComponent {
         PromptSupport.init("请输入钱包密码", null, null, pwdFld);
         pwdFld.setVisible(false);
         pickCardBtn.setVisible(false);
-        peekUserDataBtn.setVisible(false);
+        peekUserDataBtn.setVisible(true);
     }
     
     private void myInit() {

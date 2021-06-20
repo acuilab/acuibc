@@ -77,13 +77,6 @@ public class OperaFaceNFT extends AbstractNFT {
         System.out.println(json);
         
         MetaData md = new MetaData();
-	
-//token_id	"1338"
-//image	"https://cdn.image.htlm8.top/conhero/flame-lord.png"
-//description	"ConHero是Conflux生态首款即时PK挖…ConHero NFT还可以质押挖矿、开宝箱。"
-//description_en	"ConHero is the first RTS Mining game in the Conflux ecosystem. Players can use NFT to fight, Rank, and participate in PK competitions in the game. Players can also use ConHero NFT to stake mining and open treasure boxes.\n\nAt the same time, the HeroNFT bli"
-//name	"烈焰君主"
-//name_en	"Flame Lord"
 
         String id = tokenId.toString();
 	md.setId(id);
@@ -92,10 +85,13 @@ public class OperaFaceNFT extends AbstractNFT {
 	ObjectMapper mapper = new ObjectMapper();
         Map<String, String> map = mapper.readValue(new URL(json), Map.class);
 
-        String imageUrl = map.get("image");
+        //如果能读取视频则直接读
+        //String imageUrl = map.get("image");
         //String imageUrlSlim = StringUtils.replace(imageUrl, "\\", "");
         //System.out.println(imageUrl);
-	md.setImageUrl(imageUrl);
+	//md.setImageUrl(imageUrl);
+        md.setImage(ImageUtilities.loadImage("/resource/operaface.png", true));
+        
         md.setDesc(map.get("description"));
         md.setName(map.get("name"));
 	md.setPlatform("Tspace");

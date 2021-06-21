@@ -214,8 +214,10 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="pwdFld" min="-2" pref="188" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="pickCardBtn" min="-2" max="-2" attributes="0"/>
+                              <Component id="needWithdrawXiangCheckBox" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
+                              <Component id="pickCardBtn" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" max="-2" attributes="0"/>
                               <Component id="jSeparator7" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="peekUserDataBtn" min="-2" max="-2" attributes="0"/>
@@ -270,6 +272,7 @@
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="pickCardBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="pwdFld" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="needWithdrawXiangCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jSeparator7" max="32767" attributes="0"/>
                           </Group>
@@ -936,6 +939,13 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="peekUserDataBtnActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="needWithdrawXiangCheckBox">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.needWithdrawXiangCheckBox.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                </Property>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

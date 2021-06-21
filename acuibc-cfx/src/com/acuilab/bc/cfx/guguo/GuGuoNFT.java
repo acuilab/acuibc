@@ -26,8 +26,8 @@ import com.acuilab.bc.main.cfx.dapp.guguo.IGuGuoNFT;
  */
 public class GuGuoNFT extends AbstractNFT implements IGuGuoNFT {
     
+    public static final String STAKING_XIANG_CONTRACT = "cfx:acbw55y0afshy65xfg7h3bz35516vweb8u48mrjk1s";   // 用于收取xiang
     public static final String CONTRACT_ADDRESS = "cfx:acbp6r5kpgvz3pcxax557r2xrnk4rv9f02tpkng9ne";//正常
-//    public static final String CONTRACT_ADDRESS2 = "cfx:type.contract:acfpey6redpxtprhktcb78yvfg69ru69hefu7jze7r";//创世
     public static final String WEBSITE = "https://guguo.io/";
 
     @Override
@@ -139,23 +139,34 @@ public class GuGuoNFT extends AbstractNFT implements IGuGuoNFT {
     }
     
     @Override
-    public void pickCards2(String privateKey, BigInteger poorId) throws Exception {
+    public void pickCards2(String privateKey, BigInteger poorId, boolean needWithdrawXiang) throws Exception {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         
         Account account = Account.create(cfx, privateKey);
 	BigInteger nonce = account.getNonce();
+        
+        
 	
         while(true) {
-            account.setNonce(nonce);
             
             try {
+                Thread.sleep(60 * 1000);    // 延时1分钟
+                
+                account.setNonce(nonce);
+                
+                if(needWithdrawXiang) {
+                    String hash = account.call(new Address(STAKING_XIANG_CONTRACT), "withdrawPoolAll");
+                    System.out.println(nonce.toString() + ": withdrawPoolAll hash=" + hash);
+                    nonce = nonce.add(BigInteger.ONE);
+                }
+                
                 String hash = account.call(new Address(CONTRACT_ADDRESS), "pickCards", new org.web3j.abi.datatypes.generated.Uint16(poorId));
-//                String hash = account.call(new Address(CONTRACT_ADDRESS), "pickCards", new org.web3j.abi.datatypes.Uint(poorId));
-                System.out.println(nonce.toString() + ": hash=" + hash);
+                System.out.println(nonce.toString() + ": pickCards hash=" + hash);
                 
                 // 发送成功才增加nonce
                 nonce = nonce.add(BigInteger.ONE);
+                
             } catch(Exception ex) {
                 System.out.println(nonce.toString() + ": " + ex.getMessage());
             }

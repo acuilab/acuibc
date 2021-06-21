@@ -11,5 +11,5 @@ public interface IGuGuoNFT {
     String pickCards(String privateKey, BigInteger poorId) throws Exception;
     
     // 不停抽卡
-    void pickCards2(String privateKey, BigInteger poorId) throws Exception;
+    void pickCards2(String privateKey, BigInteger poorId, boolean needWithdrawXiang) throws Exception;
 }

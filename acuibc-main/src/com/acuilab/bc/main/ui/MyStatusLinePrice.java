@@ -65,50 +65,50 @@ public class MyStatusLinePrice implements StatusLineElementProvider {
         pricePanel.setLayout(layout); 
         JLabel cfxLbl = new JLabel(" CFX: ");
         cfxLbl.setFont(new java.awt.Font("宋体", 1, 12));
-//        cfxLbl.setForeground(Color.BLUE);
         pricePanel.add(cfxLbl);
+        cfxPriceLbl.setForeground(Color.BLUE);
         pricePanel.add(cfxPriceLbl);
 
         JLabel fcLbl = new JLabel("FC: ");
         fcLbl.setFont(new java.awt.Font("宋体", 1, 12));
-//        fcLbl.setForeground(Color.BLUE);
         pricePanel.add(fcLbl);
+        fcPriceLbl.setForeground(Color.BLUE);
         pricePanel.add(fcPriceLbl);
         
         JLabel moonLbl = new JLabel("MOON: ");
         moonLbl.setFont(new java.awt.Font("宋体", 1, 12));
-//        moonLbl.setForeground(Color.BLUE);
         pricePanel.add(moonLbl);
+        moonPriceLbl.setForeground(Color.BLUE);
         pricePanel.add(moonPriceLbl);
         
         JLabel yaoLbl = new JLabel("YAO: ");
         yaoLbl.setFont(new java.awt.Font("宋体", 1, 12));
-//        yaoLbl.setForeground(Color.BLUE);
         pricePanel.add(yaoLbl);
+        yaoPriceLbl.setForeground(Color.BLUE);
         pricePanel.add(yaoPriceLbl);
         
         JLabel treaLbl = new JLabel("TREA: ");
         treaLbl.setFont(new java.awt.Font("宋体", 1, 12));
-//        treaLbl.setForeground(Color.BLUE);
         pricePanel.add(treaLbl);
+        treaPriceLbl.setForeground(Color.BLUE);
         pricePanel.add(treaPriceLbl);
         
         JLabel fluxLbl = new JLabel("FLUX: ");
         fluxLbl.setFont(new java.awt.Font("宋体", 1, 12));
-//        fluxLbl.setForeground(Color.BLUE);
         pricePanel.add(fluxLbl);
+        fluxPriceLbl.setForeground(Color.BLUE);
         pricePanel.add(fluxPriceLbl);
         
         JLabel itfLbl = new JLabel("ITF: ");
         itfLbl.setFont(new java.awt.Font("宋体", 1, 12));
-//        itfLbl.setForeground(Color.BLUE);
         pricePanel.add(itfLbl);
+        itfPriceLbl.setForeground(Color.BLUE);
         pricePanel.add(itfPriceLbl);
         
         JLabel poolgoLbl = new JLabel("PoolGo: ");
         poolgoLbl.setFont(new java.awt.Font("宋体", 1, 12));
-//        poolgoLbl.setForeground(Color.BLUE);
         pricePanel.add(poolgoLbl);
+        poolgoPriceLbl.setForeground(Color.BLUE);
         pricePanel.add(poolgoPriceLbl);
         
         panel.add(pricePanel, BorderLayout.CENTER);

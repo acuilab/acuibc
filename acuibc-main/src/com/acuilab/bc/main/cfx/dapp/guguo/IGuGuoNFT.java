@@ -10,6 +10,13 @@ public interface IGuGuoNFT {
     // 抽卡
     String pickCards(String privateKey, BigInteger poorId) throws Exception;
     
-    // 不停抽卡
-    void pickCards2(String privateKey, BigInteger poorId, boolean needWithdrawXiang) throws Exception;
+    /**
+     * 
+     * @param privateKey
+     * @param poolId
+     * @param delay             延时毫秒数
+     * @param needWithdrawXiang 执行前收一次xiang
+     * @throws Exception 
+     */
+    void pickCards2(String privateKey, BigInteger poolId, long delay, boolean needWithdrawXiang) throws Exception;
 }

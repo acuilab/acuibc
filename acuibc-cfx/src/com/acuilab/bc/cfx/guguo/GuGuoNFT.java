@@ -139,19 +139,22 @@ public class GuGuoNFT extends AbstractNFT implements IGuGuoNFT {
     }
     
     @Override
-    public void pickCards2(String privateKey, BigInteger poorId, boolean needWithdrawXiang) throws Exception {
+    public void pickCards2(String privateKey, BigInteger poorId, long delay, boolean needWithdrawXiang) throws Exception {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         
         Account account = Account.create(cfx, privateKey);
 	BigInteger nonce = account.getNonce();
         
+        System.out.println("delay=========================" + delay);
+	System.out.println("delay>0d=========================" + (delay > 0d));
         
-	
         while(true) {
             
             try {
-                Thread.sleep(60 * 1000);    // 延时1分钟
+                if(delay > 0d) {
+                    Thread.sleep(delay);    // 延时
+                }
                 
                 account.setNonce(nonce);
                 

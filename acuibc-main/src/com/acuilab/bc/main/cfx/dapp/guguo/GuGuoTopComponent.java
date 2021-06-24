@@ -21,6 +21,8 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.swing.JLabel;
+import javax.swing.JSpinner.NumberEditor;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.examples.complete.Utils;
@@ -345,6 +347,8 @@ public final class GuGuoTopComponent extends TopComponent {
         pwdFld = new javax.swing.JPasswordField();
         jSeparator7 = new javax.swing.JSeparator();
         needWithdrawXiangCheckBox = new javax.swing.JCheckBox();
+        delaySpinner = new javax.swing.JSpinner(new SpinnerNumberModel(0, 0, 3600, 1));
+        jXLabel12 = new org.jdesktop.swingx.JXLabel();
         hideFunBtn = new org.jdesktop.swingx.JXButton();
         jSeparator5 = new javax.swing.JSeparator();
         reloadBtn = new org.jdesktop.swingx.JXButton();
@@ -742,6 +746,8 @@ public final class GuGuoTopComponent extends TopComponent {
 
         org.openide.awt.Mnemonics.setLocalizedText(needWithdrawXiangCheckBox, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.needWithdrawXiangCheckBox.text")); // NOI18N
 
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel12, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel12.text")); // NOI18N
+
         javax.swing.GroupLayout hideFunPanelLayout = new javax.swing.GroupLayout(hideFunPanel);
         hideFunPanel.setLayout(hideFunPanelLayout);
         hideFunPanelLayout.setHorizontalGroup(
@@ -749,6 +755,10 @@ public final class GuGuoTopComponent extends TopComponent {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hideFunPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pwdFld, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(delaySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jXLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(needWithdrawXiangCheckBox)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -767,7 +777,9 @@ public final class GuGuoTopComponent extends TopComponent {
                     .addGroup(hideFunPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(pickCardBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(pwdFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(needWithdrawXiangCheckBox))
+                        .addComponent(needWithdrawXiangCheckBox)
+                        .addComponent(delaySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jXLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(peekUserDataBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(111, Short.MAX_VALUE))
@@ -1858,7 +1870,8 @@ public final class GuGuoTopComponent extends TopComponent {
                     try {
                         String password = String.valueOf(pwdFld.getPassword());
                         String privateKey = AESUtil.decrypt(wallet.getPrivateKeyAES(), password);
-                        Lookup.getDefault().lookup(IGuGuoNFT.class).pickCards2(privateKey, BigInteger.ONE, needWithdrawXiangCheckBox.isSelected());
+                        long delay = ((int)delaySpinner.getValue()) * 1000;
+                        Lookup.getDefault().lookup(IGuGuoNFT.class).pickCards2(privateKey, BigInteger.ONE, delay, needWithdrawXiangCheckBox.isSelected());
                     } catch (Exception ex) {
                         Exceptions.printStackTrace(ex);
                     }
@@ -1911,6 +1924,7 @@ public final class GuGuoTopComponent extends TopComponent {
     }//GEN-LAST:event_hideFunBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JSpinner delaySpinner;
     private org.jdesktop.swingx.JXTextField depositNumberFld;
     private org.jdesktop.swingx.JXButton depositYAOBtn;
     private org.jdesktop.swingx.JXPanel fluxContainer;
@@ -1928,6 +1942,7 @@ public final class GuGuoTopComponent extends TopComponent {
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel10;
     private org.jdesktop.swingx.JXLabel jXLabel11;
+    private org.jdesktop.swingx.JXLabel jXLabel12;
     private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXLabel jXLabel3;
     private org.jdesktop.swingx.JXLabel jXLabel4;

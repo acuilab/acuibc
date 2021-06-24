@@ -906,6 +906,10 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="pwdFld" min="-2" pref="188" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
+                          <Component id="delaySpinner" min="-2" pref="131" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jXLabel12" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="needWithdrawXiangCheckBox" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="pickCardBtn" min="-2" max="-2" attributes="0"/>
@@ -926,6 +930,8 @@
                                   <Component id="pickCardBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="pwdFld" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="needWithdrawXiangCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="delaySpinner" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jXLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jSeparator7" min="-2" pref="23" max="-2" attributes="0"/>
                               <Component id="peekUserDataBtn" min="-2" max="-2" attributes="0"/>
@@ -972,6 +978,18 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.needWithdrawXiangCheckBox.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                    </Property>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JSpinner" name="delaySpinner">
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new SpinnerNumberModel(0, 0, 3600, 1))"/>
+                  </AuxValues>
+                </Component>
+                <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel12">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                      <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.jXLabel12.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                   </Properties>
                 </Component>

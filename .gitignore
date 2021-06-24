@@ -80,7 +80,6 @@ badlogic.jpg
 /jxbrowser-6.24.3/build/
 /web3j-4.8.4/build/
 /java-etherscan-api-1.1.0/build/
-/java-etherscan-api-1.1.0/build/
 /acuibc-bsc/build/
 /acuibc-bsc/nbproject/private/
 /jackson-2.12.2/build/
@@ -92,3 +91,6 @@ badlogic.jpg
 /bfg-1.14.0.jar
 /jsoup-1.12.1/build/
 /batik-all-1.14/build/
+/okhttp-4.9.0/build/
+/batik-all-1.14/nbproject/private/
+/okhttp-4.9.0/nbproject/private/

@@ -8,11 +8,23 @@ import java.awt.FlowLayout;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URI;
-import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import javax.swing.SwingWorker;
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import org.javatuples.Pair;
 import org.jdesktop.swingx.JXPanel;
 import org.netbeans.api.progress.ProgressHandle;
@@ -75,7 +87,51 @@ public class NFTListPanel extends JXPanel {
                     
                     if(metaData.getImage() == null && metaData.getImageUrl() != null) {
                         // 远程获取图像
-                        metaData.setImage(ImageIO.read(new URL(metaData.getImageUrl())));
+                        X509TrustManager xtm = new X509TrustManager() {
+                            @Override
+                            public void checkClientTrusted(X509Certificate[] chain, String authType) {
+                            }
+
+                            @Override
+                            public void checkServerTrusted(X509Certificate[] chain, String authType) {
+                            }
+
+                            @Override
+                            public X509Certificate[] getAcceptedIssuers() {
+                                X509Certificate[] x509Certificates = new X509Certificate[0];
+                                return x509Certificates;
+                            }
+                        };
+
+                        SSLContext sslContext = null;
+                        try {
+                            sslContext = SSLContext.getInstance("SSL");
+                            sslContext.init(null, new TrustManager[]{xtm}, new SecureRandom());
+                        } catch (NoSuchAlgorithmException | KeyManagementException e) {
+                            e.printStackTrace();
+                        }
+                        HostnameVerifier DO_NOT_VERIFY = new HostnameVerifier() {
+                            @Override
+                            public boolean verify(String hostname, SSLSession session) {
+                                return true;
+                            }
+                        };
+                        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                                .connectTimeout(10, TimeUnit.SECONDS)
+                                .readTimeout(20, TimeUnit.SECONDS)
+                                .sslSocketFactory(sslContext.getSocketFactory(), xtm)
+                                .hostnameVerifier(DO_NOT_VERIFY)
+                                .build();
+                        
+                        final okhttp3.Request request = new okhttp3.Request.Builder()
+                                .url(metaData.getImageUrl())
+                                .build();
+                        final Call call = okHttpClient.newCall(request);
+                        okhttp3.Response response = call.execute();             // java.net.SocketTimeoutException
+                        ResponseBody body = response.body();
+                        if(body != null) {
+                            metaData.setImage(ImageIO.read(body.byteStream()));
+                        }
                     }
                     
                     publish(Pair.with(i, metaData));

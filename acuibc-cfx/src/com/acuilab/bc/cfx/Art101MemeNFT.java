@@ -97,7 +97,7 @@ public class Art101MemeNFT extends AbstractNFT {
             md.setImageUrl("http://cdn.tspace.online/ConFiArt/meme/conStarPeople.jpeg");
             md.setDesc("");
         }else if(tokenId.intValue()<41){
-            md.setImageUrl("http://cdn.tspace.online/ConFiArt/meme/protectLove.jpeg");
+            md.setImageUrl("http://cdn.tspace.online/ConFiArt/meme/tangkai.jpeg");
             md.setDesc("");
         }else if(tokenId.intValue()<61){
             md.setImageUrl("http://cdn.tspace.online/ConFiArt/meme/protectLove.jpeg");

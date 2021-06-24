@@ -33,7 +33,7 @@ public class SatoshiGiftNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-	return "Satoshi's Gift NFT";
+	return "中本聪的礼物";
     }
 
     @Override
@@ -89,7 +89,7 @@ public class SatoshiGiftNFT extends AbstractNFT {
         Map<String, String> map = mapper.readValue(StringUtils.substringAfter(json, id), Map.class);
         //Map<String, String> map = mapper.readValue(new URL(json), Map.class);
 
-        md.setDesc("这是什么时候发的？没见过，好神秘。");
+        md.setDesc("ConFi will drive the Satoshi Nakamoto spaceship to the moon on the Pizza Day.");
         md.setName("Satoshi's Gift");
 	md.setPlatform("Tspace");
         md.setImage(ImageUtilities.loadImage("/resource/SatoshiGift.png", true));

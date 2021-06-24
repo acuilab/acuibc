@@ -31,7 +31,7 @@ public class MoonGenesisNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-	return "MoonGenesis";
+	return "月亮创世";
     }
 
     @Override

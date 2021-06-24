@@ -30,7 +30,7 @@ public class ConFiNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-	return "ConFi";
+	return "烤仔城市";
     }
 
     @Override

@@ -33,7 +33,7 @@ public class MinerNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-	return "Miner";
+	return "创世矿工";
     }
 
     @Override

@@ -32,7 +32,7 @@ public class DragonStoneNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-	return "DragonStone";
+	return "龙石";
     }
 
     @Override

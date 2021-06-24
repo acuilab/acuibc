@@ -31,7 +31,7 @@ public class ConFiCardNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-	return "ConFi Card";
+	return "烤仔卡";
     }
 
     @Override
@@ -56,12 +56,12 @@ public class ConFiCardNFT extends AbstractNFT {
 
     @Override
     public Icon getIcon(int size) {
-        return ImageUtilities.loadImageIcon("/resource/conficard" + size + ".png", true);
+        return ImageUtilities.loadImageIcon("/resource/ShanHaiChing" + size + ".png", true);
     }
 
     @Override
     public Image getIconImage(int size) {
-        return ImageUtilities.loadImage("/resource/conficard" + size + ".png", true);
+        return ImageUtilities.loadImage("/resource/ShanHaiChing" + size + ".png", true);
     }
     
     @Override
@@ -74,32 +74,28 @@ public class ConFiCardNFT extends AbstractNFT {
         String value = contract.call("uri", new org.web3j.abi.datatypes.Uint(tokenId)).sendAndGet();
         String json = DecodeUtil.decode(value, org.web3j.abi.datatypes.Utf8String.class);
         
+        //烤仔卡的链接换了，需要从http改为https
+        json = StringUtils.replace(json, "http:", "https:");
+        
         System.out.println(json);
         
         MetaData md = new MetaData();
 	
-//token_id	"1338"
-//image	"https://cdn.image.htlm8.top/conhero/flame-lord.png"
-//description	"ConHero是Conflux生态首款即时PK挖…ConHero NFT还可以质押挖矿、开宝箱。"
-//description_en	"ConHero is the first RTS Mining game in the Conflux ecosystem. Players can use NFT to fight, Rank, and participate in PK competitions in the game. Players can also use ConHero NFT to stake mining and open treasure boxes.\n\nAt the same time, the HeroNFT bli"
-//name	"烈焰君主"
-//name_en	"Flame Lord"
-
         String id = tokenId.toString();
 	md.setId(id);
+        md.setNumber(id);
         
-	
 	ObjectMapper mapper = new ObjectMapper();
         Map<String, String> map = mapper.readValue(new URL(json), Map.class);
 
         String imageUrl = map.get("image");
         //String imageUrlSlim = StringUtils.replace(imageUrl, "\\", "");
         //System.out.println(imageUrl);
-	md.setImageUrl(imageUrl);
+	md.setImageUrl("https://images.weserv.nl/?url=" + imageUrl);
         md.setDesc(map.get("description"));
         md.setName(map.get("name"));
-	md.setPlatform("ConHero");
-        md.setNumber(map.get("token_id"));
+	md.setPlatform("BoxNFT");
+        
 	
 	return md;
     }

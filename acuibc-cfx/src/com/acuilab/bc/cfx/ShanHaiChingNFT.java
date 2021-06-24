@@ -31,7 +31,7 @@ public class ShanHaiChingNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-	return "ShanHaiChing";
+	return "山海经";
     }
 
     @Override

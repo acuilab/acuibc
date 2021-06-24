@@ -33,7 +33,7 @@ public class Art101MemeNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-	return "Art101Meme NFT";
+	return "art101MeMe";
     }
 
     @Override
@@ -95,28 +95,39 @@ public class Art101MemeNFT extends AbstractNFT {
 	md.setPlatform("Tspace&Art101");
         if(tokenId.intValue()<21){
             md.setImageUrl("http://cdn.tspace.online/ConFiArt/meme/conStarPeople.jpeg");
+            md.setDesc("");
         }else if(tokenId.intValue()<41){
             md.setImageUrl("http://cdn.tspace.online/ConFiArt/meme/protectLove.jpeg");
+            md.setDesc("");
         }else if(tokenId.intValue()<61){
             md.setImageUrl("http://cdn.tspace.online/ConFiArt/meme/protectLove.jpeg");
+            md.setDesc("");
         }else if(tokenId.intValue()<81){
             md.setImageUrl("http://cdn.tspace.online/ConFiArt/meme/conStarPeople.jpeg");
+            md.setDesc("");
         }else if(tokenId.intValue()<101){
             //如果能展示视频，则使用下面这个视频。
             //md.setImageUrl("http://cdn.tspace.online/ConFiArt/meme/AttackingAstronauts.mp4"); 
             md.setImage(ImageUtilities.loadImage("/resource/art101meme.png", true));
+            md.setDesc("");
         }else if(tokenId.intValue()<121){
             md.setImageUrl("http://cdn.tspace.online/ConFiArt/meme/saleornot.jpg");
+            md.setDesc("Think of tsundere attribute and MeMe slogan, so there is the word Not for Sale and the mysterious price of pineapple headset");
         }else if(tokenId.intValue()<141){
             md.setImageUrl("http://cdn.tspace.online/ConFiArt/meme/xuancai.jpg");
+            md.setDesc("COET & Meme co-titled excellent work");
         }else if(tokenId.intValue()<161){
             md.setImageUrl("http://cdn.tspace.online/ConFiArt/meme/niceday.png");
+            md.setDesc("");
         }else if(tokenId.intValue()<181){
             md.setImageUrl("http://cdn.tspace.online/ConFiArt/meme/starrynight.jpg");
+            md.setDesc("");
         }else if(tokenId.intValue()<201){
             md.setImageUrl("http://cdn.tspace.online/ConFiArt/meme/SpongeBob.jpeg");
+            md.setDesc("");
         }
-        
+        // 无友好的metadata，不支持不同的desc了
+        md.setDesc("好玩委员会和Art101发行的趣味烤仔NFT");
 	return md;
     }
     

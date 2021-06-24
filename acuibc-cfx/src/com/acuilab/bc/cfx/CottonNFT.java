@@ -47,7 +47,7 @@ public class CottonNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-	return "Cotton";
+	return "新疆棉";
     }
 
     @Override

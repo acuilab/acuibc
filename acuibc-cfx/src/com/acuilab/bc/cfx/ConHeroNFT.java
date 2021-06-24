@@ -31,7 +31,7 @@ public class ConHeroNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-	return "ConHero";
+	return "树图英雄";
     }
 
     @Override

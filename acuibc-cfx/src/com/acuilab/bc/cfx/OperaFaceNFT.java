@@ -31,7 +31,7 @@ public class OperaFaceNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-	return "Opera Face";
+	return "京剧脸谱";
     }
 
     @Override

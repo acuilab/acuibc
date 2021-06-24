@@ -33,7 +33,7 @@ public class ChristmasNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-	return "Christmas";
+	return "圣诞烤仔";
     }
 
     @Override

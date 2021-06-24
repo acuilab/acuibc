@@ -33,7 +33,7 @@ public class BlockCapsuleNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-	return "BlockCapsule NFT";
+	return "时空区块";
     }
 
     @Override
@@ -89,7 +89,7 @@ public class BlockCapsuleNFT extends AbstractNFT {
         Map<String, String> map = mapper.readValue(StringUtils.substringAfter(json, id), Map.class);
         //Map<String, String> map = mapper.readValue(new URL(json), Map.class);
 
-        md.setDesc("这是什么时候发的？没见过，好神秘。");
+        md.setDesc("The work was created by NFT enthusiasts attending the Affordable Arts Festival art fair during the Labor Day holiday in 2021. Every NFT fan leaves his/her thoughts and wishes on the message board, and these visions will be preserved in the eternal space of the blockchain like time capsules.");
         md.setName("时空区块");
 	md.setPlatform("Tspace");
         md.setImage(ImageUtilities.loadImage("/resource/BlockCapsule.jpeg", true));

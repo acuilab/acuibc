@@ -31,7 +31,7 @@ public class ConDragonNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-	return "ConDragon";
+	return "恐龙";
     }
 
     @Override

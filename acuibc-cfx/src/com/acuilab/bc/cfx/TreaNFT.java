@@ -30,7 +30,7 @@ public class TreaNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-	return "Trea NFT";
+	return "熬鹰";
     }
 
     @Override

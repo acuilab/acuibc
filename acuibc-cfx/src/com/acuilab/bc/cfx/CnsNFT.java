@@ -2,6 +2,7 @@ package com.acuilab.bc.cfx;
 
 import com.acuilab.bc.main.nft.MetaData;
 import com.acuilab.bc.main.util.Constants;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import conflux.web3j.Account;
 import conflux.web3j.Cfx;
 import conflux.web3j.contract.ContractCall;
@@ -9,11 +10,14 @@ import conflux.web3j.contract.abi.DecodeUtil;
 import conflux.web3j.types.Address;
 import java.awt.Image;
 import java.math.BigInteger;
+import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.Map;
 import javax.swing.Icon;
 import org.apache.commons.lang3.StringUtils;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
+//import org.apache.batik.transcoder;
 
 /**
  *
@@ -30,7 +34,7 @@ public class CnsNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-        return "CNS";
+        return "域名";
     }
 
     @Override
@@ -74,22 +78,27 @@ public class CnsNFT extends AbstractNFT {
 
         String value = contract.call("tokenURI", new org.web3j.abi.datatypes.generated.Uint256(tokenId)).sendAndGet();
         String json = DecodeUtil.decode(value, org.web3j.abi.datatypes.Utf8String.class);
-
-        //System.out.println(json);
-        //xxx.cfx
+        
         MetaData md = new MetaData();
-        md.setName("CNS NFT");
-        md.setPlatform("Trust Domains");
-        md.setDesc(json);
-
-        Image image = ImageUtilities.loadImage("/resource/cns178.png", true);
-
-        md.setImage(image);
-
         String id = tokenId.toString();
         md.setId(id);
         md.setNumber(id);
+        
+	ObjectMapper mapper = new ObjectMapper();
+        Map<String, String> map = mapper.readValue(new URL(json), Map.class);
 
+        String imageData = map.get("image_data");
+        
+        Image image = ImageUtilities.loadImage("/resource/cns178.png", true);
+        
+        //Image image = svgToPng(imageData, 1.0f);
+                
+        md.setImage(image);
+        
+        md.setDesc(map.get("description"));
+        md.setName(map.get("name"));
+	md.setPlatform("Trust Domains");
+        
         return md;
     }
 
@@ -101,8 +110,7 @@ public class CnsNFT extends AbstractNFT {
         // note: parameters should use web3j.abi.datatypes type
 
         String balanceStr = contract.call("balanceOf", new Address(address).getABIAddress()).sendAndGet();
-        
-        
+
         int balanceDecode = DecodeUtil.decode(balanceStr, org.web3j.abi.datatypes.Uint.class).intValue();
 
         if (balanceDecode <= 0) {
@@ -128,7 +136,36 @@ public class CnsNFT extends AbstractNFT {
             new Address(from).getABIAddress(), 
 	    new Address(to).getABIAddress(), 
 	    new org.web3j.abi.datatypes.Uint(tokenId), 
-            //new org.web3j.abi.datatypes.Uint(BigInteger.ONE), 
+            new org.web3j.abi.datatypes.Uint(BigInteger.ONE), 
 	    new org.web3j.abi.datatypes.DynamicBytes(StringUtils.getBytes(data, Charset.forName("UTF-8"))));
     }
+    
+//    public InputStream svgToPng(String originFile, Float multiple) throws IOException, TranscoderException {
+//        if (originFile != null && multiple != null) {
+//            long st = System.currentTimeMillis();
+//            ByteArrayOutputStream pngStream = new ByteArrayOutputStream();
+//            InputStream pngInput;
+//                byte[] bytes = originFile.getBytes("utf-8");
+//                TranscoderInput input = new TranscoderInput(new ByteArrayInputStream(bytes));
+//                PNGTranscoder t = new PNGTranscoder();
+//          //获取宽高，动态放大
+//                Float width = svgSize(originFile, "width");
+//                Float height = svgSize(originFile, "height");
+//                t.addTranscodingHint(PNGTranscoder.KEY_WIDTH, width * multiple);
+//                t.addTranscodingHint(PNGTranscoder.KEY_HEIGHT, height * multiple);
+//          //格式转换
+//                t.transcode(input, new TranscoderOutput(pngStream));
+//                byte[] outByte = pngStream.toByteArray();
+//                pngInput = new ByteArrayInputStream(outByte);
+//                long cost = System.currentTimeMillis() - st;
+//                log.info("SvgToPng success, cost time {} ms", cost);
+//                    pngStream.close();
+//            return pngInput;
+//        } else {
+//            return null;
+//        }
+//    }
+ 
+
+
 }

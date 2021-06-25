@@ -345,10 +345,11 @@ public final class GuGuoTopComponent extends TopComponent {
         peekUserDataBtn = new org.jdesktop.swingx.JXButton();
         pickCardBtn = new org.jdesktop.swingx.JXButton();
         pwdFld = new javax.swing.JPasswordField();
-        jSeparator7 = new javax.swing.JSeparator();
         needWithdrawXiangCheckBox = new javax.swing.JCheckBox();
         delaySpinner = new javax.swing.JSpinner(new SpinnerNumberModel(0, 0, 3600, 1));
         jXLabel12 = new org.jdesktop.swingx.JXLabel();
+        jXLabel13 = new org.jdesktop.swingx.JXLabel();
+        jXLabel14 = new org.jdesktop.swingx.JXLabel();
         hideFunBtn = new org.jdesktop.swingx.JXButton();
         jSeparator5 = new javax.swing.JSeparator();
         reloadBtn = new org.jdesktop.swingx.JXButton();
@@ -742,47 +743,55 @@ public final class GuGuoTopComponent extends TopComponent {
 
         pwdFld.setText(org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.pwdFld.text")); // NOI18N
 
-        jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
-
         org.openide.awt.Mnemonics.setLocalizedText(needWithdrawXiangCheckBox, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.needWithdrawXiangCheckBox.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel12, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel12.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel13, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel13.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel14, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel14.text")); // NOI18N
 
         javax.swing.GroupLayout hideFunPanelLayout = new javax.swing.GroupLayout(hideFunPanel);
         hideFunPanel.setLayout(hideFunPanelLayout);
         hideFunPanelLayout.setHorizontalGroup(
             hideFunPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hideFunPanelLayout.createSequentialGroup()
+            .addGroup(hideFunPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pwdFld, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(delaySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(needWithdrawXiangCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pickCardBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(peekUserDataBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(hideFunPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(hideFunPanelLayout.createSequentialGroup()
+                        .addComponent(jXLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pwdFld, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(delaySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jXLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(needWithdrawXiangCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pickCardBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(hideFunPanelLayout.createSequentialGroup()
+                        .addComponent(jXLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(peekUserDataBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         hideFunPanelLayout.setVerticalGroup(
             hideFunPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(hideFunPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(hideFunPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(hideFunPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(pickCardBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(pwdFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(needWithdrawXiangCheckBox)
-                        .addComponent(delaySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jXLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(hideFunPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pickCardBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pwdFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(needWithdrawXiangCheckBox)
+                    .addComponent(delaySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jXLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(hideFunPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jXLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(peekUserDataBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(111, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         org.openide.awt.Mnemonics.setLocalizedText(hideFunBtn, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.hideFunBtn.text")); // NOI18N
@@ -796,14 +805,13 @@ public final class GuGuoTopComponent extends TopComponent {
         jXPanel1.setLayout(jXPanel1Layout);
         jXPanel1Layout.setHorizontalGroup(
             jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
+            .addComponent(jSeparator2)
             .addComponent(jSeparator3)
             .addComponent(jSeparator4)
             .addGroup(jXPanel1Layout.createSequentialGroup()
                 .addComponent(hideFunPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(hideFunBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(hideFunBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jXPanel1Layout.createSequentialGroup()
                 .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -1862,6 +1870,10 @@ public final class GuGuoTopComponent extends TopComponent {
 
     private void pickCardBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pickCardBtnActionPerformed
 
+        IGuGuoNFT nft = Lookup.getDefault().lookup(IGuGuoNFT.class);
+        BigInteger poolCounts = nft.getPoolCounts();
+        BigInteger poolId = poolCounts.subtract(BigInteger.ONE);
+        
         if(wallet != null) {
             // 启动线程执行
             new Thread(new Runnable() {
@@ -1871,7 +1883,7 @@ public final class GuGuoTopComponent extends TopComponent {
                         String password = String.valueOf(pwdFld.getPassword());
                         String privateKey = AESUtil.decrypt(wallet.getPrivateKeyAES(), password);
                         long delay = ((int)delaySpinner.getValue()) * 1000;
-                        Lookup.getDefault().lookup(IGuGuoNFT.class).pickCards2(privateKey, BigInteger.ONE, delay, needWithdrawXiangCheckBox.isSelected());
+                        nft.pickCards2(privateKey, poolId, delay, needWithdrawXiangCheckBox.isSelected());
                     } catch (Exception ex) {
                         Exceptions.printStackTrace(ex);
                     }
@@ -1938,11 +1950,12 @@ public final class GuGuoTopComponent extends TopComponent {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
-    private javax.swing.JSeparator jSeparator7;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel10;
     private org.jdesktop.swingx.JXLabel jXLabel11;
     private org.jdesktop.swingx.JXLabel jXLabel12;
+    private org.jdesktop.swingx.JXLabel jXLabel13;
+    private org.jdesktop.swingx.JXLabel jXLabel14;
     private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXLabel jXLabel3;
     private org.jdesktop.swingx.JXLabel jXLabel4;

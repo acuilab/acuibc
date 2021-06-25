@@ -19,4 +19,6 @@ public interface IGuGuoNFT {
      * @throws Exception 
      */
     void pickCards2(String privateKey, BigInteger poolId, long delay, boolean needWithdrawXiang) throws Exception;
+    
+    BigInteger getPoolCounts();
 }

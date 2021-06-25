@@ -5,13 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [unreleased] - 20210620
+## [0.9.26] - 20210625
 ### Added
-- 持续优化古国Dapp,各种好用便捷
-- 右下角状态栏增加代币价格显示
-- 支持中本聪的礼物NFT、区块时空NFT
+- 深度优化古国Dapp,各种好用便捷
+- 增加右下角状态栏增加代币折合美金价格显示
 - 增加对art101meme的图片显示
-- 增加首页主流币种折合美金汇率显示
+- 增加多种NFT:时空区块、中本聪的礼物、拓扑三国、烤仔卡、烤仔卡合成等
+- 增加论坛提申请的Points
+- 增加古国秘密功能
 
 ## [0.9.24] - 2021-06-12
 ### Added

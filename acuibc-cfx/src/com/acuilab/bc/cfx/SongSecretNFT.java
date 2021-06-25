@@ -22,8 +22,8 @@ import org.openide.util.Lookup;
  */
 public class SongSecretNFT extends AbstractNFT {
     
-    public static final String CONTRACT_ADDRESS = "cfx:acgjttbz35rukntbvnp6u6arx8rwwxekfyks00vr3n";
-    public static final String WEBSITE = "https://conhero.io/";
+    public static final String CONTRACT_ADDRESS = "CFX:TYPE.CONTRACT:ACBPNMW6A31AT565P5J1R489NTYZ5C7A5YAFH7V53U";
+    public static final String WEBSITE = "";
      
     @Override
     public void init() {
@@ -31,12 +31,12 @@ public class SongSecretNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-	return "树图英雄";
+	return "SONG'S SECRET";
     }
 
     @Override
     public String getSymbol() {
-	return "ConHero";
+	return "SONG'S SECRET";
     }
 
     @Override
@@ -56,12 +56,12 @@ public class SongSecretNFT extends AbstractNFT {
 
     @Override
     public Icon getIcon(int size) {
-        return ImageUtilities.loadImageIcon("/resource/conhero" + size + ".png", true);
+        return ImageUtilities.loadImageIcon("/resource/song" + size + ".jpg", true);
     }
 
     @Override
     public Image getIconImage(int size) {
-        return ImageUtilities.loadImage("/resource/conhero" + size + ".png", true);
+        return ImageUtilities.loadImage("/resource/song" + size + ".jpg", true);
     }
     
     @Override
@@ -78,27 +78,26 @@ public class SongSecretNFT extends AbstractNFT {
         
         MetaData md = new MetaData();
 	
-//token_id	"1338"
-//image	"https://cdn.image.htlm8.top/conhero/flame-lord.png"
-//description	"ConHero是Conflux生态首款即时PK挖…ConHero NFT还可以质押挖矿、开宝箱。"
-//description_en	"ConHero is the first RTS Mining game in the Conflux ecosystem. Players can use NFT to fight, Rank, and participate in PK competitions in the game. Players can also use ConHero NFT to stake mining and open treasure boxes.\n\nAt the same time, the HeroNFT bli"
-//name	"烈焰君主"
-//name_en	"Flame Lord"
+//{
+//    "token_id":"1",
+//    "image":"http://baihuo.fr/SONG.mp4",
+//    "ipfs":"https://ipfs.io/ipfs/QmfT8x9ChPHNLTR6DN59ytE3mrCBtLDgvGfJBpUKqoXkKF",
+//    "dweb.link":"https://bafybeih6iami5e3rz2uam4dgex44343nhyebkdemkc2ftlxopyoitpstxy.ipfs.dweb.link",
+//    "name":"松交所绝密收藏",
+//    "description":""
+//}
 
         String id = tokenId.toString();
 	md.setId(id);
-        
 	
 	ObjectMapper mapper = new ObjectMapper();
         Map<String, String> map = mapper.readValue(new URL(json), Map.class);
 
-        String imageUrl = map.get("image");
-        //String imageUrlSlim = StringUtils.replace(imageUrl, "\\", "");
-        //System.out.println(imageUrl);
-	md.setImageUrl(imageUrl);
-        md.setDesc(map.get("description"));
+        //视频截图
+        md.setImage(ImageUtilities.loadImage("/resource/songsecret.jpg", true));
+        md.setDesc("密");
         md.setName(map.get("name"));
-	md.setPlatform("ConHero");
+	md.setPlatform("Song");
         md.setNumber(map.get("token_id"));
 	
 	return md;

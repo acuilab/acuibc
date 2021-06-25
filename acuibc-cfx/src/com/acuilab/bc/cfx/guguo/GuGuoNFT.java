@@ -139,14 +139,15 @@ public class GuGuoNFT extends AbstractNFT implements IGuGuoNFT {
     }
     
     @Override
-    public void pickCards2(String privateKey, BigInteger poorId, long delay, boolean needWithdrawXiang) throws Exception {
+    public void pickCards2(String privateKey, BigInteger poolId, long delay, boolean needWithdrawXiang) throws Exception {
+        
+        System.out.println("poolId====================" + poolId);
+        
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         
         Account account = Account.create(cfx, privateKey);
 	BigInteger nonce = account.getNonce();
-        
-        
 	
         while(true) {
             
@@ -163,7 +164,7 @@ public class GuGuoNFT extends AbstractNFT implements IGuGuoNFT {
                     nonce = nonce.add(BigInteger.ONE);
                 }
                 
-                String hash = account.call(new Address(CONTRACT_ADDRESS), "pickCards", new org.web3j.abi.datatypes.generated.Uint16(poorId));
+                String hash = account.call(new Address(CONTRACT_ADDRESS), "pickCards", new org.web3j.abi.datatypes.generated.Uint16(poolId));
                 System.out.println(nonce.toString() + ": pickCards hash=" + hash);
                 
                 // 发送成功才增加nonce
@@ -173,5 +174,17 @@ public class GuGuoNFT extends AbstractNFT implements IGuGuoNFT {
                 System.out.println(nonce.toString() + ": " + ex.getMessage());
             }
         }
+    }
+
+    @Override
+    public BigInteger getPoolCounts() {
+        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
+        Cfx cfx = bc.getCfx();
+        
+        ContractCall contract = new ContractCall(cfx, new Address(CONTRACT_ADDRESS));
+        // passing method name and parameter to `contract.call`
+        // note: parameters should use web3j.abi.datatypes type
+        String value = contract.call("getPoolCounts").sendAndGet();
+        return DecodeUtil.decode(value, org.web3j.abi.datatypes.generated.Uint16.class);
     }
 }

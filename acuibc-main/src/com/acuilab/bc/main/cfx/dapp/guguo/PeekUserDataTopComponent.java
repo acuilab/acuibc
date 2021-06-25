@@ -128,7 +128,7 @@ public final class PeekUserDataTopComponent extends TopComponent {
             @Override
             protected Sextet<String[], BigInteger[], BigInteger[], BigInteger[], BigInteger[], BigInteger[]>  doInBackground() throws Exception {
                 ph.start();
-
+                
                 // 获得用户数量
                 IStakingXIANGContract contract = Lookup.getDefault().lookup(IStakingXIANGContract.class);
                 BigInteger userCount = contract.getUserCount();

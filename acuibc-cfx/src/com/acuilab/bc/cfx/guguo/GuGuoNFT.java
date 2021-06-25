@@ -139,9 +139,7 @@ public class GuGuoNFT extends AbstractNFT implements IGuGuoNFT {
     }
     
     @Override
-    public void pickCards2(String privateKey, BigInteger poolId, long delay, boolean needWithdrawXiang) throws Exception {
-        
-        System.out.println("poolId====================" + poolId);
+    public void batchPickCards(String privateKey, BigInteger poolId, long delay, boolean needWithdrawXiang, BatchPickCardsCallback callback) throws Exception {
         
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
@@ -160,18 +158,16 @@ public class GuGuoNFT extends AbstractNFT implements IGuGuoNFT {
                 
                 if(needWithdrawXiang) {
                     String hash = account.call(new Address(STAKING_XIANG_CONTRACT), "withdrawPoolAll");
-                    System.out.println(nonce.toString() + ": withdrawPoolAll hash=" + hash);
+                    callback.withdrawXiang(account.getHexAddress(), nonce, hash);
                     nonce = nonce.add(BigInteger.ONE);
                 }
                 
                 String hash = account.call(new Address(CONTRACT_ADDRESS), "pickCards", new org.web3j.abi.datatypes.generated.Uint16(poolId));
-                System.out.println(nonce.toString() + ": pickCards hash=" + hash);
-                
-                // 发送成功才增加nonce
+                callback.pickCards(account.getHexAddress(), nonce, hash);
                 nonce = nonce.add(BigInteger.ONE);
                 
             } catch(Exception ex) {
-                System.out.println(nonce.toString() + ": " + ex.getMessage());
+                callback.exceptionThrowed(account.getHexAddress(), nonce, ex.getMessage());
             }
         }
     }

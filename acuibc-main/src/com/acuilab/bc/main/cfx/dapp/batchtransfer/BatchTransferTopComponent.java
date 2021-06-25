@@ -375,7 +375,7 @@ public final class BatchTransferTopComponent extends TopComponent {
         findBar.setLayout(findBarLayout);
         findBarLayout.setHorizontalGroup(
             findBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 589, Short.MAX_VALUE)
+            .addGap(0, 371, Short.MAX_VALUE)
         );
         findBarLayout.setVerticalGroup(
             findBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

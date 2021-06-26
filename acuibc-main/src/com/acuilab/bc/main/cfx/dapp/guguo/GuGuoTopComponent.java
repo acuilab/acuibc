@@ -1880,7 +1880,7 @@ public final class GuGuoTopComponent extends TopComponent {
             BigInteger poolCounts = nft.getPoolCounts();
             BigInteger poolId = poolCounts.subtract(BigInteger.ONE);
             
-            InputOutput io = IOProvider.getDefault().getIO("古国序列" + wallet.getAddress(), false);
+            InputOutput io = IOProvider.getDefault().getIO("古国序列" + Utils.simplifyString(wallet.getAddress()), false);
             io.select();
             io.getOut().println(DateUtil.commonDateFormat(new Date(), "yyyy-MM-dd HH:mm:ss") + " 开始抽卡");
             // 启动线程执行

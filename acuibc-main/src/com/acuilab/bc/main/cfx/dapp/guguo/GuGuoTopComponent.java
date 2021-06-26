@@ -29,6 +29,7 @@ import javax.swing.SwingWorker;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.examples.complete.Utils;
 import net.java.balloontip.utils.TimingUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.javatuples.Pair;
 import org.jdesktop.swingx.prompt.PromptSupport;
 import org.netbeans.api.progress.ProgressHandle;
@@ -1880,7 +1881,7 @@ public final class GuGuoTopComponent extends TopComponent {
             BigInteger poolCounts = nft.getPoolCounts();
             BigInteger poolId = poolCounts.subtract(BigInteger.ONE);
             
-            InputOutput io = IOProvider.getDefault().getIO("古国序列" + Utils.simplifyString(wallet.getAddress()), false);
+            InputOutput io = IOProvider.getDefault().getIO("古国序列" + "(" + StringUtils.substring(wallet.getAddress(), StringUtils.length(wallet.getAddress()) - 4) + ")", false);
             io.select();
             io.getOut().println(DateUtil.commonDateFormat(new Date(), "yyyy-MM-dd HH:mm:ss") + " 开始抽卡");
             // 启动线程执行

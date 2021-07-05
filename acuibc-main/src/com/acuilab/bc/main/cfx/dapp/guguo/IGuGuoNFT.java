@@ -1,17 +1,21 @@
 package com.acuilab.bc.main.cfx.dapp.guguo;
 
 import java.math.BigInteger;
+import org.javatuples.Pair;
 
 /**
  *
  * @author chia1
  */
 public interface IGuGuoNFT {
+    
+    Pair<BigInteger[], BigInteger[]> getCardPrices();
+    
     // 抽卡
     String pickCards(String privateKey, BigInteger poorId) throws Exception;
     
     /**
-     * 
+     * 批量抽卡
      * @param privateKey
      * @param poolId
      * @param delay             延时毫秒数

@@ -356,6 +356,8 @@ public final class GuGuoTopComponent extends TopComponent {
         jXLabel12 = new org.jdesktop.swingx.JXLabel();
         jXLabel13 = new org.jdesktop.swingx.JXLabel();
         jXLabel14 = new org.jdesktop.swingx.JXLabel();
+        jXLabel15 = new org.jdesktop.swingx.JXLabel();
+        cardPriceBtn = new org.jdesktop.swingx.JXButton();
         hideFunBtn = new org.jdesktop.swingx.JXButton();
         jSeparator5 = new javax.swing.JSeparator();
         reloadBtn = new org.jdesktop.swingx.JXButton();
@@ -759,6 +761,15 @@ public final class GuGuoTopComponent extends TopComponent {
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel14, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel14.text")); // NOI18N
 
+        org.openide.awt.Mnemonics.setLocalizedText(jXLabel15, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.jXLabel15.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(cardPriceBtn, org.openide.util.NbBundle.getMessage(GuGuoTopComponent.class, "GuGuoTopComponent.cardPriceBtn.text")); // NOI18N
+        cardPriceBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cardPriceBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout hideFunPanelLayout = new javax.swing.GroupLayout(hideFunPanel);
         hideFunPanel.setLayout(hideFunPanelLayout);
         hideFunPanelLayout.setHorizontalGroup(
@@ -769,7 +780,11 @@ public final class GuGuoTopComponent extends TopComponent {
                     .addGroup(hideFunPanelLayout.createSequentialGroup()
                         .addComponent(jXLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(peekUserDataBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(peekUserDataBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jXLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cardPriceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(hideFunPanelLayout.createSequentialGroup()
                         .addComponent(jXLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -797,7 +812,10 @@ public final class GuGuoTopComponent extends TopComponent {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(hideFunPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(peekUserDataBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(peekUserDataBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(hideFunPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jXLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cardPriceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -873,7 +891,6 @@ public final class GuGuoTopComponent extends TopComponent {
                 .addComponent(fluxContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jXPanel1Layout.createSequentialGroup()
                         .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -1959,7 +1976,27 @@ public final class GuGuoTopComponent extends TopComponent {
 
     }//GEN-LAST:event_hideFunBtnActionPerformed
 
+    private void cardPriceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardPriceBtnActionPerformed
+        IGuGuoNFT nft = Lookup.getDefault().lookup(IGuGuoNFT.class);
+        Pair<BigInteger[], BigInteger[]> pair = nft.getCardPrices();
+        
+        InputOutput io = IOProvider.getDefault().getIO("古国序列(getCardPrices)", false);
+        io.select();
+        io.getOut().println("——————————————————————————————————");
+        
+        BigInteger[] value0 = pair.getValue0();
+        BigInteger[] value1 = pair.getValue1();
+        io.getOut().println("数量\t价格");
+        
+        ICoin yaoCfxCoin = CoinManager.getDefault().getCoin(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_YAO_CFX_PAIR_SYMBOL);
+        for(int i=0; i<value0.length; i++) {
+            String price = yaoCfxCoin.minUnit2MainUint(value1[i]).setScale(2, RoundingMode.HALF_DOWN).toPlainString();
+            io.getOut().println(value0[i].toString() + "\t" + price);  
+        }
+    }//GEN-LAST:event_cardPriceBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXButton cardPriceBtn;
     private javax.swing.JSpinner delaySpinner;
     private org.jdesktop.swingx.JXTextField depositNumberFld;
     private org.jdesktop.swingx.JXButton depositYAOBtn;
@@ -1980,6 +2017,7 @@ public final class GuGuoTopComponent extends TopComponent {
     private org.jdesktop.swingx.JXLabel jXLabel12;
     private org.jdesktop.swingx.JXLabel jXLabel13;
     private org.jdesktop.swingx.JXLabel jXLabel14;
+    private org.jdesktop.swingx.JXLabel jXLabel15;
     private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXLabel jXLabel3;
     private org.jdesktop.swingx.JXLabel jXLabel4;

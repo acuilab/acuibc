@@ -3,7 +3,6 @@ package com.acuilab.bc.cfx;
 import com.acuilab.bc.main.nft.MetaData;
 import com.acuilab.bc.main.util.Constants;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import conflux.web3j.Account;
 import conflux.web3j.Cfx;
 import conflux.web3j.contract.ContractCall;
 import conflux.web3j.contract.abi.DecodeUtil;
@@ -11,10 +10,8 @@ import conflux.web3j.types.Address;
 import java.awt.Image;
 import java.math.BigInteger;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.Map;
 import javax.swing.Icon;
-import org.apache.commons.lang3.StringUtils;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 //import org.apache.batik.transcoder;
@@ -102,6 +99,7 @@ public class CnsNFT extends AbstractNFT {
         return md;
     }
 
+    @Override
     public BigInteger[] tokensOf(String address) {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
@@ -125,19 +123,6 @@ public class CnsNFT extends AbstractNFT {
         }
 
         return ret;
-    }
-    
-    @Override
-    public String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId, String data, BigInteger gas) throws Exception {
-        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
-        Cfx cfx = bc.getCfx();
-	
-        Account account = Account.create(cfx, privateKey);
-	return account.call(new Account.Option().withGasPrice(gas).withGasLimit(this.gasLimit()), new Address(CONTRACT_ADDRESS), "safeTransferFrom", 
-            new Address(from).getABIAddress(), 
-	    new Address(to).getABIAddress(), 
-	    new org.web3j.abi.datatypes.Uint(tokenId), 
-	    new org.web3j.abi.datatypes.DynamicBytes(StringUtils.getBytes(data, Charset.forName("UTF-8"))));
     }
     
 //    public InputStream svgToPng(String originFile, Float multiple) throws IOException, TranscoderException {
@@ -165,6 +150,11 @@ public class CnsNFT extends AbstractNFT {
 //            return null;
 //        }
 //    }
+
+    @Override
+    public Type getType() {
+        return Type.NFT721;
+    }
  
 
 

@@ -53,6 +53,19 @@ public abstract class AbstractNFT implements INFT {
     }
     
     @Override
+    public String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId, String data, BigInteger gas) throws Exception {
+        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
+        Cfx cfx = bc.getCfx();
+	
+        Account account = Account.create(cfx, privateKey);
+	return account.call(new Account.Option().withGasPrice(gas).withGasLimit(this.gasLimit()), new Address(getContractAddress()), "safeTransferFrom", 
+            new Address(from).getABIAddress(),
+	    new Address(to).getABIAddress(), 
+	    new org.web3j.abi.datatypes.Uint(tokenId), 
+	    new org.web3j.abi.datatypes.DynamicBytes(StringUtils.getBytes(data, Charset.forName("UTF-8"))));
+    }
+    
+    @Override
     public int gasMin() {
 	// 1drip
         return 1;

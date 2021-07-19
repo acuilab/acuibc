@@ -55,7 +55,7 @@ public interface INFT {
     MetaData getMetaData(BigInteger tokenId) throws Exception;
     
     /**
-     * 
+     * 1155
      * @param privateKey
      * @param from
      * @param to 
@@ -69,7 +69,21 @@ public interface INFT {
     String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId, BigInteger value, String data, BigInteger gas) throws Exception;
     
     /**
-     * 
+     * 721
+     * @param privateKey
+     * @param from
+     * @param to 
+     * @param tokenId 
+     * @param value 
+     * @param data 
+     * @param gas 
+     * @return  
+     * @throws java.lang.Exception 
+     */
+    String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId, String data, BigInteger gas) throws Exception;
+    
+    /**
+     * 1155
      * @param privateKey
      * @param from
      * @param to 
@@ -80,6 +94,20 @@ public interface INFT {
      */
     default String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId, BigInteger value, BigInteger gas) throws Exception {
 	return safeTransferFrom(privateKey, from, to, tokenId, value, "", gas);
+    }
+    
+    /**
+     * 721
+     * @param privateKey
+     * @param from
+     * @param to 
+     * @param tokenId 
+     * @param gas 
+     * @return  
+     * @throws java.lang.Exception  
+     */
+    default String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId, BigInteger gas) throws Exception {
+	return safeTransferFrom(privateKey, from, to, tokenId, "", gas);
     }
 
     /**

@@ -127,6 +127,7 @@ public class CnsNFT extends AbstractNFT {
         return ret;
     }
     
+    @Override
     public String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId, String data, BigInteger gas) throws Exception {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
@@ -136,7 +137,6 @@ public class CnsNFT extends AbstractNFT {
             new Address(from).getABIAddress(), 
 	    new Address(to).getABIAddress(), 
 	    new org.web3j.abi.datatypes.Uint(tokenId), 
-            new org.web3j.abi.datatypes.Uint(BigInteger.ONE), 
 	    new org.web3j.abi.datatypes.DynamicBytes(StringUtils.getBytes(data, Charset.forName("UTF-8"))));
     }
     

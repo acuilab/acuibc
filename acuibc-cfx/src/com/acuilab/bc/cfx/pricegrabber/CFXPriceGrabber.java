@@ -72,7 +72,7 @@ public class CFXPriceGrabber implements IPriceGrabber {
                             price *= lastPriceMap.get(startNode + "_" + paths[i]);
                             startNode = paths[i];
                         }
-//                        System.out.println(node + " -> USDT" + ": min: " + extra.distance + ", path: " + extra.path + ", price: " + (1/price));
+                        System.out.println(node + " -> USDT" + ": min: " + extra.distance + ", path: " + extra.path + ", price: " + (1/price));
                         
                         map.put(node, 1/price);
                     }

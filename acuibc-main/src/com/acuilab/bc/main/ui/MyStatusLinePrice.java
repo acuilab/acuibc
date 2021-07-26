@@ -40,22 +40,37 @@ public class MyStatusLinePrice implements StatusLineElementProvider {
         Timer t = new Timer(6000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cfxPriceLbl.setText(df.format(PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_CFX_SYMBOL)) + " ");
-                cfxPriceLbl.setToolTipText("CFX: " + PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_CFX_SYMBOL) + "$");
-                fcPriceLbl.setText(df.format(PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_FC_SYMBOL)) + " ");
-                fcPriceLbl.setToolTipText("FC: " + PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_FC_SYMBOL) + "$");
-                moonPriceLbl.setText(df.format(PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_MOON_SYMBOL)) + " ");
-                moonPriceLbl.setToolTipText("MOON: " + PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_MOON_SYMBOL) + "$");
-                yaoPriceLbl.setText(df.format(PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_YAO_SYMBOL)) + " ");
-                yaoPriceLbl.setToolTipText("YAO: " + PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_YAO_SYMBOL) + "$");
-                treaPriceLbl.setText(df.format(PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_TREA_SYMBOL)) + " ");
-                treaPriceLbl.setToolTipText("TREA: " + PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_TREA_SYMBOL) + "$");
-                fluxPriceLbl.setText(df.format(PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_FLUX_SYMBOL)) + " ");
-                fluxPriceLbl.setToolTipText("Flux: " + PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_FLUX_SYMBOL) + "$");
-                itfPriceLbl.setText(df.format(PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_ITF_SYMBOL)) + " ");
-                itfPriceLbl.setToolTipText("ITF: " + PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_ITF_SYMBOL) + "$");
-                poolgoPriceLbl.setText(df.format(PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_POOLGO_SYMBOL)) + " ");
-                poolgoPriceLbl.setToolTipText("PoolGo: " + PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_POOLGO_SYMBOL) + "$");
+                Double cfxPrice = PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_CFX_SYMBOL);
+                cfxPriceLbl.setText(formatPrice(cfxPrice) + " ");
+                cfxPriceLbl.setToolTipText("CFX: " + cfxPrice + "$");
+                
+                Double fcPrice = PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_FC_SYMBOL);
+                fcPriceLbl.setText(formatPrice(fcPrice) + " ");
+                fcPriceLbl.setToolTipText("FC: " + fcPrice + "$");
+                
+                Double moonPrice = PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_MOON_SYMBOL);
+                moonPriceLbl.setText(formatPrice(moonPrice) + " ");
+                moonPriceLbl.setToolTipText("MOON: " + moonPrice + "$");
+                
+                Double yaoPrice = PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_YAO_SYMBOL);
+                yaoPriceLbl.setText(formatPrice(yaoPrice) + " ");
+                yaoPriceLbl.setToolTipText("YAO: " + yaoPrice + "$");
+                
+                Double treaPrice = PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_TREA_SYMBOL);
+                treaPriceLbl.setText(formatPrice(treaPrice) + " ");
+                treaPriceLbl.setToolTipText("TREA: " + treaPrice + "$");
+                
+                Double fluxPrice = PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_FLUX_SYMBOL);
+                fluxPriceLbl.setText(formatPrice(fluxPrice) + " ");
+                fluxPriceLbl.setToolTipText("Flux: " + fluxPrice + "$");
+                
+                Double itfPrice = PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_ITF_SYMBOL);
+                itfPriceLbl.setText(formatPrice(itfPrice) + " ");
+                itfPriceLbl.setToolTipText("ITF: " + itfPrice + "$");
+                
+                Double poolgoPrice = PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_POOLGO_SYMBOL);
+                poolgoPriceLbl.setText(formatPrice(poolgoPrice) + " ");
+                poolgoPriceLbl.setToolTipText("PoolGo: " + poolgoPrice + "$");
             }
         });
         t.start();
@@ -119,4 +134,11 @@ public class MyStatusLinePrice implements StatusLineElementProvider {
         return panel;
     }
     
+    private String formatPrice(Double price) {
+        if(price == null) {
+            return "无";
+        }
+        
+        return df.format(price);
+    }
 }

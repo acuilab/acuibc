@@ -41,6 +41,6 @@ public class TSpaceDApp extends CfxBrowserDApp {
 
     @Override
     public String getUrl() {
-        return "http://nft.tspace.io/";
+        return "https://tspace.io/";
     }
 }

@@ -23,6 +23,7 @@ import org.apache.commons.lang3.math.NumberUtils;
  */
 public class CFXPriceGrabber implements IPriceGrabber {
     
+    // https://github.com/moon-migration/moonswap-core/tree/master/MarketData
     public static final String MOONSWAP_MARKET_DATA_URL = "https://moonswap.fi/api/route/opt/moonswap/tickers";
 
     @Override

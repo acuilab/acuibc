@@ -2,6 +2,8 @@ package com.acuilab.bc.main.util;
 
 import java.awt.Color;
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
@@ -31,6 +33,17 @@ public class Constants {
     public static final String CFX_ITF_SYMBOL = "ITF";
     public static final String CFX_POOLGO_SYMBOL = "PoolGo";
     public static final String CFX_YAO_CFX_PAIR_SYMBOL = "YAO_CFX";
+
+    public static final Map<String, String> CFX_ADDRESS_SYMBOL_MAP = new HashMap<String, String>() {{
+        put("cfx:acg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx", CFX_CFX_SYMBOL);
+        put("cfx:achc8nxj7r451c223m18w2dwjnmhkd6rxawrvkvsy2", CFX_FC_SYMBOL);
+        put("cfx:achcuvuasx3t8zcumtwuf35y51sksewvca0h0hj71a", CFX_MOON_SYMBOL);
+        put("cfx:acaucwuza1nm7wfj1bwkjttz7b0eh4ak7ur7fue1dy", CFX_YAO_SYMBOL);
+        put("cfx:acb9wkgbefcja9rkpds5ve4cm5643jmebae7xjzz8f", CFX_TREA_SYMBOL);
+        put("cfx:acgbjtsmfpex2mbn97dsygtkfrt952sp0psmh8pnvz", CFX_FLUX_SYMBOL);
+        put("cfx:acc8599utu7nayj50w393eycznhv4e23g2ys6xmvf5", CFX_ITF_SYMBOL);
+        put("cfx:acc8ya1f2a2bfphxg5ax7a8h29k47d5xsebxfj24nd", CFX_POOLGO_SYMBOL);
+    }};
     
     public static final int GUGUO_KAOZI_PID = 0;
     public static final int GUGUO_MOON_PID = 1;

@@ -23,6 +23,7 @@ import org.apache.commons.lang3.math.NumberUtils;
  */
 public class CFXPriceGrabber implements IPriceGrabber {
     
+    // https://github.com/moon-migration/moonswap-core/tree/master/MarketData
     public static final String MOONSWAP_MARKET_DATA_URL = "https://moonswap.fi/api/route/opt/moonswap/tickers";
 
     @Override
@@ -72,7 +73,7 @@ public class CFXPriceGrabber implements IPriceGrabber {
                             price *= lastPriceMap.get(startNode + "_" + paths[i]);
                             startNode = paths[i];
                         }
-//                        System.out.println(node + " -> USDT" + ": min: " + extra.distance + ", path: " + extra.path + ", price: " + (1/price));
+                        System.out.println(node + " -> USDT" + ": min: " + extra.distance + ", path: " + extra.path + ", price: " + (1/price));
                         
                         map.put(node, 1/price);
                     }

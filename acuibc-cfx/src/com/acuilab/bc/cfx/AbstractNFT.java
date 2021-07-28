@@ -44,12 +44,21 @@ public abstract class AbstractNFT implements INFT {
         Cfx cfx = bc.getCfx();
 	
         Account account = Account.create(cfx, privateKey);
-	return account.call(new Account.Option().withGasPrice(gas).withGasLimit(this.gasLimit()), new Address(getContractAddress()), "safeTransferFrom", 
-            new Address(from).getABIAddress(),
-	    new Address(to).getABIAddress(), 
-	    new org.web3j.abi.datatypes.Uint(tokenId), 
-            new org.web3j.abi.datatypes.Uint(value), 
-	    new org.web3j.abi.datatypes.DynamicBytes(StringUtils.getBytes(data, Charset.forName("UTF-8"))));
+        if(getType() == Type.NFT1155) {
+            return account.call(new Account.Option().withGasPrice(gas).withGasLimit(this.gasLimit()), new Address(getContractAddress()), "safeTransferFrom", 
+                new Address(from).getABIAddress(),
+                new Address(to).getABIAddress(), 
+                new org.web3j.abi.datatypes.Uint(tokenId), 
+                new org.web3j.abi.datatypes.Uint(value), //1155有这个参数，721没有这个参数。只有这个区别
+                new org.web3j.abi.datatypes.DynamicBytes(StringUtils.getBytes(data, Charset.forName("UTF-8"))));
+        } else {
+            // 721, 忽略value参数
+            return account.call(new Account.Option().withGasPrice(gas).withGasLimit(this.gasLimit()), new Address(getContractAddress()), "safeTransferFrom", 
+                new Address(from).getABIAddress(),
+                new Address(to).getABIAddress(), 
+                new org.web3j.abi.datatypes.Uint(tokenId), 
+                new org.web3j.abi.datatypes.DynamicBytes(StringUtils.getBytes(data, Charset.forName("UTF-8"))));
+        }
     }
     
     @Override
@@ -78,5 +87,14 @@ public abstract class AbstractNFT implements INFT {
     @Override
     public String gasDesc(int gas) {
         return gas + "drip";
+    }
+    
+    public Type getType() {
+        return Type.NFT1155;
+    }
+    
+    public enum Type {
+	NFT1155,    // 1155
+	NFT721	    // 721
     }
 }

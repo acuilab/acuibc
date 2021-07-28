@@ -22,7 +22,7 @@ import org.openide.util.Lookup;
  */
 public class SongSecretNFT extends AbstractNFT {
     
-    public static final String CONTRACT_ADDRESS = "CFX:TYPE.CONTRACT:ACBPNMW6A31AT565P5J1R489NTYZ5C7A5YAFH7V53U";
+    public static final String CONTRACT_ADDRESS = "CFX:ACBPNMW6A31AT565P5J1R489NTYZ5C7A5YAFH7V53U";
     public static final String WEBSITE = "";
      
     @Override
@@ -91,7 +91,7 @@ public class SongSecretNFT extends AbstractNFT {
 	md.setId(id);
 	
 	ObjectMapper mapper = new ObjectMapper();
-        Map<String, String> map = mapper.readValue(new URL(json), Map.class);
+        Map<String, String> map = mapper.readValue(json, Map.class);
 
         //视频截图
         md.setImage(ImageUtilities.loadImage("/resource/songsecret.jpg", true));

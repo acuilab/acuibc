@@ -241,7 +241,6 @@
                       <Component id="fluxContainer" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jSeparator3" min="-2" pref="10" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
@@ -903,6 +902,10 @@
                                   <Component id="jXLabel14" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="peekUserDataBtn" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jXLabel15" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="cardPriceBtn" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="jXLabel13" min="-2" max="-2" attributes="0"/>
@@ -937,6 +940,10 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jXLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="peekUserDataBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                                  <Component id="jXLabel15" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cardPriceBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -1007,6 +1014,23 @@
                       <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.jXLabel14.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                   </Properties>
+                </Component>
+                <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel15">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                      <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.jXLabel15.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                    </Property>
+                  </Properties>
+                </Component>
+                <Component class="org.jdesktop.swingx.JXButton" name="cardPriceBtn">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                      <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/guguo/Bundle.properties" key="GuGuoTopComponent.cardPriceBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cardPriceBtnActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

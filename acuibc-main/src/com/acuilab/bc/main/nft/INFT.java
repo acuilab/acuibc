@@ -55,7 +55,7 @@ public interface INFT {
     MetaData getMetaData(BigInteger tokenId) throws Exception;
     
     /**
-     * 
+     * 1155
      * @param privateKey
      * @param from
      * @param to 
@@ -69,11 +69,12 @@ public interface INFT {
     String safeTransferFrom(String privateKey, String from, String to, BigInteger tokenId, BigInteger value, String data, BigInteger gas) throws Exception;
     
     /**
-     * 
+     * 1155
      * @param privateKey
      * @param from
      * @param to 
      * @param tokenId 
+     * @param value 
      * @param gas 
      * @return  
      * @throws java.lang.Exception  

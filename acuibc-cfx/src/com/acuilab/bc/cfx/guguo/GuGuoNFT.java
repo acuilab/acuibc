@@ -19,6 +19,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import com.acuilab.bc.main.cfx.dapp.guguo.IGuGuoNFT;
+import conflux.web3j.contract.abi.TupleDecoder;
+import org.javatuples.Pair;
+import org.web3j.utils.Numeric;
 
 /**
  *
@@ -182,5 +185,46 @@ public class GuGuoNFT extends AbstractNFT implements IGuGuoNFT {
         // note: parameters should use web3j.abi.datatypes type
         String value = contract.call("getPoolCounts").sendAndGet();
         return DecodeUtil.decode(value, org.web3j.abi.datatypes.generated.Uint16.class);
+    }
+
+    @Override
+    public Pair<BigInteger[], BigInteger[]> getCardPrices() {
+        CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
+        Cfx cfx = bc.getCfx();
+        
+        ContractCall contract = new ContractCall(cfx, new Address(CONTRACT_ADDRESS));
+        // passing method name and parameter to `contract.call`
+        // note: parameters should use web3j.abi.datatypes type
+        String value = contract.call("getCardPrices").sendAndGet();
+        
+        return decodepGetCardPrices(value);
+    }
+    
+    /**
+     * 返回值是两个动态数组，第一个是tokenId列表，第二个是数量列表
+     * @param encoded
+     * @return 
+     */
+    private Pair<BigInteger[], BigInteger[]> decodepGetCardPrices(String encoded) {
+        encoded = Numeric.cleanHexPrefix(encoded);
+        
+        TupleDecoder decoder = new TupleDecoder(encoded);
+        decoder.nextUint256();  // 跳过offset0
+        decoder.nextUint256();  // 跳过offset1
+        
+        // 第一个动态数组
+        int length = decoder.nextUint256().intValueExact();
+        BigInteger[] value0 = new BigInteger[length];
+        for(int i=0; i<length; i++) {
+            value0[i] = decoder.nextUint256();
+        }
+        // 第二个动态数组
+        length = decoder.nextUint256().intValueExact();
+        BigInteger[] value1 = new BigInteger[length];
+        for(int i=0; i<length; i++) {
+            value1[i] = decoder.nextUint256();
+        }
+        
+        return new Pair<>(value0, value1);
     }
 }

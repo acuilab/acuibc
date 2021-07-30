@@ -15,3 +15,4 @@ com.acuilab.bc.main.cfx.dapp.browser.MoonDexDApp
 #com.acuilab.bc.main.cfx.dapp.browser.BoxNFTDApp
 #com.acuilab.bc.main.cfx.dapp.browser.GuguoDApp
 com.acuilab.bc.main.cfx.dapp.guguo.GuGuoDApp
+com.acuilab.bc.main.cfx.dapp.accountinfo.AccountInfoDApp

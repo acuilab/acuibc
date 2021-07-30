@@ -6,7 +6,7 @@ package com.acuilab.bc.main.cfx.dapp.accountinfo;
  */
 public class Coin {
     private final String symbal;
-    private final Double balance;
+    private Double balance;
 
     public Coin(String symbal, Double balance) {
         this.symbal = symbal;
@@ -19,6 +19,10 @@ public class Coin {
 
     public Double getBalance() {
         return balance;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
     }
     
 }

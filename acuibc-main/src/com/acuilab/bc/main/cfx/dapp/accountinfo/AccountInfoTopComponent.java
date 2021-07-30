@@ -1,6 +1,7 @@
 package com.acuilab.bc.main.cfx.dapp.accountinfo;
 
 import com.acuilab.bc.main.BlockChain;
+import com.acuilab.bc.main.cfx.dapp.guguo.IStakingXIANGContract;
 import com.acuilab.bc.main.coin.ICoin;
 import com.acuilab.bc.main.manager.BlockChainManager;
 import com.acuilab.bc.main.manager.CoinManager;
@@ -11,6 +12,7 @@ import com.google.common.collect.Lists;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -22,7 +24,6 @@ import net.java.balloontip.BalloonTip;
 import net.java.balloontip.examples.complete.Utils;
 import net.java.balloontip.utils.TimingUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.javatuples.Pair;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
@@ -33,6 +34,7 @@ import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.util.Exceptions;
+import org.openide.util.Lookup;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 
@@ -238,8 +240,16 @@ public final class AccountInfoTopComponent extends TopComponent {
                 
                 List<Coin> ret = Lists.newArrayList();
                 for(ICoin coin : list) {
-                    double value = coin.minUnit2MainUint(coin.balanceOf(address)).setScale(4, RoundingMode.HALF_DOWN).doubleValue();
-                    ret.add(new Coin(coin.getSymbol(), value));
+                    BigInteger value = coin.balanceOf(address);
+                    if(Constants.CFX_YAO_SYMBOL.equalsIgnoreCase(coin.getSymbol())) {
+                        IStakingXIANGContract xiangContract = Lookup.getDefault().lookup(IStakingXIANGContract.class);
+                        value = value.add(xiangContract.pledgedAmount(address, BigInteger.ZERO));
+                    } else if(Constants.CFX_YAO_CFX_PAIR_SYMBOL.equalsIgnoreCase(coin.getSymbol())) {
+                        IStakingXIANGContract xiangContract = Lookup.getDefault().lookup(IStakingXIANGContract.class);
+                        value = value.add(xiangContract.pledgedAmount(address, BigInteger.ONE));
+                    }
+                    
+                    ret.add(new Coin(coin.getSymbol(), coin.minUnit2MainUint(value).setScale(4, RoundingMode.HALF_DOWN).doubleValue()));
                 }
                 
                 return ret;

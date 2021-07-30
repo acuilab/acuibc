@@ -4,7 +4,7 @@ com.acuilab.bc.main.cfx.dapp.browser.MoonSwapDApp
 #com.acuilab.bc.main.cfx.dapp.browser.TreaDApp
 #com.acuilab.bc.main.cfx.dapp.browser.Ins3DApp
 #com.acuilab.bc.main.cfx.dapp.browser.FcCfxDApp
-com.acuilab.bc.main.cfx.dapp.browser.TSpaceDApp
+#com.acuilab.bc.main.cfx.dapp.browser.TSpaceDApp
 com.acuilab.bc.main.cfx.dapp.browser.MoonDexDApp
 #com.acuilab.bc.main.cfx.dapp.browser.ShuttleFlowDApp
 #com.acuilab.bc.main.cfx.dapp.browser.ConHeroDApp

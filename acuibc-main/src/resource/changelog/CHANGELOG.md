@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.27] - 20210802
+### Added
+- 支持红楼、社区北京、松的秘密、Phantom加速等NTT
+- 修复右下角状态栏增加代币折合美金价格显示
+- 修复721的转账
+
 ## [0.9.26] - 20210625
 ### Added
 - 深度优化古国Dapp,各种好用便捷

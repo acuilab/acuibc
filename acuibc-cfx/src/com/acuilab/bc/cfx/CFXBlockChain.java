@@ -41,7 +41,7 @@ public class CFXBlockChain implements BlockChain {
     
     private static final Logger LOG = Logger.getLogger(CFXBlockChain.class.getName());
     
-    public static final String DEFAULT_NODE = "https://mainnet-rpc.conflux-chain.org.cn/v2"; // 默认结点地址
+    public static final String DEFAULT_NODE = "https://main.confluxrpc.com/"; // 默认结点地址
     public static final String BIP44PATH = "m/44'/503'/0'/0/0";
     
     public static final String TRANSACTION_DETAIL_URL = "http://www.confluxscan.io/transaction/";

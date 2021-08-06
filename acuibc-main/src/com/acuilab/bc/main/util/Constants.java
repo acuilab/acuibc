@@ -33,6 +33,7 @@ public class Constants {
     public static final String CFX_ITF_SYMBOL = "ITF";
     public static final String CFX_POOLGO_SYMBOL = "PoolGo";
     public static final String CFX_YAO_CFX_PAIR_SYMBOL = "YAO_CFX";
+    public static final String CFX_DAN_SYMBOL = "DAN";
 
     public static final Map<String, String> CFX_ADDRESS_SYMBOL_MAP = new HashMap<String, String>() {{
         put("cfx:acg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx", CFX_CFX_SYMBOL);

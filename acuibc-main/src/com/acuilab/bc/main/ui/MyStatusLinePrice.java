@@ -28,6 +28,7 @@ public class MyStatusLinePrice implements StatusLineElementProvider {
     private static final JLabel cfxPriceLbl = new JLabel();
     private static final JLabel fcPriceLbl = new JLabel();
     private static final JLabel moonPriceLbl = new JLabel();
+    private static final JLabel danPriceLbl = new JLabel();
     private static final JLabel yaoPriceLbl = new JLabel();
     private static final JLabel treaPriceLbl = new JLabel();
     private static final JLabel fluxPriceLbl = new JLabel();
@@ -51,6 +52,10 @@ public class MyStatusLinePrice implements StatusLineElementProvider {
                 Double moonPrice = PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_MOON_SYMBOL);
                 moonPriceLbl.setText(formatPrice(moonPrice) + " ");
                 moonPriceLbl.setToolTipText("MOON: " + moonPrice + "$");
+                
+                Double danPrice = PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_DAN_SYMBOL);
+                danPriceLbl.setText(formatPrice(danPrice) + " ");
+                danPriceLbl.setToolTipText("DAN: " + danPrice + "$");
                 
                 Double yaoPrice = PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_YAO_SYMBOL);
                 yaoPriceLbl.setText(formatPrice(yaoPrice) + " ");
@@ -95,6 +100,12 @@ public class MyStatusLinePrice implements StatusLineElementProvider {
         pricePanel.add(moonLbl);
         moonPriceLbl.setForeground(Color.BLUE);
         pricePanel.add(moonPriceLbl);
+        
+        JLabel danLbl = new JLabel("DAN: ");
+        danLbl.setFont(new java.awt.Font("宋体", 1, 12));
+        pricePanel.add(danLbl);
+        danPriceLbl.setForeground(Color.BLUE);
+        pricePanel.add(danPriceLbl);
         
         JLabel yaoLbl = new JLabel("YAO: ");
         yaoLbl.setFont(new java.awt.Font("宋体", 1, 12));

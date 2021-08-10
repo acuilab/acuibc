@@ -1,6 +1,7 @@
 package com.acuilab.bc.main.cfx.dapp.accountinfo;
 
 import com.acuilab.bc.main.BlockChain;
+import com.acuilab.bc.main.cfx.dapp.dan.IStakingDanContract;
 import com.acuilab.bc.main.cfx.dapp.guguo.IStakingXIANGContract;
 import com.acuilab.bc.main.coin.ICoin;
 import com.acuilab.bc.main.manager.BlockChainManager;
@@ -9,12 +10,14 @@ import com.acuilab.bc.main.util.Constants;
 import com.acuilab.bc.main.wallet.AddressTableModel;
 import com.acuilab.bc.main.wallet.TransferRecordTableModel;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -24,6 +27,7 @@ import net.java.balloontip.BalloonTip;
 import net.java.balloontip.examples.complete.Utils;
 import net.java.balloontip.utils.TimingUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.javatuples.Octet;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
@@ -238,9 +242,32 @@ public final class AccountInfoTopComponent extends TopComponent {
                 List<ICoin> list = CoinManager.getDefault().getCoinList(Constants.CFX_BLOCKCHAIN_SYMBAL);
                 ph.start();
                 
+                // 西游全币种质押
+                IStakingDanContract danContract = Lookup.getDefault().lookup(IStakingDanContract.class);
+                Octet<BigInteger, BigInteger, BigInteger, Boolean, String[], BigInteger[], BigInteger[], BigInteger[]> octet = danContract.stakingDetail(address);
+                Map<String, BigInteger> map = Maps.newHashMap();
+                for(int i=0; i<octet.getValue4().length; i++) {
+                    String contractAddress = octet.getValue4()[i];
+                    map.put(contractAddress, octet.getValue5()[i]);
+                    System.out.println(i + "，contractAddress======================================" + contractAddress);
+                }
+                
                 List<Coin> ret = Lists.newArrayList();
                 for(ICoin coin : list) {
                     BigInteger value = coin.balanceOf(address);
+                    
+                    // 西游
+                    String contractAddress = coin.getContractAddress();
+                    if(StringUtils.isBlank(contractAddress)) {
+                        // 在西游中，cfx没有合约地址，取了全零地址cfx:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0sfbnjm2
+                        contractAddress = "cfx:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0sfbnjm2";
+                    }
+                    BigInteger v = map.get(contractAddress);
+                    if(v != null) {
+                        value = value.add(v);
+                    }
+                    
+                    // 古国质押yao和yao_cfx_lp质押
                     if(Constants.CFX_YAO_SYMBOL.equalsIgnoreCase(coin.getSymbol())) {
                         IStakingXIANGContract xiangContract = Lookup.getDefault().lookup(IStakingXIANGContract.class);
                         value = value.add(xiangContract.pledgedAmount(address, BigInteger.ZERO));

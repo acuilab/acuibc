@@ -33,6 +33,7 @@ public class Constants {
     public static final String CFX_ITF_SYMBOL = "ITF";
     public static final String CFX_POOLGO_SYMBOL = "PoolGo";
     public static final String CFX_YAO_CFX_PAIR_SYMBOL = "YAO_CFX";
+    public static final String CFX_DAN_CFX_PAIR_SYMBOL = "DAN_CFX";
     public static final String CFX_DAN_SYMBOL = "DAN";
 
     public static final Map<String, String> CFX_ADDRESS_SYMBOL_MAP = new HashMap<String, String>() {{
@@ -46,6 +47,20 @@ public class Constants {
         put("cfx:acc8599utu7nayj50w393eycznhv4e23g2ys6xmvf5", CFX_ITF_SYMBOL);
         put("cfx:acc8ya1f2a2bfphxg5ax7a8h29k47d5xsebxfj24nd", CFX_POOLGO_SYMBOL);
     }};
+    
+//    public static final Map<String, String> CFX_SYMBOL_ADDRESS_MAP = new HashMap<String, String>() {{
+//        put(CFX_CFX_SYMBOL, "cfx:acg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx");
+//        put(CFX_FC_SYMBOL, "cfx:achc8nxj7r451c223m18w2dwjnmhkd6rxawrvkvsy2");
+//        put(CFX_MOON_SYMBOL, "cfx:achcuvuasx3t8zcumtwuf35y51sksewvca0h0hj71a");
+//        put(CFX_DAN_SYMBOL, "cfx:acbyzcbfpymaz43rr6s1gtx0fb08guj88uzc05rchf");
+//        put(CFX_YAO_SYMBOL, "cfx:acaucwuza1nm7wfj1bwkjttz7b0eh4ak7ur7fue1dy");
+//        put(CFX_TREA_SYMBOL, "cfx:acb9wkgbefcja9rkpds5ve4cm5643jmebae7xjzz8f");
+//        put(CFX_FLUX_SYMBOL, "cfx:acgbjtsmfpex2mbn97dsygtkfrt952sp0psmh8pnvz");
+//        put(CFX_ITF_SYMBOL, "cfx:acc8599utu7nayj50w393eycznhv4e23g2ys6xmvf5");
+//        put(CFX_POOLGO_SYMBOL, "cfx:acc8ya1f2a2bfphxg5ax7a8h29k47d5xsebxfj24nd");
+//        put(CFX_YAO_CFX_PAIR_SYMBOL, "cfx:acgda4p2gcmutnn9vx9mug6mxtvm39umaanedvujn3");
+//        put(CFX_DAN_CFX_PAIR_SYMBOL, "cfx:acev373xcghbefgmyn2jbdnu5nv96nac8j9ymcdky6");
+//    }};
     
     public static final int GUGUO_KAOZI_PID = 0;
     public static final int GUGUO_MOON_PID = 1;

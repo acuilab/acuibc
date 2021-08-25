@@ -199,7 +199,7 @@ public class CFXCoin implements ICFXCoin {
                 transferRecord.setValue(coin.minUnit2MainUint(new BigInteger(value.asText("0"))).setScale(coin.getMainUnitScale(), RoundingMode.HALF_DOWN).stripTrailingZeros().toPlainString());
                 JsonNode gasPrice = objNode.get("gasPrice");
                 transferRecord.setGasPrice(gasPrice.asText());
-                JsonNode gas = objNode.get("gas");
+                JsonNode gas = objNode.get("gasFee");
                 transferRecord.setGas(gas.asText());
                 JsonNode status = objNode.get("status");
                 transferRecord.setStatus("" + status.asInt());

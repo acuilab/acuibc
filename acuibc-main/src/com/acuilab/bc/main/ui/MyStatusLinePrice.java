@@ -34,6 +34,7 @@ public class MyStatusLinePrice implements StatusLineElementProvider {
     private static final JLabel fluxPriceLbl = new JLabel();
     private static final JLabel itfPriceLbl = new JLabel();
     private static final JLabel poolgoPriceLbl = new JLabel();
+    private static final JLabel cwitPriceLbl = new JLabel();
     private final JPanel panel = new JPanel(new BorderLayout());
     
     public MyStatusLinePrice() {
@@ -76,6 +77,10 @@ public class MyStatusLinePrice implements StatusLineElementProvider {
                 Double poolgoPrice = PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_POOLGO_SYMBOL);
                 poolgoPriceLbl.setText(formatPrice(poolgoPrice) + " ");
                 poolgoPriceLbl.setToolTipText("PoolGo: " + poolgoPrice + "$");
+                
+                Double cwitPrice = PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_CWIT_SYMBOL);
+                cwitPriceLbl.setText(formatPrice(cwitPrice) + " ");
+                cwitPriceLbl.setToolTipText("cWIT: " + cwitPrice + "$");
             }
         });
         t.start();
@@ -136,6 +141,12 @@ public class MyStatusLinePrice implements StatusLineElementProvider {
         pricePanel.add(poolgoLbl);
         poolgoPriceLbl.setForeground(Color.BLUE);
         pricePanel.add(poolgoPriceLbl);
+        
+        JLabel cwitLbl = new JLabel("cWIT: ");
+        cwitLbl.setFont(new java.awt.Font("宋体", 1, 12));
+        pricePanel.add(cwitLbl);
+        cwitPriceLbl.setForeground(Color.BLUE);
+        pricePanel.add(cwitPriceLbl);
         
         panel.add(pricePanel, BorderLayout.CENTER);
     }

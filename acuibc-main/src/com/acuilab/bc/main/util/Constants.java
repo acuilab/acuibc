@@ -35,12 +35,14 @@ public class Constants {
     public static final String CFX_YAO_CFX_PAIR_SYMBOL = "YAO_CFX";
     public static final String CFX_DAN_CFX_PAIR_SYMBOL = "DAN_CFX";
     public static final String CFX_DAN_SYMBOL = "DAN";
+    public static final String CFX_CWIT_SYMBOL = "cWIT";
 
     public static final Map<String, String> CFX_ADDRESS_SYMBOL_MAP = new HashMap<String, String>() {{
         put("cfx:acg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx", CFX_CFX_SYMBOL);
         put("cfx:achc8nxj7r451c223m18w2dwjnmhkd6rxawrvkvsy2", CFX_FC_SYMBOL);
         put("cfx:achcuvuasx3t8zcumtwuf35y51sksewvca0h0hj71a", CFX_MOON_SYMBOL);
         put("cfx:acbyzcbfpymaz43rr6s1gtx0fb08guj88uzc05rchf", CFX_DAN_SYMBOL);
+        put("cfx:ace2nh5arcb4nxhkh5xdtac087rc7a9hgam96t8j6j", CFX_CWIT_SYMBOL);
         put("cfx:acaucwuza1nm7wfj1bwkjttz7b0eh4ak7ur7fue1dy", CFX_YAO_SYMBOL);
         put("cfx:acb9wkgbefcja9rkpds5ve4cm5643jmebae7xjzz8f", CFX_TREA_SYMBOL);
         put("cfx:acgbjtsmfpex2mbn97dsygtkfrt952sp0psmh8pnvz", CFX_FLUX_SYMBOL);

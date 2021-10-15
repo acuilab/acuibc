@@ -37,6 +37,7 @@ public class Constants {
     public static final String CFX_DAN_SYMBOL = "DAN";
     public static final String CFX_CWIT_SYMBOL = "cWIT";
     public static final String CFX_CPHM_SYMBOL = "cPHM";
+    public static final String CFX_LUMI_SYMBOL = "Lumi";
 
     public static final Map<String, String> CFX_ADDRESS_SYMBOL_MAP = new HashMap<String, String>() {{
         put("cfx:acg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx", CFX_CFX_SYMBOL);

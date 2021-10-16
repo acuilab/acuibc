@@ -2,13 +2,20 @@ package com.acuilab.bc.main.cfx.dapp.tinyversus;
 
 import com.acuilab.bc.main.coin.ICoin;
 import com.acuilab.bc.main.manager.CoinManager;
+import com.acuilab.bc.main.util.AESUtil;
 import com.acuilab.bc.main.util.Constants;
 import com.acuilab.bc.main.wallet.Wallet;
+import com.acuilab.bc.main.wallet.common.PasswordVerifyDialog;
 import com.acuilab.bc.main.wallet.common.SelectWalletDialog;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.JLabel;
 import javax.swing.SwingWorker;
 import net.java.balloontip.BalloonTip;
@@ -20,6 +27,7 @@ import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.util.Exceptions;
+import org.openide.util.Lookup;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 
@@ -106,6 +114,8 @@ public final class TinyVersusTopComponent extends TopComponent {
     
     private void setBtnEnabled(boolean enabled) {
         withdrawBtn.setEnabled(enabled);
+        
+        refreshBtn.setEnabled(enabled);
     }
 
     /**
@@ -122,6 +132,7 @@ public final class TinyVersusTopComponent extends TopComponent {
         jXLabel2 = new org.jdesktop.swingx.JXLabel();
         withdrawBtn = new org.jdesktop.swingx.JXButton();
         lumiBalFld = new org.jdesktop.swingx.JXTextField();
+        refreshBtn = new org.jdesktop.swingx.JXButton();
 
         org.openide.awt.Mnemonics.setLocalizedText(jXLabel1, org.openide.util.NbBundle.getMessage(TinyVersusTopComponent.class, "TinyVersusTopComponent.jXLabel1.text")); // NOI18N
 
@@ -154,6 +165,14 @@ public final class TinyVersusTopComponent extends TopComponent {
         lumiBalFld.setEditable(false);
         lumiBalFld.setText(org.openide.util.NbBundle.getMessage(TinyVersusTopComponent.class, "TinyVersusTopComponent.lumiBalFld.text")); // NOI18N
 
+        org.openide.awt.Mnemonics.setLocalizedText(refreshBtn, org.openide.util.NbBundle.getMessage(TinyVersusTopComponent.class, "TinyVersusTopComponent.refreshBtn.text")); // NOI18N
+        refreshBtn.setEnabled(false);
+        refreshBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -172,6 +191,8 @@ public final class TinyVersusTopComponent extends TopComponent {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lumiBalFld, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(withdrawBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(232, Short.MAX_VALUE))
         );
@@ -187,7 +208,8 @@ public final class TinyVersusTopComponent extends TopComponent {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(withdrawBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lumiBalFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lumiBalFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(238, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -222,8 +244,8 @@ public final class TinyVersusTopComponent extends TopComponent {
                     protected String doInBackground() throws Exception {
                         ph.start();
 
-                        IStakingXIANGContract contract = Lookup.getDefault().lookup(IStakingXIANGContract.class);
-                        return contract.withdrawPoolAll(privateKey);
+                        ILumiContract contract = Lookup.getDefault().lookup(ILumiContract.class);
+                        return contract.withdrawPoolAllV2(privateKey);
                     }
 
                     @Override
@@ -246,10 +268,58 @@ public final class TinyVersusTopComponent extends TopComponent {
         }
     }//GEN-LAST:event_withdrawBtnActionPerformed
 
+    private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
+        // 刷新钱包里的lumi
+        if(wallet != null) {
+            setBtnEnabled(false);
+            final ProgressHandle ph = ProgressHandle.createHandle("正在刷新，请稍候...");
+            SwingWorker<BigInteger, Void> worker = new SwingWorker<BigInteger, Void>() {
+                @Override
+                protected BigInteger doInBackground() throws Exception {
+                    ph.start();
+                    
+                    
+                    ICoin lumiCoin = CoinManager.getDefault().getCoin(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_LUMI_SYMBOL);
+                    
+                    return lumiCoin.balanceOf(wallet.getAddress());
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        BigInteger lumiBalance = get();
+                        ICoin lumiCoin = CoinManager.getDefault().getCoin(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_LUMI_SYMBOL);
+                        lumiBalFld.setText(lumiCoin.minUnit2MainUint(lumiBalance).setScale(2, RoundingMode.HALF_DOWN).toPlainString());
+                    } catch (InterruptedException | ExecutionException ex) {
+                        Exceptions.printStackTrace(ex);
+                    } finally {
+                        ph.finish();
+                        setBtnEnabled(true);
+                    }
+                }
+            };
+            worker.execute();
+        } else {
+            // 提示选择钱包
+            try {
+                JLabel lbl = new JLabel("请选择钱包");
+                BalloonTip balloonTip = new BalloonTip(selectWalletBtn, 
+                                lbl,
+                                Utils.createBalloonTipStyle(),
+                                Utils.createBalloonTipPositioner(), 
+                                null);
+                TimingUtils.showTimedBalloon(balloonTip, 2000);
+            } catch (Exception ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+    }//GEN-LAST:event_refreshBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXTextField lumiBalFld;
+    private org.jdesktop.swingx.JXButton refreshBtn;
     private org.jdesktop.swingx.JXButton selectWalletBtn;
     private org.jdesktop.swingx.JXTextField walletFld;
     private org.jdesktop.swingx.JXButton withdrawBtn;

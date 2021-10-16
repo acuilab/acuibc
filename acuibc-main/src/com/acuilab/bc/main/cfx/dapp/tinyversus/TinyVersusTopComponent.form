@@ -32,6 +32,8 @@
                   <Group type="102" attributes="0">
                       <Component id="lumiBalFld" min="-2" pref="87" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
+                      <Component id="refreshBtn" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="withdrawBtn" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -53,6 +55,7 @@
                   <Component id="jXLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="withdrawBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lumiBalFld" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="refreshBtn" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="238" max="32767" attributes="0"/>
           </Group>
@@ -116,6 +119,17 @@
           <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/tinyversus/Bundle.properties" key="TinyVersusTopComponent.lumiBalFld.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXButton" name="refreshBtn">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="com/acuilab/bc/main/cfx/dapp/tinyversus/Bundle.properties" key="TinyVersusTopComponent.refreshBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="refreshBtnActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

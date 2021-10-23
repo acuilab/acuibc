@@ -94,6 +94,9 @@ public class TinyVersusWrapperNFT extends AbstractNFT {
         */
         String id16 = tokenId.toString(16);
         
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, String> map = mapper.readValue(new URL(json), Map.class);
+        
 //	ObjectMapper mapper = new ObjectMapper();
 //        
 //        JsonNode rootNode = mapper.readTree(new URL(StringUtils.replace(json, "{id}", id16)));
@@ -101,13 +104,17 @@ public class TinyVersusWrapperNFT extends AbstractNFT {
         
 	MetaData md = new MetaData();
 //	md.setName(rootNode.get("name").asText());
-        md.setName(id16);
+        md.setName(map.get("name"));
 	md.setPlatform("TinyVersus");
-//        md.setDesc(rootNode.get("description").asText());
+        md.setDesc(map.get("description"));
 	
         String id = tokenId.toString();
 	md.setId(id);
         md.setNumber(id);
+        
+        String imageUrl = map.get("image");
+
+	md.setImageUrl(imageUrl);
 //	md.setImageUrl(imageNode.asText());
 	
 	return md;

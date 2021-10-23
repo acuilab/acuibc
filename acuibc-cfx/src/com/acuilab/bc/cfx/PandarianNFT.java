@@ -99,16 +99,30 @@ public class PandarianNFT extends AbstractNFT {
 //        JsonNode rootNode = mapper.readTree(new URL(StringUtils.replace(json, "{id}", id16)));
 //        JsonNode imageNode = rootNode.get("image");
         
+
+
+
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, String> map = mapper.readValue(new URL(json), Map.class);
+        
+//	ObjectMapper mapper = new ObjectMapper();
+//        
+//        JsonNode rootNode = mapper.readTree(new URL(StringUtils.replace(json, "{id}", id16)));
+//        JsonNode imageNode = rootNode.get("image");
+        
 	MetaData md = new MetaData();
 //	md.setName(rootNode.get("name").asText());
-        md.setName(id16);
-	md.setPlatform("tinyversus");
-//        md.setDesc(rootNode.get("description").asText());
+        md.setName(map.get("name"));
+	md.setPlatform("TinyVersus");
+        md.setDesc(map.get("description"));
 	
         String id = tokenId.toString();
 	md.setId(id);
         md.setNumber(id);
-//	md.setImageUrl(imageNode.asText());
+        
+        String imageUrl = map.get("image");
+
+	md.setImageUrl(imageUrl);
 	
 	return md;
     }

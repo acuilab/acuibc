@@ -21,9 +21,9 @@ import org.openide.util.Lookup;
  *
  * @author admin
  */
-public class PandarianNFT extends AbstractNFT {
+public class TinyVersusWrapperNFT extends AbstractNFT {
     
-    public static final String CONTRACT_ADDRESS = "cfx:acge4gpm33d0j2nxnf9jywf6776f252mp2r74ukykh";
+    public static final String CONTRACT_ADDRESS = "cfx:cfx:acadspzdxvkvyb0su5y3v2avw2h5py40ruw548c3aj";
     public static final String WEBSITE = "https://www.tinyversus.com/";
 
     @Override
@@ -32,12 +32,12 @@ public class PandarianNFT extends AbstractNFT {
 
     @Override
     public String getName() {
-	return "熊猫胖达";
+	return "小小乱斗英雄";
     }
 
     @Override
     public String getSymbol() {
-	return "Pandarian";
+	return "TinyVersusWrapper";
     }
 
     @Override
@@ -102,7 +102,7 @@ public class PandarianNFT extends AbstractNFT {
 	MetaData md = new MetaData();
 //	md.setName(rootNode.get("name").asText());
         md.setName(id16);
-	md.setPlatform("tinyversus");
+	md.setPlatform("TinyVersus");
 //        md.setDesc(rootNode.get("description").asText());
 	
         String id = tokenId.toString();

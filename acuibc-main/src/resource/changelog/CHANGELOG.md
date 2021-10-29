@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.32] - 20211029
+### Added
+- 支持熊猫NFT、小小乱斗英雄NFT（打包好的可战斗状态的）
+- 支持Lumi
+- 支持西游NFT
+- 支持Dan
+
 ## [0.9.27] - 20210802
 ### Added
 - 支持红楼、社区北京、松的秘密、Phantom加速等NTT

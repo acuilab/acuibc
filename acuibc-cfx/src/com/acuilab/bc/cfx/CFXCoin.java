@@ -246,7 +246,7 @@ public class CFXCoin implements ICFXCoin {
     
     @Override
     public GasRelated getGasRelated() throws Exception {
-        return new GasRelated(1, 100, CfxUnit.DEFAULT_GAS_PRICE.intValue());
+        return new GasRelated(1000, 100000,60000);
     }
     
     @Override

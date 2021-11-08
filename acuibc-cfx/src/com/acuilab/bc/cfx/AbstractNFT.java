@@ -64,19 +64,19 @@ public abstract class AbstractNFT implements INFT {
     @Override
     public int gasMin() {
 	// 1drip
-        return 1;
+        return 1000;
     }
 
     @Override
     public int gasMax() {
         // 100drip
-        return 100;
+        return 100000;
     }
 
     @Override
     public int gasDefault() {
 	// 1 drip
-        return 1;
+        return 60000;
     }
     
     @Override

@@ -35,14 +35,20 @@ public class CFXExtendImpl implements CFXExtend {
 	txBuilder.withTo(new Address(to));
 	if(gas != null) {
 	    txBuilder.withGasPrice(gas);
-	}
+	}else{
+            txBuilder.withGasPrice(BigInteger.valueOf(60000l));
+        }
 	if(value != null) {
 	    txBuilder.withValue(value);
-	}
+	}else{
+            txBuilder.withValue(BigInteger.valueOf(60000l));
+        }
 
 	if(storageLimit != null) {
 	    txBuilder.withStorageLimit(storageLimit);
-	}
+	}else{
+            txBuilder.withStorageLimit(BigInteger.valueOf(6000l));
+        }
 	txBuilder.withData(data);
 	RawTransaction rawTx = txBuilder.build(cfx);
 	SendTransactionResult result = account.send(rawTx);

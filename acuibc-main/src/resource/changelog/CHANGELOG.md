@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.33] - 20211108
+### Changed
+- 适应近期Conflux主网环境
+- 默认gasPrice设置从1改为60000，gasPrice范围从1-100改为1000-100000
+
 ## [0.9.32] - 20211029
 ### Added
 - 支持熊猫NFT、小小乱斗英雄NFT（打包好的可战斗状态的）

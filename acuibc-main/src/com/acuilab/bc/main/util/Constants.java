@@ -51,6 +51,7 @@ public class Constants {
         put("cfx:acgbjtsmfpex2mbn97dsygtkfrt952sp0psmh8pnvz", CFX_FLUX_SYMBOL);
         put("cfx:acc8599utu7nayj50w393eycznhv4e23g2ys6xmvf5", CFX_ITF_SYMBOL);
         put("cfx:acc8ya1f2a2bfphxg5ax7a8h29k47d5xsebxfj24nd", CFX_POOLGO_SYMBOL);
+        put("cfx:acbk7ugzw24jrjct9p4yz571x4e0agcffjzdkphen6", CFX_LUMI_SYMBOL);
     }};
     
 //    public static final Map<String, String> CFX_SYMBOL_ADDRESS_MAP = new HashMap<String, String>() {{

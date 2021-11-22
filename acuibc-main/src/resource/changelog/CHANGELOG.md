@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+[^_^]:## [Unreleased]
+- 在公共节点外，增加宝葫芦自己的节点，菜单提供一个切换节点和自定义节点的选择项
+- 首页比价接口又没了，得再改
+- 导入时候如果同地址，则不新增一个账户
+- 很多dapp不响应的问题
+
+- 升级logo为高清版，鸣谢设计师X.BEI
+
 ## [0.9.33] - 20211108
 ### Changed
 - 适应近期Conflux主网环境

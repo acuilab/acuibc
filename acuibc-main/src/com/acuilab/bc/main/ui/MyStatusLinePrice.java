@@ -34,7 +34,8 @@ public class MyStatusLinePrice implements StatusLineElementProvider {
     private static final JLabel fluxPriceLbl = new JLabel();
     private static final JLabel itfPriceLbl = new JLabel();
     private static final JLabel poolgoPriceLbl = new JLabel();
-    private static final JLabel cwitPriceLbl = new JLabel();
+    private static final JLabel lumiPriceLbl = new JLabel();
+    //private static final JLabel cwitPriceLbl = new JLabel();
     private final JPanel panel = new JPanel(new BorderLayout());
     
     public MyStatusLinePrice() {
@@ -78,9 +79,13 @@ public class MyStatusLinePrice implements StatusLineElementProvider {
                 poolgoPriceLbl.setText(formatPrice(poolgoPrice) + " ");
                 poolgoPriceLbl.setToolTipText("PoolGo: " + poolgoPrice + "$");
                 
-                Double cwitPrice = PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_CWIT_SYMBOL);
-                cwitPriceLbl.setText(formatPrice(cwitPrice) + " ");
-                cwitPriceLbl.setToolTipText("cWIT: " + cwitPrice + "$");
+                Double lumiPrice = PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_LUMI_SYMBOL);
+                lumiPriceLbl.setText(formatPrice(lumiPrice) + " ");
+                lumiPriceLbl.setToolTipText("Lumi: " + lumiPrice + "$");
+                
+//                Double cwitPrice = PriceManager.getDefault().getPrice(Constants.CFX_BLOCKCHAIN_SYMBAL, Constants.CFX_CWIT_SYMBOL);
+//                cwitPriceLbl.setText(formatPrice(cwitPrice) + " ");
+//                cwitPriceLbl.setToolTipText("cWIT: " + cwitPrice + "$");
             }
         });
         t.start();
@@ -142,11 +147,11 @@ public class MyStatusLinePrice implements StatusLineElementProvider {
         poolgoPriceLbl.setForeground(Color.BLUE);
         pricePanel.add(poolgoPriceLbl);
         
-        JLabel cwitLbl = new JLabel("cWIT: ");
-        cwitLbl.setFont(new java.awt.Font("宋体", 1, 12));
-        pricePanel.add(cwitLbl);
-        cwitPriceLbl.setForeground(Color.BLUE);
-        pricePanel.add(cwitPriceLbl);
+        JLabel lumiLbl = new JLabel("Lumi: ");
+        lumiLbl.setFont(new java.awt.Font("宋体", 1, 12));
+        pricePanel.add(lumiLbl);
+        lumiPriceLbl.setForeground(Color.BLUE);
+        pricePanel.add(lumiPriceLbl);
         
         panel.add(pricePanel, BorderLayout.CENTER);
     }

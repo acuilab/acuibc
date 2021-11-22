@@ -82,7 +82,7 @@ public class FCExchange implements IFCExchange {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         Account account = Account.create(cfx, privateKey);
-        return account.call(new Address(CONTRACT_ADDRESS), "withdraw", new org.web3j.abi.datatypes.Uint(BigInteger.ZERO));
+        return account.call(new Account.Option().withGasPrice(BigInteger.valueOf(60000l)).withGasLimit(BigInteger.valueOf(200000l)), new Address(CONTRACT_ADDRESS), "withdraw", new org.web3j.abi.datatypes.Uint(BigInteger.ZERO));
     }
 
 }

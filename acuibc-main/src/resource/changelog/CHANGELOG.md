@@ -7,11 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [^_^]:## [Unreleased]
 - 在公共节点外，增加宝葫芦自己的节点，菜单提供一个切换节点和自定义节点的选择项
-- 首页比价接口又没了，得再改
 - 导入时候如果同地址，则不新增一个账户
 - 很多dapp不响应的问题
+- 支持烤翅和三角
 
+## [0.9.34] - 20211125
+### Added
+- 增加TriAngleDao的Tad支持
 - 升级logo为高清版，鸣谢设计师X.BEI
+- 首页增加Lumi价格
 
 ## [0.9.33] - 20211108
 ### Changed

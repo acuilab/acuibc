@@ -15,7 +15,7 @@ public class Constants {
     private Constants() {}
     
     public static final String TITLE = "宝葫芦Gourd — Conflux社区桌面钱包";
-    public static final String VERSION = "v0.9.33";
+    public static final String VERSION = "v0.9.34";
     
     // @see conflux.web3j.CfxUnit
     public static final BigInteger CFX_ONE = BigInteger.TEN.pow(18);
@@ -38,6 +38,7 @@ public class Constants {
     public static final String CFX_CWIT_SYMBOL = "cWIT";
     public static final String CFX_CPHM_SYMBOL = "cPHM";
     public static final String CFX_LUMI_SYMBOL = "Lumi";
+    public static final String CFX_TAD_SYMBOL = "TAD";
 
     public static final Map<String, String> CFX_ADDRESS_SYMBOL_MAP = new HashMap<String, String>() {{
         put("cfx:acg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx", CFX_CFX_SYMBOL);
@@ -52,6 +53,7 @@ public class Constants {
         put("cfx:acc8599utu7nayj50w393eycznhv4e23g2ys6xmvf5", CFX_ITF_SYMBOL);
         put("cfx:acc8ya1f2a2bfphxg5ax7a8h29k47d5xsebxfj24nd", CFX_POOLGO_SYMBOL);
         put("cfx:acbk7ugzw24jrjct9p4yz571x4e0agcffjzdkphen6", CFX_LUMI_SYMBOL);
+        put("cfx:acg8dy0xvpyzh1f8n9e9gcf3mm7se1ts5y979mawtf", CFX_TAD_SYMBOL);
     }};
     
 //    public static final Map<String, String> CFX_SYMBOL_ADDRESS_MAP = new HashMap<String, String>() {{

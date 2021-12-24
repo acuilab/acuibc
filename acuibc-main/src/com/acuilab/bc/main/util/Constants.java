@@ -39,6 +39,10 @@ public class Constants {
     public static final String CFX_CPHM_SYMBOL = "cPHM";
     public static final String CFX_LUMI_SYMBOL = "Lumi";
     public static final String CFX_TAD_SYMBOL = "TAD";
+    public static final String CFX_CNHC_SYMBOL = "CNHC";
+    public static final String CFX_AUSD_SYMBOL = "AUSD";
+    
+    
 
     public static final Map<String, String> CFX_ADDRESS_SYMBOL_MAP = new HashMap<String, String>() {{
         put("cfx:acg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx", CFX_CFX_SYMBOL);
@@ -54,6 +58,9 @@ public class Constants {
         put("cfx:acc8ya1f2a2bfphxg5ax7a8h29k47d5xsebxfj24nd", CFX_POOLGO_SYMBOL);
         put("cfx:acbk7ugzw24jrjct9p4yz571x4e0agcffjzdkphen6", CFX_LUMI_SYMBOL);
         put("cfx:acg8dy0xvpyzh1f8n9e9gcf3mm7se1ts5y979mawtf", CFX_TAD_SYMBOL);
+        put("cfx:accbh92gw9wzvdxacn7tc3rb7g7tk2uv363s37tr30", CFX_CNHC_SYMBOL);
+        put("cfx:acb7y2ywyyyxc8gtp0zmn80rdrfbbkxz923wm2zfhn", CFX_AUSD_SYMBOL);
+       
     }};
     
 //    public static final Map<String, String> CFX_SYMBOL_ADDRESS_MAP = new HashMap<String, String>() {{

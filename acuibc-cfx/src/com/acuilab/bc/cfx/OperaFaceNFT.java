@@ -74,27 +74,25 @@ public class OperaFaceNFT extends AbstractNFT {
         String value = contract.call("uri", new org.web3j.abi.datatypes.Uint(tokenId)).sendAndGet();
         String json = DecodeUtil.decode(value, org.web3j.abi.datatypes.Utf8String.class);
         
-        System.out.println(json);
+        //System.out.println(json);
         
         MetaData md = new MetaData();
 
         String id = tokenId.toString();
 	md.setId(id);
         
-	
 	ObjectMapper mapper = new ObjectMapper();
         Map<String, String> map = mapper.readValue(new URL(json), Map.class);
 
         //如果能读取视频则直接读
-        //String imageUrl = map.get("image");
+        String imageUrl = map.get("image");
         //String imageUrlSlim = StringUtils.replace(imageUrl, "\\", "");
-        //System.out.println(imageUrl);
-	//md.setImageUrl(imageUrl);
-        md.setImage(ImageUtilities.loadImage("/resource/operaface.png", true));
+        System.out.println(imageUrl);
+	md.setImageUrl(imageUrl);
         
         md.setDesc(map.get("description"));
         md.setName(map.get("name"));
-	md.setPlatform("Tspace");
+	md.setPlatform("Taopai");
         md.setNumber(map.get("token_id"));
 	
 	return md;

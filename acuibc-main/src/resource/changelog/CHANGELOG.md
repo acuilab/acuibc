@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 很多dapp不响应的问题
 - 支持烤翅和三角
 
+## [0.9.35] - 20211224
+### Added
+- 增加CNHC、AUSD支持
+- 增加麦当劳、烤牛、奥利奥、Dionysos、淘派的NFT支持
+
 ## [0.9.34] - 20211125
 ### Added
 - 增加TriAngleDao的Tad支持

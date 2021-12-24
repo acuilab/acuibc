@@ -111,6 +111,9 @@ public class ConFiNFT extends AbstractNFT {
 	    case "008":
 		md.setDesc("嘻哈烤仔");
 		break;
+            case "011":
+		md.setDesc("牛年烤仔");
+		break;
 	    default:
 		md.setDesc("");
 	}

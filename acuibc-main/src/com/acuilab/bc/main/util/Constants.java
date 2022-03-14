@@ -41,6 +41,7 @@ public class Constants {
     public static final String CFX_TAD_SYMBOL = "TAD";
     public static final String CFX_CNHC_SYMBOL = "CNHC";
     public static final String CFX_AUSD_SYMBOL = "AUSD";
+    public static final String CFX_ABC_SYMBOL = "ABC";
     
     
 
@@ -60,6 +61,7 @@ public class Constants {
         put("cfx:acg8dy0xvpyzh1f8n9e9gcf3mm7se1ts5y979mawtf", CFX_TAD_SYMBOL);
         put("cfx:accbh92gw9wzvdxacn7tc3rb7g7tk2uv363s37tr30", CFX_CNHC_SYMBOL);
         put("cfx:acb7y2ywyyyxc8gtp0zmn80rdrfbbkxz923wm2zfhn", CFX_AUSD_SYMBOL);
+        put("cfx:achhattvxy0swk7jv99hn7trke7u39v1kuu66wsfa3", CFX_ABC_SYMBOL);
        
     }};
     

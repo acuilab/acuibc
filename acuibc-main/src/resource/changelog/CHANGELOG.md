@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 很多dapp不响应的问题
 - 支持烤翅和三角
 
+## [0.9.37] - 20220314
+### Added
+增加ABC矿池的Coin
+
 ## [0.9.36] - 20220119
 ### Added
 - 增加默认GasPrice选择区间至一千万到2个亿，增加GasLimit上限至一千五百万

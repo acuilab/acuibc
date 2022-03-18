@@ -17,7 +17,7 @@ public class ABCCoin extends ERC20Coin {
     
     private static final Logger LOG = Logger.getLogger(ABCCoin.class.getName());
 
-    public static final String CONTRACT_ADDRESS = "cfx:achhattvxy0swk7jv99hn7trke7u39v1kuu66wsfa3";
+    public static final String CONTRACT_ADDRESS = "cfx:acg5x1w4kmhapjxssnrt2ztunzt8gprsv629537gum";
 
     public static final String NAME = "ABC Coin";
 

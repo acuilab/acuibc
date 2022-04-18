@@ -41,6 +41,6 @@ public class GovernanceDApp extends CfxBrowserDApp {
 
     @Override
     public String getUrl() {
-        return "https://governance.confluxnetwork.org/zh/";
+        return "https://www.tree-graph.org.cn/";
     }
 }

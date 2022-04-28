@@ -23,6 +23,7 @@ public class Constants {
     public static final String CFX_BLOCKCHAIN_SYMBAL = "CFX";
     public static final String ETH_BLOCKCHAIN_SYMBAL = "ETH";
     public static final String BSC_BLOCKCHAIN_SYMBAL = "BSC";
+    public static final String ESPACE_BLOCKCHAIN_SYMBAL = "CFX ESPACE";
     
     public static final String CFX_CFX_SYMBOL = "CFX";
     public static final String CFX_FC_SYMBOL = "FC";

@@ -11,6 +11,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 很多dapp不响应的问题
 - 支持烤翅和三角
 
+## [0.9.38] - 20220418
+### Added
+将墙外的Conflux首页换成墙内的树图研究院
+修复白屏bug
+
+## [0.9.37] - 20220314
+### Added
+增加ABC矿池的Coin
+
+## [0.9.36] - 20220119
+### Added
+- 增加默认GasPrice选择区间至一千万到2个亿，增加GasLimit上限至一千五百万
+
 ## [0.9.35] - 20211224
 ### Added
 - 增加CNHC、AUSD支持

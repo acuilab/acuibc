@@ -63,25 +63,25 @@ public abstract class AbstractNFT implements INFT {
     
     @Override
     public int gasMin() {
-	// 1drip
-        return 1000;
+	// 1千万drip
+        return 100000000;
     }
 
     @Override
     public int gasMax() {
-        // 100drip
-        return 100000;
+        // 2亿，max of int
+        return 2147483647;
     }
 
     @Override
     public int gasDefault() {
-	// 1 drip
-        return 60000;
+	// 1.1亿 drip
+        return 1100000000;
     }
     
     @Override
     public int gasLimit() {
-	return 200000;
+	return 14999999;//conflux的gasLimit上限为15000000
     }
 
     @Override

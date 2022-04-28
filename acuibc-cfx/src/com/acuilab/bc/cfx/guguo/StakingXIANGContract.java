@@ -78,7 +78,7 @@ public class StakingXIANGContract implements IStakingXIANGContract {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         Account account = Account.create(cfx, privateKey);
-        return account.call(new Address(STAKING_XIANG_CONTRACT), "withdrawPool", new org.web3j.abi.datatypes.Uint(pId));
+        return account.call(new Account.Option().withGasPrice(this.gasPrice()).withGasLimit(this.gasLimit()),new Address(STAKING_XIANG_CONTRACT), "withdrawPool", new org.web3j.abi.datatypes.Uint(pId));
     }
     
     @Override
@@ -86,7 +86,7 @@ public class StakingXIANGContract implements IStakingXIANGContract {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         Account account = Account.create(cfx, privateKey);
-        return account.call(new Address(STAKING_XIANG_CONTRACT), "withdrawPoolAll");
+        return account.call(new Account.Option().withGasPrice(this.gasPrice()).withGasLimit(this.gasLimit()),new Address(STAKING_XIANG_CONTRACT), "withdrawPoolAll");
     }
 
     @Override
@@ -94,7 +94,8 @@ public class StakingXIANGContract implements IStakingXIANGContract {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         Account account = Account.create(cfx, privateKey);
-        return account.call(new Address(STAKING_XIANG_CONTRACT), "depositERC20", new org.web3j.abi.datatypes.Uint(pId), new org.web3j.abi.datatypes.Uint(amount));
+        return account.call(new Account.Option().withGasPrice(this.gasPrice()).withGasLimit(this.gasLimit()),new Address(STAKING_XIANG_CONTRACT), "depositERC20", new org.web3j.abi.datatypes.Uint(pId), new org.web3j.abi.datatypes.Uint(amount));
+        //return account.call(new Address(STAKING_XIANG_CONTRACT), "depositERC20", new org.web3j.abi.datatypes.Uint(pId), new org.web3j.abi.datatypes.Uint(amount));
     }
 
     @Override
@@ -102,7 +103,7 @@ public class StakingXIANGContract implements IStakingXIANGContract {
         CFXBlockChain bc = Lookup.getDefault().lookup(CFXBlockChain.class);
         Cfx cfx = bc.getCfx();
         Account account = Account.create(cfx, privateKey);
-        return account.call(new Address(STAKING_XIANG_CONTRACT), "withdrawERC20", new org.web3j.abi.datatypes.Uint(pId), new org.web3j.abi.datatypes.Uint(amount));
+        return account.call(new Account.Option().withGasPrice(this.gasPrice()).withGasLimit(this.gasLimit()),new Address(STAKING_XIANG_CONTRACT), "withdrawERC20", new org.web3j.abi.datatypes.Uint(pId), new org.web3j.abi.datatypes.Uint(amount));
     }
 
     @Override
@@ -186,5 +187,13 @@ public class StakingXIANGContract implements IStakingXIANGContract {
         }
         
         return new Sextet<>(value0, value1, value2, value3, value4, value5);
+    }
+    
+    public int gasLimit() {
+	return 14999999;
+    }
+    
+    public BigInteger gasPrice() {
+	return BigInteger.valueOf(1100000000l);
     }
 }

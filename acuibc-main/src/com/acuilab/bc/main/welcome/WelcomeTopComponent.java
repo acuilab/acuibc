@@ -61,7 +61,7 @@ public final class WelcomeTopComponent extends TopComponent implements JxBrowser
 	view = new BrowserView(browser);
 	this.add(view, BorderLayout.CENTER);
 	
-        browser.loadURL("https://confluxnetwork.org/zh/");
+        browser.loadURL("https://www.tree-graph.org.cn/");
     }
 
     /**

@@ -246,12 +246,12 @@ public class CFXCoin implements ICFXCoin {
     
     @Override
     public GasRelated getGasRelated() throws Exception {
-        return new GasRelated(1000, 100000,60000);
+        return new GasRelated(10000000, 2147483647, 1100000000);
     }
     
     @Override
     public int gasLimit() {
-	return 25200;
+	return 14999999;
     }
 
     @Override

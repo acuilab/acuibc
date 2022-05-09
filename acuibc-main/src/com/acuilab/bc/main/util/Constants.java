@@ -15,7 +15,7 @@ public class Constants {
     private Constants() {}
     
     public static final String TITLE = "宝葫芦Gourd — Conflux社区桌面钱包";
-    public static final String VERSION = "v0.9.38";
+    public static final String VERSION = "v0.9.39";
     
     // @see conflux.web3j.CfxUnit
     public static final BigInteger CFX_ONE = BigInteger.TEN.pow(18);
@@ -43,6 +43,7 @@ public class Constants {
     public static final String CFX_CNHC_SYMBOL = "CNHC";
     public static final String CFX_AUSD_SYMBOL = "AUSD";
     public static final String CFX_ABC_SYMBOL = "ABC";
+    public static final String CFX_HydraSF_SYMBOL = "HydraSF";
     
     
 

@@ -23,6 +23,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.openide.util.Lookup;
+import org.openide.util.lookup.ServiceProvider;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.TransactionEncoder;
@@ -37,14 +38,15 @@ import org.web3j.utils.Numeric;
  *
  * @author admin
  */
-public class CfxCoin implements ICoin {
+@ServiceProvider(service=ICoin.class)
+public class EspaceCFXCoin implements ICoin {
 
-    private static final Logger LOG = Logger.getLogger(CfxCoin.class.getName());
+    private static final Logger LOG = Logger.getLogger(EspaceCFXCoin.class.getName());
 
-    public static final String NAME = "ETH";
-    public static final String SYMBOL = "ETH";
+    public static final String NAME = "Espace CFX";
+    public static final String SYMBOL = "Espace CFX";
     // https://api-cn.etherscan.com/api?module=account&action=txlist&address=0xddbd2b932c763ba5b1b7ae3b362eac3e8d40121a&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=YourApiKeyToken
-    public static final String TRANSACTION_LIST_URL = "https://api-cn.etherscan.com/api";
+    public static final String TRANSACTION_LIST_URL = "https://evm.confluxscan.io/v1/transaction";
     
     // https://www.ethgasstation.info/
     public static final String ETH_GAS_API = "https://ethgasstation.info/api/ethgasAPI.json?api-key=4d4fa9a994e8da93248869d579c06b67c6e43dd8d9bf59cbf81dcdd96e94";
@@ -65,17 +67,17 @@ public class CfxCoin implements ICoin {
 
     @Override
     public String getBlockChainSymbol() {
-        return Constants.ETH_BLOCKCHAIN_SYMBAL;
+        return Constants.ESPACE_BLOCKCHAIN_SYMBAL;
     }
 
     @Override
     public Icon getIcon(int size) {
-        return ImageUtilities.loadImageIcon("/resource/eth" + size + ".png", true);
+        return ImageUtilities.loadImageIcon("/resource/cfx" + size + ".png", true);
     }
 
     @Override
     public Image getIconImage(int size) {
-        return ImageUtilities.loadImage("/resource/eth" + size + ".png", true);
+        return ImageUtilities.loadImage("/resource/cfx" + size + ".png", true);
     }
 
     @Override
@@ -128,7 +130,7 @@ public class CfxCoin implements ICoin {
 
     @Override
     public String getMainUnit() {
-        return "ETH";
+        return "CFX";
     }
 
     @Override
@@ -315,7 +317,7 @@ public class CfxCoin implements ICoin {
 
     @Override
     public int gasLimit() {
-        return 45000;
+        return 14999999;
     }
 
     @Override

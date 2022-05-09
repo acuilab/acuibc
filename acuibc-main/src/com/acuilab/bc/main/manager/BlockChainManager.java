@@ -31,6 +31,7 @@ public class BlockChainManager {
         for (BlockChain bc : list) {
             bc.setDefaultNode();
             map.put(bc.getSymbol(), bc);
+            System.out.println("added: "+bc.getSymbol());
         }
         sort();
     }

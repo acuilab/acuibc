@@ -11,6 +11,7 @@ import javax.swing.Icon;
 import org.apache.commons.lang3.StringUtils;
 import org.javatuples.Pair;
 import org.openide.util.ImageUtilities;
+import org.openide.util.lookup.ServiceProvider;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
@@ -24,6 +25,7 @@ import party.loveit.bip44forjava.utils.Bip44Utils;
  *
  * @author admin
  */
+@ServiceProvider(service=BlockChain.class)
 public class ESpaceBlockChain implements BlockChain {
     
     private static final Logger LOG = Logger.getLogger(ESpaceBlockChain.class.getName());
@@ -31,8 +33,17 @@ public class ESpaceBlockChain implements BlockChain {
     public static final String DEFAULT_NODE = "https://evm.confluxrpc.com"; // 默认结点地址
     public static final String BIP44PATH = "m/44'/60'/0'/0/0";  // 通用的以太坊基于bip44协议的助记词路径
     
-    public static final String TRANSACTIONS_DETAIL_URL = "https://cn.etherscan.com/tx/";
+    public static final String TRANSACTIONS_DETAIL_URL = "https://evm.confluxscan.io/tx/";
 
+    public static final String TRANSACTION_DETAIL_JSON_URL = "https://evm.confluxscan.io/v1/transaction/";
+    public static final int REFRESH_DELAY_MILLISECONDS = 2000;  // 延时毫秒数，以便服务器准备交易记录和余额
+    public static final int GET_TRANSACTION_STATUS_INTERVAL_MILLISECONDS = 2000;  // 获得交易状态的时间间隔
+    
+    //private Cfx cfx;
+    private BigInteger chainId;
+    private BigInteger gasPrice;
+    
+    
     private Admin admin;    // Admin连接
     
     public Admin getAdmin() {
@@ -46,10 +57,10 @@ public class ESpaceBlockChain implements BlockChain {
 
     @Override
     public void setNode(String node) {
-//        if(admin != null) {
-//            admin.shutdown();
-//        }
-//        admin = Admin.build(new HttpService(node));
+        if(admin != null) {
+            admin.shutdown();
+        }
+        admin = Admin.build(new HttpService(node));
     }
 
     @Override
@@ -76,18 +87,18 @@ public class ESpaceBlockChain implements BlockChain {
 
     @Override
     public String getSymbol() {
-        return Constants.ETH_BLOCKCHAIN_SYMBAL;
+        return Constants.ESPACE_BLOCKCHAIN_SYMBAL;
     }
 
     @Override
     public Icon getIcon(int size) {
-        return ImageUtilities.loadImageIcon("/resource/eth" + size + ".png", true);
+        return ImageUtilities.loadImageIcon("/resource/cfx" + size + ".png", true);
     }
     
 
     @Override
     public Image getIconImage(int size) {
-        return ImageUtilities.loadImage("/resource/eth" + size + ".png", true);
+        return ImageUtilities.loadImage("/resource/cfx" + size + ".png", true);
     }
 
     @Override

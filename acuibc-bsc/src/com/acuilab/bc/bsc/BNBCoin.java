@@ -287,7 +287,7 @@ public class BNBCoin implements ICoin {
 
     @Override
     public int gasLimit() {
-        return 45000;
+        return 14999999;
     }
 
     @Override

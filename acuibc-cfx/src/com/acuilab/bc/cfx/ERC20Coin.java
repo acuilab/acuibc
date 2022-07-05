@@ -154,12 +154,12 @@ public abstract class ERC20Coin implements ICoin {
     
     @Override
     public GasRelated getGasRelated() throws Exception {
-        return new GasRelated(1000, 100000,60000);
+        return new GasRelated(100000010, 2147483647, 1100000000);
     }
     
     @Override
     public int gasLimit() {
-	return 100000;
+	return 14999999;
     }
 
     @Override

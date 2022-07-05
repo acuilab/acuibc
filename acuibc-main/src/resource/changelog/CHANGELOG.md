@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 很多dapp不响应的问题
 - 支持烤翅和三角
 
+## [0.9.40] - 20220705
+### Updated
+主网升级为gasprice必须大于等于1G,所以修改下限为1G零10。
+
 ## [0.9.38] - 20220418
 ### Added
 将墙外的Conflux首页换成墙内的树图研究院

@@ -246,7 +246,7 @@ public class CFXCoin implements ICFXCoin {
     
     @Override
     public GasRelated getGasRelated() throws Exception {
-        return new GasRelated(10000000, 2147483647, 1100000000);
+        return new GasRelated(100000010, 2147483647, 1100000000);
     }
     
     @Override
